@@ -1,0 +1,3 @@
+.ui.grid>.column:only-child {
+  max-width: 450px
+}
