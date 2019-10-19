@@ -1,3 +1,11 @@
-.ui.grid>.column:only-child {
-  max-width: 450px
+.ui.grid.container {
+  height: 100%
+}
+
+.ui.fluid.card {
+  max-width: 450px;
+  max-height: 600px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 15px;
 }

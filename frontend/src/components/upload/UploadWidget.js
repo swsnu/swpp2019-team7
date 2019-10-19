@@ -20,9 +20,10 @@ registerPlugin(
 class UploadWidget extends Component {
   render() {
     return (
-      <div className="ui middle aligned center aligned grid">
-        <div className="column">
-          <h3 className="ui header">
+      <div className="ui middle aligned center aligned grid container">
+        <div className="ui fluid column card">
+          <div className="content">
+             <h3 className="ui header">
             Upload your image!
           </h3>
           <FilePond
@@ -73,6 +74,8 @@ class UploadWidget extends Component {
             onClick={() => {this.pond.processFiles()}}>
             Confirm
           </button>
+          </div>
+
         </div>
       </div>
     );

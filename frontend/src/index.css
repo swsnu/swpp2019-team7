@@ -13,5 +13,9 @@ code {
 }
 
 #root, #root>div, .App>div {
+  /*height: 100%*/
+}
+
+#root, #root>div {
   height: 100%
 }
