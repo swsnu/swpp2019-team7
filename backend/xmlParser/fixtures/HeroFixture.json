@@ -1,0 +1,18 @@
+[
+    {
+      "pk": "5",
+      "model" : "xmlParser.hero",
+      "fields": {
+        "id": 3, 
+        "name": "Spidaarman"
+      }
+    }, 
+    {
+      "pk": "6",
+      "model": "xmlParser.hero",
+      "fields": {
+        "id": 4, 
+        "name": "Baatman"
+      }
+    }
+  ]
