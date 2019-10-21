@@ -17,6 +17,5 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('xmlParser/', include('xmlParser.urls')),
     path('admin/', admin.site.urls),
 ]
