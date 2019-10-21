@@ -11,7 +11,7 @@ Parses the xml file, and saves into json fixture format (for Django Model), excl
 idx = 0
 jsonList = []
 jsonDictFormat = {  # Django Model enforces this json format!
-    "idx": idx,
+    "pk": idx,
     "model": "xmlParser.pill",
     "fields": {
         "id": idx,
