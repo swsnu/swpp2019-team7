@@ -12,7 +12,7 @@ idx = 0
 jsonList = []
 jsonDictFormat = {  # Django Model enforces this json format!
     "pk": idx,
-    "model": "xmlParser.pill",
+    "model": "APPNAME.pill",  # TODO change APPNAME to real app name containing pill model
     "fields": {
         "id": idx,
         "take_method": "",
