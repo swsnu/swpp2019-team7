@@ -19,9 +19,9 @@ matrix:
     before_install:
       - cd backend
     install: 
-      - pip install --user -q django==$DJANGO_VERSION
-      - pip install --user coverage
-      - pip install --user pylint
+      - pip install  -q django==$DJANGO_VERSION
+      - pip install  coverage
+      - pip install  pylint
     script: 
       - python --version
       - python -m django --version
