@@ -17,6 +17,7 @@ matrix:
     before_install:
       - cd backend
     install: 
+      - pip install --user django
       - pip install --user pylint
       - pip install --user coverage
     script: 
