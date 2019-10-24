@@ -16,6 +16,8 @@ matrix:
       python: 3.7
     before_install:
       - cd backend
+    install: 
+      - pip install --user pylint
     script: 
       - pylint **/*.py
       - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test 
