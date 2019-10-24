@@ -17,9 +17,9 @@ matrix:
     before_install:
       - cd backend
     install: 
-      - pip install --user django
-      - pip install --user pylint
+      - pip install --user --upgrade django
       - pip install --user coverage
+      - pip install --user pylint
     script: 
       - pylint **/*.py
       - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test 
