@@ -10,3 +10,16 @@ matrix:
     script:
     - ./node_modules/.bin/eslint src 
     - yarn test --coverage --watchAll=false 
+    -language: python
+    cache:
+      pip: true
+      python: 3.7
+    before_install:
+      - cd backend
+    install: 
+      - pip install django
+      - pip install coverage
+    script: 
+      - pylint **/*.py
+      - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test 
+      - coverage report -m
