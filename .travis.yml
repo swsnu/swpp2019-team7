@@ -1,0 +1,30 @@
+matrix:
+  include:
+  - language: node_js
+    node_js:
+    - '10'
+    before_install:
+    - cd frontend
+    install:
+    - yarn install
+    script:
+    - ./node_modules/.bin/eslint src 
+    - yarn test --coverage --watchAll=false 
+  - language: python
+    cache:
+      pip: true
+      python: 3.7
+    env:
+      - DJANGO_VERSION=2.2.6
+    before_install:
+      - cd backend
+    install: 
+      - pip install  -q django==$DJANGO_VERSION
+      - pip install  coverage
+      - pip install  pylint
+    script: 
+      - python --version
+      - python -m django --version
+      - pylint **/*.py
+      - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test 
+      - coverage report -m
