@@ -18,6 +18,7 @@ matrix:
       - cd backend
     install: 
       - pip install --user pylint
+      - pip install --user coverage
     script: 
       - pylint **/*.py
       - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test 
