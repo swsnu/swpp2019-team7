@@ -1,9 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+import App from './App';
+import { getMockStore } from '../test-utils/mocks';
+import { history } from '../store/index';
+
+const mockStore = getMockStore({});
+
+describe('App', () => {
+  let app;
+
+  beforeEach(() => {
+    app = (
+      <Provider store={mockStore}>
+        <App history={history}/>
+      </Provider>
+    )
+  });
+
+  xit('should render', () => {
+    const component = mount(app);
+    expect(component.find('.App').length).toBe(1);
+  });
+
+
+  xit('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(app, div);
+    ReactDOM.unmountComponentAtNode(div);
+    
+  })
+
+})
