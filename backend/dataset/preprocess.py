@@ -27,7 +27,7 @@ jsonDictFormat = {  # Django Model enforces this json format!
 }
 
 
-def parser(tree):
+def parse_file(tree):
     root = tree.getroot()
     pill_count = len(root.findall('row'))
 
@@ -47,6 +47,21 @@ def parser(tree):
         jsonList.append(deepcopy(jsonDictFormat))
 
 
+class PillDataset:
+    def __init__(self):
+        path = './data'
+
+        for filename in os.listdir(path):
+            if not filename.endswith('.xml'):
+                continue
+            else:
+                tree = ElementTree.parse(os.path.join(path, filename))
+                jsonList = []
+                parse_file(tree)
+
+
+
+
 if __name__ == '__main__':
     path = './data'
 
@@ -55,8 +70,8 @@ if __name__ == '__main__':
             continue
         else:
             fullname = os.path.join(path, filename)
-            tree = ElementTree.parse(fullname)
-            parser(tree)
+            element_tree = ElementTree.parse(fullname)
+            parse_file(element_tree)
             print(filename)
         break  # 모든 파일 다 하고 싶으면 이거 없애기! 일단 한 파일에 대해서만 테스트해 보았음.
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
