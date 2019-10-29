@@ -1,4 +1,6 @@
 django==2.2.5
 djangorestframework==3.10.3
 tqdm==4.36.1
+tensorflow==1.14.0
+keras==2.2.5
 
