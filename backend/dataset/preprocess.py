@@ -9,7 +9,6 @@ Parses the xml file, and saves into json fixture format (for Django Model), excl
 """
 
 idx = 0
-jsonList = []
 jsonDictFormat = {  # Django Model enforces this json format!
     "pk": idx,
     "model": "APPNAME.pill",  # TODO change APPNAME to real app name containing pill model
@@ -27,7 +26,7 @@ jsonDictFormat = {  # Django Model enforces this json format!
 }
 
 
-def parse_file(tree):
+def parse_file(tree, json_list, product_name_set):
     root = tree.getroot()
     pill_count = len(root.findall('row'))
 
@@ -44,35 +43,27 @@ def parse_file(tree):
         jsonDictFormat["fields"]["standards"] = root[2 + i][13].text
         jsonDictFormat["fields"]["precautions"] = root[2 + i][14].text
         idx += 1
-        jsonList.append(deepcopy(jsonDictFormat))
+        json_list.append(deepcopy(jsonDictFormat))
+
+        product_name_set.add(root[2+i][1].text)
 
 
 class PillDataset:
-    def __init__(self):
-        path = './data'
+    json_list = []  # list of json objects each representing one pill commodity in dataset
+    product_name_set = set()  # set of all product names
 
-        for filename in os.listdir(path):
-            if not filename.endswith('.xml'):
+    def __init__(self, data_path):
+
+        for fname in os.listdir(data_path):
+            if not fname.endswith('.xml'):
                 continue
             else:
-                tree = ElementTree.parse(os.path.join(path, filename))
-                jsonList = []
-                parse_file(tree)
-
-
+                tree = ElementTree.parse(os.path.join(data_path, fname))
+                parse_file(tree, self.json_list, self.product_name_set)
 
 
 if __name__ == '__main__':
-    path = './data'
 
-    for filename in os.listdir(path):
-        if not filename.endswith('.xml'):
-            continue
-        else:
-            fullname = os.path.join(path, filename)
-            element_tree = ElementTree.parse(fullname)
-            parse_file(element_tree)
-            print(filename)
-        break  # 모든 파일 다 하고 싶으면 이거 없애기! 일단 한 파일에 대해서만 테스트해 보았음.
+    pillDataset = PillDataset("./data")
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
-        json.dump(jsonList, f, ensure_ascii=False, indent=4)
+        json.dump(pillDataset.json_list, f, ensure_ascii=False, indent=4)
