@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'xmlParser.apps.XmlparserConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
