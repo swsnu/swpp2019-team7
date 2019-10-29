@@ -4,7 +4,6 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 from pykospacing import spacing
-import ipdb
 
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
@@ -26,8 +25,6 @@ jsonDictFormat = {  # Django Model enforces this json format!
         "precautions": ""
     }
 }
-
-
 
 
 class PillDataset:
@@ -91,9 +88,7 @@ class PillDataset:
 
 
 if __name__ == '__main__':
-
     pillDataset = PillDataset.get_instance("./data")
-    ipdb.set_trace()
 
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
         json.dump(pillDataset.json_list, f, ensure_ascii=False, indent=4)
