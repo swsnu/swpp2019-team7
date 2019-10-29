@@ -60,13 +60,6 @@ class PillDataset:
                 tree = ElementTree.parse(os.path.join(data_path, fname))
                 self.parse_file(tree)
 
-    def match_product(self, text):
-        """
-        :param text: string fetched from Vision API
-        :return: dictionary of the matched commodity / null if not found
-        """
-        print(spacing("마이더블유피아이에이치쉐이크"))
-
     def parse_file(self, tree):
         root = tree.getroot()
         pill_count = len(root.findall('row'))
@@ -89,6 +82,12 @@ class PillDataset:
             self.product_name_set.add(root[2 + i][1].text)
             self.company_name_set.add(root[2 + i][10].text)
 
+    def match_product(self, text):
+        """
+        :param text: body of the string fetched from Vision API
+        :return: dictionary of the matched commodity / null if not found
+        """
+        print(spacing("마이더블유피아이에이치쉐이크"))
 
 
 if __name__ == '__main__':
