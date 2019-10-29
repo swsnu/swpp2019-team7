@@ -3,7 +3,8 @@
 .idea/
 
 # Dataset Folder for health supplement DB
-dataset/
+dataset/data/
+dataset/fixtures/
 
 ### OSX ###
 .DS_Store
