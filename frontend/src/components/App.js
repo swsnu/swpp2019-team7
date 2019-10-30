@@ -7,6 +7,7 @@ import Login from "../containers/Landing/Login/Login";
 import Signup from "../containers/Landing/Signup/Signup";
 import Dashboard from "../containers/Dashboard/Dashboard";
 import UploadWidget from "./upload/UploadWidget";
+import TestLanding from "../containers/Landing/testLanding"
 import './App.css';
 
 function App(props) {
@@ -14,6 +15,7 @@ function App(props) {
     <ConnectedRouter history={props.history}>
       <div className="App">
         <Switch>
+          <Route path='/testlanding' exact render={() => <TestLanding />} />
           <Route path='/landing' exact render={() => <Landing />} />
           <Route path='/login' exact render={() => <Login/>} />
           <Route path='/signup' exact render={() => <Signup />} />
