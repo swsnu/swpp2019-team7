@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import  './Landing.css'
 
 
 class Landing extends Component {
@@ -13,9 +14,12 @@ class Landing extends Component {
   render () {
     return (
       <div className="Login">
-        <h1> PillBox - Manage Your Pills With Ease </h1>
-        <button id='login-button' onClick={() => this.clickLoginHandler()}>Log in</button> 
-        <button id='signup-button' onClick={() => this.clickSignupHandler()}>Sign in</button> 
+          {/*<div className="center-container">*/}
+              <h1> PillBox - Manage Your Pills With Ease </h1>
+              <button id='login-button' onClick={() => this.clickLoginHandler()}>Log in</button>
+              <button id='signup-button' onClick={() => this.clickSignupHandler()}>Sign in</button>
+          {/*</div>*/}
+
       </div>
     )
   }
