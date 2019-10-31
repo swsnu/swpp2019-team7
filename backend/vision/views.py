@@ -1,16 +1,10 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django_drf_filepond.api import store_upload, delete_stored_upload
-from django_drf_filepond.models import TemporaryUpload, StoredUpload
-import django_drf_filepond
 from .googleapi import getImage
 import shortuuid
 
 import os, base64
 import json
-
-import ipdb
-
 
 def _get_file_id():
     return shortuuid.uuid()
@@ -49,9 +43,5 @@ def image(request):
 
         text_json = [text.description for text in text_list]
         return JsonResponse({"data": text_json}, status=200)
-
-        # upload_id = _get_file_id()
-        # # TODO save this to Image Model
-        # return HttpResponse(upload_id, status=200, content_type='text/plain')
 
 

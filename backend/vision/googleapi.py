@@ -25,10 +25,6 @@ def getImage(file):
 
     # Performs label detection on the vision file
     response = client.text_detection(image=image)
-    print(response)
     texts = response.text_annotations
 
-    # print('Labels:')
-    for text in texts:
-        print(text.description)
     return texts
