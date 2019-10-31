@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
 from user.models import User
+from pill.models import Pill
 
 
 class Image(models.Model):
@@ -13,9 +14,11 @@ class Image(models.Model):
         User,
         on_delete=models.CASCADE,
     )
+    pill = models.ForeignKey(
+        Pill,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return self.filename
-    # TODO
 
-# Create your models here.
