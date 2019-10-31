@@ -4,3 +4,4 @@ tqdm==4.36.1
 google-cloud-vision
 django-cors-headers
 Pillow
+shortuuid
