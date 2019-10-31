@@ -15,7 +15,7 @@ class Landing extends Component {
       <div className="Login">
         <h1> PillBox - Manage Your Pills With Ease </h1>
         <button id='login-button' onClick={() => this.clickLoginHandler()}>Log in</button> 
-        <button id='signup-button' onClick={() => this.clickSignupHandler()}>Sign in</button> 
+        <button id='signup-button' onClick={() => this.clickSignupHandler()}>Sign up</button> 
       </div>
     )
   }

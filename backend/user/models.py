@@ -6,7 +6,6 @@ from .managers import UserManager
 
 from pill.models import Pill
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
@@ -30,6 +29,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def get_absolute_url(self):
-        return "/users/%i/" % (self.pk)
-
-
+        return "api/user/%i/" % (self.pk)

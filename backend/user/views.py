@@ -8,7 +8,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 # Create your views here.
 
 
-
+@csrf_exempt
 def signin(request):
     if request.method == 'POST':
         try:
@@ -28,7 +28,7 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-
+@csrf_exempt
 def signout(request):
     if request.method == 'GET':
         print(request.user)
@@ -41,21 +41,22 @@ def signout(request):
         print('not get?')
         return HttpResponseNotAllowed(['GET'])
 
-
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         try:
             req_data = json.loads(request.body.decode())
             email = req_data['email']
             password = req_data['password']
+            name = req_data['name']
         except (KeyError, ValueError) as e:
             return HttpResponseBadRequest()
-        User.objects.create_user(email=email, password=password)
+        User.objects.create_user(email=email, password=password, name = name)
         return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
 
-
+@csrf_exempt
 def userInfo(request, id):
     if request.method == 'GET':
         if not request.user.is_authenticated:
