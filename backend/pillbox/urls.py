@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
 urlpatterns = [
-    path('image/', views.image, name='image')
+    path('vision/', views.image, name='image'),
+    path(r'image/', include('django_drf_filepond.urls'))
 ]

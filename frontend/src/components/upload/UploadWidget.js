@@ -32,16 +32,21 @@ class UploadWidget extends Component {
             server={
               //TODO change below to real server location
               {
-                url: 'NOT-VALID-URL',
+                url: 'http://localhost:8000/api',
                 process: {
-                  url: '/API-POST-NAME',
+                  url: '/vision/',
                   method: 'POST',
                   withCredentials: false,
                   headers: {
                     // TODO add needed properties (such as user srl) as header
                   },
-                  timeout: 7000,
-                },
+                  timeout: 9000,
+                  onload: response => {
+                    // console.log(escape(replaceAll(response, "\\u", "%")))
+                    console.log(response)
+                  },
+                }
+                ,
                 revert: {
                   url: '/API-DELETE-NAME',
                   method: 'DELETE',
@@ -80,6 +85,18 @@ class UploadWidget extends Component {
       </div>
     );
   }
+}
+
+function replaceAll(orig_str, char1, char2) {
+  while (true) {
+    if (orig_str.indexOf(char1) != -1) {
+      orig_str = orig_str.replace(char1, char2);
+    }
+    else {
+      break;
+    }
+  }
+  return orig_str;
 }
 
 export default connect()(UploadWidget);
