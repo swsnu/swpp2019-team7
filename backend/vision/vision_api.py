@@ -1,22 +1,11 @@
-import io
-import os
-
 # Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
 
-# Instantiates a client
-def getImage(file):
-    client = vision.ImageAnnotatorClient()
 
-    # # The name of the vision file to annotate
-    # file_name = os.path.join(
-    #     os.path.dirname(__file__),
-    #     filepath)
-    #
-    # # Loads the vision into memory
-    # with io.open(file_name, 'rb') as image_file:
-    #     content = image_file.read()
+# Instantiates a client
+def call_ocr_api(file):
+    client = vision.ImageAnnotatorClient()
 
     with file.open('rb') as img:
         content = img.read()
