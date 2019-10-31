@@ -4,5 +4,4 @@ tqdm==4.36.1
 tensorflow==1.14.0
 keras==2.2.5
 google-cloud-vision
-django-drf-filepond
 django-cors-headers

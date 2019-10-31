@@ -11,7 +11,7 @@ class Image(models.Model):
     # pill = models.ForeignKey(
     #     Pill,
     #     on_delete=models.CASCADE,
-    #     related_name='image',
+    #     related_name='vision',
     # )
 
 # Create your models here.
