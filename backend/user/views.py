@@ -1,23 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse, HttpResponseForbidden, HttpResponseNotFound, HttpResponseBadRequest
 import json
-from .googleapi import getImage
-from .models import Pill, User
+from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 # Create your views here.
 
-
-@csrf_exempt
-def image(request):
-    if request.method == 'POST':
-        body = json.loads(request.body.decode())
-        text_list = getImage(body['url'])
-        text_json = [text.description for text in text_list]
-        return JsonResponse({"data": text_json}, status=200)
-    else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
 
 
 def signin(request):
@@ -35,7 +24,7 @@ def signin(request):
             login(request, user)
             return HttpResponse(status=204)
         else:
-            return HttpResponse(content='User is None', status=401)
+            return HttpResponse(content='user is None', status=401)
     else:
         return HttpResponseNotAllowed(['POST'])
 

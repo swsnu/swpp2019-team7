@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name='user',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='pills',
-            field=models.ManyToManyField(related_name='pills', to='pillbox.Pill'),
+            field=models.ManyToManyField(related_name='pills', to='user.Pill'),
         ),
         migrations.AddField(
             model_name='user',

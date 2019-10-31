@@ -11,5 +11,4 @@ urlpatterns = [
     path('token/', views.token, name='token'),
 
 
-    path('image/', views.image, name='image'),
 ]
