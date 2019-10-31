@@ -42,8 +42,7 @@ class UploadWidget extends Component {
                   },
                   timeout: 9000,
                   onload: response => {
-                    // console.log(escape(replaceAll(response, "\\u", "%")))
-                    console.log(response)
+                    console.log(JSON.stringify(JSON.parse(response)));
                   },
                 }
                 ,
