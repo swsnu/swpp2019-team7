@@ -27,6 +27,8 @@ module.exports = {
     "react/jsx-filename-extension": [0],
     "no-underscore-dangle": [0],
     "import/prefer-default-export": [0],
-    "max-len": [1,  { "ignoreComments": true, "code": 100}]
+    "max-len": [1,  { "ignoreComments": true, "code": 100}],
+    "react/prop-types": [0],
+    "react/destructuring-assignment": [0],
   },
 };

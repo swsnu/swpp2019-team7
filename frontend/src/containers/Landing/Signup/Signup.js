@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -59,11 +60,15 @@ const styles = (theme) => ({
 
 
 class Signup extends Component {
-    state = {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       email_input: '',
       pw_input: '',
       username_input: '',
     };
+  }
 
     credentialChecker = (e) => {
       e.preventDefault();
