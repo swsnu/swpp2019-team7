@@ -11,11 +11,14 @@
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.14.0",
         "enzyme-to-json": "^3.4.2",
+        "eslint-config-airbnb": "^18.0.1",
+        "eslint-plugin-import": "^2.18.2",
         "filepond": "^4.7.2",
         "filepond-plugin-file-validate-size": "^2.2.0",
         "filepond-plugin-file-validate-type": "^1.2.4",
         "filepond-plugin-image-crop": "^2.0.3",
         "filepond-plugin-image-preview": "^4.5.0",
+        "history": "^4.10.1",
         "json-server": "^0.15.1",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
@@ -54,7 +57,10 @@
     "devDependencies": {
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.14.0",
-        "enzyme-to-json": "^3.4.0"
+        "enzyme-to-json": "^3.4.0",
+        "eslint": "^6.6.0",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.16.0"
     },
     "jest": {
         "collectCoverageFrom": [

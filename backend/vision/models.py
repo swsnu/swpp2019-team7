@@ -1,13 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext_lazy as _
 
 from user.models import User
 from pill.models import Pill
 
-
 class Image(models.Model):
+    """Model implementation of Image Model"""
     filename = models.TextField(max_length=128)
     content = models.ImageField(upload_to="image/")
     user = models.ForeignKey(
@@ -22,3 +19,7 @@ class Image(models.Model):
     def __str__(self):
         return self.filename
 
+#TODO_ERASE
+#from django.contrib.auth.models import PermissionsMixin
+#from django.contrib.auth.base_user import AbstractBaseUser
+#from django.utils.translation import ugettext_lazy as _
