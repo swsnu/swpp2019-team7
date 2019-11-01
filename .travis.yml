@@ -29,9 +29,10 @@ matrix:
     - pip install  -q django==$DJANGO_VERSION
     - pip install  coverage
     - pip install  pylint
+    - pip install -r ../requirements.txt
     script:
     - python --version
     - python -m django --version
-    - pylint **/*.py
+    - pylint --load-plugins pylint_django **/*.py
     - coverage run --source='./' --omit='manage.py, *wsgi*' manage.py test
     - coverage report -m
