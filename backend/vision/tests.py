@@ -1,6 +1,3 @@
-from django.test import TestCase
-czx
-from backend.vision.views import vision
-
+#from django.test import TestCase
 
 # Create your tests here.
