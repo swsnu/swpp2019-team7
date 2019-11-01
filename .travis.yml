@@ -20,20 +20,21 @@ matrix:
     - sonar-scanner
     after_success:
     - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+    - cd ../
   - language: python
     cache:
       pip: true
       python: 3.7
     env:
     - DJANGO_VERSION=2.2.6
-    before_install:
+    before_script:
     - cd backend
     - python3 manage.py migrate
     install:
     - pip install  -q django==$DJANGO_VERSION
     - pip install  coverage
     - pip install  pylint
-    - pip install -r ../requirements.txt
+    - pip install -r backend/requirements.txt
     - pip install coveralls
     script:
     - python --version
