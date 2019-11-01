@@ -11,3 +11,4 @@ Coveralls status of dev/working
 
 Sonarcloud status of dev/working
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=swsnu_swpp2019-team7&metric=alert_status)](https://sonarcloud.io/dashboard?id=swsnu_swpp2019-team7)
+
