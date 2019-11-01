@@ -18,9 +18,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.filename
-        
-
-
 
 #TODO_ERASE
 #from django.contrib.auth.models import PermissionsMixin

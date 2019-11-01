@@ -1,3 +1,4 @@
+# pylint: skip-file
 import xml.etree.ElementTree as ElementTree
 import os
 import json
