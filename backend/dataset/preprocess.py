@@ -3,7 +3,6 @@ import os
 import json
 from copy import deepcopy
 from tqdm import tqdm
-from pykospacing import spacing
 
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
@@ -12,7 +11,7 @@ Parses the xml file, and saves into json fixture format (for Django Model), excl
 idx = 0
 jsonDictFormat = {  # Django Model enforces this json format!
     "pk": idx,
-    "model": "APPNAME.pill",  # TODO change APPNAME to real app name containing pill model
+    "model": "pill.pill",
     "fields": {
         "id": idx,
         "take_method": "",
