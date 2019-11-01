@@ -20,12 +20,14 @@ def image(request):
         image_instance = Image(filename=filename, content=file, user=None, pill=None)
         image_instance.save()
 
-        text_list = call_ocr_api(file)
-        text_json = [text.description for text in text_list]
+        # text_list = call_ocr_api(file)
+        # text_json = [text.description for text in text_list]
+
+        product = call_ocr_api(file)
 
         return JsonResponse({
-            "data": text_json,
-            "file": image_instance.content.url
+            "product": product,
+            "file": image_instance.content.url,  # url of image file saved in Image DB
         }, status=200)
 
 
