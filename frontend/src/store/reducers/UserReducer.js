@@ -2,7 +2,7 @@ const initState = {
   logged_in: false,
 };
 
-const UserReducer = (state = initState, action) => {
+const UserReducer = (action, state = initState) => {
   switch (action.type) {
     case 'SIGNIN_USER':
       return { ...state, logged_in: action.logged_in };
