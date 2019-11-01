@@ -4,6 +4,7 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
+
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
@@ -67,7 +68,7 @@ class PillDataset:
             product = deepcopy(product_template)
             product["pk"] = idx
             product["fields"]["id"] = idx
-            product["fields"]["take_method"] = root[2 + i][0].text
+            product["fields"]["take_method"] = root[2 + i][0].text if root[2+i][0].text else "-"
             product["fields"]["product_name"] = root[2 + i][1].text
             product["fields"]["expiration_date"] = root[2 + i][4].text
             product["fields"]["functions"] = root[2 + i][6].text
@@ -102,7 +103,8 @@ class PillDataset:
 
 
 if __name__ == '__main__':
-    pillDataset = PillDataset.get_instance("./data")
+    data_path = "./data"
+    pillDataset = PillDataset.get_instance()
 
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
         json.dump(pillDataset.json_list, f, ensure_ascii=False, indent=4)
