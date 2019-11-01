@@ -1,39 +1,26 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
 
-export const signupUser = (user) => {
-    return dispatch => {
-        return axios.post('/api/user/signup/', user)
-            .then(res => {
-                dispatch({ type: "SIGNUP_USER" });
-                dispatch(push('/login'));
-            })
-            .catch(err => {console.log("error!");console.log(err)})
-    }
-}
+export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/', user)
+  .then(() => {
+    dispatch({ type: 'SIGNUP_USER' });
+    dispatch(push('/login'));
+  })
+  .catch((err) => { console.log('error!'); console.log(err); });
 
-export const signinUser = (user) => {
-    return dispatch => {
-        return axios.post('/api/user/signin/', user)
-            .then(res => {
-                dispatch({ type: "SIGNIN_USER", logged_in: true });
-                dispatch(push('/dashboard'));
-            })
-            .catch(err => console.log(err))
-    }
-}
-//We need a button for this function!
-export const signoutUser = () => {
-    return dispatch => {
-        return axios.get('/api/user/signout/')
-            .then(res => {
-                dispatch({ type: "SIGNOUT_USER", logged_in: false });
-                dispatch(push('/landing'));
-            })
-            .catch(err => console.log(err))
-    }
-}
-
+export const signinUser = (user) => (dispatch) => axios.post('/api/user/signin/', user)
+  .then(() => {
+    dispatch({ type: 'SIGNIN_USER', logged_in: true });
+    dispatch(push('/dashboard'));
+  })
+  .catch((err) => console.log(err));
+// We need a button for this function!
+export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
+  .then(() => {
+    dispatch({ type: 'SIGNOUT_USER', logged_in: false });
+    dispatch(push('/landing'));
+  })
+  .catch((err) => console.log(err));
 
 
 /*

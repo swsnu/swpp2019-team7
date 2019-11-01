@@ -6,12 +6,13 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'airbnb',
+    'airbnb', 'plugin:react/recommended'
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -24,5 +25,8 @@ module.exports = {
   ],
   rules: {
     "react/jsx-filename-extension": [0],
+    "no-underscore-dangle": [0],
+    "import/prefer-default-export": [0],
+    "max-len": [1,  { "ignoreComments": true, "code": 100}]
   },
 };
