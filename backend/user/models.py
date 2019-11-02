@@ -2,12 +2,13 @@ from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
-from .managers import UserManager
 
 from pill.models import Pill
 
+from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """Model description for USER model"""
     email = models.EmailField(_('email address'), unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
     name = models.CharField(_('name'), max_length=100, blank=True)
@@ -30,6 +31,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def get_absolute_url(self):
-        return "/users/%i/" % (self.pk)
-
-
+        """Shows the REST API url of the specific user"""
+        return "api/user/%i/" % (self.pk)
