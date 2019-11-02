@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 // import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
+import Header from '../../Header/Header'
 
 
 function Copyright() {
@@ -73,7 +74,8 @@ class Login extends Component {
 
         return (
             <div className="Login">
-                <h1>PillBox - Manage Your Pills With Ease</h1>
+                <Header />
+                {/*<h1>PillBox - Manage Your Pills With Ease</h1>*/}
                 <Container component="main" maxWidth="xs" >
                     <CssBaseline />
                     <div className={classes.paper}>

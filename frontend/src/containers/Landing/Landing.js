@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import  './Landing.css'
+// import  './Landing.css'
 
 
 class Landing extends Component {

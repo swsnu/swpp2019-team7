@@ -7,7 +7,7 @@ import Login from "../containers/Landing/Login/Login";
 import Signup from "../containers/Landing/Signup/Signup";
 import Dashboard from "../containers/Dashboard/Dashboard";
 import UploadWidget from "./upload/UploadWidget";
-import TestLanding from "../containers/Landing/testLanding"
+import TestLanding from "../containers/Landing/TestLanding"
 import './App.css';
 
 function App(props) {

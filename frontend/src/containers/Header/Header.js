@@ -36,14 +36,14 @@ class Header extends Component {
             <div className={classes.root}>
                 <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black'}}>
                     <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <IconButton edge="start" className={classes.menuButton} color="black" aria-label="menu">
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
+                        <Typography variant="h6" className={classes.title} style={{color: 'black'}} >
                             PillBox
                         </Typography>
-                        <Button color="inherit" onClick={() => this.clickLoginHandler()}>Log in</Button>
-                        <Button color="inherit" onClick={() => this.clickSignupHandler()}>Sign Up</Button>
+                        <Button color="inherit" style={{color: 'black'}} onClick={() => this.clickLoginHandler()}>Log in</Button>
+                        <Button color="inherit" style={{color: 'black'}} onClick={() => this.clickSignupHandler()}>Sign Up</Button>
                     </Toolbar>
                 </AppBar>
             </div>
