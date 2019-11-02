@@ -3,6 +3,7 @@ const initState = {
 };
 
 const UserReducer = (state = initState, action = null) => {
+  if (action == null) return state;
   switch (action.type) {
     case 'SIGNIN_USER':
       return { ...state, logged_in: action.logged_in };
