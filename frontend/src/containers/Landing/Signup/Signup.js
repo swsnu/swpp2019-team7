@@ -105,11 +105,11 @@ class Signup extends Component {
                   <Grid item xs={12}>
                     <TextField
                       autoComplete="name"
-                      name="Name"
+                      name="name"
                       variant="outlined"
                       required
                       fullWidth
-                      id="Name"
+                      id="name"
                       label="Name"
                       autoFocus
                       onChange={(event) => this.setState({ username_input: event.target.value })}
@@ -163,6 +163,7 @@ class Signup extends Component {
                   fullWidth
                   variant="contained"
                   color="primary"
+                  id="signup-button"
                   className={classes.submit}
                   onClick={(event) => {
                     this.credentialChecker(event);

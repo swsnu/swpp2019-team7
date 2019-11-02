@@ -15,16 +15,13 @@ export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
   })
   .catch((err) => console.log(err));
 
-
-/*
-
 export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/', user)
   .then(() => {
     dispatch({ type: 'SIGNUP_USER' });
     dispatch(push('/login'));
   })
   .catch((err) => { console.log('error!'); console.log(err); });
-
+/*
 export const getUserInfo_ = (current_user) => {
     return { type: "GET_USERINFO", current_user: current_user }
 }

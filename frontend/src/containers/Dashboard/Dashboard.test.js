@@ -35,4 +35,12 @@ describe('<Dashboard />', () => {
     const inst = component.find(Dashboard.WrappedComponent).instance();
     inst.setState({ display_setting: '1' });
   });
+  it('should logout', () => {
+    const spyLogOut = jest.spyOn(history, 'push')
+      .mockImplementation(() => {});
+    const component = mount(dashboard);
+    const buttonOne = component.find('#logout-button');
+    buttonOne.simulate('click');
+    expect(spyLogOut).toHaveBeenCalledWith('/landing');
+  });
 });

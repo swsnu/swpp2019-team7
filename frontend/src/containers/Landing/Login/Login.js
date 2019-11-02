@@ -108,7 +108,7 @@ class Login extends Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  onChange={(event) => this.setState({ email_input: event.target.value })}
+                  onChange={(event) => { console.log('change value to +', event.target.value); this.setState({ email_input: event.target.value }); }}
                 />
                 <TextField
                   variant="outlined"

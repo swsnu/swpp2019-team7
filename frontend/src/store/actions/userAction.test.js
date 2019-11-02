@@ -47,6 +47,22 @@ describe('User Action', () => {
     });
   });
 
+  it('SigupUser should accept new users', (done) => {
+    const spy = jest.spyOn(axios, 'post')
+      .mockImplementation(() => new Promise((resolve) => {
+        const result = {
+          status: 201,
+        };
+        resolve(result);
+      }));
+    store.dispatch(actionCreators.signupUser()).then(() => {
+      const newState = store.getState();
+      expect(newState.user.logged_in).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
   it('SigninUser should deal with errors', (done) => {
     jest.spyOn(axios, 'post')
       .mockImplementation(() => new Promise((resolve, reject) => {
@@ -61,7 +77,7 @@ describe('User Action', () => {
     });
   });
 
-  it('SignOutUser should deal with errors', (done) => {
+  it('SignoutUser should deal with errors', (done) => {
     jest.spyOn(axios, 'get')
       .mockImplementation(() => new Promise((resolve, reject) => {
         const result = {
@@ -71,6 +87,20 @@ describe('User Action', () => {
       }));
     store.dispatch(actionCreators.signoutUser()).then(() => {
       expect(spyLog).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('SignupUser should deal with errors', (done) => {
+    jest.spyOn(axios, 'post')
+      .mockImplementation(() => new Promise((resolve, reject) => {
+        const result = {
+          status: 405,
+        };
+        reject(result);
+      }));
+    store.dispatch(actionCreators.signupUser()).then(() => {
+      expect(spyLog).toHaveBeenCalledTimes(2);
       done();
     });
   });
