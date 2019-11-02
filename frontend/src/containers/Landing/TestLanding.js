@@ -1,14 +1,54 @@
 import React, { Component } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-// import  './Landing.css'
-import Header from '../Header/Header'
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
+import Header from '../Header/Header'
+import './TestLanding.css'
+import { ReactComponent as VitaminD3} from '../../images/VitaminD3.svg'
+import { ReactComponent as Biotin} from '../../images/Biotin.svg'
+import { ReactComponent as SuperB} from '../../images/SuperB.svg'
+import styled from 'styled-components'
+
+
+const StyledVitaminD3 = styled(VitaminD3)`
+height:20rem;
+width:14rem;
+// display:block;
+margin:auto;
+`;
+
+const StyledBiotin = styled(Biotin)`
+height:20rem;
+width:14rem;
+// display:block;
+margin:auto;
+`;
+
+const StyledSuperB = styled(SuperB)`
+height:20rem;
+width:14rem;
+// display:block;
+margin:auto;
+`;
 
 class TestLanding extends Component {
     render() {
         return (
-            <Header />
+            <div>
+                <Header />
+                <Typography variant="h2" gutterBottom className="title">
+                    Keep Your Pills Managed
+                </Typography>
+                <div style={{marginTop: 120}}>
+                <Grid item xs={12} >
+                    <Grid container justify="center" mt={60}>
+                        <Grid key="0" item><StyledVitaminD3 /></Grid>
+                        <Grid key="1" item><StyledBiotin /></Grid>
+                        <Grid key="2" item><StyledSuperB/></Grid>
+                    </Grid>
+                </Grid>
+            </div>
+            </div>
         )
 
     }
