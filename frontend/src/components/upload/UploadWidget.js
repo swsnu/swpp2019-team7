@@ -52,16 +52,16 @@ class UploadWidget extends Component {
                 },
               }
             }
-              onaddfilestart={(fileItem) => {
-                //console.log(fileItem.filename);
-                //console.log(fileItem.fileSize);
-              }}
-              onupdatefiles={(fileItem) => {
-                this.setState({
-                  file: fileItem.file,
-                });
-                //console.log(`ON UPDATE FILES: ${this.state.file}`);
-              }}
+              // onaddfilestart={(fileItem) => {
+              //   // console.log(fileItem.filename);
+              //   // console.log(fileItem.fileSize);
+              // }}
+              // onupdatefiles={(fileItem) => {
+              //   this.setState({
+              //     // file: fileItem.file,
+              //   });
+              //   // console.log(`ON UPDATE FILES: ${this.state.file}`);
+              // }}
               maxFileSize="50MB"
               labelMaxFileSize="Maximum file size is 50MB"
               acceptedFileTypes={['image/*']}
@@ -73,8 +73,8 @@ class UploadWidget extends Component {
               className="ui button"
               type="button"
               id="button-id"
-              onClick={() => { 
-                //this.pond.processFiles() 
+              onClick={() => {
+                // this.pond.processFiles()
               }}
             >
             Confirm

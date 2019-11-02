@@ -1,20 +1,19 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import ReactDOM from 'react-dom';
+// import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { getMockStore } from '../test-utils/mocks';
 import { history } from '../store/reducers/index';
-
-import { MemoryRouter } from 'react-router-dom';
 
 
 const mockStore = getMockStore({});
 
 describe('App', () => {
   let app;
-  let app_instance;
+  // let appInstance;
 
   beforeEach(() => {
     app = (
@@ -22,7 +21,7 @@ describe('App', () => {
         <App history={history} />
       </Provider>
     );
-    app_instance = mount(app).find(App).instance()
+    // appInstance = mount(app).find(App).instance();
   });
 
   it('should render', () => {

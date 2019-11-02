@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import UploadWidget from './UploadWidget';
 import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/reducers/index';
@@ -16,11 +16,11 @@ describe('UploadWidget', () => {
 
   beforeEach(() => {
     uploadWidget = (
-        <Provider store={mockStore}>
-            <ConnectedRouter history = {history}>
-                <UploadWidget />
-            </ConnectedRouter>
-        </Provider>
+      <Provider store={mockStore}>
+        <ConnectedRouter history={history}>
+          <UploadWidget />
+        </ConnectedRouter>
+      </Provider>
     );
   });
 
@@ -33,6 +33,5 @@ describe('UploadWidget', () => {
     const component = mount(uploadWidget);
     const wrapper = component.find('#button-id');
     wrapper.simulate('click');
-  })
-
+  });
 });
