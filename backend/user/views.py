@@ -66,16 +66,15 @@ def signup(request):
         return HttpResponseNotAllowed(['POST'])
 
 @csrf_exempt
-def user_info(request, req_id):
-    """REST API description of /api/userInfo"""
+def user_info(request, id):
     """GET: returns information of User in dictionary. Return dict with 200"""
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        elif not User.objects.filter(id=req_id).exists():
+        elif not User.objects.filter(id=id).exists():
             return HttpResponseNotFound()
         else:
-            user = User.objects.get(id=req_id)
+            user = User.objects.get(id=id)
             response_dict = {'email': user.email,
                              'password': user.password,
                              'name': user.name,
