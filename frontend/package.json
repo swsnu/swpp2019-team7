@@ -8,9 +8,6 @@
         "@material-ui/icons": "^4.5.1",
         "axios": "^0.19.0",
         "connected-react-router": "^6.5.2",
-        "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
-        "enzyme-to-json": "^3.4.2",
         "eslint-config-airbnb": "^18.0.1",
         "eslint-plugin-import": "^2.18.2",
         "filepond": "^4.7.2",
@@ -56,8 +53,8 @@
     },
     "devDependencies": {
         "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
-        "enzyme-to-json": "^3.4.0",
+        "enzyme-adapter-react-16": "^1.15.1",
+        "enzyme-to-json": "^3.4.3",
         "eslint": "^6.6.0",
         "eslint-plugin-jsx-a11y": "^6.2.3",
         "eslint-plugin-react": "^7.16.0"
