@@ -24,5 +24,15 @@ describe('<Dashboard />', () => {
       </Router>
     );
   });
-  it('should render account setting', () => { mount(dashboard); });
+  it('should render account setting', () => {
+    const component = mount(dashboard);
+    const buttonOne = component.find('#account-tab-button');
+    buttonOne.simulate('click');
+    const buttonTwo = component.find('#notification-tab-button');
+    buttonTwo.simulate('click');
+    const buttonThree = component.find('#mypill-tab-button');
+    buttonThree.simulate('click');
+    const inst = component.find(Dashboard.WrappedComponent).instance();
+    inst.setState({ display_setting: '1' });
+  });
 });
