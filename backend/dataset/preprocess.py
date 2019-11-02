@@ -4,17 +4,19 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
+import ipdb
+
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
 
 data_path = "dataset/data"  # Directory where original xml files are saved
-idx = 0
+preprocessed_path = "dataset"  # Directory where take_method.preprocessed is saved
 product_template = {  # Django Model enforces this json format!
-    "pk": idx,
+    "pk": 0,
     "model": "pill.pill",
     "fields": {
-        "id": idx,
+        "id": 0,
         "take_method": "",
         "product_name": "",
         "expiration_date": "",
@@ -59,7 +61,7 @@ class PillDataset:
                 self.parse_file(tree)
 
         # Date Parsing (e.g. 1일 1회)
-        with open(os.path.join(data_path, 'take_method.preprocessed'), 'r') as f:
+        with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r') as f:
             method_pos_list = list(map(eval, f.read().split('\n')))
 
         for method_pos in method_pos_list:
@@ -79,7 +81,7 @@ class PillDataset:
         pill_count = len(root.findall('row'))
 
         for i in tqdm(range(pill_count)):
-            global idx  # TODO change global idx to class variable
+            idx = len(self.product_list)
 
             product = deepcopy(product_template)
             product["pk"] = idx
@@ -96,8 +98,6 @@ class PillDataset:
             self.product_list.append(product)
             self.product_name_dict[product["fields"]["product_name"]] = product
             self.company_name_set.add(root[2 + i][10].text)
-
-            idx += 1
 
     def find_product_with_name(self, product_name):
         """
@@ -120,7 +120,9 @@ class PillDataset:
 
 if __name__ == '__main__':
     data_path = "./data"
+    preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
 
+    ipdb.set_trace()
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
-        json.dump(pillDataset.json_list, f, ensure_ascii=False, indent=4)
+        json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)
