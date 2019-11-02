@@ -4,7 +4,6 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
-
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
@@ -35,6 +34,7 @@ class PillDataset:
     """
     _instance = None
     product_list = []  # list of json objects each representing one pill commodity in dataset
+    date_list = []  # list of preprocessed date times / e.g. "1일 1회", "1일 1정"
     product_name_dict = {}  # dictionary of products with product_name as key
     company_name_set = set()  # set of all company names
 
@@ -58,6 +58,22 @@ class PillDataset:
                 tree = ElementTree.parse(os.path.join(data_path, filename))
                 self.parse_file(tree)
 
+        # Date Parsing (e.g. 1일 1회)
+        with open(os.path.join(data_path, 'take_method.preprocessed'), 'r') as f:
+            method_pos_list = list(map(eval, f.read().split('\n')))
+
+        for method_pos in method_pos_list:
+            date = "1일 1회"  # Default take_method
+            for i in range(len(method_pos) - 1):
+                token = method_pos[i]
+                next_token = method_pos[i + 1]
+
+                if token[1] == 'NR' and next_token[0] == '일' and \
+                        method_pos[i + 2][1] == 'NR' and 'NN' in method_pos[i + 3][1]:
+                    date = token[0] + next_token[0] + " " + method_pos[i + 2][0] + method_pos[i + 3][0]
+                    break
+            self.date_list.append(date)
+
     def parse_file(self, tree):
         root = tree.getroot()
         pill_count = len(root.findall('row'))
@@ -68,7 +84,7 @@ class PillDataset:
             product = deepcopy(product_template)
             product["pk"] = idx
             product["fields"]["id"] = idx
-            product["fields"]["take_method"] = root[2 + i][0].text if root[2+i][0].text else "-"
+            product["fields"]["take_method"] = root[2 + i][0].text if root[2 + i][0].text else "-"
             product["fields"]["product_name"] = root[2 + i][1].text
             product["fields"]["expiration_date"] = root[2 + i][4].text
             product["fields"]["functions"] = root[2 + i][6].text
