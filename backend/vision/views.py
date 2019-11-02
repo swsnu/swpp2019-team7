@@ -1,6 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import shortuuid
+import rest_framework.status as status
 
 from .models import Image
 from .vision_api import call_ocr_api
@@ -26,8 +27,11 @@ def image(request):
         product = call_ocr_api(file)
 
         return JsonResponse({
-            "product": product,
+            "product": product["fields"] if isinstance(product, dict) else None,
             "file": image_instance.content.url,  # url of image file saved in Image DB
-        }, status=200)
+        }, status=status.HTTP_200_OK)
+
+    if request.method == 'DELETE':
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 

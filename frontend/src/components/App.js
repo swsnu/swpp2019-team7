@@ -6,7 +6,7 @@ import Landing from "../containers/Landing/Landing";
 import Login from "../containers/Landing/Login/Login";
 import Signup from "../containers/Landing/Signup/Signup";
 import Dashboard from "../containers/Dashboard/Dashboard";
-import UploadWidget from "./upload/UploadWidget";
+import DemoWidget from "../containers/Landing/DemoWidget/DemoWidget";
 import './App.css';
 
 function App(props) {
@@ -17,7 +17,7 @@ function App(props) {
           <Route path='/landing' exact render={() => <Landing />} />
           <Route path='/login' exact render={() => <Login/>} />
           <Route path='/signup' exact render={() => <Signup />} />
-          <Route path='/uploadwidget' exact render={() => <UploadWidget />} />
+          <Route path='/demowidget' exact render={() => <DemoWidget />} />
           <Route path='/dashboard' exact render={() => <Dashboard />} />
           <Redirect exact from='/' to='/landing' />
           <Route render={() =><Landing />} />

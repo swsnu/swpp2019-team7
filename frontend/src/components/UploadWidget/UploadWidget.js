@@ -30,7 +30,6 @@ class UploadWidget extends Component {
             ref={ref => this.pond = ref}
             instantUpload={false}
             server={
-              //TODO change below to real server location
               {
                 url: 'http://localhost:8000/api',
                 process: {
@@ -38,33 +37,25 @@ class UploadWidget extends Component {
                   method: 'POST',
                   withCredentials: false,
                   headers: {
-                    // TODO add needed properties (such as user srl) as header
                   },
                   timeout: 9000,
                   onload: response => {
-                    console.log(JSON.stringify(JSON.parse(response)));
+                    response = JSON.parse(response);
+                    console.log(JSON.stringify(response));
+                    this.props.updateProductInfo({file: response.file, ...response.product});
+                    this.props.toggleResultModal(true);
                   },
-                }
-                ,
-                revert: {
-                  url: '/API-DELETE-NAME',
-                  method: 'DELETE',
-                  headers: {
-
-                  }
+                },
+                delete: {
+                  url: '/vision/',
+                  method: 'POST',
                 }
               }
             }
-            onaddfilestart={fileItem => {
-              console.log(fileItem.filename);
-              console.log(fileItem.fileSize);
-
-            }}
             onupdatefiles={fileItem => {
               this.setState({
                 file: fileItem.file
               });
-              console.log(`ON UPDATE FILES: ${this.state.file}`);
             }}
             maxFileSize="50MB"
             labelMaxFileSize="Maximum file size is 50MB"
@@ -84,18 +75,6 @@ class UploadWidget extends Component {
       </div>
     );
   }
-}
-
-function replaceAll(orig_str, char1, char2) {
-  while (true) {
-    if (orig_str.indexOf(char1) != -1) {
-      orig_str = orig_str.replace(char1, char2);
-    }
-    else {
-      break;
-    }
-  }
-  return orig_str;
 }
 
 export default connect()(UploadWidget);
