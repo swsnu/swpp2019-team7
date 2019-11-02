@@ -4,7 +4,6 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
-import ipdb
 
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
@@ -24,7 +23,8 @@ product_template = {  # Django Model enforces this json format!
         "store_method": "",
         "company_name": "",
         "standards": "",
-        "precautions": ""
+        "precautions": "",
+        "take_method_preprocessed": "",
     }
 }
 
@@ -64,7 +64,10 @@ class PillDataset:
         with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r') as f:
             method_pos_list = list(map(eval, f.read().split('\n')))
 
-        for method_pos in method_pos_list:
+        for idx in range(len(self.product_list)):
+            product = self.product_list[idx]
+            method_pos = method_pos_list[idx]
+
             date = "1일 1회"  # Default take_method
             for i in range(len(method_pos) - 1):
                 token = method_pos[i]
@@ -75,6 +78,7 @@ class PillDataset:
                     date = token[0] + next_token[0] + " " + method_pos[i + 2][0] + method_pos[i + 3][0]
                     break
             self.date_list.append(date)
+            product["fields"]["take_method_preprocessed"] = date
 
     def parse_file(self, tree):
         root = tree.getroot()
@@ -123,6 +127,5 @@ if __name__ == '__main__':
     preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
 
-    ipdb.set_trace()
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
         json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)
