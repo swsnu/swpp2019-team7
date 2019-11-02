@@ -46,7 +46,7 @@ class TestLanding extends Component {
             <div>
                 <Header />
                 <ThemeProvider theme={theme}>
-                    <div style={{marginTop: 130, fontWeight: 600}}>
+                    <div style={{marginTop: 140, fontWeight: 600}}>
                         <Typography variant="h2" gutterBottom className="title">
                             Keep Your Pills Managed
                         </Typography>
