@@ -28,6 +28,9 @@ class Header extends Component {
     clickSignupHandler = () => {
         this.props.history.push('/signup')
     };
+    clickRedirectToLanding = () => {
+        this.props.history.push('/testlanding')
+    }
 
     render () {
         const {classes} = this.props;
@@ -36,11 +39,18 @@ class Header extends Component {
             <div className={classes.root}>
                 <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black'}}>
                     <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="black" aria-label="menu">
-                            <MenuIcon />
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            onClick={() => this.clickRedirectToLanding()}
+                            color="black"
+                            aria-label="menu">
+                            {/*<MenuIcon />*/}
+                            <Typography variant="h6" className={classes.title} style={{color: 'black'}} >
+                                PillBox
+                            </Typography>
                         </IconButton>
-                        <Typography variant="h6" className={classes.title} style={{color: 'black'}} >
-                            PillBox
+                        <Typography variant="h6" className={classes.title} style={{color: 'black'}}>
                         </Typography>
                         <Button color="inherit" style={{color: 'black'}} onClick={() => this.clickLoginHandler()}>Log in</Button>
                         <Button color="inherit" style={{color: 'black'}} onClick={() => this.clickSignupHandler()}>Sign Up</Button>
