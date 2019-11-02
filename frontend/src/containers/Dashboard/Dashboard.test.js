@@ -1,9 +1,9 @@
 // import {getMockStoreArticleCreate} from '../../mocks'
 import React from 'react';
 import { mount } from 'enzyme';
-// import { Provider } from "react-redux";
 // import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 //
 // import ArticleCreate from "./ArticleCreate";
 // import {history} from '../../mockStore';
@@ -14,12 +14,14 @@ import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
 let dashboard;
-
+const history = createBrowserHistory();
 
 describe('<Dashboard />', () => {
   beforeEach(() => {
     dashboard = (
-      <Route path="/dashboard" exact render={() => <Dashboard title="TODOLIST_TEST_TITLE" />} />
+      <Router history={history}>
+        <Dashboard history={history} title="TODOLIST_TEST_TITLE" />
+      </Router>
     );
   });
   it('should render account setting', () => { mount(dashboard); });
