@@ -11,6 +11,7 @@ export const getPillData_ = (selectedPill) => ({ type: 'GET_PILLDATA', selected_
 export const getPillData = (id) => (dispatch) => axios.get(`/api/pill/${id}`)
   .then((res) => dispatch(getPillData_(res.data)));
 
+/*
 export const addUserPill_ = () => ({ type: 'ADD_USERPILL' });
 
 export const addUserPill = (id, pill) => (dispatch) => axios.post(`/api/pill/user_id/${id}`, pill)
@@ -31,3 +32,4 @@ export const deleteUserPill = (id) => (dispatch) => axios.delete(`/api/pill/user
   .then(() => {
     dispatch(deleteUserPill_());
   });
+*/

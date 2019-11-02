@@ -5,6 +5,7 @@ const initState = {
 };
 
 const PillReducer = (state = initState, action = null) => {
+  if (action == null) return state;
   switch (action.type) {
     case 'GET_USERPILLS':
       return { ...state, pill_list: action.pill_list };
