@@ -1,0 +1,7 @@
+django==2.2.5
+djangorestframework==3.10.3
+tqdm==4.36.1
+google-cloud-vision
+django-cors-headers
+Pillow
+shortuuid
