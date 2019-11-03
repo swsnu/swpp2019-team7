@@ -12,30 +12,33 @@ import styled from 'styled-components'
 
 
 const StyledVitaminD3 = styled(VitaminD3)`
-height:18rem;
-width:14rem;
+height:16rem;
+width:10rem;
 // display:block;
 margin:auto;
 `;
 
 const StyledBiotin = styled(Biotin)`
-height:18rem;
-width:14rem;
+height:16rem;
+width:10rem;
 // display:block;
 margin:auto;
 `;
 
 const StyledSuperB = styled(SuperB)`
-height:18rem;
-width:14rem;
+height:16rem;
+width:10rem;
 // display:block;
 margin:auto;
 `;
 
 const theme = createMuiTheme({
     typography: {
+        fontFamily: "'DM Sans', sans-serif",
         h2: {
-            fontWeight: 600,
+            "fontWeight": 500,
+            "fontSize": 55,
+            fontStyle: "italic"
         },
     },
 });
@@ -46,13 +49,13 @@ class TestLanding extends Component {
             <div>
                 <Header />
                 <ThemeProvider theme={theme}>
-                    <div style={{marginTop: 140, fontWeight: 600}}>
+                    <div style={{marginTop: 140, }}>
                         <Typography variant="h2" gutterBottom className="title">
                             Keep Your Pills Managed
                         </Typography>
                     </div>
                 </ThemeProvider>
-                <div style={{marginTop: 90}}>
+                <div style={{marginTop: 100}}>
                 <Grid item xs={12} >
                     <Grid container justify="center" mt={60}>
                         <Grid key="0" item><StyledVitaminD3 /></Grid>
