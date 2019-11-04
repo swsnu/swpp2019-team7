@@ -47,7 +47,6 @@ describe('User Action', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }
 
-
   it('Signin User should logout the user correctly', (done) => {
     const spy = jest.spyOn(axios, 'get')
       .mockImplementation(() => bodylessPromise(204, true));
