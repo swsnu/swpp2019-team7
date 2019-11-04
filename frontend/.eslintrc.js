@@ -31,5 +31,7 @@ module.exports = {
     "react/prop-types": [0],
     "react/destructuring-assignment": [0],
     "react/jsx-no-bind": [0],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    
   },
 };
