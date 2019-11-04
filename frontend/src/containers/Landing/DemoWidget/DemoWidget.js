@@ -44,7 +44,7 @@ class DemoWidget extends Component {
 
   render() {
     return (
-      <div className="ui grid container">
+      <div className="replaced">
         <UploadWidget
           updateProductInfo={this.updateProductInfo.bind(this)}
           toggleResultModal={this.toggleResultModal.bind(this)}

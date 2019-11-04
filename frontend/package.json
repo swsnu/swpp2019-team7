@@ -28,11 +28,8 @@
         "react-test-renderer": "^16.9.0",
         "redux": "^4.0.4",
         "redux-thunk": "^2.3.0",
-<<<<<<< HEAD
-        "styled-components": "^4.4.1"
-=======
+        "styled-components": "^4.4.1",
         "semantic-ui-react": "^0.88.1"
->>>>>>> e825e3e4cb62132d6d230bc27003b1530ecf0c12
     },
     "scripts": {
         "start": "react-scripts start",

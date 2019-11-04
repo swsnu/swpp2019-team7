@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import Header from '../Header/Header'
 import Scroll from './TestLandingScroll'
+import DemoWidget from "./DemoWidget/DemoWidget";
 import './TestLanding.css'
 import { ReactComponent as VitaminD3} from '../../images/VitaminD3.svg'
 import { ReactComponent as Biotin} from '../../images/Biotin.svg'
@@ -39,12 +40,23 @@ const theme = createMuiTheme({
         h2: {
             "fontWeight": 500,
             "fontSize": 55,
-            fontStyle: "italic"
+            // fontStyle: "italic"
         },
         h4: {
         }
     },
 });
+
+const WidgetWrapper = styled.section`
+  padding: 3em;
+  background: #202020;
+`;
+
+const WidgetNestedWrapper = styled.section`
+  margin: 2em;
+  padding: 5em;
+  background: #202020;
+`
 
 class TestLanding extends Component {
     render() {
@@ -53,7 +65,7 @@ class TestLanding extends Component {
                 <Header />
                 <ThemeProvider theme={theme}>
                     <div style={{marginTop: 140, }}>
-                        <Typography variant="h2" gutterBottom className="title">
+                        <Typography variant="h2" gutterBottom className="title" style={{fontStyle: "italic"}}>
                             Keep Your Pills Managed
                         </Typography>
                     </div>
@@ -68,6 +80,14 @@ class TestLanding extends Component {
                     </Grid>
                 </div>
                 <Scroll theme={theme}/>
+
+                <WidgetWrapper>
+                    <WidgetNestedWrapper>
+                        {/*<Grid container justify="center">*/}
+                            <DemoWidget/>
+                        {/*</Grid>*/}
+                    </WidgetNestedWrapper>
+                </WidgetWrapper>
             </div>
         )
 
