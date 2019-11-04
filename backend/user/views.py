@@ -60,6 +60,7 @@ def signup(request):
             name = req_data['name']
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
+        print("User is {} {} {}".format(email, password, name))
         User.objects.create_user(email=email, password=password, name=name)
         return HttpResponse(status=201)
     else:
