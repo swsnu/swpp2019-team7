@@ -10,28 +10,31 @@ import { history } from '../store/reducers/index';
 
 const mockStore = getMockStore({});
 
+function mockComponent(props, className) {
+  return (
+    <div className={className}>
+      {props.title}
+    </div>
+  );
+}
 jest.mock('../containers/Landing/TestLanding', () => jest.fn((props) => (
-  <div className="spyTestLanding">
-    {props.title}
-  </div>
+  mockComponent(props, 'spyLanding')
 )));
 
 jest.mock('../containers/Landing/Login/Login', () => jest.fn((props) => (
-  <div className="spyLogin">
-    {props.title}
-  </div>
+  mockComponent(props, 'spyLogin')
 )));
 
 jest.mock('../containers/Landing/Signup/Signup', () => jest.fn((props) => (
-  <div className="spySignup">
-    {props.title}
-  </div>
+  mockComponent(props, 'spySignup')
 )));
 jest.mock('../containers/Dashboard/Dashboard', () => jest.fn((props) => (
-  <div className="spyDashboard">
-    {props.title}
-  </div>
+  mockComponent(props, 'spyDashboard')
 )));
+jest.mock('../containers/Landing/DemoWidget/DemoWidget', () => jest.fn((props) => (
+  mockComponent(props, 'spyDemowidget')
+)));
+
 describe('App', () => {
   let app;
 
@@ -42,6 +45,12 @@ describe('App', () => {
       </Provider>
     );
   });
+
+  function testPushBehavior(link, mockComponentName) {
+    history.push(link);
+    const component = mount(app);
+    expect(component.find(mockComponentName).length).toBe(1);
+  }
 
   it('should render', () => {
     const component = mount(app);
@@ -57,36 +66,22 @@ describe('App', () => {
 
 
   it('should goto landing', () => {
-    history.push('/landing');
-    const component = mount(app);
-    expect(component.find('.spyTestLanding').length).toBe(1);
+    testPushBehavior('/landing', '.spyLanding');
   });
-
-  it('should goto landing', () => {
-    history.push('/landing');
-    const component = mount(app);
-    expect(component.find('.spyTestLanding').length).toBe(1);
-  });
-
   it('should goto login', () => {
-    history.push('/login');
-    const component = mount(app);
-    expect(component.find('.spyLogin').length).toBe(1);
+    testPushBehavior('/login', '.spyLogin');
   });
   it('should goto signup', () => {
-    history.push('/signup');
-    const component = mount(app);
-    expect(component.find('.spySignup').length).toBe(1);
+    testPushBehavior('/signup', '.spySignup');
   });
   it('should goto dashboard', () => {
-    history.push('/dashboard');
-    const component = mount(app);
-    expect(component.find('.spyDashboard').length).toBe(1);
+    testPushBehavior('/dashboard', '.spyDashboard');
+  });
+  it('should goto demowidget', () => {
+    testPushBehavior('/demowidget', '.spyDemowidget');
   });
   it('should goto landing at wrong page', () => {
-    history.push('/aaa');
-    const component = mount(app);
-    expect(component.find('.spyTestLanding').length).toBe(1);
+    testPushBehavior('/aaa', '.spyLanding');
   });
 });
 
