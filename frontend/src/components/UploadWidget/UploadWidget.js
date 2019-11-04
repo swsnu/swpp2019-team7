@@ -157,7 +157,7 @@ class UploadWidget extends Component {
                       labelFileTypeNotAllowed="Can only upload image files"
                       imagePreviewMinHeight="100"
                       allow-multiple="false"
-                      labelIdle='Drag & Drop your pill images'
+                      // labelIdle='Drag & Drop your pill images'
                     />
                     {/*</Grid>*/}
                     {/*<Grid item>*/}
