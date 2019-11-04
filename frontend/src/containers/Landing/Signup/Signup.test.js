@@ -1,10 +1,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 
 import Signup from './Signup';
 import { getMockStore } from '../../../test-utils/mocks';
 import * as userActionCreator from '../../../store/actions/userAction';
+import { history } from '../../../store/reducers/index';
 
 
 const mockStore = getMockStore();
@@ -17,7 +19,9 @@ describe('Signup', () => {
       .mockImplementation(() => () => {});
     mockSignup = (
       <Provider store={mockStore}>
+      <ConnectedRouter history={history}>
         <Signup />
+      </ConnectedRouter>
       </Provider>
     );
   });

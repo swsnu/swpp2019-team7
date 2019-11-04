@@ -26,12 +26,12 @@ describe('UploadWidget', () => {
 
   it('should render', () => {
     const component = mount(uploadWidget);
-    expect(component.find('.content').length).toBe(1);
+    expect(component.find('.UploadWidget').length).toBe(1);
   });
 
   it('test click', () => {
     const component = mount(uploadWidget);
-    const wrapper = component.find('#button-id');
+    const wrapper = component.find({id: 'confirm-button'}).at(0);
     wrapper.simulate('click');
   });
 });

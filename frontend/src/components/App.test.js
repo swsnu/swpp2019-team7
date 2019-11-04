@@ -10,8 +10,8 @@ import { history } from '../store/reducers/index';
 
 const mockStore = getMockStore({});
 
-jest.mock('../containers/Landing/Landing', () => jest.fn((props) => (
-  <div className="spyLanding">
+jest.mock('../containers/Landing/TestLanding', () => jest.fn((props) => (
+  <div className="spyTestLanding">
     {props.title}
   </div>
 )));
@@ -32,12 +32,6 @@ jest.mock('../containers/Dashboard/Dashboard', () => jest.fn((props) => (
     {props.title}
   </div>
 )));
-jest.mock('./upload/UploadWidget', () => jest.fn((props) => (
-  <div className="spyUploadWidget">
-    {props.title}
-  </div>
-)));
-
 describe('App', () => {
   let app;
 
@@ -61,17 +55,19 @@ describe('App', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
+  
   it('should goto landing', () => {
     history.push('/landing');
     const component = mount(app);
-    expect(component.find('.spyLanding').length).toBe(1);
+    expect(component.find('.spyTestLanding').length).toBe(1);
   });
 
   it('should goto landing', () => {
     history.push('/landing');
     const component = mount(app);
-    expect(component.find('.spyLanding').length).toBe(1);
+    expect(component.find('.spyTestLanding').length).toBe(1);
   });
+  
   it('should goto login', () => {
     history.push('/login');
     const component = mount(app);
@@ -82,11 +78,6 @@ describe('App', () => {
     const component = mount(app);
     expect(component.find('.spySignup').length).toBe(1);
   });
-  it('should goto uploadwidget', () => {
-    history.push('/uploadwidget');
-    const component = mount(app);
-    expect(component.find('.spyUploadWidget').length).toBe(1);
-  });
   it('should goto dashboard', () => {
     history.push('/dashboard');
     const component = mount(app);
@@ -95,6 +86,22 @@ describe('App', () => {
   it('should goto landing at wrong page', () => {
     history.push('/aaa');
     const component = mount(app);
-    expect(component.find('.spyLanding').length).toBe(1);
+    expect(component.find('.spyTestLanding').length).toBe(1);
   });
 });
+
+
+/*
+jest.mock('./UploadWidget/UploadWidget', () => jest.fn((props) => (
+  <div className="spyUploadWidget">
+    {props.title}
+  </div>
+)));
+
+it('should goto uploadwidget', () => {
+  history.push('/uploadwidget');
+  const component = mount(app);
+  expect(component.find('.spyUploadWidget').length).toBe(1);
+});
+
+*/
