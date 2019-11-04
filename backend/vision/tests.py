@@ -10,7 +10,7 @@ class VisionTestCase(TestCase):
         self.client = Client()
 
     def test_vision_api(self):
-        with open('./media/image/default_pill_image.jpg', 'rb') as f:
+        with open('./test_media/image/default_pill_image.jpg', 'rb') as f:
             response = self.client.post('/api/vision/',
                                         {'filepond': f})
             self.assertEqual(response.status_code, status.HTTP_200_OK)
