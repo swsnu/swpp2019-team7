@@ -27,7 +27,12 @@ class DemoWidget extends Component {
   }
 
   toggleResultModal(open) {
-    this.setState({ resultModalOpen: open });
+    if(open = true){
+      this.props.history.push('/dashboard');
+    }
+    else{
+      this.setState({ resultModalOpen: open });
+    }
   }
 
   updateProductInfo(data) {
@@ -94,12 +99,12 @@ class DemoWidget extends Component {
           {this.state.productInfo.productName
             ? (
               <Modal.Actions>
-                <Button color="green" onClick={() => { this.toggleResultModal(false); }}>
+                <Button color="green" onClick={() => { this.toggleResultModal(true); }}>
                   <Icon name="checkmark" />
-                  Correct!
+                  Log in to Save
                 </Button>
                 <Button color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
-                  No...
+                  Retry
                 </Button>
               </Modal.Actions>
             )
