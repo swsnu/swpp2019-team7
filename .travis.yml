@@ -33,7 +33,9 @@ matrix:
     - pip install coveralls
     - cd ..
     before_script:
+    - cd backend
     - python3 manage.py migrate
+    - cd ..
     script:
     - cd frontend
     - ./node_modules/.bin/eslint src --fix
