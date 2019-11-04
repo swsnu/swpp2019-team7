@@ -19,9 +19,9 @@ describe('Signup', () => {
       .mockImplementation(() => () => {});
     mockSignup = (
       <Provider store={mockStore}>
-      <ConnectedRouter history={history}>
-        <Signup />
-      </ConnectedRouter>
+        <ConnectedRouter history={history}>
+          <Signup />
+        </ConnectedRouter>
       </Provider>
     );
   });

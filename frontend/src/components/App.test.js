@@ -55,7 +55,7 @@ describe('App', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  
+
   it('should goto landing', () => {
     history.push('/landing');
     const component = mount(app);
@@ -67,7 +67,7 @@ describe('App', () => {
     const component = mount(app);
     expect(component.find('.spyTestLanding').length).toBe(1);
   });
-  
+
   it('should goto login', () => {
     history.push('/login');
     const component = mount(app);
