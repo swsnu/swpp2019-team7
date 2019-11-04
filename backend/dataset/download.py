@@ -1,6 +1,6 @@
 import urllib.request
 
-base_url = 'http://openapi.foodsafetykorea.go.kr/api/6d82f3c09e2f4568b124/I0030/xml/'
+BASE_URL = 'http://openapi.foodsafetykorea.go.kr/api/6d82f3c09e2f4568b124/I0030/xml/'
 
 
 if __name__ == '__main__':
@@ -9,5 +9,5 @@ if __name__ == '__main__':
             idx = i + 1
         else:
             idx = i
-        url = base_url + f'{idx}/{idx+1000}'
+        url = BASE_URL + f'{idx}/{idx+1000}'
         urllib.request.urlretrieve(url, f'./data/{idx}.xml')

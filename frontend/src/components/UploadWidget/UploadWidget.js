@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -25,7 +26,7 @@ registerPlugin(
 class UploadWidget extends Component {
   render() {
     return (
-      <div>
+      <div className="UploadWidget">
         <Grid container spacing={7}>
           <Grid item xs={1} />
           <Grid item xs={4}>
@@ -89,7 +90,10 @@ class UploadWidget extends Component {
                 className="confirm-button"
                 variant="outlined"
                 color="secondary"
-                onClick={() => { this.pond.processFiles(); }}
+                id="confirm-button"
+                onClick={() => {
+                  this.pond.processFiles();
+                }}
               >
                   Confirm
               </Button>

@@ -28,8 +28,8 @@
         "react-test-renderer": "^16.9.0",
         "redux": "^4.0.4",
         "redux-thunk": "^2.3.0",
-        "styled-components": "^4.4.1",
-        "semantic-ui-react": "^0.88.1"
+        "semantic-ui-react": "^0.88.1",
+        "styled-components": "^4.4.1"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -65,7 +65,8 @@
         "collectCoverageFrom": [
             "src/**/*.{js, jsx}",
             "!src/index.js",
-            "!src/serviceWorker.js"
+            "!src/serviceWorker.js",
+            "!src/components/UploadWidget.js"
         ]
     }
 }
