@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,29 +13,23 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 import * as userActionCreators from '../../../store/actions/userAction';
-
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       Copyright ©
       <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+        Your Website
       </Link>
-      {' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {' ' + new Date().getFullYear() + '.'}
     </Typography>
   );
 }
 
-// const useStyles = makeStyles(theme => ({
 const styles = (theme) => ({
   '@global': {
     body: {
@@ -59,7 +55,7 @@ const styles = (theme) => ({
   },
 });
 
-//
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -79,9 +75,8 @@ class Login extends Component {
     onLoginButtonClick = () => {
       const user = { email: this.state.email_input, password: this.state.pw_input };
       this.props.onLoginUser(user);
-    }
+    };
 
-    // export default function Login() {
     render() {
       const { classes } = this.props;
 
@@ -95,7 +90,7 @@ class Login extends Component {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                            Sign in
+                Sign in
               </Typography>
               <form className={classes.form} noValidate>
                 <TextField
@@ -108,7 +103,7 @@ class Login extends Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  onChange={(event) => { console.log('change value to +', event.target.value); this.setState({ email_input: event.target.value }); }}
+                  onChange={(event) => { this.setState({ email_input: event.target.value }); }}
                 />
                 <TextField
                   variant="outlined"
@@ -133,14 +128,13 @@ class Login extends Component {
                   color="primary"
                   className={classes.submit}
                   id="login-button"
-                  onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}
-                >
-                                Sign In
+                  onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}>
+                  Log In
                 </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">
-                                        Forgot password?
+                      Forgot password?
                     </Link>
                   </Grid>
                   <Grid item>

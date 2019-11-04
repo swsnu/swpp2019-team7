@@ -1,3 +1,4 @@
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
+import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
 
@@ -32,7 +34,6 @@ function Copyright() {
   );
 }
 
-// const useStyles = makeStyles(theme => ({
 const styles = (theme) => ({
   '@global': {
     body: {
@@ -70,136 +71,113 @@ class Signup extends Component {
     };
   }
 
-    credentialChecker = (e) => {
-      e.preventDefault();
-      console.log('email: ', this.state.email_input);
-      console.log('pw: ', this.state.pw_input);
+  credentialChecker = (e) => {
+    e.preventDefault();
+    console.log('email: ', this.state.email_input);
+    console.log('pw: ', this.state.pw_input);
+  };
+
+  onSignupButtonClick = () => {
+    const user = {
+      email: this.state.email_input,
+      password: this.state.pw_input,
+      name: this.state.username_input,
     };
+    this.props.onSignupUser(user);
+  };
 
-    onSignupButtonClick = () => {
-      const user = {
-        email: this.state.email_input,
-        password: this.state.pw_input,
-        name: this.state.username_input,
-      };
-      this.props.onSignupUser(user);
-    };
+  render() {
+    const { classes } = this.props;
 
-    render() {
-      const { classes } = this.props;
-
-      return (
-        <div className="Signup">
-          <h1>PillBox - Manage Your Pills With Ease</h1>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                            Sign up
-              </Typography>
-              <form className={classes.form} noValidate>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      autoComplete="name"
-                      name="name"
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="name"
-                      label="Name"
-                      autoFocus
-                      onChange={(event) => this.setState({ username_input: event.target.value })}
-                    />
-                  </Grid>
-                  {/* <Grid item xs={12} sm={6}> */}
-                  {/*    <TextField */}
-                  {/*        variant="outlined" */}
-                  {/*        required */}
-                  {/*        fullWidth */}
-                  {/*        id="lastName" */}
-                  {/*        label="Last Name" */}
-                  {/*        name="lastName" */}
-                  {/*        autoComplete="lname" */}
-                  {/*    /> */}
-                  {/* </Grid> */}
-                  <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      onChange={(event) => this.setState({ email_input: event.target.value })}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      onChange={(event) => this.setState({ pw_input: event.target.value })}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="I want to receive inspiration, marketing promotions and updates via email."
-                    />
-                  </Grid>
+    return (
+      <div className="Signup">
+        <Header />
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <form className={classes.form} noValidate>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="name"
+                    name="name"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    autoFocus
+                    onChange={(event) => this.setState({ username_input: event.target.value })}
+                  />
                 </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  id="signup-button"
-                  className={classes.submit}
-                  onClick={(event) => {
-                    this.credentialChecker(event);
-                    this.onSignupButtonClick();
-                  }}
-                >
-                                Sign Up
-                </Button>
-                <Grid container justify="flex-end">
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                                        Already have an account? Sign in
-                    </Link>
-                  </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    onChange={(event) => this.setState({ email_input: event.target.value })}
+                  />
                 </Grid>
-              </form>
-            </div>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </Container>
-        </div>
-
-      // <div className="Signup">
-      //     <h1>PillBox - Manage Your Pills With Ease</h1>
-      //     <h2>Login</h2>
-      //     <input type="input" id='email-input' value={this.state.email_input}
-      //             onChange={(event) => this.setState({email_input: event.target.value })} />
-      //     <input type="password" id='pw-input' value={this.state.pw_input}
-      //             onChange={(event) => this.setState({pw_input: event.target.value })} />
-      //     <input type="username" id='username-input' value={this.state.username_input}
-      //             onChange={(event) => this.setState({username_input: event.target.value })} />
-      //     <button id='signup-button' onClick={() => this.credentialChecker()}>Sign up</button>
-      // </div>
-      );
-    }
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    onChange={(event) => this.setState({ pw_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    label="I want to receive inspiration, marketing promotions and updates via email."
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                id="signup-button"
+                className={classes.submit}
+                onClick={(event) => {
+                  this.credentialChecker(event);
+                  this.onSignupButtonClick();
+                }}
+              >
+                Sign Up
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </div>
+    );
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({
@@ -208,97 +186,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 // export default Signup
 export default connect(null, mapDispatchToProps)(withStyles(styles)(Signup));
-
-//
-// export default function SignUp() {
-//     const classes = useStyles();
-//
-//     return (
-//         <Container component="main" maxWidth="xs">
-//             <CssBaseline />
-//             <div className={classes.paper}>
-//                 <Avatar className={classes.avatar}>
-//                     <LockOutlinedIcon />
-//                 </Avatar>
-//                 <Typography component="h1" variant="h5">
-//                     Sign up
-//                 </Typography>
-//                 <form className={classes.form} noValidate>
-//                     <Grid container spacing={2}>
-//                         <Grid item xs={12} sm={6}>
-//                             <TextField
-//                                 autoComplete="fname"
-//                                 name="firstName"
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="firstName"
-//                                 label="First Name"
-//                                 autoFocus
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12} sm={6}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="lastName"
-//                                 label="Last Name"
-//                                 name="lastName"
-//                                 autoComplete="lname"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 id="email"
-//                                 label="Email Address"
-//                                 name="email"
-//                                 autoComplete="email"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <TextField
-//                                 variant="outlined"
-//                                 required
-//                                 fullWidth
-//                                 name="password"
-//                                 label="Password"
-//                                 type="password"
-//                                 id="password"
-//                                 autoComplete="current-password"
-//                             />
-//                         </Grid>
-//                         <Grid item xs={12}>
-//                             <FormControlLabel
-//                                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-//                                 label="I want to receive inspiration, marketing promotions and updates via email."
-//                             />
-//                         </Grid>
-//                     </Grid>
-//                     <Button
-//                         type="submit"
-//                         fullWidth
-//                         variant="contained"
-//                         color="primary"
-//                         className={classes.submit}
-//                     >
-//                         Sign Up
-//                     </Button>
-//                     <Grid container justify="flex-end">
-//                         <Grid item>
-//                             <Link href="#" variant="body2">
-//                                 Already have an account? Sign in
-//                             </Link>
-//                         </Grid>
-//                     </Grid>
-//                 </form>
-//             </div>
-//             <Box mt={5}>
-//                 <Copyright />
-//             </Box>
-//         </Container>
-//     );
-// }
