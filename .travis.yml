@@ -24,13 +24,14 @@ matrix:
     - gem install coveralls-lcov
     - cd ..
     - cd backend
-    - python3 manage.py migrate
     - pip install  -q django==$DJANGO_VERSION
     - pip install  coverage
     - pip install  pylint
     - pip install -r ./requirements.txt
     - pip install coveralls
     - cd ..
+    before_script:
+    - python3 manage.py migrate
     script:
     - cd frontend
     - ./node_modules/.bin/eslint src --fix
