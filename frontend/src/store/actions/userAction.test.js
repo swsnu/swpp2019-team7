@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import * as actionCreators from './userAction';
 import store from '../index';
+import { bodylessPromise, confirmLoginStatus } from '../../test-utils/functions';
 
 // const stubUser1 = { id: 1, name: 'testuser1' };
 
@@ -31,27 +32,11 @@ describe('User Action', () => {
     });
   });
 
-  function bodylessPromise(htmlCode, resolveOrNot) {
-    return new Promise((resolve, reject) => {
-      const result = {
-        status: htmlCode,
-      };
-      if (resolveOrNot) resolve(result);
-      else { reject(result); }
-    });
-  }
-
-  function confirmLoginStatus(spy, expectedLogin) {
-    const newState = store.getState();
-    expect(newState.user.logged_in).toBe(expectedLogin);
-    expect(spy).toHaveBeenCalledTimes(1);
-  }
-
   it('Signin User should logout the user correctly', (done) => {
     const spy = jest.spyOn(axios, 'get')
       .mockImplementation(() => bodylessPromise(204, true));
     store.dispatch(actionCreators.signoutUser()).then(() => {
-      confirmLoginStatus(spy, false);
+      confirmLoginStatus(spy, false, store);
       done();
     });
   });
@@ -59,7 +44,7 @@ describe('User Action', () => {
     const spy = jest.spyOn(axios, 'post')
       .mockImplementation(() => bodylessPromise(201, true));
     store.dispatch(actionCreators.signupUser()).then(() => {
-      confirmLoginStatus(spy, true);
+      confirmLoginStatus(spy, true, store);
       done();
     });
   });

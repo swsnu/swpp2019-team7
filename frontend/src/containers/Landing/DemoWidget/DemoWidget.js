@@ -4,6 +4,7 @@ import {
   Modal, Header, Image, Button, Icon,
 } from 'semantic-ui-react';
 
+import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
 
@@ -26,13 +27,12 @@ class DemoWidget extends Component {
     };
   }
 
+  toggleAcceptPill() {
+    this.props.history.push('/login');
+  }
+
   toggleResultModal(open) {
-    if(open = true){
-      this.props.history.push('/dashboard');
-    }
-    else{
-      this.setState({ resultModalOpen: open });
-    }
+    this.setState({ resultModalOpen: open });
   }
 
   updateProductInfo(data) {
@@ -99,7 +99,7 @@ class DemoWidget extends Component {
           {this.state.productInfo.productName
             ? (
               <Modal.Actions>
-                <Button color="green" onClick={() => { this.toggleResultModal(true); }}>
+                <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
                   <Icon name="checkmark" />
                   Log in to Save
                 </Button>
@@ -122,4 +122,4 @@ class DemoWidget extends Component {
   }
 }
 
-export default connect()(DemoWidget);
+export default connect()(withRouter(DemoWidget));
