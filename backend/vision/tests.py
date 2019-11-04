@@ -1,3 +1,4 @@
+# pylint: skip-file
 from django.test import TestCase, Client
 from rest_framework import status
 
@@ -16,4 +17,3 @@ class VisionTestCase(TestCase):
 
             response = self.client.delete('/api/vision/')
             self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
