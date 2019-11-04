@@ -1,4 +1,4 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 import shortuuid
 import rest_framework.status as status
@@ -6,14 +6,12 @@ import rest_framework.status as status
 from .models import Image
 from .vision_api import call_ocr_api
 
-from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
-from django.views.decorators.csrf import csrf_exempt
-from .vision_api import call_ocr_api
 
 def _get_file_id():
     return shortuuid.uuid()
 
 
+# TODO erase csrf_exempt below
 @csrf_exempt
 def image(request):
     """REST API handler for image model
@@ -25,9 +23,6 @@ def image(request):
         image_instance = Image(filename=filename, content=file, user=None, pill=None)
         image_instance.save()
 
-        # text_list = call_ocr_api(file)
-        # text_json = [text.description for text in text_list]
-
         product = call_ocr_api(file)
 
         return JsonResponse({
@@ -37,3 +32,5 @@ def image(request):
 
     if request.method == 'DELETE':
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+    return HttpResponseNotAllowed(['POST', 'DELETE'])

@@ -30,5 +30,6 @@ module.exports = {
     "max-len": [1,  { "ignoreComments": true, "code": 200}],
     "react/prop-types": [0],
     "react/destructuring-assignment": [0],
+    "react/jsx-no-bind": [0],
   },
 };

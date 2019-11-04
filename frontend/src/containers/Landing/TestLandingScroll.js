@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-import './TestLanding.css'
+import './TestLanding.css';
 
 const Title = styled.h1`
   font-size: 1.5em;

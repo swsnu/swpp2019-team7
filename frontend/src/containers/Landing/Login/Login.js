@@ -25,7 +25,7 @@ function Copyright() {
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
       </Link>
-      {' ' + new Date().getFullYear() + '.'}
+      {` ${new Date().getFullYear()}.`}
     </Typography>
   );
 }
@@ -128,7 +128,8 @@ class Login extends Component {
                   color="primary"
                   className={classes.submit}
                   id="login-button"
-                  onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}>
+                  onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}
+                >
                   Log In
                 </Button>
                 <Grid container>
