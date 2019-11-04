@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -90,7 +91,9 @@ class UploadWidget extends Component {
                 variant="outlined"
                 color="secondary"
                 id="confirm-button"
-                onClick={() => { this.pond.processFiles(); }}
+                onClick={() => {
+                  this.pond.processFiles();
+                }}
               >
                   Confirm
               </Button>
