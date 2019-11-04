@@ -15,6 +15,8 @@ def call_ocr_api(file):
     client = vision.ImageAnnotatorClient()
     response = client.text_detection(image=image)
     text_list = response.text_annotations
-    text_list = text_list[0].description.split("\n")
+
+    if len(text_list) > 0:
+        text_list = text_list[0].description.split("\n")
 
     return PillDataset.get_instance().match_product(text_list)
