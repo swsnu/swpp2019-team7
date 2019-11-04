@@ -44,7 +44,6 @@ class Header extends Component {
                 edge="start"
                 className={classes.menuButton}
                 onClick={() => this.clickRedirectToLanding()}
-                color="black"
                 aria-label="menu"
               >
                 <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
