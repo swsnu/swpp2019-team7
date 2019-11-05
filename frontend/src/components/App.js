@@ -28,10 +28,8 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    logged_in: state.user.logged_in,
-  }
-}
+const mapStateToProps = (state) => ({
+  logged_in: state.user.logged_in,
+});
 
 export default connect(mapStateToProps, null)(App);

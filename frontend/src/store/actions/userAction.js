@@ -6,7 +6,7 @@ export const signinUser = (user) => (dispatch) => axios.post('/api/user/signin/'
     dispatch({ type: 'SIGNIN_USER', logged_in: true });
     dispatch(push('/dashboard'));
   })
-  .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err)});
+  .catch((err) => { /*alert('Either your email or password is wrong. Please try again.'); */console.log(err); });
 // We need a button for this function!
 export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
   .then(() => {
@@ -20,7 +20,7 @@ export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/'
     dispatch({ type: 'SIGNUP_USER' });
     dispatch(push('/login'));
   })
-  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
+  .catch((err) => { /*alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email');*/ console.log('error!'); console.log(err); });
 /*
 export const getUserInfo_ = (current_user) => {
     return { type: "GET_USERINFO", current_user: current_user }

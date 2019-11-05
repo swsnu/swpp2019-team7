@@ -77,7 +77,7 @@ class Login extends Component {
       this.setState({
         email_input: '',
         pw_input: '',
-      })
+      });
     };
 
     render() {
@@ -106,7 +106,7 @@ class Login extends Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  value = {this.state.email_input}
+                  value={this.state.email_input}
                   onChange={(event) => { this.setState({ email_input: event.target.value }); }}
                 />
                 <TextField
@@ -119,7 +119,7 @@ class Login extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  value = {this.state.pw_input}
+                  value={this.state.pw_input}
                   onChange={(event) => this.setState({ pw_input: event.target.value })}
                 />
                 <Button

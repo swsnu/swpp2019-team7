@@ -57,49 +57,43 @@ class Header extends Component {
                 </Typography>
               </IconButton>
               <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-              <Button color="inherit" style={{ color: 'black' }} onClick={() => this.clickLoginHandler()}>Log in</Button>
-              <Button color="inherit" style={{ color: 'black' }} onClick={() => this.clickSignupHandler()}>Sign Up</Button>
+              <Button id="login-button" color="inherit" style={{ color: 'black' }} onClick={() => this.clickLoginHandler()}>Log in</Button>
+              <Button id="signup-button" color="inherit" style={{ color: 'black' }} onClick={() => this.clickSignupHandler()}>Sign Up</Button>
             </Toolbar>
           </AppBar>
         </div>
       );
     }
-    else{
-      return (
-        <div className={classes.root}>
-          <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                onClick={() => this.clickRedirectToDashboard()}
-                aria-label="menu"
-              >
-                <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              onClick={() => this.clickRedirectToDashboard()}
+              aria-label="menu"
+            >
+              <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
                   PillBox
-                </Typography>
-              </IconButton>
-              <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-              <Button color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
-            </Toolbar>
-          </AppBar>
-        </div>
-      )
-    }
-    
+              </Typography>
+            </IconButton>
+            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
+            <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    logged_in: state.user.logged_in,
-  }
-}
+const mapStateToProps = (state) => ({
+  logged_in: state.user.logged_in,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onSignout: () => { dispatch(userActionCreators.signoutUser()) },
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  onSignout: () => { dispatch(userActionCreators.signoutUser()); },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(Header))));

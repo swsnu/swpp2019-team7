@@ -10,6 +10,7 @@ describe('User Action', () => {
   let spyLog;
   beforeEach(() => {
     spyLog = jest.spyOn(console, 'log');
+    //window.alert = jest.fn();
   });
 
   afterEach(() => {
@@ -44,7 +45,7 @@ describe('User Action', () => {
     const spy = jest.spyOn(axios, 'post')
       .mockImplementation(() => bodylessPromise(201, true));
     store.dispatch(actionCreators.signupUser()).then(() => {
-      confirmLoginStatus(spy, true, store);
+      confirmLoginStatus(spy, false, store);
       done();
     });
   });
