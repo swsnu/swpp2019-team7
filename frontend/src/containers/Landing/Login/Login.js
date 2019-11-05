@@ -6,8 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -76,6 +74,10 @@ class Login extends Component {
     onLoginButtonClick = () => {
       const user = { email: this.state.email_input, password: this.state.pw_input };
       this.props.onLoginUser(user);
+      this.setState({
+        email_input: '',
+        pw_input: '',
+      })
     };
 
     render() {
@@ -104,6 +106,7 @@ class Login extends Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  value = {this.state.email_input}
                   onChange={(event) => { this.setState({ email_input: event.target.value }); }}
                 />
                 <TextField
@@ -116,11 +119,8 @@ class Login extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value = {this.state.pw_input}
                   onChange={(event) => this.setState({ pw_input: event.target.value })}
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
                 />
                 <Button
                   type="submit"

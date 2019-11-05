@@ -10,7 +10,7 @@ const UserReducer = (state = initState, action = null) => {
     case 'SIGNOUT_USER':
       return { ...state, logged_in: action.logged_in };
     case 'SIGNUP_USER':
-      return { ...state, logged_in: true };
+      return { ...state, logged_in: false };
     default:
       break;
   }
