@@ -29,7 +29,7 @@ class UploadWidget extends Component {
       <div className="UploadWidget">
         <Grid container spacing={7}>
           <Grid item xs={1} />
-          <Grid item xs={4} justify="center">
+          <Grid item xs={4}>
             <Grid item>
               <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
                   Get your pills
@@ -46,7 +46,7 @@ class UploadWidget extends Component {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item xs={5} justify="center">
+          <Grid item xs={5}>
             <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
               <FilePond
                 ref={(ref) => { this.pond = ref; }}
