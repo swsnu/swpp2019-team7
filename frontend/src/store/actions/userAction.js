@@ -17,7 +17,7 @@ export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
 
 export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/', user)
   .then(() => {
-    dispatch({ type: 'SIGNUP_USER' });
+    dispatch({ type: 'SIGNUP_USER', logged_in: false });
     dispatch(push('/login'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });

@@ -137,6 +137,7 @@ class Signup extends Component {
   };
 
   onSignupButtonClick = (event) => {
+    console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
@@ -151,7 +152,7 @@ class Signup extends Component {
 
   render() {
     const { classes } = this.props;
-
+    console.log('Checking');
     return (
       <div className="Signup">
         <Header />
