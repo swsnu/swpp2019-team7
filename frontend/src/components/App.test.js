@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { getMockStore } from '../test-utils/mocks';
 import { history } from '../store/reducers/index';
+import { testPushBehavior } from '../test-utils/functions';
 
 const mockStore = getMockStore({});
 
@@ -46,11 +47,6 @@ describe('App', () => {
     );
   });
 
-  function testPushBehavior(link, mockComponentName) {
-    history.push(link);
-    const component = mount(app);
-    expect(component.find(mockComponentName).length).toBe(1);
-  }
 
   it('should render', () => {
     const component = mount(app);
@@ -66,22 +62,22 @@ describe('App', () => {
 
 
   it('should goto landing', () => {
-    testPushBehavior('/landing', '.spyLanding');
+    testPushBehavior('/landing', '.spyLanding', app);
   });
   it('should goto login', () => {
-    testPushBehavior('/login', '.spyLogin');
+    testPushBehavior('/login', '.spyLogin', app);
   });
   it('should goto signup', () => {
-    testPushBehavior('/signup', '.spySignup');
+    testPushBehavior('/signup', '.spySignup', app);
   });
   it('should goto dashboard', () => {
-    testPushBehavior('/dashboard', '.spyDashboard');
+    testPushBehavior('/dashboard', '.spyDashboard', app);
   });
   it('should goto demowidget', () => {
-    testPushBehavior('/demowidget', '.spyDemowidget');
+    testPushBehavior('/demowidget', '.spyDemowidget', app);
   });
   it('should goto landing at wrong page', () => {
-    testPushBehavior('/aaa', '.spyLanding');
+    testPushBehavior('/aaa', '.spyLanding', app);
   });
 });
 

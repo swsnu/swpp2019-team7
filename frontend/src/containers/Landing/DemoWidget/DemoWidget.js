@@ -4,6 +4,7 @@ import {
   Modal, Header, Image, Button, Icon,
 } from 'semantic-ui-react';
 
+import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
 
@@ -24,6 +25,10 @@ class DemoWidget extends Component {
       },
       resultModalOpen: false,
     };
+  }
+
+  toggleAcceptPill() {
+    this.props.history.push('/login');
   }
 
   toggleResultModal(open) {
@@ -94,12 +99,12 @@ class DemoWidget extends Component {
           {this.state.productInfo.productName
             ? (
               <Modal.Actions>
-                <Button color="green" onClick={() => { this.toggleResultModal(false); }}>
+                <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
                   <Icon name="checkmark" />
-                  Correct!
+                  Log in to Save
                 </Button>
                 <Button color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
-                  No...
+                  Retry
                 </Button>
               </Modal.Actions>
             )
@@ -117,4 +122,4 @@ class DemoWidget extends Component {
   }
 }
 
-export default connect()(DemoWidget);
+export default connect()(withRouter(DemoWidget));
