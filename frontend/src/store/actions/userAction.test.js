@@ -10,7 +10,7 @@ describe('User Action', () => {
   let spyLog;
   beforeEach(() => {
     spyLog = jest.spyOn(console, 'log');
-    //window.alert = jest.fn();
+    window.alert = jest.fn();
   });
 
   afterEach(() => {
