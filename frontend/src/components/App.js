@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import { connect } from 'react-redux';
 
 import Login from '../containers/Landing/Login/Login';
 import Signup from '../containers/Landing/Signup/Signup';
@@ -27,4 +28,8 @@ function App(props) {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  logged_in: state.user.logged_in,
+});
+
+export default connect(mapStateToProps, null)(App);

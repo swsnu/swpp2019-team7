@@ -23,7 +23,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       Copyright ©
       <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+        Your Website
       </Link>
       {' '}
       {new Date().getFullYear()}
@@ -65,7 +65,12 @@ class Signup extends Component {
     this.state = {
       email_input: '',
       pw_input: '',
+      pw_confirm_input: '',
       username_input: '',
+      emailError: false,
+      pw_error: false,
+      pw_confirm_error: false,
+      usernameError: false,
     };
   }
 
@@ -73,20 +78,81 @@ class Signup extends Component {
     e.preventDefault();
     console.log('email: ', this.state.email_input);
     console.log('pw: ', this.state.pw_input);
+    const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const usernameReg = /^[A-Z][a-z]+$/;
+    let emailError = false;
+    console.log(emailError);
+    let passwordError = false;
+    console.log(passwordError);
+    let passwordConfirmError = false;
+    console.log(passwordConfirmError);
+    let usernameError = false;
+    console.log(usernameError);
+    if (!emailReg.test(this.state.email_input)) {
+      emailError = true;
+      this.setState({
+        emailError,
+      });
+    } else {
+      emailError = false;
+      this.setState({
+        emailError,
+      });
+    }
+    if (!passwordReg.test(this.state.pw_input)) {
+      passwordError = true;
+      this.setState({
+        pw_error: passwordError,
+      });
+    } else {
+      passwordError = false;
+      this.setState({
+        pw_error: passwordError,
+      });
+    }
+    if (this.state.pw_input !== this.state.pw_confirm_input) {
+      passwordConfirmError = true;
+      this.setState({
+        pw_confirm_error: passwordConfirmError,
+      });
+    } else {
+      passwordConfirmError = false;
+      this.setState({
+        pw_confirm_error: passwordConfirmError,
+      });
+    }
+    if (!usernameReg.test(this.state.username_input)) {
+      usernameError = true;
+      this.setState({
+        usernameError,
+      });
+    } else {
+      usernameError = false;
+      this.setState({
+        usernameError,
+      });
+    }
+    return (!emailError) && (!passwordError) && (!passwordConfirmError);
   };
 
-  onSignupButtonClick = () => {
-    const user = {
-      email: this.state.email_input,
-      password: this.state.pw_input,
-      name: this.state.username_input,
-    };
-    this.props.onSignupUser(user);
+  onSignupButtonClick = (event) => {
+    console.log('Is this clicked?');
+    const correctForm = this.credentialChecker(event);
+    if (correctForm === true) {
+      const user = {
+        email: this.state.email_input,
+        password: this.state.pw_input,
+        name: this.state.username_input,
+      };
+      console.log('Signing this user up!');
+      this.props.onSignupUser(user);
+    }
   };
 
   render() {
     const { classes } = this.props;
-
+    console.log('Checking');
     return (
       <div className="Signup">
         <Header />
@@ -103,6 +169,8 @@ class Signup extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.usernameError}
+                    helperText={this.state.usernameError ? 'Start with a capital letter, followed by one or more lowercase letters. Should only contain alphabets (A-Z, a-z)' : false}
                     autoComplete="name"
                     name="name"
                     variant="outlined"
@@ -116,6 +184,8 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.emailError}
+                    helperText={this.state.emailError ? "Should be in the format of 'characters@characters.domain'. No spaces should be included" : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -128,6 +198,8 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.pw_error}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one uppercase and one lowercase letter, and at least 6 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -141,15 +213,17 @@ class Signup extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    error={this.state.pw_confirm_error}
+                    helperText={this.state.pw_confirm_error ? 'Must match password.' : false}
                     variant="outlined"
                     required
                     fullWidth
                     name="password-confirmation"
                     label="Password Confirmation"
                     type="password"
-                    id="password"
+                    id="password-confirmation"
                     autoComplete="current-password"
-                    onChange={(event) => this.setState({ pw_input: event.target.value })}
+                    onChange={(event) => this.setState({ pw_confirm_input: event.target.value })}
                   />
                 </Grid>
               </Grid>
@@ -161,8 +235,7 @@ class Signup extends Component {
                 id="signup-button"
                 className={classes.submit}
                 onClick={(event) => {
-                  this.credentialChecker(event);
-                  this.onSignupButtonClick();
+                  this.onSignupButtonClick(event);
                 }}
               >
                 Sign Up

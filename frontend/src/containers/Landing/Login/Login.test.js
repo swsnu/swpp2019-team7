@@ -12,11 +12,11 @@ import { history } from '../../../store/reducers/index';
 const mockStore = getMockStore();
 
 describe('Login', () => {
-  let mockLogin; let
-    spyAcceptLogin;
+  let mockLogin;
+  let spyAcceptLogin;
   beforeEach(() => {
     spyAcceptLogin = jest.spyOn(userActionCreator, 'signinUser')
-      .mockImplementation(() => () => {});
+      .mockImplementation(() => ({ type: 'SIGNIN_USER', logged_in: true }));
     mockLogin = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
@@ -37,10 +37,13 @@ describe('Login', () => {
     const component = mount(mockLogin);
     const wrapperEmail = component.find({ id: 'email' }).at(1);
     const wrapperPW = component.find({ id: 'password' }).at(1);
-    const wrapperButton = component.find({ id: 'login-button' }).at(1);
+    // const wrapperButton = component.find({ id: 'login-button' }).at(1);
 
     wrapperEmail.props().onChange({ target: { value: 'swpp@snu.ac.kr' } });
     wrapperPW.props().onChange({ target: { value: 'password' } });
+    // wrapperButton.simulate('click');
+
+    const wrapperButton = component.find({ id: 'login-button' }).find('button').at(1);
     wrapperButton.simulate('click');
 
     expect(spyAcceptLogin).toHaveBeenCalledTimes(1);

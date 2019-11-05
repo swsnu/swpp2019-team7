@@ -2,7 +2,8 @@ import {
   createStore, combineReducers, applyMiddleware, compose,
 } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
+// import { createBrowserHistory } from 'history';
+import { history } from '../store/reducers/index';
 
 import { middlewares } from '../store/index';
 
@@ -35,7 +36,7 @@ const stubUserState = {
 };
 
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 export const getMockStore = () => {
   const rootReducer = combineReducers({
