@@ -2,13 +2,17 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card, CardContent, Grid, Typography, Avatar,
+  Card, CardContent, Grid, Typography,
 } from '@material-ui/core';
-import MoneyIcon from '@material-ui/icons/Money';
+import Switch from '@material-ui/core/Switch';
+import { FormGroup } from 'react-bootstrap';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    marginTop: 50,
   },
   content: {
     alignItems: 'center',
@@ -43,7 +47,11 @@ const SettingItem = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-
+  let checked = true;
+  function toggleChecked() {
+    if (checked === true) checked = false;
+    else checked = true;
+  }
   return (
     <Card
       {...rest}
@@ -59,9 +67,14 @@ const SettingItem = (props) => {
             <Typography variant="h3">{props.name}</Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
-              <MoneyIcon className={classes.icon} />
-            </Avatar>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch checked={checked} onChange={toggleChecked} />}
+                labelPlacement="end"
+                label="On"
+                size="large"
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       </CardContent>

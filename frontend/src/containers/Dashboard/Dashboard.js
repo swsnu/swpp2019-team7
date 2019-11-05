@@ -104,7 +104,7 @@ class Dashboard extends Component {
           <List>{this.mainListItems()}</List>
           <Divider />
           <List>
-            {['All mail', 'Trash', 'Spam'].map((name, index) => (
+            {['Customer Service', 'App Info'].map((name, index) => (
               <ListItem button key={name}>
                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={name} />
