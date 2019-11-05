@@ -1,0 +1,21 @@
+Use 
+this.setState(prevState => ({value: prevState.value + 1})) 
+instead of 
+this.setState({value: this.state.value + 1})
+https://jiyeonseo.github.io/2018/07/16/no-state-in-setstate/
+
+
+
+36:11  error  Missing an explicit type attribute for button    react/button-has-type
+add type="button", "submit", "reset"
+Submit submits data of a form(e.g. accept todo edit, login, etc)
+Reset resets data of a form(e.g. reset todo edit)
+Everything else should be button
+
+31:20  error    Arrow function should not return assignment    no-return-assign
+ref={(ref) => {this.pond = ref}}
+to
+ref={(ref) => {this.pond = ref}}
+
+
+--fix
