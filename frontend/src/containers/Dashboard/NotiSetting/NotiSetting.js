@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import SettingItem from './SettingItem';
 
 const tempSetting = [
@@ -23,8 +25,9 @@ class NotiSetting extends Component {
     return (
       <div className="NotiSetting">
         <div className="title">
-          <h1> Notification Settings </h1>
+          <Typography variant="h1" align="left"> Notification Settings </Typography>
         </div>
+        <Divider />
         <div className="settings">{settingList}</div>
       </div>
     );

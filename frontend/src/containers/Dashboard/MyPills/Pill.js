@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Card, CardContent, Grid, Typography, Avatar,
 } from '@material-ui/core';
-import MoneyIcon from '@material-ui/icons/Money';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ const Pill = (props) => {
         >
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon className={classes.icon} />
+              <LocalHospitalIcon className={classes.icon} />
             </Avatar>
           </Grid>
           <Grid item>

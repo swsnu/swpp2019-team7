@@ -2,12 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card, CardContent, Grid, Typography,
+  Card, CardContent, Grid, Typography, Avatar,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import { FormGroup } from 'react-bootstrap';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +63,11 @@ const SettingItem = (props) => {
           justify="space-between"
           alignItems="flex-end"
         >
+          <Grid item>
+            <Avatar className={classes.avatar}>
+              <NotificationsIcon className={classes.icon} />
+            </Avatar>
+          </Grid>
           <Grid item>
             <Typography variant="h3">{props.name}</Typography>
           </Grid>

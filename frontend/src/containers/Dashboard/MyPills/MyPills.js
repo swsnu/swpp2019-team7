@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Typography } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import Pill from './Pill';
 
 const tempPills = [
@@ -26,8 +28,9 @@ class MyPills extends Component {
     return (
       <div className="MyPills">
         <div className="title">
-          <h1> My Pills </h1>
+          <Typography variant="h1" align="left"> My Pills </Typography>
         </div>
+        <Divider />
         <div className="pills">{pillList}</div>
       </div>
     );

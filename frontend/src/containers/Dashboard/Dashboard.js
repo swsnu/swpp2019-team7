@@ -6,11 +6,12 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Header from '../Header/Header';
+import SettingsIcon from '@material-ui/icons/Settings';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
+import Header from '../Header/Header';
 import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
@@ -46,9 +47,9 @@ function dashboardDisplay(itemNo) {
     case 0:
       return <MyPills />;
     case 1:
-      return <AccountSetting />;
-    case 2:
       return <NotiSetting />;
+    case 2:
+      return <AccountSetting />;
     default:
       return <MyPills />;
   }
@@ -64,12 +65,12 @@ class Dashboard extends Component {
     };
   }
 
-  listItemCreator(itemName, itemNo) {
+  listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
         <ListItem button id={itemName} onClick={() => { console.log(itemNo); this.setState({ itemNumber: itemNo }); }}>
           <ListItemIcon>
-            <DashboardIcon />
+            {listIcon}
           </ListItemIcon>
           <ListItemText primary={itemName} />
         </ListItem>
@@ -80,9 +81,9 @@ class Dashboard extends Component {
   mainListItems() {
     return (
       <div>
-        {this.listItemCreator('MyPills', 0)}
-        {this.listItemCreator('AccountSettings', 1)}
-        {this.listItemCreator('NotificationSettings', 2)}
+        {this.listItemCreator('MyPills', 0, <LocalHospitalIcon />)}
+        {this.listItemCreator('NotificationSettings', 1, <SettingsIcon />)}
+        {this.listItemCreator('AccountSettings', 2, <SettingsIcon />)}
       </div>
     );
   }
@@ -114,7 +115,9 @@ class Dashboard extends Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {text}
+          <div align="top">
+            {text}
+          </div>
         </main>
       </div>
     );
