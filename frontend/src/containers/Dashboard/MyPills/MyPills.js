@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
-import { Typography } from '@material-ui/core';
+import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import Pill from './Pill';
 
+// theme for Material UI Typography
 const theme = createMuiTheme({
   typography: {
     fontFamily: "'DM Sans', sans-serif",
@@ -18,6 +21,15 @@ const theme = createMuiTheme({
   },
 });
 
+// style for Material UI button
+const styles = (myTheme) => ({
+  fab: {
+    margin: myTheme.spacing(3),
+  },
+  extendedIcon: {
+    marginRight: myTheme.spacing(1),
+  },
+});
 
 const tempPills = [
   {
@@ -37,6 +49,7 @@ class MyPills extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const pillList = tempPills.map((pill) => (
       <Pill key={pill.id} id={pill.id} name={pill.name} image={pill.image} prescription={pill.prescription} />
     ));
@@ -44,13 +57,16 @@ class MyPills extends Component {
       <div className="MyPills">
         <ThemeProvider theme={theme}>
           <div className="title">
-            <Typography variant="h2" align="left"> My Pills </Typography>
+            <Typography variant="h3" align="left"> My Pills </Typography>
           </div>
           <Divider />
           <div className="pills">{pillList}</div>
+          <Fab color="primary" aria-label="add" className={classes.fab}>
+            <AddIcon />
+          </Fab>
         </ThemeProvider>
       </div>
     );
   }
 }
-export default MyPills;
+export default (withStyles(styles)(MyPills));

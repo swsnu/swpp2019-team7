@@ -77,7 +77,7 @@ const Pill = (props) => {
               {' '}
               {props.id}
             </Typography> */}
-            <Typography variant="h4">{props.name}</Typography>
+            <Typography variant="h5">{props.name}</Typography>
           </Grid>
           <Grid item>
             <Typography
