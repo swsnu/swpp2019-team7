@@ -15,6 +15,7 @@
         "filepond-plugin-file-validate-type": "^1.2.4",
         "filepond-plugin-image-crop": "^2.0.3",
         "filepond-plugin-image-preview": "^4.5.0",
+        "firebase": "^7.2.3",
         "history": "^4.10.1",
         "json-server": "^0.15.1",
         "react": "^16.9.0",
