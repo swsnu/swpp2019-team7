@@ -21,10 +21,10 @@ const theme = createMuiTheme({
 
 const tempPills = [
   {
-    id: 1, name: 'Mock Pill 1', prescription: 'Next: 19:00 PM', image: 'asdf',
+    id: 1, name: '홍삼정', prescription: 'Next: 19:00 PM', image: 'asdf',
   },
   {
-    id: 2, name: 'Mock Pill 2', prescription: 'Next: 16:00 PM', image: 'asdf',
+    id: 2, name: '마이락토 씨 플러스', prescription: 'Next: 09:00 AM', image: 'asdf',
   },
 ];
 
