@@ -1,4 +1,3 @@
-import app from 'firebase/app';
 import * as firebase from "firebase";
 
 const config = {
@@ -14,10 +13,22 @@ const config = {
 
 class Firebase {
   constructor() {
-    app.initializeApp(config);
+    firebase.initializeApp(config);
+    firebase.analytics();
 
-    const messaging = firebase.messaging()
-    messaging.usePublicVapidKey("BDw_yOOH_N4lbHNd6BAdt1UWdfeYAAShD4Obhzzhr-RNzlXLp4R5-7pkIE-wc2uNiKTlRKpogt7LTCcKjNVEWro")
+    const messaging = firebase.messaging();
+    messaging.usePublicVapidKey("BDw_yOOH_N4lbHNd6BAdt1UWdfeYAAShD4Obhzzhr-RNzlXLp4R5-7pkIE-wc2uNiKTlRKpogt7LTCcKjNVEWro");
+    this.requestPermission();
+  }
+
+  requestPermission() {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log("Notification request permitted.");
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+      });
   }
 }
 
