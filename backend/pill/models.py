@@ -1,4 +1,5 @@
 from django.db import models
+# from backend.user import models as user_models
 
 
 class Pill(models.Model):
@@ -12,6 +13,7 @@ class Pill(models.Model):
     standards = models.TextField(null=True, default='')
     precautions = models.TextField(null=True, default='')
     take_method_preprocessed = models.TextField(null=True, default='')
+    # users = models.ManyToManyField(user_models.User)
 
     def __str__(self):
         return self.product_name
