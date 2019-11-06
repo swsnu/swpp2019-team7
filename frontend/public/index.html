@@ -52,15 +52,20 @@
       firebase.analytics();
 
       const messaging = firebase.messaging();
-      messaging.usePublicVapidKey("BDw_yOOH_N4lbHNd6BAdt1UWdfeYAAShD4Obhzzhr-RNzlXLp4R5-7pkIE-wc2uNiKTlRKpogt7LTCcKjNVEWro")
-      Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-          console.log("Notification request permitted.");
-        } else {
-          console.log("Unable to get permission to notify.");
-        }
-      });
+      messaging.usePublicVapidKey("BDw_yOOH_N4lbHNd6BAdt1UWdfeYAAShD4Obhzzhr-RNzlXLp4R5-7pkIE-wc2uNiKTlRKpogt7LTCcKjNVEWro");
+      requestPermission();
 
+      function requestPermission() {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log("Notification request permitted.");
+          } else {
+            console.log("Unable to get permission to notify.");
+          }
+        });
+      }
+
+      // TODO move code aboce to components/Firebase/Firebase.js (import firebase to work), and then import it in App.js
     </script>
 
     <title>React App</title>
