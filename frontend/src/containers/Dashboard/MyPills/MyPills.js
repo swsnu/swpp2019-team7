@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 
 import { Typography } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Pill from './Pill';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h2: {
+      fontWeight: 500,
+      fontSize: 55,
+      // fontStyle: "italic"
+    },
+    h4: {
+    },
+  },
+});
+
 
 const tempPills = [
   {
@@ -27,11 +42,13 @@ class MyPills extends Component {
     ));
     return (
       <div className="MyPills">
-        <div className="title">
-          <Typography variant="h1" align="left"> My Pills </Typography>
-        </div>
-        <Divider />
-        <div className="pills">{pillList}</div>
+        <ThemeProvider theme={theme}>
+          <div className="title">
+            <Typography variant="h2" align="left"> My Pills </Typography>
+          </div>
+          <Divider />
+          <div className="pills">{pillList}</div>
+        </ThemeProvider>
       </div>
     );
   }

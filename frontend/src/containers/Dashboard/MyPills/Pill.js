@@ -77,12 +77,12 @@ const Pill = (props) => {
               {' '}
               {props.id}
             </Typography> */}
-            <Typography variant="h3">{props.name}</Typography>
+            <Typography variant="h4">{props.name}</Typography>
           </Grid>
           <Grid item>
             <Typography
               className={classes.caption}
-              variant="h4"
+              variant="h5"
             >
               {props.prescription}
             </Typography>
