@@ -1,14 +1,12 @@
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -58,7 +56,7 @@ const styles = (theme) => ({
 });
 
 
-class Signup extends Component {
+class SignupAccount extends Component {
   constructor(props) {
     super(props);
 
@@ -70,7 +68,6 @@ class Signup extends Component {
       emailError: false,
       pw_error: false,
       pw_confirm_error: false,
-      usernameError: false,
     };
   }
 
@@ -80,15 +77,12 @@ class Signup extends Component {
     console.log('pw: ', this.state.pw_input);
     const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
     console.log(emailError);
     let passwordError = false;
     console.log(passwordError);
     let passwordConfirmError = false;
     console.log(passwordConfirmError);
-    let usernameError = false;
-    console.log(usernameError);
     if (!emailReg.test(this.state.email_input)) {
       emailError = true;
       this.setState({
@@ -122,17 +116,6 @@ class Signup extends Component {
         pw_confirm_error: passwordConfirmError,
       });
     }
-    if (!usernameReg.test(this.state.username_input)) {
-      usernameError = true;
-      this.setState({
-        usernameError,
-      });
-    } else {
-      usernameError = false;
-      this.setState({
-        usernameError,
-      });
-    }
     return (!emailError) && (!passwordError) && (!passwordConfirmError);
   };
 
@@ -159,29 +142,11 @@ class Signup extends Component {
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Change Account Settings
             </Typography>
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    error={this.state.usernameError}
-                    helperText={this.state.usernameError ? 'Start with a capital letter, followed by one or more lowercase letters. Should only contain alphabets (A-Z, a-z)' : false}
-                    autoComplete="name"
-                    name="name"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="name"
-                    label="Name"
-                    autoFocus
-                    onChange={(event) => this.setState({ username_input: event.target.value })}
-                  />
-                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.emailError}
@@ -238,15 +203,8 @@ class Signup extends Component {
                   this.onSignupButtonClick(event);
                 }}
               >
-                Sign Up
+                Finish Change
               </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <Link href="/login" variant="body2">
-                    Already have an account? Log in
-                  </Link>
-                </Grid>
-              </Grid>
             </form>
           </div>
           <Box mt={5}>
@@ -263,4 +221,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // export default Signup
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Signup));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SignupAccount));

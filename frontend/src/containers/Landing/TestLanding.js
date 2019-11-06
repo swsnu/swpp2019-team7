@@ -60,7 +60,7 @@ const WidgetNestedWrapper = styled.section`
 
 const TestLanding = () => (
   <div>
-    <Header />
+    <Header logged_in />
     <ThemeProvider theme={theme}>
       <div style={{ marginTop: 140 }}>
         <Typography variant="h2" gutterBottom className="title" style={{ fontStyle: 'italic' }}>

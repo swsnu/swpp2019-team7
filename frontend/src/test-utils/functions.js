@@ -17,6 +17,7 @@ export function bodylessPromise(htmlCode, resolveOrNot) {
     else { reject(result); }
   });
 }
+
 export function confirmLoginStatus(spy, expectedLogin, store) {
   const newState = store.getState();
   expect(newState.user.logged_in).toBe(expectedLogin);

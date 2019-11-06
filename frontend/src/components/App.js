@@ -1,12 +1,14 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import { connect } from 'react-redux';
 
 import Login from '../containers/Landing/Login/Login';
 import Signup from '../containers/Landing/Signup/Signup';
 import Dashboard from '../containers/Dashboard/Dashboard';
 import TestLanding from '../containers/Landing/TestLanding';
 import DemoWidget from '../containers/Landing/DemoWidget/DemoWidget';
+// import Dashboard from '../dashboard/Dashboard';
 import './App.css';
 
 function App(props) {
@@ -27,4 +29,8 @@ function App(props) {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  logged_in: state.user.logged_in,
+});
+
+export default connect(mapStateToProps, null)(App);
