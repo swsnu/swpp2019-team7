@@ -6,7 +6,6 @@ from django.http import HttpResponse, HttpResponseNotAllowed, \
     JsonResponse, HttpResponseNotFound, HttpResponseBadRequest #HttpResponseForbidden
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-import ipdb
 
 from .models import User
 # Create your views here.
