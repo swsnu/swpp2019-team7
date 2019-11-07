@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 
+/*
 const config = {
   apiKey: "AIzaSyAzcizSnT2_MJwQOaAF8uJJLnGNkpd1Xv4",
   authDomain: "pillbox-95f6e.firebaseapp.com",
@@ -10,14 +11,26 @@ const config = {
   appId: "1:2935002363:web:64210d4c3b543381e6cc5e",
   measurementId: "G-72B2GDB01E"
 };
+*/
+
+var firebaseConfig = {
+  apiKey: "AIzaSyCTwtNJzyKJg6vD1MMrpvKYeXpzBrv3e90",
+  authDomain: "fir-c769f.firebaseapp.com",
+  databaseURL: "https://fir-c769f.firebaseio.com",
+  projectId: "fir-c769f",
+  storageBucket: "fir-c769f.appspot.com",
+  messagingSenderId: "907542495339",
+  appId: "1:907542495339:web:d7c280ebb697d50f8fb12e",
+  measurementId: "G-PCGWM5N0RX"
+};
 
 class Firebase {
   constructor() {
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 
     const messaging = firebase.messaging();
-    messaging.usePublicVapidKey('BDw_yOOH_N4lbHNd6BAdt1UWdfeYAAShD4Obhzzhr-RNzlXLp4R5-7pkIE-wc2uNiKTlRKpogt7LTCcKjNVEWro');
+    messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
     this.requestPermission();
     this.getToken(messaging);
     // Callback fired if Instance ID token is updated.
@@ -31,6 +44,19 @@ class Firebase {
           console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
         });
     });
+    /*
+    messaging.setBackgroundMessageHandler(function(payload) {
+
+      const notificationTitle = payload.data.title;
+      const notificationOptions = {
+        body: payload.data.body,
+        //icon: payload.data.icon,
+      };
+    
+      return window.self.registration.showNotification(notificationTitle,
+        notificationOptions);
+    });
+    */
   }
 
   requestPermission = () => {
