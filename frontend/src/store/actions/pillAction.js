@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import { push } from 'connected-react-router';
-export const ax = axios.create({ baseURL: 'http://localhost:8000' });
+
+import ax from '../../api/index';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
 

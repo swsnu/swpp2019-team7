@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { push } from 'connected-react-router';
 
-export const ax = axios.create({ baseURL: 'http://localhost:8000' });
+import ax from '../../api/index';
+
 export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
   .then(() => {
     dispatch({ type: 'SIGNIN_USER', logged_in: true });
@@ -10,7 +10,8 @@ export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', u
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
 // We need a button for this function!
 export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
-  .then(() => {
+  .then((response) => {
+    console.log(response);
     dispatch({ type: 'SIGNOUT_USER', logged_in: false });
     dispatch(push('/landing'));
   })

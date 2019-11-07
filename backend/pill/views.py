@@ -22,9 +22,10 @@ def user_pills(request):
         print('session: ', request.session.session_key)
         try:
             if request.user.is_authenticated:
-                saved_pills = get_object_or_404(request.user.pills)
-                serialized_pills = PillItemsPerUserSerializer(saved_pills)
-                return Response(serialized_pills.data, status=200)
+                # saved_pills = get_object_or_404(request.user.pills)
+                # serialized_pills = PillItemsPerUserSerializer(saved_pills)
+                # return Response(serialized_pills.data, status=200)
+                return HttpResponse(status=200)
             else:
                 return HttpResponse(status=401)
         except (KeyError, ValueError):

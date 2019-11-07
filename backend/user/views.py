@@ -1,9 +1,7 @@
 import json
 
-from django.shortcuts import render
-#TODO_ERASE
 from django.http import HttpResponse, HttpResponseNotAllowed, \
-    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest #HttpResponseForbidden
+    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
@@ -32,6 +30,7 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 @csrf_exempt
 def signout(request):
     """REST API description of /api/signout"""
@@ -44,12 +43,12 @@ def signout(request):
         else:
             return HttpResponse(status=401)
     else:
-        print('not get?')
         return HttpResponseNotAllowed(['GET'])
+
 
 @csrf_exempt
 def signup(request):
-    """REST API description of /api/singup"""
+    """REST API description of /api/signup"""
     """POST: Recieves and registers info of new user. Return 201 response"""
     if request.method == 'POST':
         try:
@@ -64,6 +63,7 @@ def signup(request):
         return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
+
 
 @csrf_exempt
 def user_info(request, user_id):
