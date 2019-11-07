@@ -1,10 +1,11 @@
 import axios from 'axios';
 // import { push } from 'connected-react-router';
-export const ax = axios.create({ baseURL: 'http://localhost:8000' });
+// export const ax = axios.create({ baseURL: 'http://localhost:8000' });
+const API_URL = 'http://localhost:8000';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
 
-export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
+export const getUserPills = () => (dispatch) => axios.get(`${API_URL}/api/pill/`)
   .then((res) => {
     // eslint-disable-next-line no-console
     console.log('[action] getUserPills -- res: ', res);

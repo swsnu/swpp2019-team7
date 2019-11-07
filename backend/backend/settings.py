@@ -137,3 +137,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
     # )
 }
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:3000/'
+# )
+CSRF_COOKIE_NAME = "XSRF-TOKEN"

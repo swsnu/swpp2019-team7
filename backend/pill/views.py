@@ -7,24 +7,26 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #
 # from django.contrib.auth import login, logout, authenticate
 #
-from rest_framework.generics import get_object_or_404
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
+# from rest_framework.generics import get_object_or_404
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework.authentication import SessionAuthentication
 
 from .models import Pill
-
 from .serializers import PillItemsPerUserSerializer
+
 
 @csrf_exempt
 def user_pills(request):
     if request.method == 'GET':
-        print('session: ', request.session.session_key)
+        print('USER_PILLS requst.header: ', request.get_full_path_info())
         try:
             if request.user.is_authenticated:
-                saved_pills = get_object_or_404(request.user.pills)
-                serialized_pills = PillItemsPerUserSerializer(saved_pills)
-                return Response(serialized_pills.data, status=200)
+                print('authenticated')
+                # saved_pills = get_object_or_404(request.user.pills)
+                saved_pills = request.user.email
+                # serialized_pills = PillItemsPerUserSerializer(saved_pills)
+                # return Response(serialized_pills.data, status=200)
             else:
                 return HttpResponse(status=401)
         except (KeyError, ValueError):

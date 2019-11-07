@@ -18,6 +18,7 @@ def signin(request):
     """POST: recieve user authentication and see if registered. Return 204 response"""
     if request.method == 'POST':
         try:
+            print('LOGIN requst.header: ', request.get_full_path_info())
             req_data = json.loads(request.body.decode())
             email = req_data['email']
             password = req_data['password']
@@ -38,7 +39,7 @@ def signout(request):
     """REST API description of /api/signout"""
     """GET: Signs out the user. Return 204 response"""
     if request.method == 'GET':
-        # print('singout django: ', request.user)
+        print('LOGOUT requst.header: ', request.get_full_path_info())
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)
