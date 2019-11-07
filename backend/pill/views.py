@@ -19,14 +19,13 @@ from .serializers import PillItemsPerUserSerializer
 @csrf_exempt
 def user_pills(request):
     if request.method == 'GET':
-        print('USER_PILLS requst.header: ', request.get_full_path_info())
+        print('session: ', request.session.session_key)
         try:
             if request.user.is_authenticated:
-                print('authenticated')
                 # saved_pills = get_object_or_404(request.user.pills)
-                saved_pills = request.user.email
                 # serialized_pills = PillItemsPerUserSerializer(saved_pills)
                 # return Response(serialized_pills.data, status=200)
+                return HttpResponse(status=200)
             else:
                 return HttpResponse(status=401)
         except (KeyError, ValueError):
