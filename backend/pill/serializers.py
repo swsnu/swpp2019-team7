@@ -3,7 +3,7 @@ from .models import Pill
 
 
 class PillItemsPerUserSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
+    # user_id = serializers.IntegerField()
 
     take_method = serializers.CharField()
     product_name = serializers.CharField()

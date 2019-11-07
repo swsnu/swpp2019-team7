@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, \
     JsonResponse, HttpResponseNotFound, HttpResponseBadRequest #HttpResponseForbidden
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+import ipdb
 
 from .models import User
 # Create your views here.
@@ -23,10 +24,12 @@ def signin(request):
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
         user = authenticate(request, email=email, password=password)
-        print('Does it work?')
-        print(user)
+        # print('Does it work?')
         if user is not None:
             login(request, user)
+            ipdb.set_trace()
+            # print('request session: ', request.session)
+            # print(request.user, request.user.is_authenticated)
             return HttpResponse(status=204)
         else:
             return HttpResponse(content='user is None', status=401)
@@ -38,7 +41,7 @@ def signout(request):
     """REST API description of /api/signout"""
     """GET: Signs out the user. Return 204 response"""
     if request.method == 'GET':
-        print(request.user)
+        # print('singout django: ', request.user)
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)

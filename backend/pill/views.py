@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotAllowed
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 # from django.contrib.auth.models import User
 # from django.views.decorators.csrf import ensure_csrf_cookie
 # import json
@@ -8,17 +9,25 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication
 
 from .models import Pill
+
 from .serializers import PillItemsPerUserSerializer
 
 
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
+    authentication_classes = [SessionAuthentication]
+
+    @csrf_exempt
     def get(self, request):
         """ get pill list for user <int:pk> """
+        # print('request session: ', request.session)
+        # print('is user authenticated? ', request.user.is_authenticated)
+        # print('user: ', request.user)
         if request.user.is_authenticated:
-            print('request.user: ', request.user)
+            # print('request.user: ', request.user)
             saved_pills = get_object_or_404(request.user.pills)
             serialized_pills = PillItemsPerUserSerializer(saved_pills)
             return Response(serialized_pills.data, status=200)

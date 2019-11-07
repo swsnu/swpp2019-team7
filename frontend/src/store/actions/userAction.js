@@ -1,21 +1,22 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
 
-export const signinUser = (user) => (dispatch) => axios.post('/api/user/signin/', user)
+export const ax = axios.create({ baseURL: 'http://localhost:8000' });
+export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
   .then(() => {
     dispatch({ type: 'SIGNIN_USER', logged_in: true });
     dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
 // We need a button for this function!
-export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
+export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .then(() => {
     dispatch({ type: 'SIGNOUT_USER', logged_in: false });
     dispatch(push('/landing'));
   })
   .catch((err) => console.log(err));
 
-export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/', user)
+export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
   .then(() => {
     dispatch({ type: 'SIGNUP_USER', logged_in: false });
     dispatch(push('/login'));
