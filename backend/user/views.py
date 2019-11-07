@@ -27,9 +27,6 @@ def signin(request):
         # print('Does it work?')
         if user is not None:
             login(request, user)
-            ipdb.set_trace()
-            # print('request session: ', request.session)
-            # print(request.user, request.user.is_authenticated)
             return HttpResponse(status=204)
         else:
             return HttpResponse(content='user is None', status=401)
