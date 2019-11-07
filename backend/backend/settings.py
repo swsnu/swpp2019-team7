@@ -34,13 +34,29 @@ INSTALLED_APPS = [
     'pill.apps.PillConfig',
     'vision.apps.VisionConfig',
     'user.apps.UserConfig',
+    'notification.apps.NotificationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "fcm_django",
+    "cronjobs",
 ]
+
+FCM_DJANGO_SETTINGS = {
+    "APP_VERBOSE_NAME": "noti",
+    # default: _('FCM Django')
+    "FCM_SERVER_KEY": "AAAA002_gGs:APA91bHwpz-XSj3T-6_7uPJu1kkqAQKHArF0oDECGNADoqPN4rsfpWJB3wXGWzd0ouyAKgDpYHQmCU1GWzqxtEqKX6Z9kNjYegBcY40vNnq1RwvKV8NITFDi5Usat5W_B_pE_NzxBVT-",
+    # true if you want to have only one active device per registered user at a time
+    # default: False
+    "ONE_DEVICE_PER_USER": False,
+    # devices to which notifications cannot be sent,
+    # are deleted upon receiving error response from FCM
+    # default: False
+    "DELETE_INACTIVE_DEVICES": True,
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
