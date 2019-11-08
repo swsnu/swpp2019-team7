@@ -9,7 +9,7 @@ const PillReducer = (state = initState, action = null) => {
   switch (action.type) {
     case 'GET_USER_PILLS':
       // eslint-disable-next-line no-console
-      console.log('[reducer] GET_USER_PILLS -- pill_list:', state.pill_list);
+      console.log('[reducer] GET_USER_PILLS -- pill_list:', action.pill_list);
       return { ...state, pill_list: action.pill_list };
     // case 'GET_PILL_DATA':
     //   return { ...state, selected_pill: action.selected_pill };

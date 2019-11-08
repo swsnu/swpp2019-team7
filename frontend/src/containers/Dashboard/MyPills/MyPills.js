@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Typography, withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
+import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
-import { getUserPills } from '../../../store/actions/pillAction';
+import { getUserPills, addUserPill } from '../../../store/actions/pillAction';
 
 // theme for Material UI Typography
 const theme = createMuiTheme({
@@ -48,12 +50,17 @@ class MyPills extends Component {
     super(props);
 
     this.state = {
-      pills: [],
+      // pills: [],
     };
   }
 
   componentDidMount() {
-    this.props.getUserPills();
+    this.props.getUserPills(0);
+  }
+
+  handleAddPill() {
+    this.props.history.push('/demowidget');
+    // this.props.addUserPill();
   }
 
   render() {
@@ -61,8 +68,8 @@ class MyPills extends Component {
     console.log('[MyPills.js] this.props.pillList: ', this.props.pillList);
     const { classes } = this.props;
     // const pillList = tempPills.map((pill) => (
-    const pillList = this.state.pills.map((pill) => (
-      <Pill key={pill.id} id={pill.id} name={pill.name} image={pill.image} prescription={pill.prescription} />
+    const pillList = this.props.pillList.map((pill) => (
+      <Pill key={pill.id} id={pill.id} name={pill.product_name} image={pill.image} takemethodpreprocessed={pill.take_method_preprocessed} />
     ));
     return (
       <div className="MyPills">
@@ -73,7 +80,9 @@ class MyPills extends Component {
           <Divider />
           <div className="pills">{pillList}</div>
           <Fab color="primary" aria-label="add" className={classes.fab}>
-            <AddIcon />
+            <IconButton onClick={() => this.handleAddPill()}>
+              <AddIcon />
+            </IconButton>
           </Fab>
         </ThemeProvider>
       </div>
@@ -81,8 +90,9 @@ class MyPills extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  pillList: state.pill_list,
+  pillList: state.pill.pill_list,
 });
 export default connect(mapStateToProps, {
   getUserPills,
-})(withStyles(styles)(MyPills));
+  addUserPill,
+})(withRouter((withStyles(styles)(MyPills))));

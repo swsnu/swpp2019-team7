@@ -47,9 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Pill = (props) => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
-
+  // TODO add dropdown in Pill component for user noti customization
   return (
     <Card
       {...rest}
@@ -67,16 +66,6 @@ const Pill = (props) => {
             </Avatar>
           </Grid>
           <Grid item>
-            {/* <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-              variant="body2"
-            >
-              Pill No.
-              {' '}
-              {props.id}
-            </Typography> */}
             <Typography variant="h5">{props.name}</Typography>
           </Grid>
           <Grid item>
@@ -84,7 +73,7 @@ const Pill = (props) => {
               className={classes.caption}
               variant="h5"
             >
-              {props.prescription}
+              {props.takemethodpreprocessed}
             </Typography>
           </Grid>
           <Grid item>

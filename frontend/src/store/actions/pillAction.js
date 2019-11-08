@@ -4,7 +4,7 @@ import ax from '../../api/index';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
 
-export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
+export const getUserPills = (id) => (dispatch) => ax.get(`/api/pill/${id}`)
   .then((res) => {
     // eslint-disable-next-line no-console
     console.log('[action] getUserPills -- res: ', res);
