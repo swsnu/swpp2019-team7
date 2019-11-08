@@ -6,5 +6,5 @@ def sendNoti():
     # This cronjob will be performed every minute. If the parsed time matches current time,
     # send the notification as below.
     # You should use 'filter' and search the device using the device token!
-    device = FCMDevice.objects.all().first()
+    device = FCMDevice.objects.all().first()    # This should be a for loop, looping through all devices
     device.send_message(data={"title": "Have your pills", "body": "NOW!"})
