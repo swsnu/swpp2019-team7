@@ -41,8 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "fcm_django",
-    "cronjobs",
+    'fcm_django',
+    'django_crontab',
+]
+
+CRONJOBS = [
+    ('*/1 * * * *', 'notification.cron.sendNoti')
 ]
 
 FCM_DJANGO_SETTINGS = {

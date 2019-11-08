@@ -50,7 +50,7 @@ def signout(request):
 
 @csrf_exempt
 def signup(request):
-    """REST API description of /api/singup"""
+    """REST API description of /api/signup"""
     """POST: Recieves and registers info of new user. Return 201 response"""
     if request.method == 'POST':
         try:
