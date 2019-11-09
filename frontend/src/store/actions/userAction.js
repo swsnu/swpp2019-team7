@@ -2,6 +2,8 @@ import { push } from 'connected-react-router';
 
 import ax from '../../api/index';
 
+import axios from 'axios';
+
 export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
   .then(() => {
     dispatch({ type: 'SIGNIN_USER', logged_in: true });
