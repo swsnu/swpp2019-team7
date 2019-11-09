@@ -22,6 +22,7 @@ def register_device(request):
             # Fields below are not mandatory anymore
             device.name = "Testing device"
             device.user = request.user
+            device.type = 'web'
             device.save()
             return HttpResponse(status=201)
         else:
