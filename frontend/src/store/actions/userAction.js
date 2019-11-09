@@ -2,8 +2,6 @@ import { push } from 'connected-react-router';
 
 import ax from '../../api/index';
 
-import axios from 'axios';
-
 export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
   .then(() => {
     dispatch({ type: 'SIGNIN_USER', logged_in: true });
@@ -27,7 +25,7 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
 
 export const registerUserDevice = (token) => (dispatch) => {
-  console.log(token); axios.post('/api/registerdevice/', token)
+  console.log(token); ax.post('/api/registerdevice/', token)
     .then(() => {
 
     })
