@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'fcm_django',
     'django_crontab',
+=======
     'rest_framework',
     'corsheaders',
+>>>>>>> 12055a342467896affe54ca9fc9ce5dd56e9ec65
 ]
 
 CRONTAB_COMMAND_SUFFIX = '2>&1'

@@ -9,16 +9,29 @@ import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import * as userActionCreators from '../../store/actions/userAction';
 
+const drawerWidth = 240;
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  toolbar: theme.mixins.toolbar,
 });
 
 
@@ -41,10 +54,11 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
+    // if (this.props.login === false) {
     if (this.props.logged_in === false) {
       return (
         <div className={classes.root}>
-          <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+          <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -66,24 +80,22 @@ class Header extends Component {
     }
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              onClick={() => this.clickRedirectToDashboard()}
-              aria-label="menu"
-            >
-              <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
+      <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            onClick={() => this.clickRedirectToDashboard()}
+            aria-label="menu"
+          >
+            <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
                   PillBox
-              </Typography>
-            </IconButton>
-            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-            <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+            </Typography>
+          </IconButton>
+          <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
+          <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

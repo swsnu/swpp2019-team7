@@ -1,9 +1,7 @@
 import json
 
-from django.shortcuts import render
-#TODO_ERASE
 from django.http import HttpResponse, HttpResponseNotAllowed, \
-    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest #HttpResponseForbidden
+    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
@@ -17,14 +15,14 @@ def signin(request):
     """POST: recieve user authentication and see if registered. Return 204 response"""
     if request.method == 'POST':
         try:
+            print('LOGIN requst.header: ', request.get_full_path_info())
             req_data = json.loads(request.body.decode())
             email = req_data['email']
             password = req_data['password']
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
         user = authenticate(request, email=email, password=password)
-        print('Does it work?')
-        print(user)
+        # print('Does it work?')
         if user is not None:
             login(request, user)
             return HttpResponse(status=204)
@@ -33,20 +31,21 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 @csrf_exempt
 def signout(request):
     """REST API description of /api/signout"""
     """GET: Signs out the user. Return 204 response"""
     if request.method == 'GET':
-        print(request.user)
+        print('LOGOUT requst.header: ', request.get_full_path_info())
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)
     else:
-        print('not get?')
         return HttpResponseNotAllowed(['GET'])
+
 
 @csrf_exempt
 def signup(request):
@@ -65,6 +64,7 @@ def signup(request):
         return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
+
 
 @csrf_exempt
 def user_info(request, user_id):
