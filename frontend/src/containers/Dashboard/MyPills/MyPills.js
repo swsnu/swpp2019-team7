@@ -66,7 +66,7 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.props.history.push('/loggedinwidget');
+    this.props.history.push('/demowidget');
     // this.props.addUserPill(400);
   }
 
