@@ -16,14 +16,15 @@ export const getUserPills = (id) => (dispatch) => ax.get(`/api/pill/${id}`)
 //   .then((res) => dispatch(getPillData_(res.data)));
 
 
-export const addUserPill_ = () => ({ type: 'ADD_USER_PILL' });
+export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: newPillObj });
 
 export const addUserPill = (pillId) => (dispatch) => {
   ax.defaults.headers['X-CSRFToken'] = Cookies.get('csrftoken');
   console.log(ax.defaults.headers['X-CSRFToken']);
   ax.post(`/api/pill/${pillId}/`)
-    .then(() => {
-      dispatch(addUserPill_());
+    .then((res) => {
+      console.log('[action] addUserPill -- res.data: ', res.data);
+      dispatch(addUserPill_(res.data));
     });
 };
 
@@ -34,11 +35,13 @@ export const editPillSetting = (id, pill) => (dispatch) => axios.put(`/api/pill$
   .then(() => {
     dispatch(editPillSetting_());
   });
-
-export const deleteUserPill_ = () => ({ type: 'DELETE_USERPILL' });
-
-export const deleteUserPill = (id) => (dispatch) => axios.delete(`/api/pill/user_id${id}`)
-  .then(() => {
-    dispatch(deleteUserPill_());
-  });
 */
+export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
+
+export const deleteUserPill = (id) => (dispatch) => {
+  ax.defaults.headers['X-CSRFToken'] = Cookies.get('csrftoken');
+  ax.delete(`/api/pill/${id}`)
+    .then(() => {
+      dispatch(deleteUserPill_(id));
+    });
+};

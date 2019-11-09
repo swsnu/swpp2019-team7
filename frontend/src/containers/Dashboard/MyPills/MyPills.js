@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -37,6 +38,10 @@ const styles = (myTheme) => ({
   },
 });
 
+const PillListWrapper = styled.section`
+  margin: 2em;
+  // background: #f7daad;
+`;
 // const tempPills = [
 //   {
 //     id: 1, name: '홍삼정', prescription: 'Next: 19:00 PM', image: 'asdf',
@@ -61,7 +66,7 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.props.history.push('/demowidget');
+    this.props.history.push('/loggedinwidget');
     // this.props.addUserPill(400);
   }
 
@@ -80,10 +85,7 @@ class MyPills extends Component {
             <Typography variant="h3" align="left"> My Pills </Typography>
           </div>
           <Divider />
-          <div className="pills">{pillList}</div>
-          {/* <Button variant="outlined" className={classes.button} onClick={() => this.handleAddPill()}> */}
-          {/* Add Pills */}
-          {/* </Button> */}
+          <PillListWrapper>{pillList}</PillListWrapper>
           <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
           </Fab>

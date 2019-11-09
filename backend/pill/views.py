@@ -62,20 +62,32 @@ class PillItemsPerUser(APIView):
             print('new_pill: ', new_pill)
             request.user.pills.add(new_pill)        # add retrieved pill object to current user's pills field
             # return Response({"product name": new_pill.product_name}, status=200)
+            new_pill_dict = {
+                "id": new_pill.id,
+                "take_method": new_pill.take_method,
+                "product_name": new_pill.product_name,
+                "expiration_date": new_pill.expiration_date,
+                "functions": new_pill.functions,
+                "store_method": new_pill.store_method,
+                "company_name": new_pill.company_name,
+                "standards": new_pill.standards,
+                "precautions": new_pill.precautions,
+                "take_method_preprocessed": new_pill.take_method_preprocessed
+            }
             # TODO return updated pill list & status code
             saved_pills = request.user.pills.all()
             print('saved_pills: ', saved_pills)
             # # saved_pills = request.user.pills.all()
             # serialized_pills = PillItemsPerUserSerializer(saved_pills)
             # return Response(serialized_pills.data, status=200)
-            return Response(status=201)
+            return JsonResponse(new_pill_dict, status=201)
         else:
             return HttpResponse(status=401)
 
     def delete(self, request, pill_id):
         if request.user.is_authenticated:
             new_pill = Pill.objects.get(id=pill_id)
-            request.user.remove(new_pill)
+            request.user.pills.remove(new_pill)
             # TODO return updated pill list & status code
             return Response(status=204)
         else:
