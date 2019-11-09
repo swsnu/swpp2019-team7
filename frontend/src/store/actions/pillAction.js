@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import Cookies from 'js-cookie';
 import ax from '../../api/index';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
@@ -19,10 +18,14 @@ export const getUserPills = (id) => (dispatch) => ax.get(`/api/pill/${id}`)
 
 export const addUserPill_ = () => ({ type: 'ADD_USER_PILL' });
 
-export const addUserPill = (pillId) => (dispatch) => axios.post(`/api/pill/${pillId}/`)
-  .then(() => {
-    dispatch(addUserPill_()); // You have to think of the backend!
-  });
+export const addUserPill = (pillId) => (dispatch) => {
+  ax.defaults.headers['X-CSRFToken'] = Cookies.get('csrftoken');
+  console.log(ax.defaults.headers['X-CSRFToken']);
+  ax.post(`/api/pill/${pillId}/`)
+    .then(() => {
+      dispatch(addUserPill_());
+    });
+};
 
 /*
 export const editPillSetting_ = () => ({ type: 'EDIT_PILLSETTING' });

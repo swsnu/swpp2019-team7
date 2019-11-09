@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import './UploadWidget.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import 'filepond/dist/filepond.min.css';
+import { addUserPill } from '../../store/actions/pillAction';
 
 registerPlugin(
   FilePondPluginValidateSize,
@@ -64,6 +65,7 @@ class UploadWidget extends Component {
                       onload: (response) => {
                         const parsedResponse = JSON.parse(response);
                         console.log(JSON.stringify(parsedResponse));
+                        this.props.getNewPillId(parsedResponse.product.id);
                         this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
                         this.props.toggleResultModal(true);
                       },
@@ -74,11 +76,6 @@ class UploadWidget extends Component {
                     },
                   }
                 }
-                // onupdatefiles={(fileItem) => {
-                //   this.setState({
-                //     file: fileItem.file,
-                //   });
-                // }}
                 maxFileSize="50MB"
                 labelMaxFileSize="Maximum file size is 50MB"
                 acceptedFileTypes={['image/*']}
@@ -93,6 +90,7 @@ class UploadWidget extends Component {
                 id="confirm-button"
                 onClick={() => {
                   this.pond.processFiles();
+                  // this.props.addUserPill();
                 }}
               >
                   Confirm
@@ -106,4 +104,6 @@ class UploadWidget extends Component {
   }
 }
 
-export default connect()(UploadWidget);
+export default connect(null, {
+  addUserPill,
+})(UploadWidget);

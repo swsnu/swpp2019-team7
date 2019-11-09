@@ -18,7 +18,7 @@ from .models import Pill
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
 
-    @csrf_exempt
+    # @csrf_exempt
     def get(self, request, pill_id):
         """ get pill list for request.user  """
         print('backend GET request called\nuser: ', request.user)
@@ -52,6 +52,7 @@ class PillItemsPerUser(APIView):
         else:
             return HttpResponse(status=401)
 
+    # @csrf_exempt
     def post(self, request, pill_id):
         """ add new pill item for user <int:pk> """
         print('backend POST request called\nuser: ', request.user)
@@ -76,5 +77,6 @@ class PillItemsPerUser(APIView):
             new_pill = Pill.objects.get(id=pill_id)
             request.user.remove(new_pill)
             # TODO return updated pill list & status code
+            return Response(status=204)
         else:
             return HttpResponse(status=401)
