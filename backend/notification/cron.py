@@ -7,4 +7,6 @@ def sendNoti():
     # send the notification as below.
     # You should use 'filter' and search the device using the device token!
     device = FCMDevice.objects.all().first()    # This should be a for loop, looping through all devices
+    print("Check if it's working")
     device.send_message(data={"title": "Have your pills", "body": "NOW!"})
+    print("message sent!")

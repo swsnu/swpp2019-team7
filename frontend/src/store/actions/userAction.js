@@ -21,6 +21,14 @@ export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/'
     dispatch(push('/login'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
+
+export const registerUserDevice = (token) => (dispatch) => {
+  console.log(token); axios.post('/api/registerdevice/', token)
+    .then(() => {
+
+    })
+    .catch((err) => console.log(err));
+}
 /*
 export const getUserInfo_ = (current_user) => {
     return { type: "GET_USERINFO", current_user: current_user }

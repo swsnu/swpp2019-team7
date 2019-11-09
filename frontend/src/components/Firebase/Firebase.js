@@ -29,21 +29,8 @@ class Firebase {
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 
-    const messaging = firebase.messaging();
-    messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
-    this.requestPermission();
-    this.getToken(messaging);
-    // Callback fired if Instance ID token is updated.
-    messaging.onTokenRefresh(function () {
-      messaging.getToken()
-        .then(function (refreshedToken) {
-          console.log('onTokenRefresh getToken Token refreshed.');
-          console.log('onTokenRefresh getToken', refreshedToken);
-        })
-        .catch(function (err) {
-          console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
-        });
-    });
+    this.messaging = firebase.messaging();
+    this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
     /*
     messaging.setBackgroundMessageHandler(function(payload) {
 
@@ -69,10 +56,13 @@ class Firebase {
     });
   }
 
-  getToken(messaging) {
-    messaging.getToken()
+  async getToken() {
+    this.requestPermission();
+    var token;
+    await this.messaging.getToken()
       .then(function (currentToken) {
         if (currentToken) {
+          token = currentToken;
           console.log("getToken", currentToken);
         } else {
           // Show permission request.
@@ -81,7 +71,21 @@ class Firebase {
       })
       .catch(function (err) {
         console.log('getToken: An error occurred while retrieving token. ', err);
+      });
+
+    // Callback fired if Instance ID token is updated.
+    this.messaging.onTokenRefresh(function () {
+      this.messaging.getToken()
+        .then(function (refreshedToken) {
+          token = refreshedToken;
+          console.log('onTokenRefresh getToken Token refreshed.');
+          console.log('onTokenRefresh getToken', refreshedToken);
+        })
+        .catch(function (err) {
+          console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
+        });
     });
+    return token;
   }
 }
 

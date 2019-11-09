@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django_crontab',
 ]
 
+CRONTAB_COMMAND_SUFFIX = '2>&1'
+
 CRONJOBS = [
-    ('*/1 * * * *', 'notification.cron.sendNoti')
+    ('*/1 * * * *', 'notification.cron.sendNoti', '>> ~/debug.log'),
 ]
 
 FCM_DJANGO_SETTINGS = {
