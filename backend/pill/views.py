@@ -81,7 +81,6 @@ class PillItemsPerUser(APIView):
 
             new_pill = Pill.objects.get(id=pill_id)
             request.user.pills.remove(new_pill)
-            # TODO return updated pill list & status code
             return Response(status=204)
         else:
             return HttpResponse(status=401)
