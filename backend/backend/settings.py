@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 CRONTAB_COMMAND_SUFFIX = '2>&1'
 
 CRONJOBS = [
-    ('*/1 * * * *', 'notification.cron.sendNoti', '>> ~/debug.log'),
+    ('*/1 * * * *', 'notification.cron.send_notification', '>> ~/debug.log'),
 ]
 
 FCM_DJANGO_SETTINGS = {
