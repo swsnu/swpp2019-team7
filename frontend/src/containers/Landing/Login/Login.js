@@ -79,7 +79,9 @@ class Login extends Component {
       pw_input: '',
     });
     this.props.firebase.getToken().then((token) => {
-      this.props.onLoginUser(user, token);
+      this.props.onLoginUser(user).then(() => {
+        this.props.onRegisterToken(token)
+      })
     })
   };
 
@@ -160,8 +162,8 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoginUser: (user, FCMToken) => { dispatch(userActionCreators.signinUser(user)); dispatch(userActionCreators.registerUserDevice({"fcmtoken":FCMToken})) },
-
+  onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)) },
+  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ "fcmtoken": FCMToken })) }
 });
 
 export default connect(null, mapDispatchToProps)((withStyles(styles)(withFirebase(Login))));
