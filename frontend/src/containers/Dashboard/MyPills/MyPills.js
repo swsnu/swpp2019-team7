@@ -66,7 +66,7 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.props.history.push('/demowidget');
+    this.props.history.push('/loggedinwidget');
     // this.props.addUserPill(400);
   }
 
@@ -74,7 +74,6 @@ class MyPills extends Component {
     // eslint-disable-next-line no-console
     console.log('[MyPills.js] this.props.pillList: ', this.props.pillList);
     const { classes } = this.props;
-    // const pillList = tempPills.map((pill) => (
     const pillList = this.props.pillList.map((pill) => (
       <Pill key={pill.id} id={pill.id} name={pill.product_name} image={pill.image} takemethodpreprocessed={pill.take_method_preprocessed} />
     ));

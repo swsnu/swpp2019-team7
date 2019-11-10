@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 
-import UploadWidget from '../../../../components/UploadWidget/UploadWidget';
+import DemoWidget from '../../../Landing/DemoWidget/DemoWidget';
 import Header from '../../../Header/Header';
 
 const Wrapper = styled.section`
@@ -31,7 +31,8 @@ class LoggedInWidget extends Component {
       <div>
         <Header />
         <Wrapper>
-          <UploadWidget />
+          <DemoWidget backgroundColor="#ffa184" />
+          logged in widget
         </Wrapper>
       </div>
     );

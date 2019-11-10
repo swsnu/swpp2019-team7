@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import {
   Modal, Header, Image, Button, Icon,
 } from 'semantic-ui-react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
@@ -78,34 +76,12 @@ class DemoWidget extends Component {
   render() {
     return (
       <div className="replaced">
-        <Grid container spacing={7}>
-          <Grid item xs={1} />
-          <Grid item xs={4}>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                Get your pills
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                managed
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                right away
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid item xs={5}>
-            <UploadWidget
-              updateProductInfo={this.updateProductInfo.bind(this)}
-              toggleResultModal={this.toggleResultModal.bind(this)}
-              getNewPillId={this.getNewPillId.bind(this)}
-            />
-          </Grid>
-          <Grid item xs={2} />
-        </Grid>
+        <UploadWidget
+          updateProductInfo={this.updateProductInfo.bind(this)}
+          toggleResultModal={this.toggleResultModal.bind(this)}
+          getNewPillId={this.getNewPillId.bind(this)}
+          backgroundColor={this.props.backgroundColor}
+        />
         <Modal
           open={this.state.resultModalOpen}
         >
