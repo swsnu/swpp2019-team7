@@ -9,4 +9,4 @@ def send_notification():
     # You should use 'filter' and search the device using the device token!
     device = FCMDevice.objects.all().first()    # This should be a for loop, looping through all devices
     device.send_message(title="Have your pills", body="NOW!", icon="/Pillbox.png")
-    print("message sent!")
+    print(f'Message Sent for {device.user}')
