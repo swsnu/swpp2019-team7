@@ -28,7 +28,7 @@ class UploadWidget extends Component {
   render() {
     return (
       <div className="UploadWidget">
-        <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
+        <Container fixed align="center" style={{ backgroundColor: this.props.backgroundColor, padding: 30, borderRadius: 20 }}>
           <FilePond
             ref={(ref) => { this.pond = ref; }}
             instantUpload={false}

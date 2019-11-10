@@ -101,7 +101,7 @@ const TestLanding = () => (
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <DemoWidget />
+            <DemoWidget backgroundColor="#cfe8fc" />
           </Grid>
           <Grid item xs={2} />
         </Grid>
