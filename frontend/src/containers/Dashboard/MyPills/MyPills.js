@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
+// import Button from '@material-ui/core/Button';
+// import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
@@ -36,6 +38,10 @@ const styles = (myTheme) => ({
   },
 });
 
+const PillListWrapper = styled.section`
+  margin: 2em;
+  // background: #f7daad;
+`;
 // const tempPills = [
 //   {
 //     id: 1, name: '홍삼정', prescription: 'Next: 19:00 PM', image: 'asdf',
@@ -55,12 +61,13 @@ class MyPills extends Component {
   }
 
   componentDidMount() {
+    console.log('[mypills.js] loggedIn: ', this.props.loggedIn);
     this.props.getUserPills(0);
   }
 
   handleAddPill() {
     this.props.history.push('/demowidget');
-    // this.props.addUserPill();
+    // this.props.addUserPill(400);
   }
 
   render() {
@@ -78,11 +85,9 @@ class MyPills extends Component {
             <Typography variant="h3" align="left"> My Pills </Typography>
           </div>
           <Divider />
-          <div className="pills">{pillList}</div>
-          <Fab color="primary" aria-label="add" className={classes.fab}>
-            <IconButton onClick={() => this.handleAddPill()}>
-              <AddIcon />
-            </IconButton>
+          <PillListWrapper>{pillList}</PillListWrapper>
+          <Fab color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
+            <AddIcon />
           </Fab>
         </ThemeProvider>
       </div>
@@ -91,6 +96,7 @@ class MyPills extends Component {
 }
 const mapStateToProps = (state) => ({
   pillList: state.pill.pill_list,
+  loggedIn: state.user.logged_in,
 });
 export default connect(mapStateToProps, {
   getUserPills,

@@ -1,17 +1,33 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { withStyles } from '@material-ui/core/styles';
 import {
-  Card, CardContent, Grid, Typography, Avatar,
+  Grid, Typography, Avatar,
 } from '@material-ui/core';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const useStyles = makeStyles((theme) => ({
+import { deleteUserPill } from '../../../store/actions/pillAction';
+
+// const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
     height: '100%',
     flex: 2,
     padding: '10',
     marginTop: 50,
+  },
+  card: {
+    display: 'flex',
+    marginBottom: theme.spacing(1),
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   content: {
     alignItems: 'center',
@@ -43,51 +59,98 @@ const useStyles = makeStyles((theme) => ({
   deleteText: {
     color: 'red',
   },
-}));
+});
 
-const Pill = (props) => {
-  const { className, ...rest } = props;
-  const classes = useStyles();
-  // TODO add dropdown in Pill component for user noti customization
-  return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="center"
-        >
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <LocalHospitalIcon className={classes.icon} />
-            </Avatar>
-          </Grid>
-          <Grid item>
-            <Typography variant="h5">{props.name}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography
-              className={classes.caption}
-              variant="h5"
-            >
-              {props.takemethodpreprocessed}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography
-              className={classes.deleteText}
-            >
-              Delete
-            </Typography>
-          </Grid>
+const PillItemWrapper = styled.section`
+  margin-bottom: 2em;
+  // background: #f7daad;
+`;
 
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-};
+class Pill extends Component {
+  deletePill(id) {
+    this.props.deleteUserPill(id);
+    this.props.history.push('/dashboard');
+  }
 
-export default Pill;
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+        <PillItemWrapper>
+          <Grid
+            container
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid item xs={1}>
+              <Avatar className={classes.avatar}>
+                <LocalHospitalIcon className={classes.icon} />
+              </Avatar>
+            </Grid>
+            <Grid item xs={7}>
+              <Typography variant="h5">{this.props.name}</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography
+                className={classes.caption}
+                variant="h5"
+              >
+                {this.props.takemethodpreprocessed}
+              </Typography>
+            </Grid>
+            <Grid item xs={1}>
+              <IconButton aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </PillItemWrapper>
+      </div>
+    );
+  }
+}
+// const Pill = (props) => {
+//   const { className, ...rest } = props;
+//   const classes = useStyles();
+//   // TODO add dropdown in Pill component for user noti customization
+//   return (
+//     <Card
+//       {...rest}
+//       className={clsx(classes.root, className)}
+//     >
+//       <CardContent>
+//         <Grid
+//           container
+//           justify="space-between"
+//           alignItems="center"
+//         >
+//           <Grid item>
+//             <Avatar className={classes.avatar}>
+//               <LocalHospitalIcon className={classes.icon} />
+//             </Avatar>
+//           </Grid>
+//           <Grid item>
+//             <Typography variant="h5">{props.name}</Typography>
+//           </Grid>
+//           <Grid item>
+//             <Typography
+//               className={classes.caption}
+//               variant="h5"
+//             >
+//               {props.takemethodpreprocessed}
+//             </Typography>
+//           </Grid>
+//           <Grid item>
+//             <IconButton aria-label="delete" className={classes.margin} onClick={()=>deletePill()}>
+//               <DeleteIcon fontSize="large" />
+//             </IconButton>
+//           </Grid>
+//         </Grid>
+//       </CardContent>
+//     </Card>
+//   );
+// };
+
+export default connect(null, {
+  deleteUserPill,
+})(withRouter((withStyles(styles)(Pill))));

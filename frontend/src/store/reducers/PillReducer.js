@@ -11,8 +11,11 @@ const PillReducer = (state = initState, action = null) => {
       // eslint-disable-next-line no-console
       console.log('[reducer] GET_USER_PILLS -- pill_list:', action.pill_list);
       return { ...state, pill_list: action.pill_list };
-    // case 'GET_PILL_DATA':
-    //   return { ...state, selected_pill: action.selected_pill };
+    case 'ADD_USER_PILL':
+      console.log('[reducer] ADD_USER_PILL: ', state.pill_list.concat(action.payload));
+      return { ...state, pill_list: state.pill_list.concat(action.payload) };
+    case 'DELETE_USERPILL':
+      return { ...state, pill_list: state.pill_list.filter(({ id }) => id !== action.payload) };
     default:
       break;
   }

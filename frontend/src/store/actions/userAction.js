@@ -8,7 +8,7 @@ export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', u
     dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
-// We need a button for this function!
+
 export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .then((response) => {
     console.log(response);

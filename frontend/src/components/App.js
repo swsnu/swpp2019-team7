@@ -8,6 +8,7 @@ import Signup from '../containers/Landing/Signup/Signup';
 import Dashboard from '../containers/Dashboard/Dashboard';
 import TestLanding from '../containers/Landing/TestLanding';
 import DemoWidget from '../containers/Landing/DemoWidget/DemoWidget';
+import LoggedInWidget from '../containers/Dashboard/MyPills/LoggedInWidget/LoggedInWidget';
 // import Dashboard from '../dashboard/Dashboard';
 import './App.css';
 
@@ -20,6 +21,7 @@ function App(props) {
           <Route path="/login" exact render={() => <Login />} />
           <Route path="/signup" exact render={() => <Signup />} />
           <Route path="/demowidget" exact render={() => <DemoWidget />} />
+          <Route path="/loggedinwidget" exact render={() => <LoggedInWidget />} />
           <Route path="/dashboard" exact render={() => <Dashboard />} />
           <Redirect exact from="/" to="/landing" />
           <Route render={() => <TestLanding />} />
