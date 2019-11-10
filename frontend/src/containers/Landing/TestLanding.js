@@ -81,9 +81,30 @@ const TestLanding = () => (
 
     <WidgetWrapper>
       <WidgetNestedWrapper>
-        {/* <Grid container justify="center"> */}
-        <DemoWidget />
-        {/* </Grid> */}
+        <Grid container spacing={7}>
+          <Grid item xs={1} />
+          <Grid item xs={4}>
+            <Grid item>
+              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
+                Get your pills
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
+                managed
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
+                right away
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={5}>
+            <DemoWidget />
+          </Grid>
+          <Grid item xs={2} />
+        </Grid>
       </WidgetNestedWrapper>
     </WidgetWrapper>
   </div>
