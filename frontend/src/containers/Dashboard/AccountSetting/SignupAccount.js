@@ -61,13 +61,12 @@ class SignupAccount extends Component {
     super(props);
 
     this.state = {
-      email_input: '',
       pw_input: '',
       pw_confirm_input: '',
       username_input: '',
-      emailError: false,
       pw_error: false,
       pw_confirm_error: false,
+      usernameError: false,
     };
   }
 
@@ -75,67 +74,73 @@ class SignupAccount extends Component {
     e.preventDefault();
     console.log('email: ', this.state.email_input);
     console.log('pw: ', this.state.pw_input);
-    const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
-    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    let emailError = false;
-    console.log(emailError);
+    const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
+    const usernameReg = /^[A-Z][a-z]+$/;
     let passwordError = false;
-    console.log(passwordError);
     let passwordConfirmError = false;
-    console.log(passwordConfirmError);
-    if (!emailReg.test(this.state.email_input)) {
-      emailError = true;
-      this.setState({
-        emailError,
-      });
-    } else {
-      emailError = false;
-      this.setState({
-        emailError,
-      });
+    let usernameError = false;
+    if(this.state.pw_input != ''){
+      if (!passwordReg.test(this.state.pw_input)) {
+        passwordError = true;
+        this.setState({
+          pw_error: passwordError,
+        });
+      } else {
+        passwordError = false;
+        this.setState({
+          pw_error: passwordError,
+        });
+      }
+      if (this.state.pw_input !== this.state.pw_confirm_input) {
+        passwordConfirmError = true;
+        this.setState({
+          pw_confirm_error: passwordConfirmError,
+        });
+      } else {
+        passwordConfirmError = false;
+        this.setState({
+          pw_confirm_error: passwordConfirmError,
+        });
+      }
     }
-    if (!passwordReg.test(this.state.pw_input)) {
-      passwordError = true;
-      this.setState({
-        pw_error: passwordError,
-      });
-    } else {
-      passwordError = false;
-      this.setState({
-        pw_error: passwordError,
-      });
+    if(this.state.username_input != ''){
+      if (!usernameReg.test(this.state.username_input)) {
+        usernameError = true;
+        this.setState({
+          usernameError,
+        });
+      } else {
+        usernameError = false;
+        this.setState({
+          usernameError,
+        });
+      }
     }
-    if (this.state.pw_input !== this.state.pw_confirm_input) {
-      passwordConfirmError = true;
-      this.setState({
-        pw_confirm_error: passwordConfirmError,
-      });
-    } else {
-      passwordConfirmError = false;
-      this.setState({
-        pw_confirm_error: passwordConfirmError,
-      });
-    }
-    return (!emailError) && (!passwordError) && (!passwordConfirmError);
+    console.log('pwerror is '+passwordError);
+    console.log('pwcheckerror is '+passwordConfirmError);
+    console.log('usernameerror is '+usernameError);
+    return (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
-  onSignupButtonClick = (event) => {
+  onEditInfoButtonClick = (event) => {
     console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
-        email: this.state.email_input,
         password: this.state.pw_input,
         name: this.state.username_input,
       };
       console.log('Signing this user up!');
-      this.props.onSignupUser(user);
+      this.props.onEditUserInfo(user);
     }
   };
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
+    console.log('Checking'); 
+    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    console.log('[AccountSetting.js] loginStatus: ', loggedInnStatus);
+    
     return (
       <div className="Signup">
         <Header />
@@ -149,22 +154,23 @@ class SignupAccount extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    error={this.state.emailError}
-                    helperText={this.state.emailError ? "Should be in the format of 'characters@characters.domain'. No spaces should be included" : false}
+                    error={this.state.usernameError}
+                    helperText={this.state.usernameError ? 'Start with a capital letter, followed by one or more lowercase letters. Should only contain alphabets (A-Z, a-z)' : false}
+                    autoComplete="name"
+                    name="name"
                     variant="outlined"
                     required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(event) => this.setState({ email_input: event.target.value })}
+                    id="name"
+                    label="Name"
+                    autoFocus
+                    onChange={(event) => this.setState({ username_input: event.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.pw_error}
-                    helperText={this.state.pw_error ? 'Must contain at least one number and one uppercase and one lowercase letter, and at least 6 or more characters.' : false}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one lowercase letter, and at least 8 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -197,10 +203,10 @@ class SignupAccount extends Component {
                 fullWidth
                 variant="contained"
                 color="primary"
-                id="signup-button"
+                id="editinfo-button"
                 className={classes.submit}
                 onClick={(event) => {
-                  this.onSignupButtonClick(event);
+                  this.onEditInfoButtonClick(event);
                 }}
               >
                 Finish Change
@@ -217,7 +223,7 @@ class SignupAccount extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onSignupUser: (user) => { dispatch(userActionCreators.signupUser(user)); },
+  onEditUserInfo: (user) => { dispatch(userActionCreators.editUserInfo(1, user)); },
 });
 
 // export default Signup

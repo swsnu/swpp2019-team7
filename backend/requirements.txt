@@ -7,3 +7,4 @@ Pillow
 shortuuid
 pylint-django
 coveralls
+django-annoying

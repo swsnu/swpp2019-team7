@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card, CardContent, Grid, Typography, Avatar,
+  Card, CardContent, Grid, Typography, Avatar, withStyles,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import { FormGroup } from 'react-bootstrap';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
     height: '100%',
     marginTop: 50,
@@ -41,50 +41,64 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.dark,
     marginRight: theme.spacing(1),
   },
-}));
+});
 
-const SettingItem = (props) => {
-  const { className, ...rest } = props;
 
-  const classes = useStyles();
-  let checked = true;
-  function toggleChecked() {
-    if (checked === true) checked = false;
-    else checked = true;
+class SettingItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: true
+    }
   }
-  return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="flex-end"
-        >
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <NotificationsIcon className={classes.icon} />
-            </Avatar>
-          </Grid>
-          <Grid item>
-            <Typography variant="h3">{props.name}</Typography>
-          </Grid>
-          <Grid item>
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch checked={checked} onChange={toggleChecked} />}
-                labelPlacement="end"
-                label="On"
-                size="large"
-              />
-            </FormGroup>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
-  );
-};
 
-export default SettingItem;
+  toggleChecked(){
+    if(this.state.checked === true)
+      this.setState({checked: false})
+    else
+      this.setState({checked: true})
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+      <Card
+      >
+        <CardContent>
+          <Grid
+            container
+            justify="space-between"
+            alignItems="flex-end"
+          >
+            <Grid item>
+              <Avatar className={classes.avatar}>
+                <NotificationsIcon className={classes.icon} />
+              </Avatar>
+            </Grid>
+            <Grid item>
+              <Typography variant="h3">{this.props.name}</Typography>
+            </Grid>
+            <Grid item>
+              <Switch 
+                checked={this.state.checked}
+                onChange={(event) => this.toggleChecked()}
+              />
+              {/*<FormGroup>
+                <FormControlLabel
+                  control={<input type="checkbox" checked={checked} onChange={toggleChecked} />}
+                  labelPlacement="end"
+                  label="On"
+                  size="large"
+                />
+              </FormGroup>*/}
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+      </div>
+    );
+  }
+}
+
+export default (withStyles(styles)(SettingItem))

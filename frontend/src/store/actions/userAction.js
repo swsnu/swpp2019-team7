@@ -23,7 +23,15 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
     dispatch(push('/login'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
-/*
+
+
+export const editUserInfo = (id, user) => (dispatch) => ax.put('/api/user/' + id +'/', user)
+  .then((res) => {
+    dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
+  })
+
+
+  /*
 export const getUserInfo_ = (current_user) => {
     return { type: "GET_USERINFO", current_user: current_user }
 }
@@ -34,18 +42,4 @@ export const getUserInfo = (id) => {
             .then(res => dispatch(getUserInfo_(res.data.current_user)))
     }
 }
-
-export const editUserInfo_ = (current_user) => {
-    return { type: "EDIT_USERINFO", current_user: current_user }
-}
-
-export const editUserInfo = (id, user) => {
-    return dispatch => {
-        return axios.put('/api/user/' + id, user)
-            .then(res => {
-                dispatch(editUserInfo_(res.data.current_user));
-            })
-    }
-}
-
 */

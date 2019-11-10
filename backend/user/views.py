@@ -2,13 +2,27 @@ import json
 
 from django.http import HttpResponse, HttpResponseNotAllowed, \
     JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-
-from .models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from .models import User, NotiSetting
 # Create your views here.
 
-
+def formatUserObject(user):
+    return {
+        'id': user.id, 
+        'email': user.email, 
+        'password': user.password, 
+        'name': user.name, 
+        'register-date': user.register_date, 
+        'last-login-date': user.last_login_date
+    }
+def formatNotiObject(noti):
+    return {
+        'enable_noti': noti.enable_noti,
+        'enable_coalesce': noti.enable_coalesce,
+        'enable_kakao': noti.enable_kakao,
+    }
 @csrf_exempt
 def signin(request):
     """REST API description of /api/signin"""
@@ -60,11 +74,20 @@ def signup(request):
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
         print("User is {} {} {}".format(email, password, name))
-        User.objects.create_user(email=email, password=password, name=name)
-        return HttpResponse(status=201)
+        new_user = User.objects.create_user(email=email, password=password, name=name)
+        new_notisetting = NotiSetting()
+        new_notisetting.save()
+        return HttpResponse(formatUserObject(new_user), status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
 
+def password_change(request):
+    """Decorative function to change password and maintain login session"""
+    form = PasswordChangeForm(user = request.user, data = request.POST)
+    if form.is_valid():
+        print('valid form')
+        form.save()
+        update_session_auth_hash(request, form.user)
 
 @csrf_exempt
 def user_info(request, user_id):
@@ -76,15 +99,64 @@ def user_info(request, user_id):
             return HttpResponseNotFound()
         else:
             user = User.objects.get(id=user_id)
-            response_dict = {'email': user.email,
-                             'password': user.password,
-                             'name': user.name,
-                             'register-date': user.register_date,
-                             'last-login-date': user.last_login_date}
-            return JsonResponse(response_dict, status=200)
+            return JsonResponse(formatUserObject(user), status=200)
+    if request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        elif not User.objects.filter(id=user_id).exists():
+            return HttpResponseNotFound()
+        else:
+            try:
+                req_data = json.loads(request.body.decode())
+                password = req_data['password']
+                name = req_data['name']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            user = User.objects.get(id=user_id)
+            if password != '':
+                password_change(request)
+            if name != '':
+                user.name = name
+            user.save()
+            return JsonResponse(formatUserObject(user), status=200)
     else:
-        return HttpResponseNotAllowed(['GET'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
+
+@csrf_exempt
+def notiSetting(request, user_id):
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        elif not User.objects.filter(id=user_id).exists():
+            return HttpResponseNotFound()
+        else:
+            noti = User.objects.get(id=user_id).notisetting
+            return JsonResponse(formatNotiObject(noti), status=200)
+    elif request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        elif not User.objects.filter(id=user_id).exists():
+            return HttpResponseNotFound()
+        else:
+            try:
+                req_data = json.loads(request.body.decode())
+                enable_noti = req_data['enable_noti']
+                enable_coalesce = req_data['enable_coalesce']
+                enable_kakao = req_data['enable_kakao']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            
+            noti = User.objects.get(id=user_id).notisetting
+            noti.enable_noti = enable_noti
+            noti.enable_coalesce = enable_coalesce
+            noti.enable_kakao = enable_kakao
+            noti.save()
+            
+            return JsonResponse(formatNotiObject(noti), status=200)
+    else:
+        return HttpResponseNotAllowed(['GET', 'PUT'])
+    
 
 @ensure_csrf_cookie
 def token(request):
