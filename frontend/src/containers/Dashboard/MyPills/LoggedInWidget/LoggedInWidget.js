@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
 
 import UploadWidget from '../../../../components/UploadWidget/UploadWidget';
 import Header from '../../../Header/Header';

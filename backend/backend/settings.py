@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'pill.apps.PillConfig',
     'vision.apps.VisionConfig',
     'user.apps.UserConfig',
+    'notisetting.apps.NotisettingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

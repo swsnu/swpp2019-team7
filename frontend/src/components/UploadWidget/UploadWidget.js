@@ -28,31 +28,31 @@ class UploadWidget extends Component {
   render() {
     return (
       <div className="UploadWidget">
-        {/*<Grid container spacing={7}>*/}
-        {/*  <Grid item xs={1} />*/}
-        {/*  <Grid item xs={4}>*/}
-        {/*    <Grid item>*/}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>*/}
-        {/*          Get your pills*/}
-        {/*      </Typography>*/}
-        {/*    </Grid>*/}
-        {/*    <Grid item>*/}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>*/}
-        {/*        managed*/}
-        {/*      </Typography>*/}
-        {/*    </Grid>*/}
-        {/*    <Grid item>*/}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>*/}
-        {/*        right away*/}
-        {/*      </Typography>*/}
-        {/*    </Grid>*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item xs={5}>*/}
-            <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
-              <FilePond
-                ref={(ref) => { this.pond = ref; }}
-                instantUpload={false}
-                server={
+        {/* <Grid container spacing={7}> */}
+        {/*  <Grid item xs={1} /> */}
+        {/*  <Grid item xs={4}> */}
+        {/*    <Grid item> */}
+        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
+        {/*          Get your pills */}
+        {/*      </Typography> */}
+        {/*    </Grid> */}
+        {/*    <Grid item> */}
+        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
+        {/*        managed */}
+        {/*      </Typography> */}
+        {/*    </Grid> */}
+        {/*    <Grid item> */}
+        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
+        {/*        right away */}
+        {/*      </Typography> */}
+        {/*    </Grid> */}
+        {/*  </Grid> */}
+        {/*  <Grid item xs={5}> */}
+        <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
+          <FilePond
+            ref={(ref) => { this.pond = ref; }}
+            instantUpload={false}
+            server={
                   {
                     url: 'http://localhost:8000/api',
                     process: {
@@ -76,29 +76,29 @@ class UploadWidget extends Component {
                     },
                   }
                 }
-                maxFileSize="50MB"
-                labelMaxFileSize="Maximum file size is 50MB"
-                acceptedFileTypes={['image/*']}
-                labelFileTypeNotAllowed="Can only upload image files"
-                imagePreviewMinHeight="100"
-                allow-multiple="false"
-              />
-              <Button
-                className="confirm-button"
-                variant="outlined"
-                color="secondary"
-                id="confirm-button"
-                onClick={() => {
-                  this.pond.processFiles();
-                  // this.props.addUserPill();
-                }}
-              >
+            maxFileSize="50MB"
+            labelMaxFileSize="Maximum file size is 50MB"
+            acceptedFileTypes={['image/*']}
+            labelFileTypeNotAllowed="Can only upload image files"
+            imagePreviewMinHeight="100"
+            allow-multiple="false"
+          />
+          <Button
+            className="confirm-button"
+            variant="outlined"
+            color="secondary"
+            id="confirm-button"
+            onClick={() => {
+              this.pond.processFiles();
+              // this.props.addUserPill();
+            }}
+          >
                   Confirm
-              </Button>
-            </Container>
-        {/*  </Grid>*/}
-        {/*  <Grid item xs={2} />*/}
-        {/*</Grid>*/}
+          </Button>
+        </Container>
+        {/*  </Grid> */}
+        {/*  <Grid item xs={2} /> */}
+        {/* </Grid> */}
       </div>
     );
   }

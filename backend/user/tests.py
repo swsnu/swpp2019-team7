@@ -5,12 +5,15 @@ from rest_framework import status
 import json
 
 from .models import User
+from notisetting.models import NotiSetting
 
 
 class TempTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-        User.objects.create_user(email="test1@test.com", password="test1", name="test1")
+        new_user=User.objects.create_user(email="test1@test.com", password="test1", name="test1")
+        new_notisetting = NotiSetting(user=new_user)
+        new_notisetting.save()
         self.client.login(email="test1@test.com", password="test1")
 
     def test_signup(self):
@@ -28,7 +31,7 @@ class TempTestCase(TestCase):
         response = self.client.post('/api/user/signin/',
                                     json.dumps({'email': 'test1@test.com', 'password': 'test1'}),
                                     content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.post('/api/user/signin/',
                                     json.dumps({'email': 'test1@test.com', 'password': 'test'}),
@@ -36,7 +39,7 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_user_info(self):
-        response = self.client.get('/api/user/1/')
+        response = self.client.get('/api/user/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
