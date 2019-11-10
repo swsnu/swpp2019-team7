@@ -1,11 +1,12 @@
-'''Backend for registering the device using FCM token!'''
+"""Backend for registering the device using FCM token!"""
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from django.http import HttpResponse, HttpResponseNotAllowed, \
-    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest  # HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
+from rest_framework import status
+
 import json
 
-# Create your views here.
+
 @csrf_exempt
 def register_device(request):
     """POST: Makes a FCM model """
@@ -22,10 +23,10 @@ def register_device(request):
             # Fields below are not mandatory anymore
             device.name = "Testing device"
             device.user = request.user
-            device.type = 'web'
+            device.type = "web"
             device.save()
-            return HttpResponse(status=201)
+            return HttpResponse(status=status.HTTP_201_CREATED)
         else:
-            return HttpResponse(status=401)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['POST'])

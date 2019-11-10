@@ -5,10 +5,11 @@ from rest_framework import status
 
 from .models import Pill
 
+
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
     def get(self, request, pill_id):
-        """ get pill list for request.user  """
+        """ get pill list for request.user """
         print('backend GET request called\nuser: ', request.user)
         if request.user.is_authenticated:
             print('backend user authenticated')
@@ -47,9 +48,9 @@ class PillItemsPerUser(APIView):
                 print('pill already exists!')
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-            new_pill = Pill.objects.get(pk=pill_id)     # get pill object from Pill model by id
+            new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
             print('new_pill: ', new_pill)
-            request.user.pills.add(new_pill)        # add retrieved pill object to current user's pills field
+            request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
 
             new_pill_dict = {
                 "id": new_pill.id,
@@ -63,7 +64,6 @@ class PillItemsPerUser(APIView):
                 "precautions": new_pill.precautions,
                 "take_method_preprocessed": new_pill.take_method_preprocessed
             }
-            # TODO return updated pill list & status code
             saved_pills = request.user.pills.all()
             print('saved_pills: ', saved_pills)
             return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)

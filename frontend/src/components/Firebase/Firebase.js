@@ -1,19 +1,6 @@
 import * as firebase from 'firebase';
 
-/*
-const config = {
-  apiKey: "AIzaSyAzcizSnT2_MJwQOaAF8uJJLnGNkpd1Xv4",
-  authDomain: "pillbox-95f6e.firebaseapp.com",
-  databaseURL: "https://pillbox-95f6e.firebaseio.com",
-  projectId: "pillbox-95f6e",
-  storageBucket: "pillbox-95f6e.appspot.com",
-  messagingSenderId: "2935002363",
-  appId: "1:2935002363:web:64210d4c3b543381e6cc5e",
-  measurementId: "G-72B2GDB01E"
-};
-*/
-
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCTwtNJzyKJg6vD1MMrpvKYeXpzBrv3e90",
   authDomain: "fir-c769f.firebaseapp.com",
   databaseURL: "https://fir-c769f.firebaseio.com",
@@ -31,19 +18,6 @@ class Firebase {
 
     this.messaging = firebase.messaging();
     this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
-    /*
-    messaging.setBackgroundMessageHandler(function(payload) {
-
-      const notificationTitle = payload.data.title;
-      const notificationOptions = {
-        body: payload.data.body,
-        //icon: payload.data.icon,
-      };
-    
-      return window.self.registration.showNotification(notificationTitle,
-        notificationOptions);
-    });
-    */
   }
 
   requestPermission = () => {
@@ -54,11 +28,11 @@ class Firebase {
         console.log('Unable to get permission to notify.');
       }
     });
-  }
+  };
 
   async getToken() {
     this.requestPermission();
-    var token;
+    let token = null;
     await this.messaging.getToken()
       .then(function (currentToken) {
         if (currentToken) {
