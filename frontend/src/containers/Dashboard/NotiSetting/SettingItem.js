@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Card, CardContent, Grid, Typography, Avatar, withStyles,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
-import { FormGroup } from 'react-bootstrap';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { connect } from 'react-redux';
+import * as userActionCreators from '../../../store/actions/userAction';
 
 const styles = (theme) => ({
   root: {
@@ -48,57 +46,74 @@ class SettingItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: true
-    }
+    };
   }
 
-  toggleChecked(){
-    if(this.state.checked === true)
-      this.setState({checked: false})
-    else
-      this.setState({checked: true})
+
+  componentDidMount() {
+    this.props.onGetUser();
+    this.props.onGetNoti();
+  }
+
+  toggleChecked() {
+    const { noti } = this.props;
+    noti[this.props.index] = !noti[this.props.index];
+    console.log('new is %O', noti);
+    this.props.onEditNoti(noti);
   }
 
   render() {
+    let checked = false;
+    if (this.props.noti) {
+      checked = this.props.noti[this.props.index];
+      console.log(`checked for ${this.props.nindexame} is ${checked}`);
+    }
     const { classes } = this.props;
     return (
       <div>
-      <Card
-      >
-        <CardContent>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="flex-end"
-          >
-            <Grid item>
-              <Avatar className={classes.avatar}>
-                <NotificationsIcon className={classes.icon} />
-              </Avatar>
-            </Grid>
-            <Grid item>
-              <Typography variant="h3">{this.props.name}</Typography>
-            </Grid>
-            <Grid item>
-              <Switch 
-                checked={this.state.checked}
-                onChange={(event) => this.toggleChecked()}
-              />
-              {/*<FormGroup>
+        <Card>
+          <CardContent>
+            <Grid
+              container
+              justify="space-between"
+              alignItems="flex-end"
+            >
+              <Grid item>
+                <Avatar className={classes.avatar}>
+                  <NotificationsIcon className={classes.icon} />
+                </Avatar>
+              </Grid>
+              <Grid item>
+                <Typography variant="h3">{this.props.name}</Typography>
+              </Grid>
+              <Grid item>
+                <Switch
+                  checked={checked}
+                  onChange={() => this.toggleChecked()}
+                />
+                {/* <FormGroup>
                 <FormControlLabel
                   control={<input type="checkbox" checked={checked} onChange={toggleChecked} />}
                   labelPlacement="end"
                   label="On"
                   size="large"
                 />
-              </FormGroup>*/}
+              </FormGroup> */}
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 }
 
-export default (withStyles(styles)(SettingItem))
+const mapStateToProps = (state) => ({
+  noti: state.user.noti_setting,
+});
+const mapDispatchToProps = (dispatch) => ({
+  onGetUser: () => dispatch(userActionCreators.getUser()),
+  onGetNoti: () => dispatch(userActionCreators.getNoti()),
+  onEditNoti: (noti) => dispatch(userActionCreators.editNoti(noti)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SettingItem)));

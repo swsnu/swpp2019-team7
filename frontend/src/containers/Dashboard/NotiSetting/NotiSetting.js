@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import { connect } from 'react-redux';
 import SettingItem from './SettingItem';
+import * as userActionCreators from '../../../store/actions/userAction';
 
 const tempSetting = [
-  { id: 1, name: 'Enable Notification' },
-  { id: 2, name: 'Enable Hourly Notification' },
-  { id: 3, name: 'Use KakaoTalk Notification' },
+  { id: 1, name: 'Enable notification', index: 'enable_noti' },
+  { id: 2, name: 'Enable hourly notification', index: 'enable_segregate' },
+  { id: 3, name: 'Enable Kakaotalk notification', index: 'enable_kakao' },
 ];
 
 class NotiSetting extends Component {
@@ -18,9 +20,16 @@ class NotiSetting extends Component {
     };
   }
 
+  toggleChecked(element) {
+    this.props.onEditNoti(element);
+  }
+
   render() {
+    if (this.props.user) {
+      console.log(`log noti ${this.props.user.current_user}`);
+    }
     const settingList = tempSetting.map((item) => (
-      <SettingItem key={item.id} id={item.id} name={item.name} />
+      <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
     ));
     return (
       <div className="NotiSetting">
@@ -33,4 +42,15 @@ class NotiSetting extends Component {
     );
   }
 }
-export default NotiSetting;
+const mapStateToProps = (state) => {
+  console.log('mstp');
+  console.log(state);
+  return {
+    current_user: state.user.current_user,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  onGetUser: () => dispatch(userActionCreators.getUser()),
+  onGetNoti: () => dispatch(userActionCreators.getNoti()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(NotiSetting);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import ax from '../../api/index';
 
 import * as actionCreators from './userAction';
 import store from '../index';
@@ -18,23 +18,23 @@ describe('User Action', () => {
   });
 
   it('Signin User should login the user correctly', (done) => {
-    const spy = jest.spyOn(axios, 'post')
+    const spy = jest.spyOn(ax, 'post')
       .mockImplementation(() => new Promise((resolve) => {
         const result = {
-          status: 204,
+          status: 200,
         };
         resolve(result);
       }));
     store.dispatch(actionCreators.signinUser()).then(() => {
       const newState = store.getState();
-      expect(newState.user.logged_in).toBe(true);
+      expect(newState.user.current_user).toBe(null);
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
   });
 
-  it('Signin User should logout the user correctly', (done) => {
-    const spy = jest.spyOn(axios, 'get')
+  it('Signout User should logout the user correctly', (done) => {
+    const spy = jest.spyOn(ax, 'get')
       .mockImplementation(() => bodylessPromise(204, true));
     store.dispatch(actionCreators.signoutUser()).then(() => {
       confirmLoginStatus(spy, false, store);
@@ -42,7 +42,7 @@ describe('User Action', () => {
     });
   });
   it('SigupUser should accept new users', (done) => {
-    const spy = jest.spyOn(axios, 'post')
+    const spy = jest.spyOn(ax, 'post')
       .mockImplementation(() => bodylessPromise(201, true));
     store.dispatch(actionCreators.signupUser()).then(() => {
       confirmLoginStatus(spy, false, store);
@@ -51,7 +51,7 @@ describe('User Action', () => {
   });
 
   it('SigninUser should deal with errors', (done) => {
-    jest.spyOn(axios, 'post')
+    jest.spyOn(ax, 'post')
       .mockImplementation(() => bodylessPromise(405, false));
     store.dispatch(actionCreators.signinUser()).then(() => {
       expect(spyLog).toHaveBeenCalledTimes(1);
@@ -60,7 +60,7 @@ describe('User Action', () => {
   });
 
   it('SignoutUser should deal with errors', (done) => {
-    jest.spyOn(axios, 'get')
+    jest.spyOn(ax, 'get')
       .mockImplementation(() => bodylessPromise(405, false));
     store.dispatch(actionCreators.signoutUser()).then(() => {
       expect(spyLog).toHaveBeenCalledTimes(1);
@@ -69,7 +69,7 @@ describe('User Action', () => {
   });
 
   it('SignupUser should deal with errors', (done) => {
-    jest.spyOn(axios, 'post')
+    jest.spyOn(ax, 'post')
       .mockImplementation(() => bodylessPromise(405, false));
     store.dispatch(actionCreators.signupUser()).then(() => {
       expect(spyLog).toHaveBeenCalledTimes(2);

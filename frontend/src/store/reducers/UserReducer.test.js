@@ -6,7 +6,7 @@ const reducer = UserReducer;
 describe('User Reducer', () => {
   it('should return default state', () => {
     const newState = reducer(undefined);
-    expect(newState).toEqual({ logged_in: false });
+    expect(newState).toEqual({ logged_in: false, current_user: null, noti_setting: null });
   });
   it('should get pills of a user', () => {
     const newState = reducer(undefined, {

@@ -54,7 +54,7 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
-    let loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
     // if (this.props.logged_in === false) {
     console.log('[Header.js] loginStatus: ', loggedInnStatus);
     if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
@@ -95,8 +95,17 @@ class Header extends Component {
             </Typography>
           </IconButton>
           <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-          <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => {console.log('[Header.js] loginStatus: ', loggedInnStatus);
-    ;this.props.onSignout()}}>Sign Out</Button>
+          <Button
+            id="signout-button"
+            color="inherit"
+            style={{ color: 'black' }}
+            onClick={() => {
+              console.log('[Header.js] loginStatus: ', loggedInnStatus);
+              this.props.onSignout();
+            }}
+          >
+Sign Out
+          </Button>
         </Toolbar>
       </AppBar>
     );

@@ -79,7 +79,7 @@ class SignupAccount extends Component {
     let passwordError = false;
     let passwordConfirmError = false;
     let usernameError = false;
-    if(this.state.pw_input != ''){
+    if (this.state.pw_input !== '') {
       if (!passwordReg.test(this.state.pw_input)) {
         passwordError = true;
         this.setState({
@@ -103,7 +103,7 @@ class SignupAccount extends Component {
         });
       }
     }
-    if(this.state.username_input != ''){
+    if (this.state.username_input !== '') {
       if (!usernameReg.test(this.state.username_input)) {
         usernameError = true;
         this.setState({
@@ -116,9 +116,9 @@ class SignupAccount extends Component {
         });
       }
     }
-    console.log('pwerror is '+passwordError);
-    console.log('pwcheckerror is '+passwordConfirmError);
-    console.log('usernameerror is '+usernameError);
+    console.log(`pwerror is ${passwordError}`);
+    console.log(`pwcheckerror is ${passwordConfirmError}`);
+    console.log(`usernameerror is ${usernameError}`);
     return (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
@@ -130,17 +130,17 @@ class SignupAccount extends Component {
         password: this.state.pw_input,
         name: this.state.username_input,
       };
-      console.log('Signing this user up!');
+      console.log('Change user to ! %O', user);
       this.props.onEditUserInfo(user);
     }
   };
 
   render() {
     const { classes } = this.props;
-    console.log('Checking'); 
+    console.log('Checking');
     const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
     console.log('[AccountSetting.js] loginStatus: ', loggedInnStatus);
-    
+
     return (
       <div className="Signup">
         <Header />
@@ -223,7 +223,7 @@ class SignupAccount extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onEditUserInfo: (user) => { dispatch(userActionCreators.editUserInfo(1, user)); },
+  onEditUserInfo: (user) => { dispatch(userActionCreators.editUserInfo(user)); },
 });
 
 // export default Signup

@@ -17,9 +17,10 @@ from .models import Pill
 
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
+    """List of pill items per user"""
 
     # @csrf_exempt
-    def get(self, request, pill_id):
+    def get(self, request):
         """ get pill list for request.user  """
         print('backend GET request called\nuser: ', request.user)
         if request.user.is_authenticated:
@@ -60,7 +61,8 @@ class PillItemsPerUser(APIView):
             print('backend user authenticated')
             new_pill = Pill.objects.get(pk=pill_id)     # get pill object from Pill model by id
             print('new_pill: ', new_pill)
-            request.user.pills.add(new_pill)        # add retrieved pill object to current user's pills field
+            # add retrieved pill object to current user's pills field
+            request.user.pills.add(new_pill)
             # return Response({"product name": new_pill.product_name}, status=200)
             new_pill_dict = {
                 "id": new_pill.id,
@@ -84,7 +86,10 @@ class PillItemsPerUser(APIView):
         else:
             return HttpResponse(status=401)
 
+    # @csrf_exempt
+    # pylint: disable=R0201
     def delete(self, request, pill_id):
+        """TODO: ADDCOMMENT Delete pill from list"""
         if request.user.is_authenticated:
             new_pill = Pill.objects.get(id=pill_id)
             request.user.pills.remove(new_pill)

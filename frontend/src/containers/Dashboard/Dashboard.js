@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -15,6 +16,8 @@ import Header from '../Header/Header';
 import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
+
+import * as userActionCreators from '../../store/actions/userAction';
 
 const drawerWidth = 240;
 
@@ -63,6 +66,11 @@ class Dashboard extends Component {
     this.state = {
       itemNumber: 0,
     };
+  }
+
+  componentDidMount() {
+    this.props.onGetUser();
+    this.props.onGetNoti();
   }
 
   listItemCreator(itemName, itemNo, listIcon) {
@@ -124,4 +132,11 @@ class Dashboard extends Component {
   }
 }
 
-export default ((withStyles(styles)(Dashboard)));
+const mapStateToProps = (state) => ({
+  user: state.user.current_user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  onGetUser: () => dispatch(userActionCreators.getUser()),
+  onGetNoti: () => dispatch(userActionCreators.getNoti()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(Dashboard)));
