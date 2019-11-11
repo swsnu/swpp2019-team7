@@ -32,6 +32,7 @@ export const registerUserDevice = (token) => () => {
 };
 
 export const deleteUserDevice = (token) => () => {
+  console.log("Delete user device:", token);
   ax.delete('/api/registerdevice/', token)
     .catch((err) => console.log(err))
 };

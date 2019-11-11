@@ -55,15 +55,13 @@ class Header extends Component {
   };
 
   onSignOutButtonClick = () => {
-    this.props.onSignout();
     this.props.onDeleteToken(this.props.firebase.token);
+    this.props.onSignout();
   };
 
   render() {
     const { classes } = this.props;
     const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    // if (this.props.logged_in === false) {
-    console.log('[Header.js] loginStatus: ', loggedInnStatus);
     if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
@@ -121,7 +119,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
-  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({"fcmtoken": FCMToken })) }
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({data: {"fcmtoken": FCMToken }})) }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

@@ -6,10 +6,9 @@ from rest_framework import status
 
 import json
 
-
 @csrf_exempt
 def crud_device(request):
-    """POST: Makes a FCM model """
+    """ CRUD Operation for FCM devices """
     if request.method == 'POST':
         if request.user.is_authenticated:
             try:
@@ -37,7 +36,7 @@ def crud_device(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
-            device = FCMDevice.objects.filter(registration_id=fcm_token).delete()
+            FCMDevice.objects.filter(registration_id=fcm_token).delete()
             return HttpResponse(status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
