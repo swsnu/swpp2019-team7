@@ -29,18 +29,12 @@ class DemoWidget extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log('[DemoWidget.js] loggedIn: ', this.props.loggedIn);
-  }
-
   getNewPillId(id) {
     this.setState({ newPillId: id });
   }
 
   addNewPill() {
-    console.log(this.state.newPillId);
     this.props.addUserPill(this.state.newPillId);
-    this.props.history.push('/dashboard');
   }
 
   toggleAcceptPill() {

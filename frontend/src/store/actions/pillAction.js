@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import ax from '../../api/index';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
@@ -13,6 +14,7 @@ export const addUserPill = (pillId) => (dispatch) => {
   ax.post(`/api/pill/${pillId}/`)
     .then((res) => {
       dispatch(addUserPill_(res.data));
+      dispatch(push('/dashboard'));
     });
 };
 

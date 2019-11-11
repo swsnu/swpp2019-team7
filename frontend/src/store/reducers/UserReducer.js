@@ -1,15 +1,17 @@
 const initState = {
-  logged_in: false,
+  // logged_in: false,
+  // TODO when loggedInStatus == null 인 경우
+  logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),
 };
 
 const UserReducer = (state = initState, action = null) => {
   if (action == null) return state;
   switch (action.type) {
     case 'SIGNIN_USER':
-      localStorage.setItem('loggedInnStatus', JSON.stringify(action.logged_in));
+      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
       return { ...state, logged_in: action.logged_in };
     case 'SIGNOUT_USER':
-      localStorage.clear();
+      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
       return { ...state, logged_in: action.logged_in };
     case 'SIGNUP_USER':
       return { ...state, logged_in: false };

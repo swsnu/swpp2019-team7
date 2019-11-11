@@ -61,18 +61,14 @@ class MyPills extends Component {
   }
 
   componentDidMount() {
-    console.log('[mypills.js] loggedIn: ', this.props.loggedIn);
     this.props.getUserPills(0);
   }
 
   handleAddPill() {
     this.props.history.push('/loggedinwidget');
-    // this.props.addUserPill(400);
   }
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log('[MyPills.js] this.props.pillList: ', this.props.pillList);
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Pill key={pill.id} id={pill.id} name={pill.product_name} image={pill.image} takemethodpreprocessed={pill.take_method_preprocessed} />
