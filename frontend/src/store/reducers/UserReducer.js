@@ -1,6 +1,4 @@
 const initState = {
-  // logged_in: false,
-  // TODO when loggedInStatus == null 인 경우
   logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),
 };
 
