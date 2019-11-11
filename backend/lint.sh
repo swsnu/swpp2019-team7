@@ -1,1 +1,1 @@
-pylint --load-plugins pylint_django backend/__init__.py backend/settings.py backend/urls.py backend/wsgi.py dataset/preprocess.py pill/admin.py pill/apps.py pill/__init__.py pill/models.py pill/tests.py pill/views.py user/admin.py user/apps.py user/__init__.py user/managers.py user/models.py user/tests.py user/urls.py user/views.py vision/admin.py vision/apps.py vision/__init__.py vision/models.py vision/tests.py vision/urls.py vision/views.py vision/vision_api.py
+pylint --load-plugins pylint_django **/*.py 
