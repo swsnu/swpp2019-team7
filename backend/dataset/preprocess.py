@@ -5,9 +5,6 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
-import ipdb
-
-
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
@@ -15,10 +12,10 @@ Parses the xml file, and saves into json fixture format (for Django Model), excl
 data_path = os.path.dirname(os.path.realpath(__file__))+"/data"  # Directory where original xml files are saved
 preprocessed_path = dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory where take_method.preprocessed is saved
 product_template = {  # Django Model enforces this json format!
-    "pk": 0,
+    "pk": 1,
     "model": "pill.pill",
     "fields": {
-        "id": 0,
+        "id": 1,
         "take_method": "",
         "product_name": "",
         "expiration_date": "",
@@ -89,7 +86,7 @@ class PillDataset:
         pill_count = len(root.findall('row'))
 
         for i in tqdm(range(pill_count)):
-            idx = len(self.product_list)
+            idx = len(self.product_list) + 1
 
             product = deepcopy(product_template)
             product["pk"] = idx
@@ -130,8 +127,6 @@ if __name__ == '__main__':
     data_path = "./data"
     preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
-
-    ipdb.set_trace()
 
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
         json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)

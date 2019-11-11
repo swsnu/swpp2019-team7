@@ -15,7 +15,6 @@ class PillItemsPerUser(APIView):
 
             return_list = []
             for pill in saved_pills:
-                print(f'pill {pill.id}: {pill.product_name}')
                 pill_dict = {
                     "id": pill.id,
                     "take_method": pill.take_method,
@@ -35,18 +34,13 @@ class PillItemsPerUser(APIView):
 
     def post(self, request, pill_id):
         """ add new pill item for user <int:pk> """
-        print('backend POST request called\nuser: ', request.user)
         if request.user.is_authenticated:
-            print('backend user authenticated')
             # check if pill_id already exists in user's pills
             existing_pills = request.user.pills.all().values_list('id', flat=True)
-            print('existing pills: ', existing_pills)
             if pill_id in existing_pills:
-                print('pill already exists!')
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
             new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
-            print('new_pill: ', new_pill)
             request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
 
             new_pill_dict = {
@@ -62,7 +56,6 @@ class PillItemsPerUser(APIView):
                 "take_method_preprocessed": new_pill.take_method_preprocessed
             }
             saved_pills = request.user.pills.all()
-            print('saved_pills: ', saved_pills)
             return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
@@ -71,9 +64,7 @@ class PillItemsPerUser(APIView):
         if request.user.is_authenticated:
             # don't delete pill_id twice
             existing_pills = request.user.pills.all().values_list('id', flat=True)
-            print('existing pills: ', existing_pills)
             if pill_id not in existing_pills:
-                print('pill does not exist!')
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
             new_pill = Pill.objects.get(id=pill_id)
