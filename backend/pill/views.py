@@ -78,7 +78,7 @@ class PillItemsPerUser(APIView):
             new_pill = Pill.objects.get(id=pill_id)
 
             # remove notification for the deleted pill
-            WebNotification.objects.filter(user=request.user, pill=new_pill).remove()
+            WebNotification.objects.filter(user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
 
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
