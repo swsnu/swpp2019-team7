@@ -5,6 +5,8 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
+import ipdb
+
 
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
@@ -128,6 +130,8 @@ if __name__ == '__main__':
     data_path = "./data"
     preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
+
+    ipdb.set_trace()
 
     with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
         json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)

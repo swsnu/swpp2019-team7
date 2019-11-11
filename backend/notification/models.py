@@ -35,8 +35,7 @@ class WebNotification(models.Model):
         # If time not given, set to default pill take-time
         if time is None:
             day, time = tuple(re.findall(r'\d+', pill.take_method_preprocessed))
-            time_per_day = math.ceil(day / float(time))
-
+            time_per_day = math.ceil(time / float(day))
 
 
         # TODO change time to datetime string format
