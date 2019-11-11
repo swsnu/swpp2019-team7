@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Pill
+from notification.models import WebNotification
 
 
 # url:  api/pill/pill_id
@@ -47,6 +48,9 @@ class PillItemsPerUser(APIView):
             new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
             request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
 
+            # add notification for the new pill
+            WebNotification.create(request.user, new_pill)
+
             new_pill_dict = {
                 "id": new_pill.id,
                 "take_method": new_pill.take_method,
@@ -72,7 +76,11 @@ class PillItemsPerUser(APIView):
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
             new_pill = Pill.objects.get(id=pill_id)
+
+            # remove notification for the deleted pill
+            WebNotification.objects.filter(user=request.user, pill=new_pill).remove()
             request.user.pills.remove(new_pill)
-            return Response(status=204)
+
+            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
-            return HttpResponse(status=401)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

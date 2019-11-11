@@ -28,7 +28,7 @@ class WebNotification(models.Model):
         return f"Notification [{self.user} / {self.pill}]"
 
     @classmethod
-    def create(cls, user, pill, activated=False, time_list=None):
+    def create(cls, user, pill, activated=True, time_list=None):
         """
         All Notification Creation should be done through this method
         :param user: User object to associate this notification onto
@@ -42,15 +42,19 @@ class WebNotification(models.Model):
         # If time not given, set to default pill take-time
         if time_list is None:
             day, time = tuple(re.findall(r'\d+', pill.take_method_preprocessed))
-            time_per_day = math.ceil(time / day)
+            time_per_day = math.ceil(int(time) / int(day))
             if time_per_day > 3:
                 datetime_list = [END_TIME + i for i in range(int((END_TIME - START_TIME) / time_per_day))]
             else:
                 datetime_list = DATETIME[time_per_day - 1]
+        datetime_list = list(map(lambda x: str(x), datetime_list))
 
         notification = cls(activated=activated, user=user, pill=pill)
+        notification.save()
         for datetime in datetime_list:
-            NotificationTime.objects.create(notification=notification, time=datetime)
+            datetime = datetime[:-2] + ":" + datetime[-2:]
+            print(datetime)
+            NotificationTime.objects.create(notification=notification, time=datetime).save()
 
         return notification
 
@@ -62,4 +66,6 @@ class NotificationTime(models.Model):
     notification = models.ForeignKey(WebNotification, on_delete=models.CASCADE)
     time = models.TimeField(blank="09:00")
 
+    def __str__(self):
+        return f"{self.notification} | {self.time}"
 
