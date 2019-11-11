@@ -10,11 +10,8 @@ from .models import Pill
 class PillItemsPerUser(APIView):
     def get(self, request, pill_id):
         """ get pill list for request.user """
-        print('backend GET request called\nuser: ', request.user)
         if request.user.is_authenticated:
-            print('backend user authenticated')
             saved_pills = request.user.pills.all()
-            print('saved_pills: ', saved_pills)
 
             return_list = []
             for pill in saved_pills:

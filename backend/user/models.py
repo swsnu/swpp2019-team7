@@ -12,7 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Model description for USER model"""
     email = models.EmailField(_('email address'), unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
-    name = models.CharField(_('name'), max_length=100, blank=True)
+    name = models.CharField(_('name'), max_length=100, blank="noname")
     register_date = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login_date = models.DateTimeField(
         _('last logged-in'), auto_now_add=True)
