@@ -10,3 +10,5 @@ def send_notification():
     device = FCMDevice.objects.all().first()    # This should be a for loop, looping through all devices
     device.send_message(title="Have your pills", body="NOW!", icon="/Pillbox.png")
     print(f'Message Sent for {device.user}')
+
+    # TODO currently does not support interval messaging.

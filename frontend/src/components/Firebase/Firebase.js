@@ -18,6 +18,7 @@ class Firebase {
 
     this.messaging = firebase.messaging();
     this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
+    this.token = null;
   }
 
   requestPermission = () => {
@@ -59,6 +60,8 @@ class Firebase {
           console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
         });
     });
+
+    this.token = token;
     return token;
   }
 }
