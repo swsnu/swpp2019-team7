@@ -8,6 +8,10 @@ from .models import Pill
 
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
+    """
+    API Views associated with pill items per each user
+    """
+
     def get(self, request, pill_id):
         """ get pill list for request.user """
         if request.user.is_authenticated:
@@ -55,12 +59,12 @@ class PillItemsPerUser(APIView):
                 "precautions": new_pill.precautions,
                 "take_method_preprocessed": new_pill.take_method_preprocessed
             }
-            saved_pills = request.user.pills.all()
             return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request, pill_id):
+        """ Deletes given pill from the user """
         if request.user.is_authenticated:
             # don't delete pill_id twice
             existing_pills = request.user.pills.all().values_list('id', flat=True)

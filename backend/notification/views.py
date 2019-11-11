@@ -1,6 +1,6 @@
 """Backend for registering the device using FCM token!"""
 from fcm_django.models import FCMDevice
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from rest_framework import status
 

@@ -9,7 +9,7 @@ from user.models import User
 """
 Default hour constant for notification.
 For more than 3 times a day, 
-we will uniformly divide interval START_TIME~END_TIME with the given time per day
+we will uniformly divide interval START_TIME~END_TIME with the given time per day.
 """
 DATETIME = [[900], [900, 1900], [900, 1300, 1900]]
 START_TIME = 900
