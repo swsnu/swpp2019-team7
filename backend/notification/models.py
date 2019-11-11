@@ -1,44 +1,65 @@
-from django.db import models
-import re, math
+import math
+import re
 
-from user.models import User
+from django.db import models
+
 from pill.models import Pill
+from user.models import User
 
 """
 Default hour constant for notification.
 For more than 3 times a day, 
 we will uniformly divide interval START_TIME~END_TIME with the given time per day
 """
-DATETIME = [["09:00"], ["09:00", "19:00"], ["09:00", "13:00", "19:00"]]
+DATETIME = [[900], [900, 1900], [900, 1300, 1900]]
 START_TIME = 900
 END_TIME = 2100
 
 
 class WebNotification(models.Model):
+    """
+    Single WebNotification defines each user's each pill's set of notifications
+    """
     activated = models.BooleanField(default=True)
-    notification_time = models.DateTimeField()  # TODO change this to datetime string list
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
-    pill = models.ForeignKey(
-        Pill,
-        on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Notification for {self.user} / {self.pill}"
+        return f"Notification [{self.user} / {self.pill}]"
 
     @classmethod
-    def create(cls, user, pill, activated=False, time=None):
+    def create(cls, user, pill, activated=False, time_list=None):
+        """
+        All Notification Creation should be done through this method
+        :param user: User object to associate this notification onto
+        :param pill: Pill object to associate this notification onto
+        :param activated: whether this notification is activated
+        :param time_list: list of 3 or 4 digit integer representing time e.g. [900, 1300, 1900]
+        :return: WebNotification Instance
+        """
+        datetime_list = time_list
 
         # If time not given, set to default pill take-time
-        if time is None:
+        if time_list is None:
             day, time = tuple(re.findall(r'\d+', pill.take_method_preprocessed))
-            time_per_day = math.ceil(time / float(day))
+            time_per_day = math.ceil(time / day)
+            if time_per_day > 3:
+                datetime_list = [END_TIME + i for i in range(int((END_TIME - START_TIME) / time_per_day))]
+            else:
+                datetime_list = DATETIME[time_per_day - 1]
+
+        notification = cls(activated=activated, user=user, pill=pill)
+        for datetime in datetime_list:
+            NotificationTime.objects.create(notification=notification, time=datetime)
+
+        return notification
 
 
-        # TODO change time to datetime string format
-        noti = cls(activated=activated, notification_time=time, user=user, pill=pill)
+class NotificationTime(models.Model):
+    """
+    Defines each notification elements, comprising WebNotification Instance
+    """
+    notification = models.ForeignKey(WebNotification, on_delete=models.CASCADE)
+    time = models.TimeField(blank="09:00")
 
 
