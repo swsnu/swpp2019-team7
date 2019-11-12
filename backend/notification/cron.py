@@ -22,11 +22,11 @@ def send_notification():
     for device in FCMDevice.objects.all():
         user = device.user
         notification_list = list(WebNotification.objects.filter(user=user))  # list of datetime.time(hour, minute)
-        notification_list = filter(lambda x: x == now, notification_list)
         for notification in notification_list:
-            device.send_message(title="Pillbox Notification",
-                                body=f'Time to take {notification.pill}',
-                                icon="/Pillbox.png")
+            if NotificationTime.objects.filter(notification=notification, time=now).exists():
+                device.send_message(title="Pillbox Notification",
+                                    body=f'Time to take {notification.pill}',
+                                    icon="/Pillbox.png")
             # TODO debug this (but first check if account has proper notification data)
 
     # TODO currently does not support interval messaging.
