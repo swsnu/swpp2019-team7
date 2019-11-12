@@ -27,6 +27,5 @@ def send_notification():
                 device.send_message(title="Pillbox Notification",
                                     body=f'Time to take {notification.pill}',
                                     icon="/Pillbox.png")
-            # TODO debug this (but first check if account has proper notification data)
 
     # TODO currently does not support interval messaging.
