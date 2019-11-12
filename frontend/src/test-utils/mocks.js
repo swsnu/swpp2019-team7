@@ -35,6 +35,12 @@ const stubUserState = {
   logged_in: false,
 };
 
+const stubNotiState = {
+  enable_noti: true,
+  enable_segregate: false,
+  enable_kakao: false,
+};
+
 
 // const history = createBrowserHistory();
 
@@ -42,6 +48,7 @@ export const getMockStore = () => {
   const rootReducer = combineReducers({
     user: getmockReducer(stubUserState),
     pill: getmockReducer(stubPillState),
+    noti: getmockReducer(stubNotiState),
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

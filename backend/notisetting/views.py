@@ -22,20 +22,15 @@ def notisetting(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        elif not User.objects.filter(id=request.user.id).exists():
-            return HttpResponseNotFound()
         else:
             noti = User.objects.get(id=request.user.id).notiSetting
             return JsonResponse(format_noti_object(noti), status=200)
     elif request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        elif not User.objects.filter(id=request.user.id).exists():
-            return HttpResponseNotFound()
         else:
             try:
                 req_data = json.loads(request.body.decode())
-                print(req_data)
                 enable_noti = req_data['enable_noti']
                 enable_segregate = req_data['enable_segregate']
                 enable_kakao = req_data['enable_kakao']

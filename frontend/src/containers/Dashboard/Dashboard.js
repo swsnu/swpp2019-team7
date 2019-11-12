@@ -17,8 +17,6 @@ import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
 
-import * as userActionCreators from '../../store/actions/userAction';
-
 const drawerWidth = 240;
 
 const styles = (theme) => ({
@@ -68,8 +66,8 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.onGetUser();
-    this.props.onGetNoti();
+    // this.props.onGetUser();
+    // this.props.onGetNoti();
   }
 
   listItemCreator(itemName, itemNo, listIcon) {
@@ -134,8 +132,9 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => ({
   user: state.user.current_user,
 });
+/*
 const mapDispatchToProps = (dispatch) => ({
   onGetUser: () => dispatch(userActionCreators.getUser()),
   onGetNoti: () => dispatch(userActionCreators.getNoti()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(Dashboard)));
+}); */
+export default connect(mapStateToProps)((withStyles(styles)(Dashboard)));

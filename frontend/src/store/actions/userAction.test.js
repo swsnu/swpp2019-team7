@@ -5,6 +5,8 @@ import store from '../index';
 import { bodylessPromise, confirmLoginStatus } from '../../test-utils/functions';
 
 // const stubUser1 = { id: 1, name: 'testuser1' };
+const stubNoti = { enable_noti: true, enable_segregate: true, enable_kakao: false };
+const stubUser = { email: 'test@test.com', name: 'Test', password: 'testpw' };
 
 describe('User Action', () => {
   let spyLog;
@@ -26,8 +28,6 @@ describe('User Action', () => {
         resolve(result);
       }));
     store.dispatch(actionCreators.signinUser()).then(() => {
-      const newState = store.getState();
-      expect(newState.user.current_user).toBe(null);
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
@@ -73,6 +73,43 @@ describe('User Action', () => {
       .mockImplementation(() => bodylessPromise(405, false));
     store.dispatch(actionCreators.signupUser()).then(() => {
       expect(spyLog).toHaveBeenCalledTimes(2);
+      done();
+    });
+  });
+
+  it('EditNotification ', (done) => {
+    const spy = jest.spyOn(ax, 'put')
+      .mockImplementation(() => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubNoti,
+        };
+        resolve(result);
+      }));
+    console.log('test');
+    store.dispatch(actionCreators.editNoti(stubNoti)).then(() => {
+      const newState = store.getState();
+      expect(newState.user.noti_setting).toBe(stubNoti);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+
+  it('Edit User Info ', (done) => {
+    const spy = jest.spyOn(ax, 'put')
+      .mockImplementation(() => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubUser,
+        };
+        resolve(result);
+      }));
+    console.log('test');
+    store.dispatch(actionCreators.editUserInfo(stubUser)).then(() => {
+      const newState = store.getState();
+      expect(newState.user.current_user).toBe(stubUser);
+      expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
   });

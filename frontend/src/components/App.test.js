@@ -70,7 +70,7 @@ describe('App', () => {
   it('should goto signup', () => {
     testPushBehavior('/signup', '.spySignup', app);
   });
-  it('should goto dashboard', () => {
+  xit('should goto dashboard', () => {
     testPushBehavior('/dashboard', '.spyDashboard', app);
   });
   it('should goto demowidget', () => {

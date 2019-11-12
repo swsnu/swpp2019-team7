@@ -100,20 +100,15 @@ def user_info(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        elif not User.objects.filter(id=request.user.id).exists():
-            return HttpResponseNotFound()
         else:
             user = User.objects.get(id=request.user.id)
             return JsonResponse(format_user_object(user), status=200)
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        elif not User.objects.filter(id=request.user.id).exists():
-            return HttpResponseNotFound()
         else:
             try:
                 req_data = json.loads(request.body.decode())
-                print(req_data)
                 password = req_data['password']
                 name = req_data['name']
             except (KeyError, ValueError):

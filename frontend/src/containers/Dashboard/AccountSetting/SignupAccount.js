@@ -72,8 +72,6 @@ class SignupAccount extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email_input);
-    console.log('pw: ', this.state.pw_input);
     const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let passwordError = false;
@@ -116,9 +114,6 @@ class SignupAccount extends Component {
         });
       }
     }
-    console.log(`pwerror is ${passwordError}`);
-    console.log(`pwcheckerror is ${passwordConfirmError}`);
-    console.log(`usernameerror is ${usernameError}`);
     return (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
@@ -137,9 +132,6 @@ class SignupAccount extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
-    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    console.log('[AccountSetting.js] loginStatus: ', loggedInnStatus);
 
     return (
       <div className="Signup">

@@ -5,6 +5,7 @@ import {
 import Switch from '@material-ui/core/Switch';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { connect } from 'react-redux';
+
 import * as userActionCreators from '../../../store/actions/userAction';
 
 const styles = (theme) => ({
@@ -49,14 +50,16 @@ class SettingItem extends Component {
     };
   }
 
-
+  /*
   componentDidMount() {
     this.props.onGetUser();
     this.props.onGetNoti();
-  }
+  } */
 
   toggleChecked() {
     const { noti } = this.props;
+    console.log('not is');
+    console.log(noti);
     noti[this.props.index] = !noti[this.props.index];
     console.log('new is %O', noti);
     this.props.onEditNoti(noti);
@@ -65,12 +68,13 @@ class SettingItem extends Component {
   render() {
     let checked = false;
     if (this.props.noti) {
+      console.log('in');
       checked = this.props.noti[this.props.index];
       console.log(`checked for ${this.props.nindexame} is ${checked}`);
     }
     const { classes } = this.props;
     return (
-      <div>
+      <div className="SettingItem">
         <Card>
           <CardContent>
             <Grid
@@ -88,6 +92,7 @@ class SettingItem extends Component {
               </Grid>
               <Grid item>
                 <Switch
+                  id="onoff-switch"
                   checked={checked}
                   onChange={() => this.toggleChecked()}
                 />
@@ -111,9 +116,10 @@ class SettingItem extends Component {
 const mapStateToProps = (state) => ({
   noti: state.user.noti_setting,
 });
+
 const mapDispatchToProps = (dispatch) => ({
-  onGetUser: () => dispatch(userActionCreators.getUser()),
-  onGetNoti: () => dispatch(userActionCreators.getNoti()),
+  // onGetUser: () => dispatch(userActionCreators.getUser()),
+  // onGetNoti: () => dispatch(userActionCreators.getNoti()),
   onEditNoti: (noti) => dispatch(userActionCreators.editNoti(noti)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SettingItem)));

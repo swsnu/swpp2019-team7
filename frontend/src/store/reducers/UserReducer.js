@@ -20,14 +20,11 @@ const UserReducer = (state = initState, action = null) => {
     case 'SIGNUP_USER':
       return { ...state, current_user: action.user, logged_in: false };
     case 'EDIT_USERINFO':
-      localStorage.setItem('loggedInnStatus', JSON.stringify(action.logged_in));
-      return { ...state, current_user: action.current_user, logged_in: true };
-    case 'GET_USER':
-      console.log(`reducer getuser ${action.current_user}`);
+    case 'GET_USERINFO':
       return { ...state, current_user: action.current_user, logged_in: true };
     case 'EDIT_NOTI':
-      return { ...state, noti_setting: action.noti_setting, logged_in: true };
     case 'GET_NOTI':
+      console.log('dispatched');
       return { ...state, noti_setting: action.noti_setting, logged_in: true };
     default:
       break;

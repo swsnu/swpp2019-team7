@@ -3,24 +3,20 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
-import SignupAccount from './SignupAccount';
+import NotiSetting from './NotiSetting';
 import { getMockStore } from '../../../test-utils/mocks';
-import * as userActionCreator from '../../../store/actions/userAction';
 import { history } from '../../../store/reducers/index';
 
 
 const mockStore = getMockStore();
 
-describe('SignupAccount', () => {
-  let mockSignup;
-  let spyAcceptSignup;
+describe('NotiSetting', () => {
+  let mockNotiSetting;
   beforeEach(() => {
-    spyAcceptSignup = jest.spyOn(userActionCreator, 'editUserInfo')
-      .mockImplementation(() => ({ type: 'EDIT_USERINFO' }));
-    mockSignup = (
+    mockNotiSetting = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
-          <SignupAccount />
+          <NotiSetting />
         </ConnectedRouter>
       </Provider>
     );
@@ -29,10 +25,11 @@ describe('SignupAccount', () => {
     jest.clearAllMocks();
   });
 
-  it('should render Signup', () => {
-    const component = mount(mockSignup);
-    expect(component.find('.Signup').length).toBe(1);
+  it('should render NotiSetting', () => {
+    const component = mount(mockNotiSetting);
+    expect(component.find('.NotiSetting').length).toBe(1);
   });
+  /*
   it('should accept signup', () => {
     const component = mount(mockSignup);
 
@@ -43,7 +40,7 @@ describe('SignupAccount', () => {
 
     wrapperPW.props().onChange({ target: { value: 'Password123*' } });
     wrapperPWConfirm.props().onChange({ target: { value: 'Password123*' } });
-    wrapperName.props().onChange({ target: { value: 'Peter' } });
+    wrapperName.props().onChange({ target: { value: 'Peter' } })
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(1);
@@ -67,7 +64,7 @@ describe('SignupAccount', () => {
     const wrapperName = component.find({ id: 'name' }).at(1);
     const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
-    wrapperName.props().onChange({ target: { value: 'asdf' } });
+    wrapperName.props().onChange({ target: { value: 'asdf' } })
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
@@ -84,5 +81,5 @@ describe('SignupAccount', () => {
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
-  });
+  }); */
 });

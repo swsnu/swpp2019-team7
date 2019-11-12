@@ -3,24 +3,25 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
-import SignupAccount from './SignupAccount';
+import SettingItem from './SettingItem';
 import { getMockStore } from '../../../test-utils/mocks';
-import * as userActionCreator from '../../../store/actions/userAction';
+// import * as userActionCreator from '../../../store/actions/userAction';
 import { history } from '../../../store/reducers/index';
 
 
 const mockStore = getMockStore();
 
-describe('SignupAccount', () => {
-  let mockSignup;
-  let spyAcceptSignup;
+describe('SettingItem', () => {
+  let mockSettingItem;
+
+  // let spyEditNoti;
   beforeEach(() => {
-    spyAcceptSignup = jest.spyOn(userActionCreator, 'editUserInfo')
-      .mockImplementation(() => ({ type: 'EDIT_USERINFO' }));
-    mockSignup = (
+    // spyEditNoti = jest.spyOn(userActionCreator, 'editNoti')
+    // .mockImplementation(() => ({ type: 'EDIT_NOTI' }));
+    mockSettingItem = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
-          <SignupAccount />
+          <SettingItem index={1} />
         </ConnectedRouter>
       </Provider>
     );
@@ -29,25 +30,21 @@ describe('SignupAccount', () => {
     jest.clearAllMocks();
   });
 
-  it('should render Signup', () => {
-    const component = mount(mockSignup);
-    expect(component.find('.Signup').length).toBe(1);
+  it('should render SettingItem', () => {
+    const component = mount(mockSettingItem);
+    expect(component.find('.SettingItem').length).toBe(1);
   });
-  it('should accept signup', () => {
-    const component = mount(mockSignup);
+  /*
+  it('should change switch', () => {
+    const component = mount(mockSettingItem);
 
-    const wrapperPW = component.find({ id: 'password' }).at(1);
-    const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
-    const wrapperName = component.find({ id: 'name' }).at(1);
-    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
+    const wrapperSwitch = component.find({ id: 'onoff-switch' }).at(0);
 
-    wrapperPW.props().onChange({ target: { value: 'Password123*' } });
-    wrapperPWConfirm.props().onChange({ target: { value: 'Password123*' } });
-    wrapperName.props().onChange({ target: { value: 'Peter' } });
-    wrapperButton.simulate('click');
+    wrapperSwitch.props().onChange({target: { value: false }})
 
-    expect(spyAcceptSignup).toHaveBeenCalledTimes(1);
-  });
+    expect(spyEditNoti).toHaveBeenCalledTimes(1);
+  }); */
+  /*
   it('should NOT accept signup - bad pw', () => {
     const component = mount(mockSignup);
 
@@ -67,7 +64,7 @@ describe('SignupAccount', () => {
     const wrapperName = component.find({ id: 'name' }).at(1);
     const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
-    wrapperName.props().onChange({ target: { value: 'asdf' } });
+    wrapperName.props().onChange({ target: { value: 'asdf' } })
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
@@ -84,5 +81,5 @@ describe('SignupAccount', () => {
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
-  });
+  }); */
 });

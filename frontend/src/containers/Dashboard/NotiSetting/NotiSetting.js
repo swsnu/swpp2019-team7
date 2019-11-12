@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
 import SettingItem from './SettingItem';
-import * as userActionCreators from '../../../store/actions/userAction';
 
 const tempSetting = [
   { id: 1, name: 'Enable notification', index: 'enable_noti' },
@@ -20,9 +19,6 @@ class NotiSetting extends Component {
     };
   }
 
-  toggleChecked(element) {
-    this.props.onEditNoti(element);
-  }
 
   render() {
     if (this.props.user) {
@@ -42,15 +38,12 @@ class NotiSetting extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  console.log('mstp');
-  console.log(state);
-  return {
-    current_user: state.user.current_user,
-  };
-};
+const mapStateToProps = (state) => ({
+  current_user: state.user.current_user,
+});
+/*
 const mapDispatchToProps = (dispatch) => ({
   onGetUser: () => dispatch(userActionCreators.getUser()),
   onGetNoti: () => dispatch(userActionCreators.getNoti()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(NotiSetting);
+}); */
+export default connect(mapStateToProps)(NotiSetting);

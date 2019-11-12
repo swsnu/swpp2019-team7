@@ -82,13 +82,9 @@ class Signup extends Component {
     const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
-    console.log(emailError);
     let passwordError = false;
-    console.log(passwordError);
     let passwordConfirmError = false;
-    console.log(passwordConfirmError);
     let usernameError = false;
-    console.log(usernameError);
     if (!emailReg.test(this.state.email_input)) {
       emailError = true;
       this.setState({
@@ -152,7 +148,6 @@ class Signup extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
     return (
       <div className="Signup">
         <Header />

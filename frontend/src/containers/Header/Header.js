@@ -97,7 +97,7 @@ class Header extends Component {
             color="inherit"
             style={{ color: 'black' }}
             onClick={() => {
-              console.log('[Header.js] loginStatus: ', loggedInnStatus);
+              // console.log('[Header.js] loginStatus: ', loggedInnStatus);
               this.props.onSignout();
             }}
           >
