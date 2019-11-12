@@ -3,8 +3,8 @@ from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from rest_framework import status
-
 import json
+
 
 @csrf_exempt
 def crud_device(request):
@@ -43,3 +43,14 @@ def crud_device(request):
 
     else:
         return HttpResponseNotAllowed(['POST'])
+
+
+@csrf_exempt
+def telegram(request):
+    """Telegram message has come"""
+    if request.method == 'POST':
+        print(json.loads(request.body.decode()))
+
+        return HttpResponse(status=status.HTTP_200_OK)
+
+    return HttpResponseNotAllowed(['POST'])
