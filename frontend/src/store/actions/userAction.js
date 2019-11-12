@@ -1,21 +1,20 @@
+import Cookies from 'js-cookie';
 import { push } from 'connected-react-router';
 
 import ax from '../../api/index';
 
 export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
-  .then((res) => {
-    console.log(`signin ${res.data}`);
-    console.log(`signin${res.data.user}`);
-    dispatch({
-      type: 'SIGNIN_USER', logged_in: true, current_user: res.data.user, noti_setting: res.data.noti,
-    });
+  .then(() => {
+    ax.defaults.headers.common['X-CSRFToken'] = Cookies.get('csrftoken');
+    localStorage.setItem('localCsrf', JSON.stringify(Cookies.get('csrftoken')));
+    dispatch({ type: 'SIGNIN_USER', logged_in: true });
     dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
 
 export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .then((response) => {
-    console.log(response);
+    localStorage.setItem('localCsrf', JSON.stringify(''));
     dispatch({ type: 'SIGNOUT_USER', logged_in: false, current_user: null });
     dispatch(push('/landing'));
   })

@@ -8,5 +8,4 @@ urlpatterns = [
     path('user/signup/', views.signup, name='signup'),
     path('user/', views.user_info, name='userInfo'),
     path('token/', views.token, name='token'),
-
 ]

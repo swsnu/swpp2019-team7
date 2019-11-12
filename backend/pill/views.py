@@ -1,19 +1,11 @@
-from django.http import HttpResponse, HttpResponseNotAllowed, \
-    JsonResponse, HttpResponseNotFound, HttpResponseBadRequest #HttpResponseForbidden
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-# from django.contrib.auth.models import User
-# from django.views.decorators.csrf import ensure_csrf_cookie
-# import json
-#
-# from django.contrib.auth import login, logout, authenticate
-#
-from rest_framework.generics import get_object_or_404
+from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-# from rest_framework.authentication import SessionAuthentication
+from rest_framework import status
 
 from .models import Pill
 
+<<<<<<< HEAD
 
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
@@ -21,18 +13,17 @@ class PillItemsPerUser(APIView):
 
     # @csrf_exempt
     def get(self, request):
+=======
+# url:  api/pill/
+def get_uer_pills(request):
+    if request.method == 'GET':
+>>>>>>> dev/features/dashboard-backend
         """ get pill list for request.user  """
-        print('backend GET request called\nuser: ', request.user)
         if request.user.is_authenticated:
-            print('backend user authenticated')
-            # saved_pills = get_object_or_404(request.user.pills.all())
-            # TODO handle when request.user has no pills  (aka when saved_pills = empty QuerySet)
             saved_pills = request.user.pills.all()
-            print('saved_pills: ', saved_pills)
-            # <QuerySet [<Pill: 마이락토 씨 플러스(MYLACTO C PLUS)>, <Pill: 마이락토 씨(MYLACTO C)>]>
+
             return_list = []
             for pill in saved_pills:
-                print(f'pill {pill.id}: {pill.product_name}')
                 pill_dict = {
                     "id": pill.id,
                     "take_method": pill.take_method,
@@ -47,23 +38,31 @@ class PillItemsPerUser(APIView):
                 }
                 return_list.append(pill_dict)
             return JsonResponse(return_list, status=200, safe=False)
-            # serialized_pills = PillItemsPerUserSerializer(saved_pills)
-            # return Response(serialized_pills.data, status=200)
-            # return Response(status=200)
         else:
             return HttpResponse(status=401)
 
-    # @csrf_exempt
+
+# url:  api/pill/pill_id
+class PillItemsPerUser(APIView):
     def post(self, request, pill_id):
         """ add new pill item for user <int:pk> """
-        print('backend POST request called\nuser: ', request.user)
         if request.user.is_authenticated:
+<<<<<<< HEAD
             print('backend user authenticated')
             new_pill = Pill.objects.get(pk=pill_id)     # get pill object from Pill model by id
             print('new_pill: ', new_pill)
             # add retrieved pill object to current user's pills field
             request.user.pills.add(new_pill)
             # return Response({"product name": new_pill.product_name}, status=200)
+=======
+            # check if pill_id already exists in user's pills
+            existing_pills = request.user.pills.all().values_list('id', flat=True)
+            if pill_id in existing_pills:
+                return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+            new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
+            request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
+>>>>>>> dev/features/dashboard-backend
             new_pill_dict = {
                 "id": new_pill.id,
                 "take_method": new_pill.take_method,
@@ -76,24 +75,26 @@ class PillItemsPerUser(APIView):
                 "precautions": new_pill.precautions,
                 "take_method_preprocessed": new_pill.take_method_preprocessed
             }
-            # TODO return updated pill list & status code
-            saved_pills = request.user.pills.all()
-            print('saved_pills: ', saved_pills)
-            # # saved_pills = request.user.pills.all()
-            # serialized_pills = PillItemsPerUserSerializer(saved_pills)
-            # return Response(serialized_pills.data, status=200)
-            return JsonResponse(new_pill_dict, status=201)
+            return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
         else:
-            return HttpResponse(status=401)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     # @csrf_exempt
     # pylint: disable=R0201
     def delete(self, request, pill_id):
+<<<<<<< HEAD
         """TODO: ADDCOMMENT Delete pill from list"""
+=======
+        """ Delete pill_id """
+>>>>>>> dev/features/dashboard-backend
         if request.user.is_authenticated:
+            # don't delete pill_id twice
+            existing_pills = request.user.pills.all().values_list('id', flat=True)
+            if pill_id not in existing_pills:
+                return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
             new_pill = Pill.objects.get(id=pill_id)
             request.user.pills.remove(new_pill)
-            # TODO return updated pill list & status code
             return Response(status=204)
         else:
             return HttpResponse(status=401)

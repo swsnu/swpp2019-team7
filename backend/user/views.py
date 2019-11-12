@@ -58,7 +58,6 @@ def signout(request):
     """REST API description of /api/signout"""
     """GET: Signs out the user. Return 204 response"""
     if request.method == 'GET':
-        print('LOGOUT requst.header: ', request.get_full_path_info())
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)

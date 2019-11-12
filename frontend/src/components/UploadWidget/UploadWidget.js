@@ -28,54 +28,34 @@ class UploadWidget extends Component {
   render() {
     return (
       <div className="UploadWidget">
-        {/* <Grid container spacing={7}> */}
-        {/*  <Grid item xs={1} /> */}
-        {/*  <Grid item xs={4}> */}
-        {/*    <Grid item> */}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
-        {/*          Get your pills */}
-        {/*      </Typography> */}
-        {/*    </Grid> */}
-        {/*    <Grid item> */}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
-        {/*        managed */}
-        {/*      </Typography> */}
-        {/*    </Grid> */}
-        {/*    <Grid item> */}
-        {/*      <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}> */}
-        {/*        right away */}
-        {/*      </Typography> */}
-        {/*    </Grid> */}
-        {/*  </Grid> */}
-        {/*  <Grid item xs={5}> */}
-        <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
+        <Container fixed align="center" style={{ backgroundColor: this.props.backgroundColor, padding: 30, borderRadius: 20 }}>
           <FilePond
             ref={(ref) => { this.pond = ref; }}
             instantUpload={false}
             server={
-                  {
-                    url: 'http://localhost:8000/api',
-                    process: {
-                      url: '/vision/',
-                      method: 'POST',
-                      withCredentials: false,
-                      headers: {
-                      },
-                      timeout: 9000,
-                      onload: (response) => {
-                        const parsedResponse = JSON.parse(response);
-                        console.log(JSON.stringify(parsedResponse.product));
-                        if (parsedResponse.product != null) this.props.getNewPillId(parsedResponse.product.id);
-                        this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
-                        this.props.toggleResultModal(true);
-                      },
-                    },
-                    delete: {
-                      url: '/vision/',
-                      method: 'POST',
-                    },
-                  }
-                }
+              {
+                url: 'http://localhost:8000/api',
+                process: {
+                  url: '/vision/',
+                  method: 'POST',
+                  withCredentials: false,
+                  headers: {
+                  },
+                  timeout: 9000,
+                  onload: (response) => {
+                    const parsedResponse = JSON.parse(response);
+                    console.log(JSON.stringify(parsedResponse.product));
+                    if (parsedResponse.product != null) this.props.getNewPillId(parsedResponse.product.id);
+                    this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
+                    this.props.toggleResultModal(true);
+                  },
+                },
+                delete: {
+                  url: '/vision/',
+                  method: 'POST',
+                },
+              }
+            }
             maxFileSize="50MB"
             labelMaxFileSize="Maximum file size is 50MB"
             acceptedFileTypes={['image/*']}
@@ -93,12 +73,9 @@ class UploadWidget extends Component {
               // this.props.addUserPill();
             }}
           >
-                  Confirm
+              Confirm
           </Button>
         </Container>
-        {/*  </Grid> */}
-        {/*  <Grid item xs={2} /> */}
-        {/* </Grid> */}
       </div>
     );
   }

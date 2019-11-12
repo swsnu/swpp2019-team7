@@ -54,10 +54,7 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
-    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    // if (this.props.logged_in === false) {
-    console.log('[Header.js] loginStatus: ', loggedInnStatus);
-    if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
+    if (!this.props.logged_in) {
       return (
         <div className={classes.root}>
           <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
