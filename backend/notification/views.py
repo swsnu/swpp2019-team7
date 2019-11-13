@@ -61,7 +61,12 @@ def telegram(request):
         last_name = data['message']['chat']['last_name']
         chat_id = data['message']['chat']['id']
 
+        # TODO add key error handling logic for 'username' -> username 없으면 firstname으로 찾는다던가 ㅇㅇ
+
         text = data['message']['text']
+
+        # TODO retrieve registered telegram user with names, and check if user is not activated, check if
+        #  user typed in auth_key as text, and then finally set the chat_id in DB for the user
         return HttpResponse(status=status.HTTP_200_OK)
 
     return HttpResponseNotAllowed(['POST'])
