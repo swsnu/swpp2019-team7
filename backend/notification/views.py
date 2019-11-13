@@ -1,9 +1,11 @@
 """Backend for registering the device using FCM token!"""
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from rest_framework import status
 import json
+
+from .models import *
 
 
 @csrf_exempt
@@ -47,10 +49,53 @@ def crud_device(request):
 
 @csrf_exempt
 def telegram(request):
-    """Telegram message has come"""
+    """
+    Endpoint for Telegram Bot Webhook. i.e. all requests about messages to our telegram bot are handled here.
+    """
     if request.method == 'POST':
-        print(json.loads(request.body.decode()))
+        # All Telegram Webhooks come as POST request
+        data = json.loads(request.body.decode())
+        print(data)
+        username = data['message']['chat']['username']
+        first_name = data['message']['chat']['first_name']
+        last_name = data['message']['chat']['last_name']
+        chat_id = data['message']['chat']['id']
 
+        text = data['message']['text']
         return HttpResponse(status=status.HTTP_200_OK)
 
     return HttpResponseNotAllowed(['POST'])
+
+
+def register_telegram(request):
+    """
+    Registers sender PillBox username with the given telegram name.
+    If user already have registered telegram name, it is updated to new telegram name.
+    Frontend has to store the auth key sent from here as response, and show it to user s.t. user types it in Telegram
+    """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                data = json.loads(request.body.decode())
+                telegram_name = data['telegram_name']
+                telegram_first_name = data['telegram_first_name']
+                telegram_last_name = data['telegram_last_name']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            TelegramUser.objects.filter(user=request.user).delete()
+            new_telegram_user = TelegramUser.objects.create(
+                user=request.user,
+                telegram_name=telegram_name,
+                telegram_first_name=telegram_first_name,
+                telegram_last_name=telegram_last_name,
+                auth_key="필박스 조아"  # TODO implement key generating function and call it here
+            )
+            new_telegram_user.save()
+
+            return JsonResponse({"auth_key": "필박스 조아"}, status.HTTP_200_OK)  # TODO change auth key
+        else:
+            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+
+    else:
+        return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)

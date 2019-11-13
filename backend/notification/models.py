@@ -69,3 +69,19 @@ class NotificationTime(models.Model):
     def __str__(self):
         return f"{self.notification} | {self.time}"
 
+
+class TelegramUser(models.Model):
+    """
+    Defines each Telegram User. Can be registered by setting user name in PillBox Account Setting Page
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    telegram_username = models.TextField(max_length=128, default="")
+    telegram_first_name = models.TextField(max_length=128, default="")
+    telegram_last_name = models.TextField(max_length=128, default="")
+
+    auth_key = models.TextField(max_length=128, default="")
+    is_authenticated = models.BooleanField(default=False)  # activated only after user sends any message to our bot.
+    chat_id = models.IntegerField(default=-1)  # updated only after user sends any message to our bot.
+
+    def __str__(self):
+        return self.telegram_username

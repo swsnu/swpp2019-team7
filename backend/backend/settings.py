@@ -25,7 +25,7 @@ SECRET_KEY = '9x3!!chcz)_*2uq*71p7i6_v385x7ou!j93uzq_y=cvjz&pakp'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '1ce7ac90.ngrok.io',
+    '4bb48bf1.ngrok.io',
 ]
 
 AUTH_USER_MODEL = 'user.User'
