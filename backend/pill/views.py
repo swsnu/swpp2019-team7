@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Pill
-from notification.models import WebNotification
+from notification.models import Notification
 
 
 # url:  api/pill/pill_id
@@ -49,7 +49,7 @@ class PillItemsPerUser(APIView):
             request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
 
             # add notification for the new pill
-            WebNotification.create(request.user, new_pill)
+            Notification.create(request.user, new_pill)
 
             new_pill_dict = {
                 "id": new_pill.id,
@@ -78,7 +78,7 @@ class PillItemsPerUser(APIView):
             new_pill = Pill.objects.get(id=pill_id)
 
             # remove notification for the deleted pill
-            WebNotification.objects.filter(user=request.user, pill=new_pill).delete()
+            Notification.objects.filter(user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
 
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)

@@ -60,17 +60,13 @@ def telegram(request):
     if request.method == 'POST':
         # All Telegram Webhooks come as POST request
         data = json.loads(request.body.decode())
-        print(data)
-        first_name = data['message']['chat']['first_name']
-        last_name = data['message']['chat']['last_name']
-        chat_id = data['message']['chat']['id']
 
+        first_name = data['message']['chat']['first_name']
+        chat_id = data['message']['chat']['id']
+        text = data['message']['text']
         username = None
         if 'username' in data['message']['chat'].keys():
             username = data['message']['chat']['username']
-        # TODO add key error handling logic for 'username' -> username 없으면 firstname으로 찾는다던가 ㅇㅇ
-
-        text = data['message']['text']
 
         try:
             telegram_user = TelegramUser.objects.get(telegram_username=username) if username is not None else \
@@ -99,10 +95,6 @@ def telegram(request):
             # TODO should our bot reply when authenticated user says something?
             return HttpResponse(status=status.HTTP_200_OK)
 
-
-
-        # TODO retrieve registered telegram user with names, and check if user is not activated, check if
-        #  user typed in auth_key as text, and then finally set the chat_id in DB for the user
         return HttpResponse(status=status.HTTP_200_OK)
 
     return HttpResponseNotAllowed(['POST'])

@@ -23,9 +23,9 @@ AUTH_KEY = '1007785006:AAGZNrBr4w-Eovrf-ZQj7P7MSN6KS3Cl23g'
 telegram_bot = telegram.Bot(AUTH_KEY)
 
 
-class WebNotification(models.Model):
+class Notification(models.Model):
     """
-    Single WebNotification defines each user's each pill's set of notifications
+    Single Notification defines each user's each pill's set of notifications
     """
     activated = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -70,7 +70,7 @@ class NotificationTime(models.Model):
     """
     Defines each notification elements, comprising WebNotification Instance
     """
-    notification = models.ForeignKey(WebNotification, on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
     time = models.TimeField(blank="09:00")
 
     def __str__(self):

@@ -42,14 +42,6 @@ const PillListWrapper = styled.section`
   margin: 2em;
   // background: #f7daad;
 `;
-// const tempPills = [
-//   {
-//     id: 1, name: '홍삼정', prescription: 'Next: 19:00 PM', image: 'asdf',
-//   },
-//   {
-//     id: 2, name: '마이락토 씨 플러스', prescription: 'Next: 09:00 AM', image: 'asdf',
-//   },
-// ];
 
 class MyPills extends Component {
   constructor(props) {
@@ -67,7 +59,6 @@ class MyPills extends Component {
 
   handleAddPill() {
     this.props.history.push('/loggedinwidget');
-    // this.props.addUserPill(400);
   }
 
   render() {

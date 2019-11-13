@@ -40,7 +40,6 @@ class DemoWidget extends Component {
   addNewPill() {
     console.log(this.state.newPillId);
     this.props.addUserPill(this.state.newPillId);
-    this.props.history.push('/dashboard');
   }
 
   toggleAcceptPill() {
