@@ -1,8 +1,11 @@
 import UserReducer from './UserReducer';
+import * as stubs from '../../test-utils/mocks';
 
 const reducer = UserReducer;
-const stubUser = { email: 'test@test.com', name: 'Test', password: 'testpw' };
-const stubNoti = { enable_noti: true, enable_segregate: true, enable_kakao: false };
+const stubUser = {
+  email: 'test@test.com', name: 'Test', password: 'testpw', telegram_id: 'telegram',
+};
+const stubNoti = stubs.stubNotiState;
 
 describe('User Reducer', () => {
   it('should return default state', () => {

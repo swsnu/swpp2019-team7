@@ -31,11 +31,11 @@ const stubPillState = {
   selected_pill: null,
 };
 
-const stubUserState = {
+export const stubUserState = {
   logged_in: false,
 };
 
-const stubNotiState = {
+export const stubNotiState = {
   enable_noti: true,
   enable_segregate: false,
   enable_kakao: false,

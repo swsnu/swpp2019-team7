@@ -18,6 +18,9 @@ def format_user_object(user):
         'email': user.email,
         'password': user.password,
         'name': user.name,
+        'telegram_first_name': user.telegram_first_name,
+        'telegram_last_name': user.telegram_last_name,
+        'telegram_username': user.telegram_username,
         #'register-date': user.register_date,
         #'last-login-date': user.last_login_date
     }
@@ -81,6 +84,8 @@ def signup(request):
             return HttpResponseBadRequest()
         print("User is {} {} {}".format(email, password, name))
         new_user = User.objects.create_user(email=email, password=password, name=name)
+        new_noti = NotiSetting(user=new_user)
+        new_noti.save()
         return HttpResponse(format_user_object(new_user), status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
@@ -111,6 +116,9 @@ def user_info(request):
                 req_data = json.loads(request.body.decode())
                 password = req_data['password']
                 name = req_data['name']
+                telegram_first_name = req_data['telegram_first_name']
+                telegram_last_name = req_data['telegram_last_name']
+                telegram_username = req_data['telegram_username']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             user = User.objects.get(id=request.user.id)
@@ -118,6 +126,10 @@ def user_info(request):
                 password_change(request)
             if name != '':
                 user.name = name
+            if telegram_first_name != '':
+                user.telegram_first_name = telegram_first_name
+                user.telegram_last_name = telegram_last_name
+                user.telegram_username = telegram_username
             user.save()
             return JsonResponse(format_user_object(user), status=200)
     else:

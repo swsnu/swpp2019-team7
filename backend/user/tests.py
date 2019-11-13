@@ -52,7 +52,10 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.put('/api/user/',
-                                    json.dumps({'name': 'John Doe', 'password': 'test11'}),
+                                    json.dumps({'name': 'John Doe', 'password': 'test11',
+                                    'telegram_first_name': 'fst',
+                                    'telegram_last_name': 'lst',
+                                    'telegram_username': 'username'}),
                                     content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         new_user = User.objects.get(email="test1@test.com")

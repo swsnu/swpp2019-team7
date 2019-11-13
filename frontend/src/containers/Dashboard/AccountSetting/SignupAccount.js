@@ -64,9 +64,15 @@ class SignupAccount extends Component {
       pw_input: '',
       pw_confirm_input: '',
       username_input: '',
+      telegram_first_name_input: '',
+      telegram_last_name_input: '',
+      telegram_username_input: '',
       pw_error: false,
       pw_confirm_error: false,
       usernameError: false,
+      telegramFirstNameError: false,
+      telegramLastNameError: false,
+      telegramUsernameError: false,
     };
   }
 
@@ -74,9 +80,14 @@ class SignupAccount extends Component {
     e.preventDefault();
     const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
+    const telegramReg = /^([A-za-z0-9])+$/;
     let passwordError = false;
     let passwordConfirmError = false;
     let usernameError = false;
+    let telegramError = false;
+    let telegramUsernameError = false;
+    let telegramFirstNameError = false;
+    let telegramLastNameError = false;
     if (this.state.pw_input !== '') {
       if (!passwordReg.test(this.state.pw_input)) {
         passwordError = true;
@@ -114,7 +125,67 @@ class SignupAccount extends Component {
         });
       }
     }
-    return (!passwordError) && (!passwordConfirmError) && (!usernameError);
+    if (this.state.telegram_first_name_input !== '') {
+      console.log(`first name is${this.state.telegram_first_name_input}.`);
+    }
+    if (this.state.telegram_last_name_input !== '') {
+      console.log(`last name is${this.state.telegram_last_name_input}.`);
+    }
+
+    if (this.state.telegram_username_input !== '') {
+      console.log(`user name is${this.state.telegram_username_input}.`);
+    }
+
+
+    if (this.state.telegram_first_name_input !== ''
+       || this.state.telegram_last_name_input !== ''
+       || this.state.telegram_username_input !== ''
+    ) {
+      if (this.state.telegram_first_name_input === ''
+      || !telegramReg.test(this.state.telegram_first_name_input)) {
+        telegramFirstNameError = true;
+        telegramError = true;
+        this.setState({
+          telegramFirstNameError,
+        });
+        console.log('false fst test');
+      } else {
+        telegramFirstNameError = false;
+        this.setState({
+          telegramFirstNameError,
+        });
+      }
+      if (this.state.telegram_last_name_input === ''
+      || !telegramReg.test(this.state.telegram_last_name_input)) {
+        telegramLastNameError = true;
+        telegramError = true;
+        this.setState({
+          telegramLastNameError,
+        });
+        console.log('false last test');
+      } else {
+        telegramLastNameError = false;
+        this.setState({
+          telegramLastNameError,
+        });
+      }
+      if (this.state.telegram_username_input === ''
+      || !telegramReg.test(this.state.telegram_username_input)) {
+        telegramUsernameError = true;
+        telegramError = true;
+        this.setState({
+          telegramUsernameError,
+        });
+        console.log('false username test');
+        console.log(`.${this.state.telegram_username_input}.`);
+      } else {
+        telegramUsernameError = false;
+        this.setState({
+          telegramUsernameError,
+        });
+      }
+    }
+    return (!passwordError) && (!passwordConfirmError) && (!usernameError) && (!telegramError);
   };
 
   onEditInfoButtonClick = (event) => {
@@ -124,6 +195,9 @@ class SignupAccount extends Component {
       const user = {
         password: this.state.pw_input,
         name: this.state.username_input,
+        telegram_first_name: this.state.telegram_first_name_input,
+        telegram_last_name: this.state.telegram_last_name_input,
+        telegram_username: this.state.telegram_username_input,
       };
       console.log('Change user to ! %O', user);
       this.props.onEditUserInfo(user);
@@ -187,6 +261,50 @@ class SignupAccount extends Component {
                     id="password-confirmation"
                     autoComplete="current-password"
                     onChange={(event) => this.setState({ pw_confirm_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xx={12}>
+                  <Typography component="h1" variant="h5">
+                    Change Telegram Account
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramFirstNameError}
+                    helperText={this.state.telegramFirstNameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_first_name"
+                    label="telegram_first_name"
+                    id="telegram_first_name"
+                    onChange={(event) => this.setState({ telegram_first_name_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramLastNameError}
+                    helperText={this.state.telegramLastNameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_last_name"
+                    label="telegram_last_name"
+                    id="telegram_last_name"
+                    onChange={(event) => this.setState({ telegram_last_name_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramUsernameError}
+                    helperText={this.state.telegramUsernameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_username"
+                    label="telegram_username"
+                    id="telegram_username"
+                    onChange={(event) => this.setState({ telegram_username_input: event.target.value })}
                   />
                 </Grid>
               </Grid>
