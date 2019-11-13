@@ -2,6 +2,7 @@ import math
 import re
 
 from django.db import models
+import telegram
 
 from pill.models import Pill
 from user.models import User
@@ -14,6 +15,12 @@ we will uniformly divide interval START_TIME~END_TIME with the given time per da
 DATETIME = [[900], [900, 1900], [900, 1300, 1900]]
 START_TIME = 900
 END_TIME = 2100
+
+"""
+Telegram Chatbot Instance
+"""
+AUTH_KEY = '1007785006:AAGZNrBr4w-Eovrf-ZQj7P7MSN6KS3Cl23g'
+telegram_bot = telegram.Bot(AUTH_KEY)
 
 
 class WebNotification(models.Model):
