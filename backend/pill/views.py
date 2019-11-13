@@ -1,10 +1,9 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Pill
 from notification.models import Notification
+from .models import Pill
 
 
 # url:  api/pill/pill_id
