@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from rest_framework import status
 
-from .models import WebNotification
+from .models import WebNotification, NotificationTime
 from pill.models import Pill
 
 import json
@@ -77,12 +77,32 @@ def webnoti_pill(request, req_id):
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']
-                time = req_data['time']
+                datetime_list = req_data['time']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             webnoti_item.activated = activated
-            #for time in time, get webnoti, edit, and then return . 
-
+            #for time in time, get webnoti, edit, and then return
+            notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
+            index = 0
+            for datetime in datetime_list:
+                datetime = datetime[:-2] + ":" + datetime[-2:]
+                print(datetime)
+                notification = notification_time_list[index]
+                notification.time = datetime
+                notification.save()
+                index += 1
+            #if datetime doesn't exist, delete
+            if len(notification_time_list) > index:
+                for notification in notification_time_list[index:-1]:
+                    notification.delete()
+            #if notification_time doesn't exist, add new
+            if len(datetime_list) > index:
+                for datetime in datetime_list[index:-1]:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    print(datetime)
+                    NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
+            
+            webnoti_item.save()
             webnoti_list = WebNotification.objects.filter(user=request.user)
             webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK)
