@@ -7,8 +7,6 @@ import FilePondPluginValidateType from 'filepond-plugin-file-validate-type';
 import FilePondImagePreview from 'filepond-plugin-image-preview';
 import FilePondImageCrop from 'filepond-plugin-image-crop';
 
-// import Typography from '@material-ui/core/Typography';
-// import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
@@ -38,7 +36,7 @@ class UploadWidget extends Component {
                 process: {
                   url: '/vision/',
                   method: 'POST',
-                  withCredentials: false,
+                  withCredentials: true,
                   headers: {
                   },
                   timeout: 9000,
@@ -70,7 +68,6 @@ class UploadWidget extends Component {
             id="confirm-button"
             onClick={() => {
               this.pond.processFiles();
-              // this.props.addUserPill();
             }}
           >
               Confirm

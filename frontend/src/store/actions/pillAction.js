@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { push } from 'connected-react-router';
 import ax from '../../api/index';
 
