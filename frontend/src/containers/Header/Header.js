@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
+
+import { withFirebase } from '../../components/Firebase';
 import * as userActionCreators from '../../store/actions/userAction';
 
 const drawerWidth = 240;
@@ -52,9 +54,15 @@ class Header extends Component {
     this.props.history.push('/dashboard');
   };
 
+  onSignOutButtonClick = () => {
+    this.props.onDeleteToken(this.props.firebase.token);
+    this.props.onSignout();
+  };
+
   render() {
     const { classes } = this.props;
-    if (!this.props.logged_in) {
+    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
           <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
@@ -96,12 +104,8 @@ class Header extends Component {
             id="signout-button"
             color="inherit"
             style={{ color: 'black' }}
-            onClick={() => {
-              // console.log('[Header.js] loginStatus: ', loggedInnStatus);
-              this.props.onSignout();
-            }}
-          >
-Sign Out
+            onClick={() => this.onSignOutButtonClick()}>
+            Sign Out
           </Button>
         </Toolbar>
       </AppBar>
@@ -115,6 +119,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({data: {"fcmtoken": FCMToken }})) }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(Header))));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

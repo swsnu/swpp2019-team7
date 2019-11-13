@@ -9,8 +9,6 @@ const UserReducer = (state = initState, action = null) => {
   switch (action.type) {
     case 'SIGNIN_USER':
       localStorage.setItem('loggedInnStatus', JSON.stringify(action.logged_in));
-      console.log('reducer');
-      console.log(action);
       return {
         ...state, current_user: action.current_user, noti_setting: action.noti_setting, logged_in: action.logged_in,
       };

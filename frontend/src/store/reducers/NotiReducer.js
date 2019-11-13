@@ -1,8 +1,13 @@
+/***
+ * Reducer logic for web notifications(per pill)
+ * This reducer stores every WebNotification, along with their time, 
+ * of a user in the following format
+ * [{id: 0, activated: true, time: [0900]}, 
+ * {id: 1, activated: false, time: [1000, 1500]}]
+ */
 const initState = {
-    current_user: null,
-    noti_setting: null,
-    logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),
-  };
+  webnoti_list: null
+};
   
   const UserReducer = (state = initState, action = null) => {
     if (action == null) return state;

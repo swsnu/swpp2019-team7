@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from dataset.preprocess import PillDataset
 
 
 def main():
@@ -18,4 +19,10 @@ def main():
 
 
 if __name__ == '__main__':
+    if sys.argv[1] == 'runserver':
+        # if len(sys.argv) == 2:
+        #     sys.argv.append('--noreload')
+        print("Initializing Pill Dataset Class...")
+        PillDataset.get_instance()
+        print("Done!!!")
     main()
