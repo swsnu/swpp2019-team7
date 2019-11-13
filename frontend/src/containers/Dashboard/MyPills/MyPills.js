@@ -61,7 +61,7 @@ class MyPills extends Component {
   }
 
   componentDidMount() {
-    this.props.getUserPills(0);
+    this.props.getUserPills();
   }
 
   handleAddPill() {
