@@ -56,7 +56,7 @@ class PillDataset:
             if not filename.endswith('.xml'):
                 continue
             else:
-                print(f"Processing {filename}")
+                print("Processing {filename}")
                 tree = ElementTree.parse(os.path.join(data_path, filename))
                 self.parse_file(tree)
 

@@ -72,7 +72,7 @@ def telegram(request):
             telegram_user = TelegramUser.objects.get(telegram_username=username) if username is not None else \
                 TelegramUser.objects.get(telegram_first_name=first_name)
             telegram_bot.send_message(chat_id=chat_id,
-                                      text=f"Hi, {telegram_user.telegram_first_name}!")
+                                      text="Hi, {telegram_user.telegram_first_name}!")
         except TelegramUser.DoesNotExist:
             telegram_bot.send_message(chat_id=chat_id,
                                       text="Please register your Telegram account in PillBox Account Setting first.")
