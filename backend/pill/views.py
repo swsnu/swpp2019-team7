@@ -6,12 +6,10 @@ from notification.models import Notification
 from .models import Pill
 
 # url:  api/pill/
+
+
 def get_uer_pills(request):
     if request.method == 'GET':
-    """
-    API Views associated with pill items per each user
-    """
-
         """ get pill list for request.user """
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
@@ -46,8 +44,10 @@ class PillItemsPerUser(APIView):
             if pill_id in existing_pills:
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
-            new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
-            request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
+            # get pill object from Pill model by id
+            new_pill = Pill.objects.get(pk=pill_id)
+            # add retrieved pill object to current user's pills field
+            request.user.pills.add(new_pill)
             # add notification for the new pill
             Notification.create(request.user, new_pill)
 
@@ -78,7 +78,8 @@ class PillItemsPerUser(APIView):
             new_pill = Pill.objects.get(id=pill_id)
 
             # remove notification for the deleted pill
-            Notification.objects.filter(user=request.user, pill=new_pill).delete()
+            Notification.objects.filter(
+                user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
 
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)

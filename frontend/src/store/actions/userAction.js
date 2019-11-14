@@ -26,6 +26,13 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
     dispatch(push('/login'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
+
+export const registerUserDevice = (token) => () => {
+  ax.post('/api/registerdevice/', token)
+    .catch((err) => console.log(err));
+};
+
+export const deleteUserDevice = (token) => () => {
   console.log("Delete user device:", token);
   ax.delete('/api/registerdevice/', token)
     .catch((err) => console.log(err))
