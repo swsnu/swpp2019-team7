@@ -79,16 +79,12 @@ class Signup extends Component {
     console.log('email: ', this.state.email_input);
     console.log('pw: ', this.state.pw_input);
     const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
-    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
-    console.log(emailError);
     let passwordError = false;
-    console.log(passwordError);
     let passwordConfirmError = false;
-    console.log(passwordConfirmError);
     let usernameError = false;
-    console.log(usernameError);
     if (!emailReg.test(this.state.email_input)) {
       emailError = true;
       this.setState({
@@ -133,7 +129,7 @@ class Signup extends Component {
         usernameError,
       });
     }
-    return (!emailError) && (!passwordError) && (!passwordConfirmError);
+    return (!emailError) && (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
   onSignupButtonClick = (event) => {
@@ -152,7 +148,6 @@ class Signup extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
     return (
       <div className="Signup">
         <Header />
@@ -199,7 +194,7 @@ class Signup extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.pw_error}
-                    helperText={this.state.pw_error ? 'Must contain at least one number and one uppercase and one lowercase letter, and at least 6 or more characters.' : false}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one lowercase letter, and at least 8 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth

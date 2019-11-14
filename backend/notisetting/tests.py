@@ -4,10 +4,8 @@ from rest_framework import status
 
 import json
 
-from .models import Notification, NotificationTime
+from .models import NotiSetting
 from user.models import User
-from pill.models import Pill
-from notisetting.models import NotiSetting
 
 
 class TempTestCase(TestCase):
@@ -17,17 +15,12 @@ class TempTestCase(TestCase):
         new_notisetting = NotiSetting(user=new_user)
         new_notisetting.save()
         self.client.login(email="test1@test.com", password="test1")
-        
-        new_pill = Pill.objects.get(pk=1)  # get pill object from Pill model by id
-        new_user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
-        Notification.create(new_user, new_pill)
-
 
     def test_get(self):
-        response = self.client.get('/api/webnoti/')
+        response = self.client.get('/api/user/noti-setting/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-"""
+
     def test_put(self):
         response = self.client.put('/api/user/noti-setting/',
                                     json.dumps({'enable_noti': False, 'enable_segregate': True, 'enable_kakao': False}),
@@ -45,5 +38,19 @@ class TempTestCase(TestCase):
                                     json.dumps({'enable_segregate': True, 'enable_kakao': False}),
                                     content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-"""
+
+    def test_unauth(self):
+        self.client.logout()
+        response = self.client.get('/api/user/noti-setting/')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        response = self.client.put('/api/user/noti-setting/',
+                                    json.dumps({'enable_noti': False, 'enable_segregate': True, 'enable_kakao': False}),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_notallow(self):
+        response = self.client.delete('/api/user/noti-setting/')
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
 # Create your tests here.

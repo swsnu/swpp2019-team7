@@ -1,16 +1,6 @@
 import * as firebase from 'firebase';
 
 const config = {
-<<<<<<< HEAD
-  apiKey: "AIzaSyAzcizSnT2_MJwQOaAF8uJJLnGNkpd1Xv4",
-  authDomain: "pillbox-95f6e.firebaseapp.com",
-  databaseURL: "https://pillbox-95f6e.firebaseio.com",
-  projectId: "pillbox-95f6e",
-  storageBucket: "pillbox-95f6e.appspot.com",
-  messagingSenderId: "2935002363",
-  appId: "1:2935002363:web:64210d4c3b543381e6cc5e",
-  measurementId: "G-72B2GDB01E"
-=======
   apiKey: 'AIzaSyAzcizSnT2_MJwQOaAF8uJJLnGNkpd1Xv4',
   authDomain: 'pillbox-95f6e.firebaseapp.com',
   databaseURL: 'https://pillbox-95f6e.firebaseio.com',
@@ -19,7 +9,6 @@ const config = {
   messagingSenderId: '2935002363',
   appId: '1:2935002363:web:64210d4c3b543381e6cc5e',
   measurementId: 'G-72B2GDB01E',
->>>>>>> 6de916c57c8a6bdda07d7a1a566a4dbe53445ca4
 };
 
 class Firebase {
@@ -52,24 +41,6 @@ class Firebase {
         console.log('Unable to get permission to notify.');
       }
     });
-<<<<<<< HEAD
-  }
-
-  getToken(messaging) {
-    messaging.getToken()
-      .then(function (currentToken) {
-        if (currentToken) {
-          console.log("getToken", currentToken);
-        } else {
-          // Show permission request.
-          console.log('getToken: No Instance ID token available. Request permission to generate one.');
-        }
-      })
-      .catch(function (err) {
-        console.log('getToken: An error occurred while retrieving token. ', err);
-      });
-=======
->>>>>>> 6de916c57c8a6bdda07d7a1a566a4dbe53445ca4
   }
 }
 

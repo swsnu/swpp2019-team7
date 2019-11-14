@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'vision.apps.VisionConfig',
     'user.apps.UserConfig',
     'notification.apps.NotificationConfig',
+    'notisetting.apps.NotisettingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
