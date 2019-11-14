@@ -53,8 +53,7 @@ class MyPills extends Component {
   }
 
   componentDidMount() {
-    console.log('[mypills.js] loggedIn: ', this.props.loggedIn);
-    this.props.getUserPills(0);
+    this.props.getUserPills();
   }
 
   handleAddPill() {
@@ -62,8 +61,6 @@ class MyPills extends Component {
   }
 
   render() {
-    // eslint-disable-next-line no-console
-    console.log('[MyPills.js] this.props.pillList: ', this.props.pillList);
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Pill key={pill.id} id={pill.id} name={pill.product_name} image={pill.image} takemethodpreprocessed={pill.take_method_preprocessed} />

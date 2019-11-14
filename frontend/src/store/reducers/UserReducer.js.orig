@@ -6,11 +6,19 @@ const UserReducer = (state = initState, action = null) => {
   if (action == null) return state;
   switch (action.type) {
     case 'SIGNIN_USER':
-      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
+<<<<<<< HEAD
+      localStorage.setItem('loggedInnStatus', JSON.stringify(action.logged_in));
       return { ...state, logged_in: true};
     case 'SIGNOUT_USER':
-      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
+      localStorage.clear();
       return { ...state, logged_in: false };
+=======
+      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
+      return { ...state, logged_in: action.logged_in };
+    case 'SIGNOUT_USER':
+      localStorage.setItem('loggedInStatus', JSON.stringify(action.logged_in));
+      return { ...state, logged_in: action.logged_in };
+>>>>>>> 60d982bc25e026de34c4d833b1620888ce56e615
     case 'SIGNUP_USER':
       return { ...state, logged_in: false };
     default:

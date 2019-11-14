@@ -3,6 +3,8 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
 
+import PublicRoute from '../routes/PublicRoute';
+import PrivateRoute from '../routes/PrivateRoute';
 import Login from '../containers/Landing/Login/Login';
 import Signup from '../containers/Landing/Signup/Signup';
 import Dashboard from '../containers/Dashboard/Dashboard';
@@ -17,12 +19,12 @@ function App(props) {
     <ConnectedRouter history={props.history}>
       <div className="App">
         <Switch>
-          <Route path="/landing" exact render={() => <TestLanding />} />
-          <Route path="/login" exact render={() => <Login />} />
-          <Route path="/signup" exact render={() => <Signup />} />
-          <Route path="/demowidget" exact render={() => <DemoWidget />} />
-          <Route path="/loggedinwidget" exact render={() => <LoggedInWidget />} />
-          <Route path="/dashboard" exact render={() => <Dashboard />} />
+          <PublicRoute path="/landing" exact component={TestLanding} />
+          <PublicRoute path="/login" exact component={Login} />
+          <PublicRoute path="/signup" exact component={Signup} />
+          <PublicRoute path="/demowidget" exact component={DemoWidget} />
+          <PrivateRoute path="/dashboard" exact component={Dashboard} />
+          <PrivateRoute path="/loggedinwidget" exact component={LoggedInWidget} />
           <Redirect exact from="/" to="/landing" />
           <Route render={() => <TestLanding />} />
         </Switch>

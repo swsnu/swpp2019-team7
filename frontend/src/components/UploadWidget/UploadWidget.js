@@ -8,7 +8,7 @@ import FilePondImagePreview from 'filepond-plugin-image-preview';
 import FilePondImageCrop from 'filepond-plugin-image-crop';
 
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 
 import './UploadWidget.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
@@ -26,7 +26,7 @@ class UploadWidget extends Component {
   render() {
     return (
       <div className="UploadWidget">
-        <Container fixed align="center" style={{ backgroundColor: this.props.backgroundColor, padding: 30, borderRadius: 20 }}>
+        <Box align="center" style={{ backgroundColor: this.props.backgroundColor, padding: '10%', borderRadius: '6%' }}>
           <FilePond
             ref={(ref) => { this.pond = ref; }}
             instantUpload={false}
@@ -72,7 +72,7 @@ class UploadWidget extends Component {
           >
               Confirm
           </Button>
-        </Container>
+        </Box>
       </div>
     );
   }

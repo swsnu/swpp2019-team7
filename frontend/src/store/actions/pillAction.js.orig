@@ -7,6 +7,10 @@ export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
   .then((res) => {
     dispatch(getUserPills_(res.data));
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 60d982bc25e026de34c4d833b1620888ce56e615
 export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: newPillObj });
 
 export const addUserPill = (pillId) => (dispatch) => {

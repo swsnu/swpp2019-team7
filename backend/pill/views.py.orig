@@ -5,14 +5,22 @@ from rest_framework import status
 from notification.models import Notification
 from .models import Pill
 
-# url:  api/pill/
-def get_uer_pills(request):
-    if request.method == 'GET':
+<<<<<<< HEAD
+
+# url:  api/pill/pill_id
+class PillItemsPerUser(APIView):
     """
     API Views associated with pill items per each user
     """
 
+    def get(self, request, pill_id):
         """ get pill list for request.user """
+=======
+# url:  api/pill/
+def get_uer_pills(request):
+    if request.method == 'GET':
+        """ get pill list for request.user  """
+>>>>>>> 60d982bc25e026de34c4d833b1620888ce56e615
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
 
@@ -48,9 +56,13 @@ class PillItemsPerUser(APIView):
 
             new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
             request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
+<<<<<<< HEAD
+
             # add notification for the new pill
             Notification.create(request.user, new_pill)
 
+=======
+>>>>>>> 60d982bc25e026de34c4d833b1620888ce56e615
             new_pill_dict = {
                 "id": new_pill.id,
                 "take_method": new_pill.take_method,
@@ -68,7 +80,11 @@ class PillItemsPerUser(APIView):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request, pill_id):
+<<<<<<< HEAD
+        """ Deletes given pill from the user """
+=======
         """ Delete pill_id """
+>>>>>>> 60d982bc25e026de34c4d833b1620888ce56e615
         if request.user.is_authenticated:
             # don't delete pill_id twice
             existing_pills = request.user.pills.all().values_list('id', flat=True)
