@@ -5,18 +5,17 @@ import json
 from copy import deepcopy
 from tqdm import tqdm
 
-
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
 
-data_path = "dataset/data"  # Directory where original xml files are saved
-preprocessed_path = "dataset"  # Directory where take_method.preprocessed is saved
+data_path = os.path.dirname(os.path.realpath(__file__))+"/data"  # Directory where original xml files are saved
+preprocessed_path = dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory where take_method.preprocessed is saved
 product_template = {  # Django Model enforces this json format!
-    "pk": 0,
+    "pk": 1,
     "model": "pill.pill",
     "fields": {
-        "id": 0,
+        "id": 1,
         "take_method": "",
         "product_name": "",
         "expiration_date": "",
@@ -57,12 +56,13 @@ class PillDataset:
             if not filename.endswith('.xml'):
                 continue
             else:
-                print(f"Processing {filename}")
+                print("Processing {filename}")
                 tree = ElementTree.parse(os.path.join(data_path, filename))
                 self.parse_file(tree)
 
         # Date Parsing (e.g. 1일 1회)
-        with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r') as f:
+        # I added encoding = "utf-8"... BUT this may cause problems.
+        with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r', encoding="utf-8") as f:
             method_pos_list = list(map(eval, f.read().split('\n')))
 
         for idx in range(len(self.product_list)):
@@ -86,7 +86,7 @@ class PillDataset:
         pill_count = len(root.findall('row'))
 
         for i in tqdm(range(pill_count)):
-            idx = len(self.product_list)
+            idx = len(self.product_list) + 1
 
             product = deepcopy(product_template)
             product["pk"] = idx
