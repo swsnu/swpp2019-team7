@@ -4,17 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Pill
-from notification.models import WebNotification
 
-
-# url:  api/pill/pill_id
-class PillItem(APIView):
-    """
-    API Views associated with pill items per each user
-    """
-
-    def get(self, request, pill_id):
-        """ get pill list for request.user """
+# url:  api/pill/
+def get_uer_pills(request):
+    """Description of API to get list of pills for given user"""
+    if request.method == 'GET':
+        """ get pill list for request.user  """
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
 
@@ -36,6 +31,8 @@ class PillItem(APIView):
             return JsonResponse(return_list, status=200, safe=False)
         else:
             return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 
 # url:  api/pill/pill_id
@@ -50,11 +47,8 @@ class PillItemsPerUser(APIView):
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
             new_pill = Pill.objects.get(pk=pill_id)  # get pill object from Pill model by id
-            request.user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
-
-            # add notification for the new pill
-            WebNotification.create(request.user, new_pill)
-
+            # add retrieved pill object to current user's pills field
+            request.user.pills.add(new_pill)
             new_pill_dict = {
                 "id": new_pill.id,
                 "take_method": new_pill.take_method,
@@ -74,7 +68,7 @@ class PillItemsPerUser(APIView):
     # @csrf_exempt
     # pylint: disable=R0201
     def delete(self, request, pill_id):
-        """ Deletes given pill from the user """
+        """ Delete pill_id """
         if request.user.is_authenticated:
             # don't delete pill_id twice
             existing_pills = request.user.pills.all().values_list('id', flat=True)
@@ -82,11 +76,7 @@ class PillItemsPerUser(APIView):
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
             new_pill = Pill.objects.get(id=pill_id)
-
-            # remove notification for the deleted pill
-            WebNotification.objects.filter(user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
-
-            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=204)
         else:
-            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+            return HttpResponse(status=401)

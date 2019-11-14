@@ -25,7 +25,7 @@ class WebNotification(models.Model):
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Notification [{self.user} / {self.pill}]"
+        return "Notification [{self.user} / {self.pill}]"
 
     @classmethod
     def create(cls, user, pill, activated=True, time_list=None):
@@ -67,5 +67,5 @@ class NotificationTime(models.Model):
     time = models.TimeField(blank="09:00")
 
     def __str__(self):
-        return f"{self.notification} | {self.time}"
+        return "{self.notification} | {self.time}"
 

@@ -7,7 +7,3 @@ Pillow
 shortuuid
 pylint-django
 coveralls
-fcm-django
-mysqlclient
-django-crontab
-python-telegram-bot

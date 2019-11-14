@@ -37,12 +37,14 @@ def signin(request):
     """POST: recieve user authentication and see if registered. Return 204 response"""
     if request.method == 'POST':
         try:
+            print('LOGIN requst.header: ', request.get_full_path_info())
             req_data = json.loads(request.body.decode())
             email = req_data['email']
             password = req_data['password']
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
         user = authenticate(request, email=email, password=password)
+        # print('Does it work?')
         if user is not None:
             login(request, user)
             noti = user.notiSetting

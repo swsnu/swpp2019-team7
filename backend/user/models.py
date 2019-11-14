@@ -7,7 +7,6 @@ from pill.models import Pill
 
 from .managers import UserManager
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     """Model description for USER model"""
     email = models.EmailField(_('email address'), unique=True)
@@ -34,10 +33,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_absolute_url(self):
         """Shows the REST API url of the specific user"""
-        return "api/user/%i/" % self.pk
-
-    def __str__(self):
-        """
-        :return: string format of the user row
-        """
-        return self.name
+        return "api/user/%i/" % (self.pk)
