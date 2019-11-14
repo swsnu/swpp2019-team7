@@ -64,6 +64,7 @@ def crud_device(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 def webnoti (request):
     """Function for getting/returning web notification"""
     if request.method == 'GET':
@@ -75,6 +76,7 @@ def webnoti (request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET'])
+
 
 def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""

@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from .models import Pill
 
+
 class TempTestCase(TestCase):
     def setUp(self):
         Pill.objects.create()
