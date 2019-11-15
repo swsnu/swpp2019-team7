@@ -78,7 +78,8 @@ class Signup extends Component {
     e.preventDefault();
     console.log('email: ', this.state.email_input);
     console.log('pw: ', this.state.pw_input);
-    const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    //const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    const emailReg = /^[^@\s]+@[^@.\s]+\.[^@\s]+$/;
     const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
@@ -180,7 +181,7 @@ class Signup extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.emailError}
-                    helperText={this.state.emailError ? "Should be in the format of 'characters@characters.domain'. No spaces should be included" : false}
+                    helperText={this.state.emailError ? "Please use a valid email address." : false}
                     variant="outlined"
                     required
                     fullWidth
