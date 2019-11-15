@@ -1,13 +1,14 @@
 """Backend for registering the device using FCM token!"""
+import json
+import shortuuid
+
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from rest_framework import status
 
-import json
-import shortuuid
-
-from .models import *
+from pill.models import Pill
+from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
 
 
 def _get_telegram_auth_key():
@@ -23,6 +24,7 @@ def format_webnoti_list_object(item):
     }
 
 
+# pylint: disable=R0911
 @csrf_exempt
 def crud_device(request):
     """ CRUD Operation for FCM devices """
@@ -111,7 +113,7 @@ def webnoti_pill(request, req_id):
                     datetime = datetime[:-2] + ":" + datetime[-2:]
                     print(datetime)
                     NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
-            
+
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
@@ -140,10 +142,10 @@ def telegram(request):
         try:
             telegram_user = TelegramUser.objects.get(telegram_username=username) if username is not None else \
                 TelegramUser.objects.get(telegram_first_name=first_name)
-            telegram_bot.send_message(chat_id=chat_id,
+            TELEGRAM_BOT.send_message(chat_id=chat_id,
                                       text="Hi, {telegram_user.telegram_first_name}!")
         except TelegramUser.DoesNotExist:
-            telegram_bot.send_message(chat_id=chat_id,
+            TELEGRAM_BOT.send_message(chat_id=chat_id,
                                       text="Please register your Telegram account in PillBox Account Setting first.")
             return HttpResponse(status=status.HTTP_200_OK)
 
@@ -153,12 +155,12 @@ def telegram(request):
                 telegram_user.is_authenticated = True
                 telegram_user.chat_id = chat_id
                 telegram_user.save()
-                telegram_bot.send_message(chat_id=chat_id,
+                TELEGRAM_BOT.send_message(chat_id=chat_id,
                                           text="Your Telegram account has been successfully registered!")
                 return HttpResponse(status=status.HTTP_200_OK)
             else:
                 # User has typed wrong auth key in telegram
-                telegram_bot.send_message(chat_id=chat_id,
+                TELEGRAM_BOT.send_message(chat_id=chat_id,
                                           text="Wrong Auth key. Please check and type in right Auth key.")
         else:
             # TODO should our bot reply when authenticated user says something?

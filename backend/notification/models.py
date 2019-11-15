@@ -9,7 +9,7 @@ from user.models import User
 
 """
 Default hour constant for notification.
-For more than 3 times a day, 
+For more than 3 times a day,
 we will uniformly divide interval START_TIME~END_TIME with the given time per day.
 """
 DATETIME = [[900], [900, 1900], [900, 1300, 1900]]
@@ -20,7 +20,7 @@ END_TIME = 2100
 Telegram Chatbot Instance
 """
 AUTH_KEY = '1007785006:AAGZNrBr4w-Eovrf-ZQj7P7MSN6KS3Cl23g'
-telegram_bot = telegram.Bot(AUTH_KEY)
+TELEGRAM_BOT = telegram.Bot(AUTH_KEY)
 
 
 class Notification(models.Model):
@@ -54,7 +54,7 @@ class Notification(models.Model):
                 datetime_list = [END_TIME + i for i in range(int((END_TIME - START_TIME) / time_per_day))]
             else:
                 datetime_list = DATETIME[time_per_day - 1]
-        datetime_list = list(map(lambda x: str(x), datetime_list))
+        datetime_list = list(map(str, datetime_list))
 
         notification = cls(activated=activated, user=user, pill=pill)
         notification.save()

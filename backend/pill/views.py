@@ -87,6 +87,6 @@ class PillItemsPerUser(APIView):
             Notification.objects.filter(
                 user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
-            return Response(status=204)
+            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
-            return HttpResponse(status=401)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

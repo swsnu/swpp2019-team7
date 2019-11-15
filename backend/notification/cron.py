@@ -4,12 +4,14 @@ import datetime
 from django.utils import timezone
 
 from fcm_django.models import FCMDevice
-from notification.models import *
+from notification.models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
 
 
 def send_notification():
-    # This cron job will be performed every minute. If the parsed time matches current time,
-    # send the notification as below.
+    """
+    This cron job will be performed every minute. If the parsed time matches current time,
+    send the notification as below.
+    """
 
     now = timezone.localtime(timezone.now())
     now = datetime.time(now.hour, now.minute)
@@ -33,6 +35,6 @@ def send_notification():
         notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
         for notification in notification_list:
             if NotificationTime.objects.filter(notification=notification, time=now).exists():
-                telegram_bot.send_message(chat_id=telegram_user.chat_id, text=f"Time to take {notification.pill}")
+                TELEGRAM_BOT.send_message(chat_id=telegram_user.chat_id, text=f"Time to take {notification.pill}")
 
     # TODO currently does not support interval messaging.

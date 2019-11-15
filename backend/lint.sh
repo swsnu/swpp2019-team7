@@ -1,1 +1,1 @@
-pylint --load-plugins pylint_django **/*.py 
+pylint --load-plugins pylint_django **/*.py
