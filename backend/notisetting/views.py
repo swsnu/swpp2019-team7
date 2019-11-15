@@ -20,13 +20,10 @@ def format_noti_object(noti):
 @csrf_exempt
 def notisetting(request):
     """Devines view of notiSetting model"""
-    print('NOTIFICATION ')
     if request.method == 'GET':
-        print('noti get')
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         else:
-            print('else')
             noti = User.objects.get(id=request.user.id).notiSetting
             return JsonResponse(format_noti_object(noti), status=200)
     elif request.method == 'PUT':

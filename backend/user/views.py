@@ -11,6 +11,7 @@ from notisetting.models import NotiSetting
 from .models import User
 # Create your views here.
 
+
 def format_user_object(user):
     """Recieves user model instance and returns JSON of it """
     return {
@@ -22,6 +23,8 @@ def format_user_object(user):
         'telegram_last_name': user.telegram_last_name,
         'telegram_username': user.telegram_username,
     }
+
+
 def format_noti_object(noti):
     """recieves noti model instance and returns JSON of it"""
     return {
@@ -29,6 +32,8 @@ def format_noti_object(noti):
         'enable_segregate': noti.enable_segregate,
         'enable_kakao': noti.enable_kakao,
     }
+
+
 @csrf_exempt
 def signin(request):
     """REST API description of /api/signin"""
@@ -132,7 +137,6 @@ def user_info(request):
             return JsonResponse(format_user_object(user), status=200)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
-
 
 
 @ensure_csrf_cookie
