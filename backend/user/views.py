@@ -21,8 +21,6 @@ def format_user_object(user):
         'telegram_first_name': user.telegram_first_name,
         'telegram_last_name': user.telegram_last_name,
         'telegram_username': user.telegram_username,
-        #'register-date': user.register_date,
-        #'last-login-date': user.last_login_date
     }
 def format_noti_object(noti):
     """recieves noti model instance and returns JSON of it"""
@@ -37,22 +35,17 @@ def signin(request):
     """POST: recieve user authentication and see if registered. Return 204 response"""
     if request.method == 'POST':
         try:
-            #print('LOGIN requst.header: ', request.get_full_path_info())
             req_data = json.loads(request.body.decode())
             email = req_data['email']
             password = req_data['password']
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
         user = authenticate(request, email=email, password=password)
-        # print('Does it work?')
+
         if user is not None:
             login(request, user)
             noti = user.notiSetting
-            print('noti is from back ')
-            print(noti)
-            print(user)
             response_json = {'user': format_user_object(user), 'noti': format_noti_object(noti)}
-            print(response_json)
             return JsonResponse(response_json, status=200)
         else:
             return HttpResponse(content='user is None', status=401)
@@ -86,7 +79,7 @@ def signup(request):
             name = req_data['name']
         except (KeyError, ValueError):
             return HttpResponseBadRequest()
-        print("User is {} {} {}".format(email, password, name))
+
         new_user = User.objects.create_user(email=email, password=password, name=name)
         new_noti = NotiSetting(user=new_user)
         new_noti.save()
@@ -94,13 +87,14 @@ def signup(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 def password_change(request):
     """Decorative function to change password and maintain login session"""
     form = PasswordChangeForm(user=request.user, data=request.POST)
     if form.is_valid():
-        print('valid form')
         form.save()
         update_session_auth_hash(request, form.user)
+
 
 # pylint: disable=R0911
 @csrf_exempt

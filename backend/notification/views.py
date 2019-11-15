@@ -4,9 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from rest_framework import status
 
-from .models import Notification, NotificationTime
-from pill.models import Pill
-
 import json
 import shortuuid
 
@@ -21,8 +18,8 @@ def format_webnoti_list_object(item):
     """ Takes a web notification item and makes it into JSON """
     return {
         'id': item.id,
-        'activated': item.notification_time,
-        'time': item.time
+        'activated': item.activated,  # 진선아 이부분 item.notification_time으로 되어있든데 이게 맞지?
+        # 'time': item.time  # notification object에 time이라는 프로퍼티도 없음 notificationTime이라는 다른 model로 시간 관리하고 있음
     }
 
 
@@ -65,13 +62,13 @@ def crud_device(request):
         return HttpResponseNotAllowed(['POST'])
 
 
-def webnoti (request):
+def webnoti(request):
     """Function for getting/returning web notification"""
     if request.method == 'GET':
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
-            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK)
+            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
@@ -91,7 +88,8 @@ def webnoti_pill(request, req_id):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             webnoti_item.activated = activated
-            #for time in time, get webnoti, edit, and then return
+
+            # for time in time, get webnoti, edit, and then return
             notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
             index = 0
             for datetime in datetime_list:
@@ -101,11 +99,13 @@ def webnoti_pill(request, req_id):
                 notification.time = datetime
                 notification.save()
                 index += 1
-            #if datetime doesn't exist, delete
+
+            # if datetime doesn't exist, delete
             if len(notification_time_list) > index:
                 for notification in notification_time_list[index:-1]:
                     notification.delete()
-            #if notification_time doesn't exist, add new
+
+            # if notification_time doesn't exist, add new
             if len(datetime_list) > index:
                 for datetime in datetime_list[index:-1]:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
@@ -114,8 +114,8 @@ def webnoti_pill(request, req_id):
             
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
-            webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
-            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK)
+            webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
+            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:

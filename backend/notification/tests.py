@@ -15,7 +15,7 @@ class TempTestCase(TestCase):
     def setUp(self):
         management.call_command('loaddata', 'dataset/fixtures/pill_data.json')
         self.client = Client()
-        new_user=User.objects.create_user(email="test1@test.com", password="test1", name="test1")
+        new_user = User.objects.create_user(email="test1@test.com", password="test1", name="test1")
         new_notisetting = NotiSetting(user=new_user)
         new_notisetting.save()
         self.client.login(email="test1@test.com", password="test1")
