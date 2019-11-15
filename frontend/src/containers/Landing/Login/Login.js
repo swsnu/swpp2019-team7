@@ -161,7 +161,7 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)); },
   onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
 });
