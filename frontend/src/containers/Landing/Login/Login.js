@@ -80,9 +80,9 @@ class Login extends Component {
     });
     this.props.firebase.getToken().then((token) => {
       this.props.onLoginUser(user).then(() => {
-        this.props.onRegisterToken(token)
-      })
-    })
+        this.props.onRegisterToken(token);
+      });
+    });
   };
 
   render() {
@@ -99,7 +99,7 @@ class Login extends Component {
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
-              </Typography>
+            </Typography>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
@@ -137,17 +137,17 @@ class Login extends Component {
                 onClick={(event) => { console.log('Is this called?'); this.credentialChecker(event); this.onLoginButtonClick(); }}
               >
                 Log In
-                </Button>
+              </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
                     Forgot password?
-                    </Link>
+                  </Link>
                 </Grid>
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     Don&apos;t have an account? Sign Up
-                    </Link>
+                  </Link>
                 </Grid>
               </Grid>
             </form>
@@ -162,8 +162,8 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)) },
-  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ "fcmtoken": FCMToken })) }
+  onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)); },
+  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
 });
 
 export default connect(null, mapDispatchToProps)((withStyles(styles)(withFirebase(Login))));

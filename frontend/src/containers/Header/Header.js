@@ -104,7 +104,8 @@ class Header extends Component {
             id="signout-button"
             color="inherit"
             style={{ color: 'black' }}
-            onClick={() => this.onSignOutButtonClick()}>
+            onClick={() => this.onSignOutButtonClick()}
+          >
             Sign Out
           </Button>
         </Toolbar>
@@ -119,7 +120,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
-  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({data: {"fcmtoken": FCMToken }})) }
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

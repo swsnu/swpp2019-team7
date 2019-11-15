@@ -21,9 +21,9 @@ def time_to_datetime(time):
 def format_webnoti_list_object(item):
     """ Takes a web notification item and makes it into JSON """
     notitime_list = NotificationTime.objects.filter(notification=item)
-    time_list=[]
+    time_list = []
     for noti in notitime_list:
-        time_list.append(time_to_datetime(noti.gettime()))
+        time_list.append((noti.gettime()))
     return {
         'id': item.id,
         'activated': item.activated,  # 진선아 이부분 item.notification_time으로 되어있든데 이게 맞지?
@@ -103,23 +103,23 @@ def webnoti_pill(request, req_id):
             notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
             index = 0
 
-            if(len(notification_time_list) > len(datetime_list)):
+            if len(notification_time_list) > len(datetime_list):
             # if datetime doesn't exist, delete
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification = notification_time_list[index]
-                    notification.time = datetime
-                    notification.save()
+                    notificationtime = notification_time_list[index]
+                    notificationtime.time = datetime
+                    notificationtime.save()
                     index += 1
-                for notification in notification_time_list[index:]:
-                    notification.delete()
-            elif(len(notification_time_list) < len(datetime_list)):
+                for notificationtime in notification_time_list[index:]:
+                    notificationtime.delete()
+            elif len(notification_time_list) < len(datetime_list):
             # if notification_time doesn't exist, add new
-                for notification in notification_time_list:
+                for notificationtime in notification_time_list:
                     datetime = datetime_list[index]
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification.time = datetime
-                    notification.save()
+                    notificationtime.time = datetime
+                    notificationtime.save()
                     index += 1
                 for datetime in datetime_list[index:]:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
@@ -129,12 +129,10 @@ def webnoti_pill(request, req_id):
             else:
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification = notification_time_list[index]
-                    notification.time = datetime
-                    notification.save()
+                    notificationtime = notification_time_list[index]
+                    notificationtime.time = datetime
+                    notificationtime.save()
                     index += 1
-            
- 
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
@@ -164,7 +162,7 @@ def telegram(request):
             telegram_user = TelegramUser.objects.get(telegram_username=username) if username is not None else \
                 TelegramUser.objects.get(telegram_first_name=first_name)
             TELEGRAM_BOT.send_message(chat_id=chat_id,
-                                      text="Hi, {telegram_user.telegram_first_name}!")
+                                      text=f"Hi, {telegram_user.telegram_first_name}!")
         except TelegramUser.DoesNotExist:
             TELEGRAM_BOT.send_message(chat_id=chat_id,
                                       text="Please register your Telegram account in PillBox Account Setting first.")

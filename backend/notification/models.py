@@ -32,7 +32,7 @@ class Notification(models.Model):
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Notification [{self.user} / {self.pill}]"
+        return f"Notification [{self.id}| {self.activated}| {self.user} / {self.pill}]"
 
     @classmethod
     def create(cls, user, pill, activated=True, time_list=None):
@@ -60,7 +60,6 @@ class Notification(models.Model):
         notification.save()
         for datetime in datetime_list:
             datetime = datetime[:-2] + ":" + datetime[-2:]
-            print(f'datetime at creation is {datetime}')
             NotificationTime.objects.create(notification=notification, time=datetime).save()
 
         return notification
@@ -76,7 +75,10 @@ class NotificationTime(models.Model):
     def __str__(self):
         return f"{self.notification} | {self.time}"
     def gettime(self):
-        return f"{self.time}"
+        """Returns the standard 4 letter string of time"""
+        time_string = f"{self.time}"
+        datetime_string = time_string[0:2]+time_string[3:5]
+        return datetime_string
 
 class TelegramUser(models.Model):
     """

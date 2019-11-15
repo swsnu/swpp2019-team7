@@ -31,7 +31,7 @@ def image(request):
             Image.objects.filter(user=request.user, pill=pill).delete()
             image_instance.pill = pill
 
-        image_instance.filename = '{request.user.name}_{pill.product_name}'
+        image_instance.filename = f'{request.user.name}_{pill.product_name}'
         image_instance.save()
 
         return JsonResponse({

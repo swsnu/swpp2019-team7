@@ -5,8 +5,8 @@ from django.http import HttpResponse, HttpResponseNotAllowed, \
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import NotiSetting
 from user.models import User
+from .models import NotiSetting
 # Create your views here.
 
 def format_noti_object(noti):
