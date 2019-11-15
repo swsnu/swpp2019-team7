@@ -49,7 +49,7 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(
             str(response.content, encoding='utf8'),
-            [{'id':1, 'activated':False, 'time':['1000']}]
+            [{'id':2, 'activated':False, 'time':['1000']}]
         )
 
         response = self.client.put('/api/webnoti/1/',
@@ -60,7 +60,7 @@ class TempTestCase(TestCase):
         notitime_list = NotificationTime.objects.filter(notification=new_webnoti)
         time_list=[]
         for noti in notitime_list:
-            time_list.append(time_to_datetime(noti.gettime()))
+            time_list.append((noti.gettime()))
         self.assertEqual(time_list, ['1000', '1100'])
         
         response = self.client.put('/api/webnoti/1/',
@@ -71,7 +71,7 @@ class TempTestCase(TestCase):
         notitime_list = NotificationTime.objects.filter(notification=new_webnoti)
         time_list=[]
         for noti in notitime_list:
-            time_list.append(time_to_datetime(noti.gettime()))
+            time_list.append((noti.gettime()))
         self.assertEqual(time_list, ['0900'])
     
     #def test_unallowed
@@ -79,15 +79,15 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
         response = self.client.delete('/api/webnoti/1/')
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        response = self.client.put('/api/webnoti/1/',
+            json.dumps({'activated': False}),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.client.logout()
-        response = self.client.get('/api/webnoti')
+        response = self.client.get('/api/webnoti/')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         response = self.client.put('/api/webnoti/1/',
             json.dumps({'activated': False, 'time': ['1000']}),
                                     content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        response = self.client.put('/api/webnoti/1/',
-            json.dumps({'activated': False}),
-                                    content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 # Create your tests here.
