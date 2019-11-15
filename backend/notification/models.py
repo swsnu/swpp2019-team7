@@ -32,7 +32,7 @@ class Notification(models.Model):
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Notification [{self.user} / {self.pill}]"
+        return f"Notification [{self.user} / {self.pill}]"
 
     @classmethod
     def create(cls, user, pill, activated=True, time_list=None):
@@ -60,7 +60,7 @@ class Notification(models.Model):
         notification.save()
         for datetime in datetime_list:
             datetime = datetime[:-2] + ":" + datetime[-2:]
-            print(datetime)
+            print(f'datetime at creation is {datetime}')
             NotificationTime.objects.create(notification=notification, time=datetime).save()
 
         return notification
@@ -70,12 +70,13 @@ class NotificationTime(models.Model):
     """
     Defines each notification elements, comprising WebNotification Instance
     """
-    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE, related_name='notitime')
     time = models.TimeField(blank="09:00")
 
     def __str__(self):
-        return "{self.notification} | {self.time}"
-
+        return f"{self.notification} | {self.time}"
+    def gettime(self):
+        return f"{self.time}"
 
 class TelegramUser(models.Model):
     """

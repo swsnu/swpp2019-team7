@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('registerdevice/', views.crud_device, name='crud_device'),
     path('telegram/', views.telegram, name='telegram'),
+    path('webnoti/<int:req_id>/', views.webnoti_pill, name='webnoti'),
     path('webnoti/', views.webnoti, name='webnoti'),
 ]

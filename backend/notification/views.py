@@ -14,13 +14,20 @@ from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
 def _get_telegram_auth_key():
     return shortuuid.ShortUUID().random(length=4)
 
+def time_to_datetime(time):
+    datetime = time[0:2]+time[3:5]
+    return datetime
 
 def format_webnoti_list_object(item):
     """ Takes a web notification item and makes it into JSON """
+    notitime_list = NotificationTime.objects.filter(notification=item)
+    time_list=[]
+    for noti in notitime_list:
+        time_list.append(time_to_datetime(noti.gettime()))
     return {
         'id': item.id,
         'activated': item.activated,  # 진선아 이부분 item.notification_time으로 되어있든데 이게 맞지?
-        # 'time': item.time  # notification object에 time이라는 프로퍼티도 없음 notificationTime이라는 다른 model로 시간 관리하고 있음
+        'time': time_list  # notification object에 time이라는 프로퍼티도 없음 notificationTime이라는 다른 model로 시간 관리하고 있음
     }
 
 
@@ -81,8 +88,9 @@ def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""
     if request.method == 'PUT':
         if request.user.is_authenticated:
-            pill = Pill.objects.filter(id=req_id)
+            pill = Pill.objects.get(pk=req_id)
             webnoti_item = Notification.objects.get(user=request.user, pill=pill)
+            print(webnoti_item)
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']
@@ -94,26 +102,39 @@ def webnoti_pill(request, req_id):
             # for time in time, get webnoti, edit, and then return
             notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
             index = 0
-            for datetime in datetime_list:
-                datetime = datetime[:-2] + ":" + datetime[-2:]
-                print(datetime)
-                notification = notification_time_list[index]
-                notification.time = datetime
-                notification.save()
-                index += 1
 
+            if(len(notification_time_list) > len(datetime_list)):
             # if datetime doesn't exist, delete
-            if len(notification_time_list) > index:
-                for notification in notification_time_list[index:-1]:
-                    notification.delete()
-
-            # if notification_time doesn't exist, add new
-            if len(datetime_list) > index:
-                for datetime in datetime_list[index:-1]:
+                for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    print(datetime)
+                    notification = notification_time_list[index]
+                    notification.time = datetime
+                    notification.save()
+                    index += 1
+                for notification in notification_time_list[index:]:
+                    notification.delete()
+            elif(len(notification_time_list) < len(datetime_list)):
+            # if notification_time doesn't exist, add new
+                for notification in notification_time_list:
+                    datetime = datetime_list[index]
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    notification.time = datetime
+                    notification.save()
+                    index += 1
+                for datetime in datetime_list[index:]:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
                     NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
-
+                noti_list = NotificationTime.objects.filter(notification=webnoti_item)
+                print(noti_list)
+            else:
+                for datetime in datetime_list:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    notification = notification_time_list[index]
+                    notification.time = datetime
+                    notification.save()
+                    index += 1
+            
+ 
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
