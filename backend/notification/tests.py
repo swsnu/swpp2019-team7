@@ -22,10 +22,12 @@ class TempTestCase(TestCase):
         new_notisetting = NotiSetting(user=new_user)
         new_notisetting.save()
         self.client.login(email="test1@test.com", password="test1")
-        time_list = ['1000']
         new_pill = Pill.objects.get(pk=1)  # get pill object from Pill model by id
         new_user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
-        Notification.create(new_user, new_pill)
+        new_notification = Notification.create(new_user, new_pill)
+        new_notitime = NotificationTime.objects.get(notification=new_notification)
+        time_string = time_to_datetime(new_notitime.gettime())
+        assert(time_string, '0900')
 
     def test_get(self):
         response = self.client.get('/api/webnoti/')
