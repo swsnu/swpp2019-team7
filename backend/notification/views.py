@@ -1,18 +1,34 @@
 """Backend for registering the device using FCM token!"""
+import json
+import shortuuid
+
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from rest_framework import status
-import json
-import shortuuid
 
-from .models import *
+from pill.models import Pill
+from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
 
 
 def _get_telegram_auth_key():
     return shortuuid.ShortUUID().random(length=4)
 
 
+def format_webnoti_list_object(item):
+    """ Takes a web notification item and makes it into JSON """
+    notitime_list = NotificationTime.objects.filter(notification=item)
+    time_list = []
+    for noti in notitime_list:
+        time_list.append((noti.gettime()))
+    return {
+        'id': item.id,
+        'activated': item.activated,
+        'time': time_list
+    }
+
+
+# pylint: disable=R0911
 @csrf_exempt
 def crud_device(request):
     """ CRUD Operation for FCM devices """
@@ -52,6 +68,77 @@ def crud_device(request):
         return HttpResponseNotAllowed(['POST'])
 
 
+def webnoti(request):
+    """Function for getting/returning web notification"""
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            webnoti_list = Notification.objects.filter(user=request.user)
+            webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
+            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+def webnoti_pill(request, req_id):
+    """Function for editing specific pill of webnoti"""
+    if request.method == 'PUT':
+        if request.user.is_authenticated:
+            pill = Pill.objects.get(pk=req_id)
+            webnoti_item = Notification.objects.get(user=request.user, pill=pill)
+            print(webnoti_item)
+            try:
+                req_data = json.loads(request.body.decode())
+                activated = req_data['activated']
+                datetime_list = req_data['time']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            webnoti_item.activated = activated
+
+            # for time in time, get webnoti, edit, and then return
+            notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
+            index = 0
+
+            if len(notification_time_list) > len(datetime_list):
+            # if datetime doesn't exist, delete
+                for datetime in datetime_list:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    notificationtime = notification_time_list[index]
+                    notificationtime.time = datetime
+                    notificationtime.save()
+                    index += 1
+                for notificationtime in notification_time_list[index:]:
+                    notificationtime.delete()
+            elif len(notification_time_list) < len(datetime_list):
+            # if notification_time doesn't exist, add new
+                for notificationtime in notification_time_list:
+                    datetime = datetime_list[index]
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    notificationtime.time = datetime
+                    notificationtime.save()
+                    index += 1
+                for datetime in datetime_list[index:]:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
+                noti_list = NotificationTime.objects.filter(notification=webnoti_item)
+                print(noti_list)
+            else:
+                for datetime in datetime_list:
+                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                    notificationtime = notification_time_list[index]
+                    notificationtime.time = datetime
+                    notificationtime.save()
+                    index += 1
+            webnoti_item.save()
+            webnoti_list = Notification.objects.filter(user=request.user)
+            webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
+            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
 @csrf_exempt
 def telegram(request):
     """
@@ -71,10 +158,10 @@ def telegram(request):
         try:
             telegram_user = TelegramUser.objects.get(telegram_username=username) if username is not None else \
                 TelegramUser.objects.get(telegram_first_name=first_name)
-            telegram_bot.send_message(chat_id=chat_id,
+            TELEGRAM_BOT.send_message(chat_id=chat_id,
                                       text=f"Hi, {telegram_user.telegram_first_name}!")
         except TelegramUser.DoesNotExist:
-            telegram_bot.send_message(chat_id=chat_id,
+            TELEGRAM_BOT.send_message(chat_id=chat_id,
                                       text="Please register your Telegram account in PillBox Account Setting first.")
             return HttpResponse(status=status.HTTP_200_OK)
 
@@ -84,12 +171,12 @@ def telegram(request):
                 telegram_user.is_authenticated = True
                 telegram_user.chat_id = chat_id
                 telegram_user.save()
-                telegram_bot.send_message(chat_id=chat_id,
+                TELEGRAM_BOT.send_message(chat_id=chat_id,
                                           text="Your Telegram account has been successfully registered!")
                 return HttpResponse(status=status.HTTP_200_OK)
             else:
                 # User has typed wrong auth key in telegram
-                telegram_bot.send_message(chat_id=chat_id,
+                TELEGRAM_BOT.send_message(chat_id=chat_id,
                                           text="Wrong Auth key. Please check and type in right Auth key.")
         else:
             # TODO should our bot reply when authenticated user says something?

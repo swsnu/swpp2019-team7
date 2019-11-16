@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -9,8 +9,9 @@ from .models import Pill
 
 
 def get_uer_pills(request):
+    """Description of API to get list of pills for given user"""
     if request.method == 'GET':
-        """ get pill list for request.user """
+        """ get pill list for request.user  """
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
 
@@ -32,10 +33,13 @@ def get_uer_pills(request):
             return JsonResponse(return_list, status=200, safe=False)
         else:
             return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 
 # url:  api/pill/pill_id
 class PillItemsPerUser(APIView):
+    """Define view for specific pill. pill_id is a global, DB wise index, not within user"""
     def post(self, request, pill_id):
         """ add new pill item for user <int:pk> """
         if request.user.is_authenticated:
@@ -67,6 +71,8 @@ class PillItemsPerUser(APIView):
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
+    # @csrf_exempt
+    # pylint: disable=R0201
     def delete(self, request, pill_id):
         """ Delete pill_id """
         if request.user.is_authenticated:
@@ -81,7 +87,6 @@ class PillItemsPerUser(APIView):
             Notification.objects.filter(
                 user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
-
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

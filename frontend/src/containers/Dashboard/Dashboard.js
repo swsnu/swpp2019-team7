@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -64,6 +65,11 @@ class Dashboard extends Component {
     };
   }
 
+  componentDidMount() {
+    // this.props.onGetUser();
+    // this.props.onGetNoti();
+  }
+
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
@@ -123,4 +129,12 @@ class Dashboard extends Component {
   }
 }
 
-export default ((withStyles(styles)(Dashboard)));
+const mapStateToProps = (state) => ({
+  user: state.user.current_user,
+});
+/*
+const mapDispatchToProps = (dispatch) => ({
+  onGetUser: () => dispatch(userActionCreators.getUser()),
+  onGetNoti: () => dispatch(userActionCreators.getNoti()),
+}); */
+export default connect(mapStateToProps)((withStyles(styles)(Dashboard)));

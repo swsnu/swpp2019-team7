@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'vision.apps.VisionConfig',
     'user.apps.UserConfig',
     'notification.apps.NotificationConfig',
+    'notisetting.apps.NotisettingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -113,6 +114,10 @@ DATABASES = {
         'HOST': 'localhost',  # TODO change this to real DB
         'POST': '',
         'OPTIONS': {'charset': 'utf8mb4'},
+        'TEST_NAME': 'pillbox_test',
+        'TEST': {
+            'NAME': 'test_pillbox',
+        }
     }
 }
 

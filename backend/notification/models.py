@@ -9,7 +9,7 @@ from user.models import User
 
 """
 Default hour constant for notification.
-For more than 3 times a day, 
+For more than 3 times a day,
 we will uniformly divide interval START_TIME~END_TIME with the given time per day.
 """
 DATETIME = [[900], [900, 1900], [900, 1300, 1900]]
@@ -20,7 +20,7 @@ END_TIME = 2100
 Telegram Chatbot Instance
 """
 AUTH_KEY = '1007785006:AAGZNrBr4w-Eovrf-ZQj7P7MSN6KS3Cl23g'
-telegram_bot = telegram.Bot(AUTH_KEY)
+TELEGRAM_BOT = telegram.Bot(AUTH_KEY)
 
 
 class Notification(models.Model):
@@ -32,7 +32,7 @@ class Notification(models.Model):
     pill = models.ForeignKey(Pill, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Notification [{self.user} / {self.pill}]"
+        return f"Notification [{self.id}| {self.activated}| {self.user} / {self.pill}]"
 
     @classmethod
     def create(cls, user, pill, activated=True, time_list=None):
@@ -54,13 +54,12 @@ class Notification(models.Model):
                 datetime_list = [END_TIME + i for i in range(int((END_TIME - START_TIME) / time_per_day))]
             else:
                 datetime_list = DATETIME[time_per_day - 1]
-        datetime_list = list(map(lambda x: str(x), datetime_list))
+        datetime_list = list(map(str, datetime_list))
 
         notification = cls(activated=activated, user=user, pill=pill)
         notification.save()
         for datetime in datetime_list:
             datetime = datetime[:-2] + ":" + datetime[-2:]
-            print(datetime)
             NotificationTime.objects.create(notification=notification, time=datetime).save()
 
         return notification
@@ -70,12 +69,16 @@ class NotificationTime(models.Model):
     """
     Defines each notification elements, comprising WebNotification Instance
     """
-    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE, related_name='notitime')
     time = models.TimeField(blank="09:00")
 
     def __str__(self):
         return f"{self.notification} | {self.time}"
-
+    def gettime(self):
+        """Returns the standard 4 letter string of time"""
+        time_string = f"{self.time}"
+        datetime_string = time_string[0:2]+time_string[3:5]
+        return datetime_string
 
 class TelegramUser(models.Model):
     """

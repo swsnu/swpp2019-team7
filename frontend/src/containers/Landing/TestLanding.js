@@ -78,9 +78,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#202020',
   },
   tutorialsContent: {
-    // marginBottom: theme.spacing(3),
-    padding: theme.spacing(3),
-    // border: 'solid red',  // need this for container guideline
+    padding: theme.spacing(0, 0, 0, 0),
   },
 }));
 
@@ -112,7 +110,7 @@ function TestLanding() {
         </div>
       </Container>
       {/* Tutorials Section */}
-      <Container className={classes.tutorialsContent}>
+      <Container maxWidth={false} className={classes.tutorialsContent}>
         <Grid container spacing={0} style={{ backgroundColor: '#f7daad', paddingTop: '2%', paddingBottom: '2%' }}>
           <Grid item md={2} xs={1} />
           <Grid item md={6} xs={7}>

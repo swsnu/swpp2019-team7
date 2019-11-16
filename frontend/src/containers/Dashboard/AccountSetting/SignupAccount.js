@@ -61,81 +61,154 @@ class SignupAccount extends Component {
     super(props);
 
     this.state = {
-      email_input: '',
       pw_input: '',
       pw_confirm_input: '',
       username_input: '',
-      emailError: false,
+      telegram_first_name_input: '',
+      telegram_last_name_input: '',
+      telegram_username_input: '',
       pw_error: false,
       pw_confirm_error: false,
+      usernameError: false,
+      telegramFirstNameError: false,
+      telegramLastNameError: false,
+      telegramUsernameError: false,
     };
   }
 
   credentialChecker = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email_input);
-    console.log('pw: ', this.state.pw_input);
-    const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    const usernameReg = /^[A-Z][a-z]+$/;
+    const telegramReg = /^([A-za-z0-9])+$/;
+    // const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    let emailError = false;
+    const emailError = false;
     console.log(emailError);
     let passwordError = false;
-    console.log(passwordError);
     let passwordConfirmError = false;
-    console.log(passwordConfirmError);
-    if (!emailReg.test(this.state.email_input)) {
-      emailError = true;
-      this.setState({
-        emailError,
-      });
-    } else {
-      emailError = false;
-      this.setState({
-        emailError,
-      });
+    let usernameError = false;
+    let telegramError = false;
+    let telegramUsernameError = false;
+    let telegramFirstNameError = false;
+    let telegramLastNameError = false;
+    if (this.state.pw_input !== '') {
+      if (!passwordReg.test(this.state.pw_input)) {
+        passwordError = true;
+        this.setState({
+          pw_error: passwordError,
+        });
+      } else {
+        passwordError = false;
+        this.setState({
+          pw_error: passwordError,
+        });
+      }
+      if (this.state.pw_input !== this.state.pw_confirm_input) {
+        passwordConfirmError = true;
+        this.setState({
+          pw_confirm_error: passwordConfirmError,
+        });
+      } else {
+        passwordConfirmError = false;
+        this.setState({
+          pw_confirm_error: passwordConfirmError,
+        });
+      }
     }
-    if (!passwordReg.test(this.state.pw_input)) {
-      passwordError = true;
-      this.setState({
-        pw_error: passwordError,
-      });
-    } else {
-      passwordError = false;
-      this.setState({
-        pw_error: passwordError,
-      });
+    if (this.state.username_input !== '') {
+      if (!usernameReg.test(this.state.username_input)) {
+        usernameError = true;
+        this.setState({
+          usernameError,
+        });
+      } else {
+        usernameError = false;
+        this.setState({
+          usernameError,
+        });
+      }
     }
-    if (this.state.pw_input !== this.state.pw_confirm_input) {
-      passwordConfirmError = true;
-      this.setState({
-        pw_confirm_error: passwordConfirmError,
-      });
-    } else {
-      passwordConfirmError = false;
-      this.setState({
-        pw_confirm_error: passwordConfirmError,
-      });
+    if (this.state.telegram_first_name_input !== '') {
+      console.log(`first name is${this.state.telegram_first_name_input}.`);
     }
-    return (!emailError) && (!passwordError) && (!passwordConfirmError);
+    if (this.state.telegram_last_name_input !== '') {
+      console.log(`last name is${this.state.telegram_last_name_input}.`);
+    }
+
+    if (this.state.telegram_username_input !== '') {
+      console.log(`user name is${this.state.telegram_username_input}.`);
+    }
+
+
+    if (this.state.telegram_first_name_input !== ''
+       || this.state.telegram_last_name_input !== ''
+       || this.state.telegram_username_input !== ''
+    ) {
+      if (this.state.telegram_first_name_input === ''
+      || !telegramReg.test(this.state.telegram_first_name_input)) {
+        telegramFirstNameError = true;
+        telegramError = true;
+        this.setState({
+          telegramFirstNameError,
+        });
+        console.log('false fst test');
+      } else {
+        telegramFirstNameError = false;
+        this.setState({
+          telegramFirstNameError,
+        });
+      }
+      if (this.state.telegram_last_name_input === ''
+      || !telegramReg.test(this.state.telegram_last_name_input)) {
+        telegramLastNameError = true;
+        telegramError = true;
+        this.setState({
+          telegramLastNameError,
+        });
+        console.log('false last test');
+      } else {
+        telegramLastNameError = false;
+        this.setState({
+          telegramLastNameError,
+        });
+      }
+      if (this.state.telegram_username_input === ''
+      || !telegramReg.test(this.state.telegram_username_input)) {
+        telegramUsernameError = true;
+        telegramError = true;
+        this.setState({
+          telegramUsernameError,
+        });
+        console.log('false username test');
+        console.log(`.${this.state.telegram_username_input}.`);
+      } else {
+        telegramUsernameError = false;
+        this.setState({
+          telegramUsernameError,
+        });
+      }
+    }
+    return (!passwordError) && (!passwordConfirmError) && (!usernameError) && (!telegramError);
   };
 
-  onSignupButtonClick = (event) => {
+  onEditInfoButtonClick = (event) => {
     console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
-        email: this.state.email_input,
         password: this.state.pw_input,
         name: this.state.username_input,
+        telegram_first_name: this.state.telegram_first_name_input,
+        telegram_last_name: this.state.telegram_last_name_input,
+        telegram_username: this.state.telegram_username_input,
       };
-      console.log('Signing this user up!');
-      this.props.onSignupUser(user);
+      console.log('Change user to ! %O', user);
+      this.props.onEditUserInfo(user);
     }
   };
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
     return (
       <div className="Signup">
         <Header />
@@ -149,22 +222,23 @@ class SignupAccount extends Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    error={this.state.emailError}
-                    helperText={this.state.emailError ? "Should be in the format of 'characters@characters.domain'. No spaces should be included" : false}
+                    error={this.state.usernameError}
+                    helperText={this.state.usernameError ? 'Start with a capital letter, followed by one or more lowercase letters. Should only contain alphabets (A-Z, a-z)' : false}
+                    autoComplete="name"
+                    name="name"
                     variant="outlined"
                     required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    onChange={(event) => this.setState({ email_input: event.target.value })}
+                    id="name"
+                    label="Name"
+                    autoFocus
+                    onChange={(event) => this.setState({ username_input: event.target.value })}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.pw_error}
-                    helperText={this.state.pw_error ? 'Must contain at least one number and one uppercase and one lowercase letter, and at least 6 or more characters.' : false}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one lowercase letter, and at least 8 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -191,16 +265,60 @@ class SignupAccount extends Component {
                     onChange={(event) => this.setState({ pw_confirm_input: event.target.value })}
                   />
                 </Grid>
+                <Grid item xx={12}>
+                  <Typography component="h1" variant="h5">
+                    Change Telegram Account
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramFirstNameError}
+                    helperText={this.state.telegramFirstNameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_first_name"
+                    label="telegram_first_name"
+                    id="telegram_first_name"
+                    onChange={(event) => this.setState({ telegram_first_name_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramLastNameError}
+                    helperText={this.state.telegramLastNameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_last_name"
+                    label="telegram_last_name"
+                    id="telegram_last_name"
+                    onChange={(event) => this.setState({ telegram_last_name_input: event.target.value })}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    error={this.state.telegramUsernameError}
+                    helperText={this.state.telegramUsernameError ? 'Must match Telegram Id.' : false}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="telegram_username"
+                    label="telegram_username"
+                    id="telegram_username"
+                    onChange={(event) => this.setState({ telegram_username_input: event.target.value })}
+                  />
+                </Grid>
               </Grid>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                id="signup-button"
+                id="editinfo-button"
                 className={classes.submit}
                 onClick={(event) => {
-                  this.onSignupButtonClick(event);
+                  this.onEditInfoButtonClick(event);
                 }}
               >
                 Finish Change
@@ -217,7 +335,7 @@ class SignupAccount extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onSignupUser: (user) => { dispatch(userActionCreators.signupUser(user)); },
+  onEditUserInfo: (user) => { dispatch(userActionCreators.editUserInfo(user)); },
 });
 
 // export default Signup

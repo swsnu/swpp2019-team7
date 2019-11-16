@@ -15,8 +15,8 @@ describe('SignupAccount', () => {
   let mockSignup;
   let spyAcceptSignup;
   beforeEach(() => {
-    spyAcceptSignup = jest.spyOn(userActionCreator, 'signupUser')
-      .mockImplementation(() => ({ type: 'SIGNUP_USER' }));
+    spyAcceptSignup = jest.spyOn(userActionCreator, 'editUserInfo')
+      .mockImplementation(() => ({ type: 'EDIT_USERINFO' }));
     mockSignup = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
@@ -36,44 +36,72 @@ describe('SignupAccount', () => {
   it('should accept signup', () => {
     const component = mount(mockSignup);
 
-    const wrapperEmail = component.find({ id: 'email' }).at(1);
     const wrapperPW = component.find({ id: 'password' }).at(1);
     const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
-    const wrapperButton = component.find({ id: 'signup-button' }).find('button').at(1);
+    const wrapperName = component.find({ id: 'name' }).at(1);
+    const wrapperFirst = component.find({ id: 'telegram_first_name' }).at(1);
+    const wrapperLast = component.find({ id: 'telegram_last_name' }).at(1);
+    const wrapperUser = component.find({ id: 'telegram_username' }).at(1);
+    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
-    wrapperEmail.props().onChange({ target: { value: 'swpp@snu.com' } });
     wrapperPW.props().onChange({ target: { value: 'Password123*' } });
     wrapperPWConfirm.props().onChange({ target: { value: 'Password123*' } });
+    wrapperName.props().onChange({ target: { value: 'Peter' } });
+    wrapperFirst.props().onChange({ target: { value: 'first' } });
+    wrapperLast.props().onChange({ target: { value: 'last' } });
+    wrapperUser.props().onChange({ target: { value: 'username' } });
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(1);
   });
-  it('should NOT accept signup', () => {
+  it('should NOT accept signup - bad pw', () => {
     const component = mount(mockSignup);
 
-    const wrapperEmail = component.find({ id: 'email' }).at(1);
     const wrapperPW = component.find({ id: 'password' }).at(1);
     const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
-    const wrapperButton = component.find({ id: 'signup-button' }).find('button').at(1);
+    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
-    wrapperEmail.props().onChange({ target: { value: 'swppsnu.com' } });
-    wrapperPW.props().onChange({ target: { value: 'Password123*' } });
-    wrapperPWConfirm.props().onChange({ target: { value: 'password123*' } });
+    wrapperPW.props().onChange({ target: { value: 'pwd*' } });
+    wrapperPWConfirm.props().onChange({ target: { value: 'pwd*' } });
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
   });
-  it('should NOT accept signup 2', () => {
+  it('should NOT accept signup2 - bad name', () => {
     const component = mount(mockSignup);
 
-    const wrapperEmail = component.find({ id: 'email' }).at(1);
+    const wrapperName = component.find({ id: 'name' }).at(1);
+    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
+
+    wrapperName.props().onChange({ target: { value: 'asdf' } });
+    wrapperButton.simulate('click');
+
+    expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
+  });
+  it('should NOT accept signup3 - pwd mismatch', () => {
+    const component = mount(mockSignup);
+
     const wrapperPW = component.find({ id: 'password' }).at(1);
     const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
-    const wrapperButton = component.find({ id: 'signup-button' }).find('button').at(1);
+    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
-    wrapperEmail.props().onChange({ target: { value: 'swppsnu.com' } });
-    wrapperPW.props().onChange({ target: { value: 'pwd*' } });
-    wrapperPWConfirm.props().onChange({ target: { value: 'pwd*' } });
+    wrapperPW.props().onChange({ target: { value: 'pwd111111' } });
+    wrapperPWConfirm.props().onChange({ target: { value: 'pwd11111' } });
+    wrapperButton.simulate('click');
+
+    expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
+  });
+  it('should NOT accept signup4 - telegramname mismatch', () => {
+    const component = mount(mockSignup);
+
+    const wrapperFirst = component.find({ id: 'telegram_first_name' }).at(1);
+    const wrapperLast = component.find({ id: 'telegram_last_name' }).at(1);
+    const wrapperUser = component.find({ id: 'telegram_username' }).at(1);
+    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
+
+    wrapperFirst.props().onChange({ target: { value: '' } });
+    wrapperLast.props().onChange({ target: { value: '@!3@@!#' } });
+    wrapperUser.props().onChange({ target: { value: '!1!' } });
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);

@@ -31,8 +31,14 @@ const stubPillState = {
   selected_pill: null,
 };
 
-const stubUserState = {
+export const stubUserState = {
   logged_in: false,
+};
+
+export const stubNotiState = {
+  enable_noti: true,
+  enable_segregate: false,
+  enable_kakao: false,
 };
 
 
@@ -41,6 +47,20 @@ const stubUserState = {
 export const getMockStore = () => {
   const rootReducer = combineReducers({
     user: getmockReducer(stubUserState),
+    pill: getmockReducer(stubPillState),
+    noti: getmockReducer(stubNotiState),
+    router: connectRouter(history),
+  });
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const mockStore = createStore(rootReducer,
+    composeEnhancers(applyMiddleware(...middlewares)));
+  return mockStore;
+};
+
+export const getMockStoreLoggedIn = () => {
+  const rootReducer = combineReducers({
+    user: getmockReducer(stubUserState),
+    // user: { logged_in: true },
     pill: getmockReducer(stubPillState),
     router: connectRouter(history),
   });

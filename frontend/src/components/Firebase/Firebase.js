@@ -1,14 +1,14 @@
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCTwtNJzyKJg6vD1MMrpvKYeXpzBrv3e90",
-  authDomain: "fir-c769f.firebaseapp.com",
-  databaseURL: "https://fir-c769f.firebaseio.com",
-  projectId: "fir-c769f",
-  storageBucket: "fir-c769f.appspot.com",
-  messagingSenderId: "907542495339",
-  appId: "1:907542495339:web:d7c280ebb697d50f8fb12e",
-  measurementId: "G-PCGWM5N0RX"
+  apiKey: 'AIzaSyCTwtNJzyKJg6vD1MMrpvKYeXpzBrv3e90',
+  authDomain: 'fir-c769f.firebaseapp.com',
+  databaseURL: 'https://fir-c769f.firebaseio.com',
+  projectId: 'fir-c769f',
+  storageBucket: 'fir-c769f.appspot.com',
+  messagingSenderId: '907542495339',
+  appId: '1:907542495339:web:d7c280ebb697d50f8fb12e',
+  measurementId: 'G-PCGWM5N0RX',
 };
 
 class Firebase {
@@ -35,28 +35,28 @@ class Firebase {
     this.requestPermission();
     let token = null;
     await this.messaging.getToken()
-      .then(function (currentToken) {
+      .then((currentToken) => {
         if (currentToken) {
           token = currentToken;
-          console.log("getToken", currentToken);
+          console.log('getToken', currentToken);
         } else {
           // Show permission request.
           console.log('getToken: No Instance ID token available. Request permission to generate one.');
         }
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.log('getToken: An error occurred while retrieving token. ', err);
       });
 
     // Callback fired if Instance ID token is updated.
     this.messaging.onTokenRefresh(function () {
       this.messaging.getToken()
-        .then(function (refreshedToken) {
+        .then((refreshedToken) => {
           token = refreshedToken;
           console.log('onTokenRefresh getToken Token refreshed.');
           console.log('onTokenRefresh getToken', refreshedToken);
         })
-        .catch(function (err) {
+        .catch((err) => {
           console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
         });
     });

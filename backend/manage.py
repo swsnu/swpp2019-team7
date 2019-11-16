@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+
 from dataset.preprocess import PillDataset
 
 
@@ -25,4 +26,5 @@ if __name__ == '__main__':
         print("Initializing Pill Dataset Class...")
         PillDataset.get_instance()
         print("Done!!!")
+
     main()

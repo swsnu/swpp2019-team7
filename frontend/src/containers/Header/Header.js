@@ -61,7 +61,8 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
-    if (!this.props.logged_in) {
+    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
           <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
@@ -103,7 +104,8 @@ class Header extends Component {
             id="signout-button"
             color="inherit"
             style={{ color: 'black' }}
-            onClick={() => this.onSignOutButtonClick()}>
+            onClick={() => this.onSignOutButtonClick()}
+          >
             Sign Out
           </Button>
         </Toolbar>
@@ -118,7 +120,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
-  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({data: {"fcmtoken": FCMToken }})) }
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));
