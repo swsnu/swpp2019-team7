@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Pill(models.Model):
-    """Model description for Pill Model"""
+    """Model description for Pill Model1"""
     take_method = models.TextField(null=True, default='')
     product_name = models.TextField(null=True, default='')
     expiration_date = models.TextField(null=True, default='')
