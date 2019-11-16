@@ -1,7 +1,7 @@
 
 import ax from '../../api/index';
 
-export const getWebnoti = () => (dispatch) => ax.post('/api/webnoti/')
+export const getWebnoti = () => (dispatch) => ax.get('/api/webnoti/')
   .then((res) => {
     dispatch({ type: 'GET_WEBNOTI', web_noti: res.data });
   });
