@@ -21,7 +21,7 @@ class TempTestCase(TestCase):
         self.client = Client()
         with self.assertRaises(ValueError):
             UserManager._create_user(self, email=None, password="test1", name="test1", is_staff=False, is_superuser=False)
-        superuser = self.create_superuser(email="test1@test.com", password="test1")
+        superuser = UserManager.create_superuser(email="test1@test.com", password="test1")
         self.assertEqual(superuser.email, "test1@test.com")
         url = User.get_absolute_url()
         self.assertEqual(url, "api/user/1")
