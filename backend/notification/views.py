@@ -23,8 +23,8 @@ def format_webnoti_list_object(item):
         time_list.append((noti.gettime()))
     return {
         'id': item.id,
-        'activated': item.activated,  
-        'time': time_list  
+        'activated': item.activated,
+        'time': time_list
     }
 
 
