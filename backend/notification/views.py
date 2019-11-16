@@ -14,9 +14,6 @@ from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
 def _get_telegram_auth_key():
     return shortuuid.ShortUUID().random(length=4)
 
-def time_to_datetime(time):
-    datetime = time[0:2]+time[3:5]
-    return datetime
 
 def format_webnoti_list_object(item):
     """ Takes a web notification item and makes it into JSON """
@@ -26,8 +23,8 @@ def format_webnoti_list_object(item):
         time_list.append((noti.gettime()))
     return {
         'id': item.id,
-        'activated': item.activated,  # 진선아 이부분 item.notification_time으로 되어있든데 이게 맞지?
-        'time': time_list  # notification object에 time이라는 프로퍼티도 없음 notificationTime이라는 다른 model로 시간 관리하고 있음
+        'activated': item.activated,  
+        'time': time_list  
     }
 
 

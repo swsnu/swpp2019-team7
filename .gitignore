@@ -135,3 +135,6 @@ yarn-error.log
 /modules/rollup-test/dist/
 
 media/
+
+#backend migrations
+backend/*/migrations
