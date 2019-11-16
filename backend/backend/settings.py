@@ -115,6 +115,9 @@ DATABASES = {
         'POST': '',
         'OPTIONS': {'charset': 'utf8mb4'},
         'TEST_NAME': 'pillbox_test',
+        'TEST': {
+            'NAME': 'test_pillbox',
+        }
     }
 }
 
