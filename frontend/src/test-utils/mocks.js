@@ -31,8 +31,14 @@ const stubPillState = {
   selected_pill: null,
 };
 
+// stub user state for a logged out user
 export const stubUserState = {
   logged_in: false,
+};
+
+// stub user state for a logged in user
+export const stubUserStateLoggedIn = {
+  logged_in: true,
 };
 
 export const stubNotiState = {
@@ -42,8 +48,7 @@ export const stubNotiState = {
 };
 
 
-// const history = createBrowserHistory();
-
+// mock store for a logged out user
 export const getMockStore = () => {
   const rootReducer = combineReducers({
     user: getmockReducer(stubUserState),
@@ -57,10 +62,10 @@ export const getMockStore = () => {
   return mockStore;
 };
 
+// mock store for a logged in user
 export const getMockStoreLoggedIn = () => {
   const rootReducer = combineReducers({
-    user: getmockReducer(stubUserState),
-    // user: { logged_in: true },
+    user: getmockReducer(stubUserStateLoggedIn),
     pill: getmockReducer(stubPillState),
     router: connectRouter(history),
   });
