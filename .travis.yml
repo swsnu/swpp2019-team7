@@ -10,6 +10,10 @@ matrix:
     python:
     - '3.6.8'
     dist: xenial
+    branches:
+      only:
+      - master
+      - dev/working
     services:
     - mysql
     addons:

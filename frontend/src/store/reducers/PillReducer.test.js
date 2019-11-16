@@ -19,14 +19,14 @@ describe('Pill Reducer', () => {
       user_id: -1,
       pill_list: stubPillList,
       selected_pill: null,
-
     });
   });
-  xit('should get pilldata of a specific pill', () => {
-    const newState = reducer(undefined, {
-      type: 'GET_PILLDATA',
-      selected_pill: stubPill1,
+  it('should get pills of a user', () => {
+    const initState = { user_id: -1, pill_list: stubPillList, selected_pill: null };
+    const newState = reducer(initState, {
+      type: 'DELETE_USERPILL',
+      payload: 1,
     });
-    expect(newState.selected_pill).toEqual(stubPill1);
+    expect(newState.pill_list).toEqual([{ id: 2, name: 'testPill2' }]);
   });
 });

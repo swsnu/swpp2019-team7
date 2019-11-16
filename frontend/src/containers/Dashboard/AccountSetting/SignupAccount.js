@@ -78,9 +78,12 @@ class SignupAccount extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    const passwordReg = /^(?=.*[a-z])(?=.*\d).{8,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     const telegramReg = /^([A-za-z0-9])+$/;
+    // const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const emailError = false;
+    console.log(emailError);
     let passwordError = false;
     let passwordConfirmError = false;
     let usernameError = false;
@@ -206,7 +209,6 @@ class SignupAccount extends Component {
 
   render() {
     const { classes } = this.props;
-
     return (
       <div className="Signup">
         <Header />
