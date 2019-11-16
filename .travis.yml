@@ -22,11 +22,11 @@ matrix:
     dist:
     - precise
     before_install:
-    - mysql -e 'CREATE DATABASE pillbox default character set utf8mb4'
-    - mysql -e 'CREATE USER "jay" IDENTIFIED BY "pillbox1!"'
-    - mysql -e 'GRANT ALL PRIVILEGES ON pillbox.* TO "jay"'
-    - mysql -e 'GRANT ALL PRIVILEGES ON pillbox.* TO "travis"@"%"'
-    - mysql -e 'FLUSH PRIVILEGES'
+    - mysql -e 'CREATE DATABASE pillbox'
+    - mysql -e "CREATE USER 'jay' IDENTIFIED BY 'pillbox1!'"
+    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'jay'"
+    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'travis'@'%'"
+    - mysql -e "FLUSH PRIVILEGES"
     install:
     - cd frontend
     - yarn install
