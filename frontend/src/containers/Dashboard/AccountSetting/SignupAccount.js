@@ -73,8 +73,6 @@ class SignupAccount extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email_input);
-    console.log('pw: ', this.state.pw_input);
     const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     let emailError = false;
@@ -120,7 +118,6 @@ class SignupAccount extends Component {
   };
 
   onSignupButtonClick = (event) => {
-    console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
@@ -128,14 +125,12 @@ class SignupAccount extends Component {
         password: this.state.pw_input,
         name: this.state.username_input,
       };
-      console.log('Signing this user up!');
       this.props.onSignupUser(user);
     }
   };
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
     return (
       <div className="Signup">
         <Header />

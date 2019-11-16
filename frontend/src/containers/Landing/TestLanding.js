@@ -110,7 +110,7 @@ function TestLanding() {
         </div>
       </Container>
       {/* Tutorials Section */}
-      <Container maxWidth="xl" className={classes.tutorialsContent}>
+      <Container maxWidth={false} className={classes.tutorialsContent}>
         <Grid container spacing={0} style={{ backgroundColor: '#f7daad', paddingTop: '2%', paddingBottom: '2%' }}>
           <Grid item md={2} xs={1} />
           <Grid item md={6} xs={7}>

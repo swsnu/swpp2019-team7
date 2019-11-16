@@ -35,12 +35,29 @@ const stubUserState = {
   logged_in: false,
 };
 
+const stubUserStateLoggedIn = {
+  logged_in: true,
+};
+
 
 // const history = createBrowserHistory();
 
 export const getMockStore = () => {
   const rootReducer = combineReducers({
     user: getmockReducer(stubUserState),
+    pill: getmockReducer(stubPillState),
+    router: connectRouter(history),
+  });
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const mockStore = createStore(rootReducer,
+    composeEnhancers(applyMiddleware(...middlewares)));
+  return mockStore;
+};
+
+export const getMockStoreLoggedIn = () => {
+  const rootReducer = combineReducers({
+    user: getmockReducer(stubUserStateLoggedIn),
+    // user: { logged_in: true },
     pill: getmockReducer(stubPillState),
     router: connectRouter(history),
   });

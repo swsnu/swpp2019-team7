@@ -76,19 +76,13 @@ class Signup extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email_input);
-    console.log('pw: ', this.state.pw_input);
     const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
-    console.log(emailError);
     let passwordError = false;
-    console.log(passwordError);
     let passwordConfirmError = false;
-    console.log(passwordConfirmError);
     let usernameError = false;
-    console.log(usernameError);
     if (!emailReg.test(this.state.email_input)) {
       emailError = true;
       this.setState({
@@ -137,7 +131,6 @@ class Signup extends Component {
   };
 
   onSignupButtonClick = (event) => {
-    console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
@@ -145,14 +138,12 @@ class Signup extends Component {
         password: this.state.pw_input,
         name: this.state.username_input,
       };
-      console.log('Signing this user up!');
       this.props.onSignupUser(user);
     }
   };
 
   render() {
     const { classes } = this.props;
-    console.log('Checking');
     return (
       <div className="Signup">
         <Header />
