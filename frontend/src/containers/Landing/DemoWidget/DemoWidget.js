@@ -69,7 +69,7 @@ class DemoWidget extends Component {
 
   render() {
     return (
-      <div className="replaced">
+      <div className="DemoWidget">
         <UploadWidget
           updateProductInfo={this.updateProductInfo.bind(this)}
           toggleResultModal={this.toggleResultModal.bind(this)}
@@ -124,14 +124,14 @@ class DemoWidget extends Component {
                       Log in to Save
                     </Button>
                   )}
-                <Button color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
+                <Button id="red" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
                   Retry
                 </Button>
               </Modal.Actions>
             )
             : (
               <Modal.Actions>
-                <Button onClick={() => { this.toggleResultModal(false); }}>
+                <Button id="red" onClick={() => { this.toggleResultModal(false); }}>
                   Go Back
                 </Button>
               </Modal.Actions>

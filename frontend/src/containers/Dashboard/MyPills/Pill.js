@@ -75,7 +75,7 @@ class Pill extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className="Pill">
         <PillItemWrapper>
           <Grid
             container
@@ -99,7 +99,7 @@ class Pill extends Component {
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <IconButton aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
+              <IconButton id='delete-button' aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
                 <DeleteIcon fontSize="large" />
               </IconButton>
             </Grid>

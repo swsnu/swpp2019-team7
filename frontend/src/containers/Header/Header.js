@@ -62,6 +62,7 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    console.log(localStorage.getItem('loggedInnStatus'))
     if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
@@ -69,6 +70,7 @@ class Header extends Component {
             <Toolbar>
               <IconButton
                 edge="start"
+                id="redirect-landing"
                 className={classes.menuButton}
                 onClick={() => this.clickRedirectToLanding()}
                 aria-label="menu"
@@ -87,29 +89,31 @@ class Header extends Component {
     }
 
     return (
-      <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            onClick={() => this.clickRedirectToDashboard()}
-            aria-label="menu"
-          >
-            <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
-                  PillBox
-            </Typography>
-          </IconButton>
-          <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-          <Button
-            id="signout-button"
-            color="inherit"
-            style={{ color: 'black' }}
-            onClick={() => this.onSignOutButtonClick()}
-          >
-            Sign Out
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <div className='header_login'>
+        <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              onClick={() => this.clickRedirectToDashboard()}
+              aria-label="menu"
+            >
+              <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
+                    PillBox
+              </Typography>
+            </IconButton>
+            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
+            <Button
+              id="signout-button"
+              color="inherit"
+              style={{ color: 'black' }}
+              onClick={() => this.onSignOutButtonClick()}
+            >
+              Sign Out
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
