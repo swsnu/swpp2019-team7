@@ -20,3 +20,7 @@ Backend:
     pip install -r ./requirements.txt
     
     python manage.py runserver
+
+Due to security reasons we cannot upload the GCP authentication info online. 
+
+If you wish to test this product and acquire GCP authentication, please contact JinSun Yoo at `jinsun1117 at snu dot ac dot kr`
