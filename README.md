@@ -18,6 +18,26 @@ Backend:
     cd ../backend
     
     pip install -r ./requirements.txt
+
+bash deletemigrations.sh
+
+	sudo systemctl start mysql
+
+	mysql -e 'create database pillbox default character set utf8mb4 collate utf8mb4_unicode_ci'
+
+	mysql -e 'create user jay identified by "pillbox1!"'
+
+	sudo mysql -e 'grant all privileges on pillbox.* to jay'
+
+	sudo mysql -e 'grant all privileges on test_pillbox.* to jay'
+
+	sudo mysql -e 'flush privileges'
+
+	bash makemigrations.sh
+
+	python manage.py migrate
+
+	python manage.py loaddata datatset/fixtures/pill-data.json
     
     python manage.py runserver
 

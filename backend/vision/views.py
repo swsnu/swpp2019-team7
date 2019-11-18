@@ -5,11 +5,27 @@ import rest_framework.status as status
 
 from pill.models import Pill
 from .models import Image
-from .vision_api import call_ocr_api
+#from .vision_api import call_ocr_api
 
 
 def _get_file_id():
     return shortuuid.uuid()
+
+def call_ocr_api(file):
+    with file.open('rb') as img:
+        content = img.read()
+
+    image = types.Image(content=content)
+
+    # Performs label detection on the vision file
+    client = vision.ImageAnnotatorClient()
+    response = client.text_detection(image=image)
+    text_list = response.text_annotations
+
+    if len(text_list) > 0:
+        text_list = text_list[0].description.split("\n")
+
+    return PillDataset.get_instance().match_product(text_list)
 
 
 # TODO erase csrf_exempt below

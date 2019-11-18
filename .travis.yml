@@ -26,11 +26,7 @@ matrix:
     dist:
     - precise
     before_install:
-    - mysql -e 'CREATE DATABASE pillbox'
-    - mysql -e "CREATE USER 'jay' IDENTIFIED BY 'pillbox1!'"
-    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'jay'"
-    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'travis'@'%'"
-    - mysql -e "FLUSH PRIVILEGES"
+
     install:
     - cd frontend
     - yarn install
@@ -42,10 +38,18 @@ matrix:
     - pip install  coverage
     - pip install  pylint
     - pip install -r ./requirements.txt
+    - mysql -e 'CREATE DATABASE pillbox default CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
+    - mysql -e "CREATE USER 'jay' IDENTIFIED BY 'pillbox-1!'"
+    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'jay'"
+    - mysql -e "GRANT ALL PRIVILEGES ON test_pillbox.* TO 'jay'"
+    - mysql -e "GRANT ALL PRIVILEGES ON pillbox.* TO 'travis'@'%'"
+    - mysql -e "FLUSH PRIVILEGES"
     - pip install coveralls
     - cd ..
     before_script:
     - cd backend
+    - bash deletemigrations.sh
+    - bash makemigrations.sh
     - python3 manage.py migrate
     - cd ..
     script:
