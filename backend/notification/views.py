@@ -203,8 +203,19 @@ def telegram(request):
 
         return HttpResponse(status=status.HTTP_200_OK)
 
-    return HttpResponseNotAllowed(['POST'])
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
+            telegram_user = TelegramUser.objects.get(user=request.user)
 
+            return JsonResponse({
+                "telegram_username": telegram_user.telegram_username,
+                "telegram_first_name": telegram_user.telegram_first_name,
+                "telegram_last_name": telegram_user.telegram_last_name
+            }, status.HTTP_200_OK)
+        else:
+            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+
+    return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
 
 def register_telegram(request):
     """
@@ -234,18 +245,6 @@ def register_telegram(request):
             new_telegram_user.save()
 
             return JsonResponse({"auth_key": auth_key}, status.HTTP_200_OK)
-        else:
-            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
-
-    elif request.method == 'GET':
-        if request.user.is_authenticated:
-            telegram_user = TelegramUser.objects.get(user=request.user)
-
-            return JsonResponse({
-                "telegram_username": telegram_user.telegram_username,
-                "telegram_first_name": telegram_user.telegram_first_name,
-                "telegram_last_name": telegram_user.telegram_last_name
-            }, status.HTTP_200_OK)
         else:
             return HttpResponse(status.HTTP_401_UNAUTHORIZED)
 
