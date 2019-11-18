@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from fcm_django.models import FCMDevice
 from notisetting.models import NotiSetting
-from notification.models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
+from notification.models import Notification, NotificationTime, NotificationInterval, TelegramUser, TELEGRAM_BOT
 
 
 def send_notification():
@@ -24,12 +24,22 @@ def send_notification():
         notification_setting = NotiSetting.objects.get(user=user)
 
         if notification_setting.enable_noti:
-            notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
-            for notification in notification_list:
-                if NotificationTime.objects.filter(notification=notification, time=now).exists():
+            if notification_setting.enable_segregate:
+                # if normal, the interval_list should have only a single element
+                notification_interval_list = list(NotificationInterval.objects.filter(user=user, send_time=now))
+                for notification_interval in notification_interval_list:
+                    notification_list = list(notification_interval.get_notification_in_interval())
+                    product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
                     device.send_message(title="Pillbox Notification",
-                                        body=f'Time to take {notification.pill}',
-                                        icon="/Pillbox.png")
+                                        body=f'Time to take {product_name_str}!',
+                                        icon="./Pillbox.png")
+            else:
+                notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
+                for notification in notification_list:
+                    if NotificationTime.objects.filter(notification=notification, time=now).exists():
+                        device.send_message(title="Pillbox Notification",
+                                            body=f'Time to take {notification.pill}!',
+                                            icon="/Pillbox.png")
 
     # Send telegram message to all telegram users registered in DB
     for telegram_user in TelegramUser.objects.all():
@@ -37,9 +47,19 @@ def send_notification():
         notification_setting = NotiSetting.objects.get(user=user)
 
         if notification_setting.enable_kakao:
-            notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
-            for notification in notification_list:
-                if NotificationTime.objects.filter(notification=notification, time=now).exists():
-                    TELEGRAM_BOT.send_message(chat_id=telegram_user.chat_id, text=f"Time to take {notification.pill}")
-
-    # TODO currently does not support interval messaging.
+            if notification_setting.enable_segregate:
+                # if normal, the interval_list should have only a single element
+                notification_interval_list = list(NotificationInterval.objects.filter(user=user, send_time=now))
+                for notification_interval in notification_interval_list:
+                    notification_list = list(notification_interval.get_notification_in_interval())
+                    product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
+                    TELEGRAM_BOT.send_message(
+                        chat_id=telegram_user.chat_id,
+                        text=f"Time to take {product_name_str}!")
+            else:
+                notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
+                for notification in notification_list:
+                    if NotificationTime.objects.filter(notification=notification, time=now).exists():
+                        TELEGRAM_BOT.send_message(
+                            chat_id=telegram_user.chat_id,
+                            text=f"Time to take {notification.pill}")
