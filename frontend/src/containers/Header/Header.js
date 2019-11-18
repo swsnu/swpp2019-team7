@@ -62,7 +62,6 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    console.log(localStorage.getItem('loggedInnStatus'))
     if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>

@@ -83,7 +83,6 @@ class SignupAccount extends Component {
     // const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     const emailError = false;
-    console.log(emailError);
     let passwordError = false;
     let passwordConfirmError = false;
     let usernameError = false;
@@ -151,7 +150,6 @@ class SignupAccount extends Component {
         this.setState({
           telegramFirstNameError,
         });
-        console.log('false fst test');
       } else {
         telegramFirstNameError = false;
         this.setState({
@@ -165,7 +163,6 @@ class SignupAccount extends Component {
         this.setState({
           telegramLastNameError,
         });
-        console.log('false last test');
       } else {
         telegramLastNameError = false;
         this.setState({
@@ -179,8 +176,6 @@ class SignupAccount extends Component {
         this.setState({
           telegramUsernameError,
         });
-        console.log('false username test');
-        console.log(`.${this.state.telegram_username_input}.`);
       } else {
         telegramUsernameError = false;
         this.setState({
@@ -192,7 +187,6 @@ class SignupAccount extends Component {
   };
 
   onEditInfoButtonClick = (event) => {
-    console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {

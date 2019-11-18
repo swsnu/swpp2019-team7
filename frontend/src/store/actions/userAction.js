@@ -27,7 +27,7 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
     dispatch({ type: 'SIGNUP_USER', logged_in: false, current_user: null });
     dispatch(push('/login'));
   })
-  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
+  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); });
 
 export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
   .then((res) => {
@@ -37,7 +37,6 @@ export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
 
 export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/', noti)
   .then((res) => {
-    console.log(res.data);
     dispatch({ type: 'EDIT_NOTI', logged_in: true, noti_setting: res.data });
   });
 
@@ -47,7 +46,6 @@ export const registerUserDevice = (token) => () => {
 };
 
 export const deleteUserDevice = (token) => () => {
-  console.log('Delete user device:', token);
   ax.delete('/api/registerdevice/', token)
     .catch((err) => console.log(err));
 };

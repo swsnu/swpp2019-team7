@@ -22,7 +22,6 @@ const UserReducer = (state = initState, action = null) => {
       return { ...state, current_user: action.current_user, logged_in: true };
     case 'EDIT_NOTI':
     case 'GET_NOTI':
-      console.log('dispatched');
       return { ...state, noti_setting: action.noti_setting, logged_in: true };
     default:
       break;

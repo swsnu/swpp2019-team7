@@ -68,8 +68,6 @@ class Login extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    console.log('email: ', this.state.email_input);
-    console.log('pw: ', this.state.pw_input);
   };
 
   onLoginButtonClick = async () => {

@@ -21,9 +21,6 @@ class NotiSetting extends Component {
 
 
   render() {
-    if (this.props.user) {
-      console.log(`log noti ${this.props.user.current_user}`);
-    }
     const settingList = tempSetting.map((item) => (
       <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
     ));

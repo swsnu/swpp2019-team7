@@ -88,7 +88,6 @@ describe('User Action', () => {
         };
         resolve(result);
       }));
-    console.log('test');
     store.dispatch(actionCreators.editNoti(stubNoti)).then(() => {
       const newState = store.getState();
       expect(newState.user.noti_setting).toBe(stubNoti);
@@ -107,7 +106,6 @@ describe('User Action', () => {
         };
         resolve(result);
       }));
-    console.log('test');
     store.dispatch(actionCreators.editUserInfo(stubUser)).then(() => {
       const newState = store.getState();
       expect(newState.user.current_user).toBe(stubUser);

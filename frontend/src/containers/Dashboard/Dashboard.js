@@ -73,7 +73,7 @@ class Dashboard extends Component {
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
-        <ListItem button id={itemName} onClick={() => { console.log(itemNo); this.setState({ itemNumber: itemNo }); }}>
+        <ListItem button id={itemName} onClick={() => { this.setState({ itemNumber: itemNo }); }}>
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
