@@ -20,7 +20,7 @@ def format_webnoti_list_object(item):
     notitime_list = NotificationTime.objects.filter(notification=item)
     time_list = []
     for noti in notitime_list:
-        time_list.append((noti.gettime()))
+        time_list.append((noti.get_4_digit_time()))
     return {
         'id': item.id,
         'activated': item.activated,

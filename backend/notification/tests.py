@@ -26,7 +26,7 @@ class TempTestCase(TestCase):
         new_user.pills.add(new_pill)  # add retrieved pill object to current user's pills field
         new_notification = Notification.create(new_user, new_pill)
         new_notitime = NotificationTime.objects.get(notification=new_notification)
-        time_string = time_to_datetime(new_notitime.gettime())
+        time_string = time_to_datetime(new_notitime.get_4_digit_time())
         assert(time_string, '0900')
 
     def test_get(self):
@@ -62,7 +62,7 @@ class TempTestCase(TestCase):
         notitime_list = NotificationTime.objects.filter(notification=new_webnoti)
         time_list=[]
         for noti in notitime_list:
-            time_list.append((noti.gettime()))
+            time_list.append((noti.get_4_digit_time()))
         self.assertEqual(time_list, ['1000', '1100'])
         
         response = self.client.put('/api/webnoti/1/',
@@ -73,7 +73,7 @@ class TempTestCase(TestCase):
         notitime_list = NotificationTime.objects.filter(notification=new_webnoti)
         time_list=[]
         for noti in notitime_list:
-            time_list.append((noti.gettime()))
+            time_list.append((noti.get_4_digit_time()))
         self.assertEqual(time_list, ['0900'])
     
     #def test_unallowed

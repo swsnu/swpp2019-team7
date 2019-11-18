@@ -74,11 +74,13 @@ class NotificationTime(models.Model):
 
     def __str__(self):
         return f"{self.notification} | {self.time}"
-    def gettime(self):
+
+    def get_4_digit_time(self):
         """Returns the standard 4 letter string of time"""
         time_string = f"{self.time}"
         datetime_string = time_string[0:2]+time_string[3:5]
         return datetime_string
+
 
 class TelegramUser(models.Model):
     """
