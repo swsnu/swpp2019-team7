@@ -49,8 +49,8 @@ def signin(request):
 
         if user is not None:
             login(request, user)
-            noti = user.notiSetting
-            response_json = {'user': format_user_object(user), 'noti': format_noti_object(noti)}
+            noti_setting = NotiSetting.objects.get(user=user)
+            response_json = {'user': format_user_object(user), 'noti': format_noti_object(noti_setting)}
             return JsonResponse(response_json, status=200)
         else:
             return HttpResponse(content='user is None', status=401)

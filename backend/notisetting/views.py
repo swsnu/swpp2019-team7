@@ -19,7 +19,7 @@ def format_noti_object(noti):
 # pylint: disable=R0911
 @csrf_exempt
 def notisetting(request):
-    """Devines view of notiSetting model"""
+    """Defines the view of notiSetting model"""
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)

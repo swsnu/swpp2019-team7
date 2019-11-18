@@ -129,14 +129,14 @@ class SignupAccount extends Component {
       }
     }
     if (this.state.telegram_first_name_input !== '') {
-      console.log(`first name is${this.state.telegram_first_name_input}.`);
+      console.log(`first name is ${this.state.telegram_first_name_input}.`);
     }
     if (this.state.telegram_last_name_input !== '') {
-      console.log(`last name is${this.state.telegram_last_name_input}.`);
+      console.log(`last name is ${this.state.telegram_last_name_input}.`);
     }
 
     if (this.state.telegram_username_input !== '') {
-      console.log(`user name is${this.state.telegram_username_input}.`);
+      console.log(`user name is ${this.state.telegram_username_input}.`);
     }
 
 
@@ -192,7 +192,6 @@ class SignupAccount extends Component {
   };
 
   onEditInfoButtonClick = (event) => {
-    console.log('Is this clicked?');
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {

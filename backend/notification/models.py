@@ -82,6 +82,18 @@ class NotificationTime(models.Model):
         return datetime_string
 
 
+class NotificationInterval(models.Model):
+    """
+    Defines notification interval that belongs to each User
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_time = models.TimeField(blank="09:00")
+    end_time = models.TimeField(blank="12:00")
+
+    def __str__(self):
+        return f"{self.start_time} | {self.end_time}"
+
+
 class TelegramUser(models.Model):
     """
     Defines each Telegram User. Can be registered by setting user name in PillBox Account Setting Page
