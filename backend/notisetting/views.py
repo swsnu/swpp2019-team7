@@ -49,4 +49,3 @@ def notisetting(request):
             return JsonResponse(format_noti_object(noti), status=200)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
-    
