@@ -76,7 +76,7 @@ class Signup extends Component {
 
   credentialChecker = (e) => {
     e.preventDefault();
-    const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
+    const emailReg = /^[^@\s]+@[^@.\s]+\.[^@\s]+$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
