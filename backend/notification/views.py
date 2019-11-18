@@ -98,6 +98,7 @@ def notification_interval(request):
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
+
 def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""
     if request.method == 'PUT':
@@ -118,7 +119,7 @@ def webnoti_pill(request, req_id):
             index = 0
 
             if len(notification_time_list) > len(datetime_list):
-            # if datetime doesn't exist, delete
+                # if datetime doesn't exist, delete
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
                     notificationtime = notification_time_list[index]
@@ -128,7 +129,7 @@ def webnoti_pill(request, req_id):
                 for notificationtime in notification_time_list[index:]:
                     notificationtime.delete()
             elif len(notification_time_list) < len(datetime_list):
-            # if notification_time doesn't exist, add new
+                # if notification_time doesn't exist, add new
                 for notificationtime in notification_time_list:
                     datetime = datetime_list[index]
                     datetime = datetime[:-2] + ":" + datetime[-2:]
@@ -155,6 +156,7 @@ def webnoti_pill(request, req_id):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET'])
+
 
 @csrf_exempt
 def telegram(request):
@@ -232,6 +234,18 @@ def register_telegram(request):
             new_telegram_user.save()
 
             return JsonResponse({"auth_key": auth_key}, status.HTTP_200_OK)
+        else:
+            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
+            telegram_user = TelegramUser.objects.get(user=request.user)
+
+            return JsonResponse({
+                "telegram_username": telegram_user.telegram_username,
+                "telegram_first_name": telegram_user.telegram_first_name,
+                "telegram_last_name": telegram_user.telegram_last_name
+            }, status.HTTP_200_OK)
         else:
             return HttpResponse(status.HTTP_401_UNAUTHORIZED)
 
