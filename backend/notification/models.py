@@ -93,6 +93,16 @@ class NotificationInterval(models.Model):
     def __str__(self):
         return f"{self.start_time} | {self.end_time}"
 
+    @classmethod
+    def initialize_user_interval(cls, user):
+        assert not cls.objects.exists(user=user), "User already have interval setting information."
+
+        # initial interval setting for user
+        interval_list = [["09:00", "12:00"], ["12:00", "18:00"], ["18:00", "21:00"]]
+
+        for interval in interval_list:
+            NotificationInterval.objects.create(user=user, start_time=interval[0], end_time=[interval[1]])
+
 
 class TelegramUser(models.Model):
     """

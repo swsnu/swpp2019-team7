@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadReq
 from rest_framework import status
 
 from pill.models import Pill
-from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
+from .models import Notification, NotificationTime, NotificationInterval, TelegramUser, TELEGRAM_BOT
 
 
 def _get_telegram_auth_key():
@@ -80,6 +80,23 @@ def webnoti(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+
+def notification_interval(request):
+    """ CRUD operation for notification interval per each user """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_list = req_data['interval_list']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            for interval in interval_list:
+                start_time = interval['start_time']  # TODO check the string format for datetime from frontend
+                end_time = interval['end_time']
+                NotificationInterval.objects.create(user=request.user, start_time=start_time, end_time=end_time)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
 def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""

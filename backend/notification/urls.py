@@ -7,4 +7,5 @@ urlpatterns = [
     path('telegram/', views.telegram, name='telegram'),
     path('webnoti/<int:req_id>/', views.webnoti_pill, name='webnoti'),
     path('webnoti/', views.webnoti, name='webnoti'),
+    path('notification-interval/', views.notification_interval, name='notification_interval')
 ]
