@@ -31,12 +31,8 @@ describe('<Pill />', () => {
     const spyPush = jest.spyOn(history, 'push')
       .mockImplementation(() => { });
 
-
     const buttonWrapper = component.find({ id: 'delete-button' }).at(1);
     buttonWrapper.simulate('click');
-    // const spyDelete = jest.spyOn(pillActionCreator, 'deleteUserPill')
-    //  .mockImplementation(() => {});
     expect(spyPush).toHaveBeenCalledTimes(1);
-    // expect(spyDelete).toHaveBeenCalledTimes(1)
   });
 });
