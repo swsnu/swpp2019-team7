@@ -27,7 +27,7 @@ class TempTestCase(TestCase):
         new_notification = Notification.create(new_user, new_pill)
         new_notitime = NotificationTime.objects.get(notification=new_notification)
         time_string = time_to_datetime(new_notitime.get_4_digit_time())
-        assert(time_string, '0900')
+        
 
     def test_get(self):
         response = self.client.get('/api/webnoti/')

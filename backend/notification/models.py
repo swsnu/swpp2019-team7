@@ -78,8 +78,52 @@ class NotificationTime(models.Model):
     def get_4_digit_time(self):
         """Returns the standard 4 letter string of time"""
         time_string = f"{self.time}"
-        datetime_string = time_string[0:2]+time_string[3:5]
+        datetime_string = time_string[0:2] + time_string[3:5]
         return datetime_string
+
+
+class NotificationInterval(models.Model):
+    """
+    Defines notification interval that belongs to each User
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    send_time = models.TimeField(blank="09:00")  # time to send the notification
+    start_time = models.TimeField(blank="09:00")  # start time of the interval
+    end_time = models.TimeField(blank="12:00")  # ending time of the interval
+
+    @classmethod
+    def initialize_user_interval(cls, user):
+        """
+        Initializes notification intervals for the given user
+        """
+        assert not cls.objects.exists(user=user), "User already have interval setting information."
+
+        # initial interval setting for user
+        interval_list = [["09:00", "12:00"], ["12:00", "18:00"], ["18:00", "21:00"]]
+
+        for interval in interval_list:
+            NotificationInterval.objects.create(user=user, start_time=interval[0], end_time=[interval[1]])
+
+    def get_notification_in_interval(self):
+        """
+        Returns all notifications in this interval for this user
+        """
+        notification_set = set()
+
+        for notification in Notification.objects.filter(user=self.user):
+            notification_set.union(
+                set(map(lambda x: x.notification,
+                        NotificationTime.objects.filter(
+                            notification=notification, time__in=(self.start_time, self.end_time)
+                            )
+                        )
+                    )
+                )
+
+        return notification_set
+
+    def __str__(self):
+        return f"{self.start_time} | {self.end_time}"
 
 
 class TelegramUser(models.Model):

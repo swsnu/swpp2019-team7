@@ -4,7 +4,6 @@ from google.cloud import vision
 from google.cloud.vision import types
 from dataset.preprocess import PillDataset
 
-"""
 def call_ocr_api(file):
     with file.open('rb') as img:
         content = img.read()
@@ -20,4 +19,3 @@ def call_ocr_api(file):
         text_list = text_list[0].description.split("\n")
 
     return PillDataset.get_instance().match_product(text_list)
-"""

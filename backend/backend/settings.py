@@ -118,7 +118,7 @@ DATABASES = {
         'TEST_NAME': 'test_pillbox',
         'TEST': {
             'NAME': 'test_pillbox',
-	    'CHARSET': 'UTF8MB4',
+            'CHARSET': 'UTF8MB4',
         }
     }
 }

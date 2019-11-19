@@ -27,7 +27,7 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
     dispatch({ type: 'SIGNUP_USER', logged_in: false, current_user: null });
     dispatch(push('/login'));
   })
-  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); });
+  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });
 
 export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
   .then((res) => {

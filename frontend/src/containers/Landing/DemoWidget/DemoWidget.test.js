@@ -5,7 +5,6 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import DemoWidget from './DemoWidget';
 import { getMockStore } from '../../../test-utils/mocks';
-import * as userActionCreator from '../../../store/actions/userAction';
 import { history } from '../../../store/reducers/index';
 
 
@@ -14,8 +13,8 @@ const mockStore = getMockStore();
 describe('DemoWidget', () => {
   let mockDemoWidget;
   beforeEach(() => {
-    /*spyResultModal = jest.spyOn(userActionCreator, 'signupUser')
-      .mockImplementation(() => ({ type: 'SIGNUP_USER' }));*/
+    /* spyResultModal = jest.spyOn(userActionCreator, 'signupUser')
+      .mockImplementation(() => ({ type: 'SIGNUP_USER' })); */
     mockDemoWidget = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>

@@ -74,7 +74,7 @@ describe('User Action', () => {
     jest.spyOn(ax, 'post')
       .mockImplementation(() => bodylessPromise(405, false));
     store.dispatch(actionCreators.signupUser()).then(() => {
-      expect(spyLog).toHaveBeenCalledTimes(2);
+      expect(spyLog).toHaveBeenCalledTimes(1);
       done();
     });
   });

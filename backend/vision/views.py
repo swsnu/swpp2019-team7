@@ -1,7 +1,13 @@
+# pylint: skip-file
+# Imports the Google Cloud client library
 from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
+from google.cloud import vision
+from google.cloud.vision import types
 import shortuuid
 import rest_framework.status as status
+
+from dataset.preprocess import PillDataset
 
 from pill.models import Pill
 from .models import Image
@@ -12,14 +18,15 @@ def _get_file_id():
     return shortuuid.uuid()
 
 def call_ocr_api(file):
+    """ Call ocr"""
     with file.open('rb') as img:
         content = img.read()
 
-    image = types.Image(content=content)
+    image_image = types.Image(content=content)
 
     # Performs label detection on the vision file
     client = vision.ImageAnnotatorClient()
-    response = client.text_detection(image=image)
+    response = client.text_detection(image=image_image)
     text_list = response.text_annotations
 
     if len(text_list) > 0:

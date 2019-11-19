@@ -2,12 +2,10 @@ import json
 
 from django.http import HttpResponse, HttpResponseNotAllowed, \
     JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-from django.contrib.auth.forms import PasswordChangeForm
+from django.views.decorators.csrf import csrf_exempt
 from user.models import User
-from .models import NotiSetting
 # Create your views here.
+
 
 def format_noti_object(noti):
     """takes model instance noti and returns json"""
@@ -16,10 +14,12 @@ def format_noti_object(noti):
         'enable_segregate': noti.enable_segregate,
         'enable_kakao': noti.enable_kakao,
     }
+
+
 # pylint: disable=R0911
 @csrf_exempt
 def notisetting(request):
-    """Devines view of notiSetting model"""
+    """Defines the view of notiSetting model"""
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
@@ -27,6 +27,10 @@ def notisetting(request):
             noti = User.objects.get(id=request.user.id).notiSetting
             return JsonResponse(format_noti_object(noti), status=200)
     elif request.method == 'PUT':
+
+        # TODO (updated by JAEHUN): when 'enable interval' is updated, if user does not
+        # have any notification interval yet, initialize the interval for users.
+        # I will make the initialization method for this in NotificationInterval Class
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         else:
@@ -45,4 +49,3 @@ def notisetting(request):
             return JsonResponse(format_noti_object(noti), status=200)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
-    

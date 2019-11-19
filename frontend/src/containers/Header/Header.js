@@ -88,7 +88,7 @@ class Header extends Component {
     }
 
     return (
-      <div className='header_login'>
+      <div className="header_login">
         <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
           <Toolbar>
             <IconButton

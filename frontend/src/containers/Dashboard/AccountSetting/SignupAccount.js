@@ -82,7 +82,6 @@ class SignupAccount extends Component {
     const telegramReg = /^([A-za-z0-9])+$/;
     // const emailReg = /^[^@\s]+@[^@.\s]+\.[a-z]{2,3}$/;
     const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    const emailError = false;
     let passwordError = false;
     let passwordConfirmError = false;
     let usernameError = false;

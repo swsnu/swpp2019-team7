@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadReq
 from rest_framework import status
 
 from pill.models import Pill
-from .models import Notification, NotificationTime, TelegramUser, TELEGRAM_BOT
+from .models import Notification, NotificationTime, NotificationInterval, TelegramUser, TELEGRAM_BOT
 
 
 def _get_telegram_auth_key():
@@ -81,6 +81,27 @@ def webnoti(request):
         return HttpResponseNotAllowed(['GET'])
 
 
+def notification_interval(request):
+    """ CRUD operation for notification interval per each user """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_list = req_data['interval_list']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            for interval in interval_list:
+                start_time = interval['start_time']  # TODO check the string format for datetime from frontend
+                end_time = interval['end_time']
+                NotificationInterval.objects.create(user=request.user, start_time=start_time, end_time=end_time)
+            return HttpResponse(status=status.HTTP_200_OK)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
 def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""
     if request.method == 'PUT':
@@ -101,34 +122,32 @@ def webnoti_pill(request, req_id):
             index = 0
 
             if len(notification_time_list) > len(datetime_list):
-            # if datetime doesn't exist, delete
+                # if datetime doesn't exist, delete
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notificationtime = notification_time_list[index]
-                    notificationtime.time = datetime
-                    notificationtime.save()
+                    notification_time = notification_time_list[index]
+                    notification_time.time = datetime
+                    notification_time.save()
                     index += 1
-                for notificationtime in notification_time_list[index:]:
-                    notificationtime.delete()
+                for notification_time in notification_time_list[index:]:
+                    notification_time.delete()
             elif len(notification_time_list) < len(datetime_list):
-            # if notification_time doesn't exist, add new
-                for notificationtime in notification_time_list:
+                # if notification_time doesn't exist, add new
+                for notification_time in notification_time_list:
                     datetime = datetime_list[index]
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notificationtime.time = datetime
-                    notificationtime.save()
+                    notification_time.time = datetime
+                    notification_time.save()
                     index += 1
                 for datetime in datetime_list[index:]:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
                     NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
-                noti_list = NotificationTime.objects.filter(notification=webnoti_item)
-                print(noti_list)
             else:
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notificationtime = notification_time_list[index]
-                    notificationtime.time = datetime
-                    notificationtime.save()
+                    notification_time = notification_time_list[index]
+                    notification_time.time = datetime
+                    notification_time.save()
                     index += 1
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
@@ -138,6 +157,7 @@ def webnoti_pill(request, req_id):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET'])
+
 
 @csrf_exempt
 def telegram(request):
@@ -184,7 +204,22 @@ def telegram(request):
 
         return HttpResponse(status=status.HTTP_200_OK)
 
-    return HttpResponseNotAllowed(['POST'])
+    elif request.method == 'GET':
+        if request.user.is_authenticated:
+            if TelegramUser.objects.filter(user=request.user).exists():
+                telegram_user = TelegramUser.objects.get(user=request.user)
+                return JsonResponse({
+                    "telegram_username": telegram_user.telegram_username,
+                    "telegram_first_name": telegram_user.telegram_first_name,
+                    "telegram_last_name": telegram_user.telegram_last_name
+                }, status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+
+    return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 def register_telegram(request):
