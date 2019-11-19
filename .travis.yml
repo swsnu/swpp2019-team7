@@ -57,6 +57,7 @@ matrix:
     - cd backend
     - pylint --load-plugins pylint_django **/*.py
     - coverage run --source='./' --omit='manage.py','*/wsgi.py','*/__init__.py','backend/*','dataset/*','*/test.py' manage.py test
+    - coverage report -m
     - coverage xml
     - cd ..
     - sonar-scanner
