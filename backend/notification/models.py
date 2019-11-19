@@ -78,7 +78,7 @@ class NotificationTime(models.Model):
     def get_4_digit_time(self):
         """Returns the standard 4 letter string of time"""
         time_string = f"{self.time}"
-        datetime_string = time_string[0:2]+time_string[3:5]
+        datetime_string = time_string[0:2] + time_string[3:5]
         return datetime_string
 
 
@@ -93,6 +93,9 @@ class NotificationInterval(models.Model):
 
     @classmethod
     def initialize_user_interval(cls, user):
+        """
+        Initializes notification intervals for the given user
+        """
         assert not cls.objects.exists(user=user), "User already have interval setting information."
 
         # initial interval setting for user
@@ -110,11 +113,12 @@ class NotificationInterval(models.Model):
         for notification in Notification.objects.filter(user=self.user):
             notification_set.union(
                 set(map(lambda x: x.notification,
-                    NotificationTime.objects.filter(
-                        notification=notification, time__in=(self.start_time, self.end_time)
+                        NotificationTime.objects.filter(
+                            notification=notification, time__in=(self.start_time, self.end_time)
+                            )
+                        )
                     )
-                ))
-            )
+                )
 
         return notification_set
 

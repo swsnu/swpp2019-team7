@@ -95,8 +95,11 @@ def notification_interval(request):
                 start_time = interval['start_time']  # TODO check the string format for datetime from frontend
                 end_time = interval['end_time']
                 NotificationInterval.objects.create(user=request.user, start_time=start_time, end_time=end_time)
+            return HttpResponse(status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 def webnoti_pill(request, req_id):
