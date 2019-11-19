@@ -14,8 +14,8 @@ const mockStore = getMockStore();
 describe('DemoWidget', () => {
   let mockDemoWidget;
   beforeEach(() => {
-    /*spyResultModal = jest.spyOn(userActionCreator, 'signupUser')
-      .mockImplementation(() => ({ type: 'SIGNUP_USER' }));*/
+    /* spyResultModal = jest.spyOn(userActionCreator, 'signupUser')
+      .mockImplementation(() => ({ type: 'SIGNUP_USER' })); */
     mockDemoWidget = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>

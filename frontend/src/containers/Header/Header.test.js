@@ -18,14 +18,14 @@ import { getMockStore } from '../../test-utils/mocks';
 const mockStore = getMockStore();
 
 describe('<Header />', () => {
-  let mockHeader
-  let history
+  let mockHeader;
+  let history;
   beforeEach(() => {
     history = createBrowserHistory();
     mockHeader = (
       <Provider store={mockStore}>
         <Router history={history}>
-          <Header title="TODOLIST_TEST_TITLE" localStorage={'loggedInnStatus:true'} />
+          <Header title="TODOLIST_TEST_TITLE" localStorage="loggedInnStatus:true" />
         </Router>
       </Provider>
     );
@@ -36,28 +36,28 @@ describe('<Header />', () => {
   });
   it('should click redirect-landing', () => {
     const spyLanding = jest.spyOn(history, 'push')
-      .mockImplementation(() => { })
+      .mockImplementation(() => { });
     const component = mount(mockHeader);
-    const buttonWrapper = component.find({ id: 'redirect-landing' }).at(1)
+    const buttonWrapper = component.find({ id: 'redirect-landing' }).at(1);
     buttonWrapper.simulate('click');
     expect(spyLanding).toHaveBeenCalledTimes(1);
-  })
+  });
   it('should click login', () => {
     const spyLanding = jest.spyOn(history, 'push')
-      .mockImplementation(() => { })
+      .mockImplementation(() => { });
     const component = mount(mockHeader);
-    const buttonWrapper = component.find({ id: 'login-button' }).at(1)
+    const buttonWrapper = component.find({ id: 'login-button' }).at(1);
     buttonWrapper.simulate('click');
     expect(spyLanding).toHaveBeenCalledTimes(1);
-  })
+  });
   it('should click signup', () => {
     const spyLanding = jest.spyOn(history, 'push')
-      .mockImplementation(() => { })
+      .mockImplementation(() => { });
     const component = mount(mockHeader);
-    const buttonWrapper = component.find({ id: 'signup-button' }).at(1)
+    const buttonWrapper = component.find({ id: 'signup-button' }).at(1);
     buttonWrapper.simulate('click');
     expect(spyLanding).toHaveBeenCalledTimes(1);
-  })
+  });
 });
 /*
 

@@ -73,7 +73,7 @@ class MyPills extends Component {
           </div>
           <Divider />
           <PillListWrapper>{pillList}</PillListWrapper>
-          <Fab id='addpill' color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
+          <Fab id="addpill" color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
           </Fab>
         </ThemeProvider>

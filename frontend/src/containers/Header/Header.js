@@ -62,7 +62,7 @@ class Header extends Component {
   render() {
     const { classes } = this.props;
     const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    console.log(localStorage.getItem('loggedInnStatus'))
+    console.log(localStorage.getItem('loggedInnStatus'));
     if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
@@ -89,7 +89,7 @@ class Header extends Component {
     }
 
     return (
-      <div className='header_login'>
+      <div className="header_login">
         <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
           <Toolbar>
             <IconButton

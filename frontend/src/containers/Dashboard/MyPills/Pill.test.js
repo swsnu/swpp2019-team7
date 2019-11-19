@@ -12,31 +12,31 @@ const mockStore = getMockStore();
 const history = createBrowserHistory();
 
 describe('<Pill />', () => {
-    let mockPill;
+  let mockPill;
   beforeEach(() => {
     mockPill = (
       <Provider store={mockStore}>
         <Router history={history}>
-          <Pill id={1}/>
+          <Pill id={1} />
         </Router>
       </Provider>
     );
   });
   it('should render account setting', () => {
     const component = mount(mockPill);
-    expect(component.find('.Pill').length).toBe(1)
+    expect(component.find('.Pill').length).toBe(1);
   });
   it('should delete correctly', () => {
     const component = mount(mockPill);
     const spyPush = jest.spyOn(history, 'push')
-      .mockImplementation(() => { })
+      .mockImplementation(() => { });
 
 
-    const buttonWrapper = component.find({id: 'delete-button'}).at(1)
+    const buttonWrapper = component.find({ id: 'delete-button' }).at(1);
     buttonWrapper.simulate('click');
     const spyDelete = jest.spyOn(pillActionCreator, 'deleteUserPill')
-        .mockImplementation(()=>{})
+      .mockImplementation(() => {});
     expect(spyPush).toHaveBeenCalledTimes(1);
-    //expect(spyDelete).toHaveBeenCalledTimes(1)
+    // expect(spyDelete).toHaveBeenCalledTimes(1)
   });
 });
