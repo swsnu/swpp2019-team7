@@ -113,7 +113,6 @@ DATABASES = {
         'HOST': 'localhost',  # TODO change this to real DB
         'POST': '',
         'OPTIONS': {'charset': 'utf8mb4'},
-	'TEST_CHARSET': 'UTF8MB4',
         'TEST_NAME': 'test_pillbox',
         'TEST': {
             'NAME': 'test_pillbox',
