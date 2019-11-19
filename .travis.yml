@@ -43,6 +43,7 @@ matrix:
     - python3 manage.py makemigrations notification notisetting pill user vision
     - python3 manage.py migrate auth
     - python3 manage.py migrate
+    - mysql -e 'ALTER TABLE pill_pill convert to charset utf8mb4'
     - cd ..
     script:
     - cd frontend
