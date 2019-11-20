@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -65,13 +66,13 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       itemNumber: 0,
+      mobileOpen: false,
     };
   }
 
-  componentDidMount() {
-    // this.props.onGetUser();
-    // this.props.onGetNoti();
-  }
+  handleDrawerToggle = () => {
+    this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
+  };
 
   listItemCreator(itemName, itemNo, listIcon) {
     return (
@@ -100,28 +101,53 @@ class Dashboard extends Component {
   render() {
     const { classes } = this.props;
     const text = dashboardDisplay(this.state.itemNumber);
+    const drawer = (
+      <div>
+        <div className={classes.toolbar} />
+        <List>{this.mainListItems()}</List>
+        <Divider />
+        <List>
+          {['App Info', 'About Developers'].map((name, index) => (
+            <ListItem button key={name}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={name} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
     return (
       <div className={classes.root}>
-        <Header />
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.toolbar} />
-          <List>{this.mainListItems()}</List>
-          <Divider />
-          <List>
-            {['Customer Service', 'App Info'].map((name, index) => (
-              <ListItem button key={name}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={name} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+        <Header handleDrawerToggle={this.handleDrawerToggle} />
+        {/* temporary sidebar on smaller screens */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            variant="temporary"
+            anchor={this.props.theme.direction === 'rtl' ? 'right' : 'left'}
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        {/* permant sidebar on larger screens */}
+        <Hidden xsDown implementation="css">
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <div align="top">
@@ -136,9 +162,4 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => ({
   user: state.user.current_user,
 });
-/*
-const mapDispatchToProps = (dispatch) => ({
-  onGetUser: () => dispatch(userActionCreators.getUser()),
-  onGetNoti: () => dispatch(userActionCreators.getNoti()),
-}); */
-export default connect(mapStateToProps)((withStyles(styles)(Dashboard)));
+export default connect(mapStateToProps)(withTheme((withStyles(styles)(Dashboard))));
