@@ -1,9 +1,10 @@
+branches:
+  only:
+  - master
+  - dev/working
+  - dev/pillDetail_notiSetting
 matrix:
   include:
-  - branches:
-      only:
-      - master
-      - dev/working
   - language: 
     - python
     cache:
@@ -16,6 +17,10 @@ matrix:
     dist: xenial
     services:
     - mysql
+    branches:
+      only:
+      - master
+      - dev/working
     addons:
       sonarcloud:
         organization: "swsnu"
