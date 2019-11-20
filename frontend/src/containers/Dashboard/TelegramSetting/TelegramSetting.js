@@ -94,13 +94,13 @@ class TelegramSetting extends Component {
   onEditButtonClick = (event) => {
     const correctForm = this.credentialCheck(event);
     if (correctForm) {
-      const telegram_user = {
+      const telegramUser = {
         telegram_first_name: this.state.telegram_first_name_input,
         telegram_last_name: this.state.telegram_last_name_input,
         telegram_username: this.state.telegram_username_input,
       };
-      console.log('Change user to ! %O', telegram_user);
-      this.props.onRegisterTelegram(telegram_user);
+      console.log('Change user to ! %O', telegramUser);
+      this.props.onRegisterTelegram(telegramUser);
     }
   };
 

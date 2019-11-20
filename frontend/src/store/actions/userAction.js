@@ -34,9 +34,10 @@ export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
     dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
   });
 
-export const registerTelegramAccount = (user) => (dispatch) => ax.post('/api/telegram/', user)
+export const registerTelegramAccount = (telegramUser) => (dispatch) => ax.post('/api/register-telegram/', telegramUser)
   .then((res) => {
-    // dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
+    console.log(res.data.auth_key);
+    // TODO show the auth_key such that user can type this in telegram
   });
 
 

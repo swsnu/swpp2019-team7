@@ -249,7 +249,7 @@ def register_telegram(request):
             )
             new_telegram_user.save()
 
-            return JsonResponse({"auth_key": auth_key}, status.HTTP_200_OK)
+            return JsonResponse({"auth_key": auth_key}, status=status.HTTP_200_OK)
         else:
             return HttpResponse(status.HTTP_401_UNAUTHORIZED)
 
