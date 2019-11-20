@@ -15,6 +15,7 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import Header from '../Header/Header';
 import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
+import TelegramSetting from './TelegramSetting/TelegramSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
 
 const drawerWidth = 240;
@@ -50,6 +51,8 @@ function dashboardDisplay(itemNo) {
     case 1:
       return <NotiSetting />;
     case 2:
+      return <TelegramSetting />;
+    case 3:
       return <AccountSetting />;
     default:
       return <MyPills />;
@@ -86,9 +89,10 @@ class Dashboard extends Component {
   mainListItems() {
     return (
       <div>
-        {this.listItemCreator('MyPills', 0, <LocalHospitalIcon />)}
-        {this.listItemCreator('NotificationSettings', 1, <SettingsIcon />)}
-        {this.listItemCreator('AccountSettings', 2, <SettingsIcon />)}
+        {this.listItemCreator('My Pills', 0, <LocalHospitalIcon />)}
+        {this.listItemCreator('Notification Settings', 1, <SettingsIcon />)}
+        {this.listItemCreator('Telegram Setting', 2, <SettingsIcon />)}
+        {this.listItemCreator('Account Settings', 3, <SettingsIcon />)}
       </div>
     );
   }
