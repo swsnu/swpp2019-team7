@@ -3,44 +3,52 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
-import SettingItem from './SettingItem';
+import PillNoti from './PillNoti';
+import * as notiActionCreators from '../../../store/actions/notiAction';
 
+/*
 const tempSetting = [
   { id: 1, name: 'Enable notification', index: 'enable_noti' },
   { id: 2, name: 'Enable hourly notification', index: 'enable_segregate' },
   { id: 3, name: 'Enable Kakaotalk notification', index: 'enable_kakao' },
 ];
+*/
 
 class NotiSetting extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    };
+  componentDidMount() {
+    this.props.onGetWebNoti();
   }
-
-
-  render() {
-    const settingList = tempSetting.map((item) => (
-      <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
-    ));
-    return (
-      <div className="NotiSetting">
-        <div className="title">
-          <Typography variant="h1" align="left"> Notification Settings </Typography>
+  content() {
+    if (this.props.webnoti_list !== null) {
+      const pillNotiSettingList = this.props.webnoti_list;
+      console.log('pillNotiSettingList in NotiSetting.js is :')
+      console.log(pillNotiSettingList);
+      const renderedList = pillNotiSettingList.map((pillNotiSetting) => (<PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} nmTimes={pillNotiSetting.time.length}/>));
+      return (
+        <div className="NotiSetting">
+          <div className="title">
+            <Typography variant="h3" align="left"> Notification Times </Typography>
+          </div>
+          <Divider />
+          <div className="settings">{renderedList}</div>
         </div>
-        <Divider />
-        <div className="settings">{settingList}</div>
-      </div>
-    );
+      );
+    }
+    else {
+      return <div className="temp">No pills</div>
+    }
+  }
+  render() {
+    return <div className="NotiSetting">{this.content()}</div>
   }
 }
+
 const mapStateToProps = (state) => ({
   current_user: state.user.current_user,
+  webnoti_list: state.noti.webnoti_list,
 });
-/*
 const mapDispatchToProps = (dispatch) => ({
-  onGetUser: () => dispatch(userActionCreators.getUser()),
-  onGetNoti: () => dispatch(userActionCreators.getNoti()),
-}); */
-export default connect(mapStateToProps)(NotiSetting);
+  onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()) },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotiSetting);

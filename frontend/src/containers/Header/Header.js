@@ -38,6 +38,9 @@ const styles = (theme) => ({
 
 
 class Header extends Component {
+  componentDidMount(){
+    this.props.onGetUser();
+  }
   clickLoginHandler = () => {
     this.props.history.push('/login');
   };
@@ -61,8 +64,7 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
-    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
-    if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
+    if ((!this.props.logged_in) || (this.props.current_user === null)) {
       return (
         <div className={classes.root}>
           <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
@@ -98,10 +100,12 @@ class Header extends Component {
               aria-label="menu"
             >
               <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
-                    PillBox
+                PillBox
               </Typography>
             </IconButton>
-            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
+            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} align="center">
+              Welcome {this.props.current_user.name}!
+            </Typography>
             <Button
               id="signout-button"
               color="inherit"
@@ -119,11 +123,13 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   logged_in: state.user.logged_in,
+  current_user: state.user.current_user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
   onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
+  onGetUser: ()=>{dispatch(userActionCreators.getUserInfo());},
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

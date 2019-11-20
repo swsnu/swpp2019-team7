@@ -23,8 +23,10 @@ def format_webnoti_list_object(item):
         time_list.append((noti.get_4_digit_time()))
     return {
         'id': item.id,
+        'pill-name': item.pill.product_name,
+        'pill-id': item.pill.id,
         'activated': item.activated,
-        'time': time_list
+        'time': time_list,
     }
 
 
@@ -73,7 +75,9 @@ def webnoti(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
+            print(webnoti_list)
             webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
+            print(webnoti_formatted_list)
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
