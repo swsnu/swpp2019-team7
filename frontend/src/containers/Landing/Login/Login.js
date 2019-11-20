@@ -132,7 +132,7 @@ class Login extends Component {
                 color="primary"
                 className={classes.submit}
                 id="login-button"
-                onClick={(event) => { console.log('Is this called?'); this.credentialChecker(event); this.onLoginButtonClick(); }}
+                onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}
               >
                 Log In
               </Button>

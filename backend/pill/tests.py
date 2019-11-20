@@ -1,7 +1,11 @@
 # pylint: skip-file
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.core import management
 
-from .models import Pill
+from pill.models import Pill
+from user.models import User
+from notisetting.models import NotiSetting
+from notification.models import Notification
 
 
 class TempTestCase(TestCase):
@@ -18,4 +22,3 @@ class TempTestCase(TestCase):
 
     def temp_test(self):
         self.assertEqual(1,1)
-# Create your tests here.
