@@ -34,6 +34,11 @@ export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
     dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
   });
 
+export const registerTelegramAccount = (user) => (dispatch) => ax.post('/api/telegram/', user)
+  .then((res) => {
+    // dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
+  });
+
 
 export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/', noti)
   .then((res) => {

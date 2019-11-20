@@ -64,15 +64,9 @@ class SignupAccount extends Component {
       pw_input: '',
       pw_confirm_input: '',
       username_input: '',
-      // telegram_first_name_input: '',
-      // telegram_last_name_input: '',
-      // telegram_username_input: '',
       pw_error: false,
       pw_confirm_error: false,
       usernameError: false,
-      // telegramFirstNameError: false,
-      // telegramLastNameError: false,
-      // telegramUsernameError: false,
     };
   }
 
