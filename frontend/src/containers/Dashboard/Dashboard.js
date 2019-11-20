@@ -137,7 +137,7 @@ class Dashboard extends Component {
           </Drawer>
         </Hidden>
         {/* permant sidebar on larger screens */}
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             className={classes.drawer}
             variant="permanent"

@@ -37,7 +37,7 @@ const styles = (theme) => ({
   toolbar: theme.mixins.toolbar,
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
@@ -45,7 +45,6 @@ const styles = (theme) => ({
 
 
 class Header extends Component {
-
   clickLoginHandler = () => {
     this.props.history.push('/login');
   };
