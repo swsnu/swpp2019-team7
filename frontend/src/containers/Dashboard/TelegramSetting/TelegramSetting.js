@@ -91,7 +91,7 @@ class TelegramSetting extends Component {
 
   };
 
-  onEditInfoButtonClick = (event) => {
+  onEditButtonClick = (event) => {
     const correctForm = this.credentialCheck(event);
     if (correctForm) {
       const telegram_user = {
@@ -100,7 +100,7 @@ class TelegramSetting extends Component {
         telegram_username: this.state.telegram_username_input,
       };
       console.log('Change user to ! %O', telegram_user);
-      this.props.onRegisterTelegram(user);
+      this.props.onRegisterTelegram(telegram_user);
     }
   };
 
@@ -168,7 +168,7 @@ class TelegramSetting extends Component {
                 id="editinfo-button"
                 className={classes.submit}
                 onClick={(event) => {
-                  this.onEditInfoButtonClick(event);
+                  this.onEditButtonClick(event);
                 }}
               >
                 Finish Change
@@ -185,7 +185,7 @@ class TelegramSetting extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onRegisterTelegram: (telegram_user) => { dispatch(userActionCreators.onRegisterTelegram(telegram_user)); },
+  onRegisterTelegram: (telegram_user) => { dispatch(userActionCreators.registerTelegramAccount(telegram_user)); },
 });
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(TelegramSetting));

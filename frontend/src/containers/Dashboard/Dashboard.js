@@ -136,9 +136,5 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => ({
   user: state.user.current_user,
 });
-/*
-const mapDispatchToProps = (dispatch) => ({
-  onGetUser: () => dispatch(userActionCreators.getUser()),
-  onGetNoti: () => dispatch(userActionCreators.getNoti()),
-}); */
+
 export default connect(mapStateToProps)((withStyles(styles)(Dashboard)));
