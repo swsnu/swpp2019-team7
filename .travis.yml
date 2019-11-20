@@ -16,6 +16,10 @@ matrix:
     dist: xenial
     services:
     - mysql
+    branches:
+      only:
+      - master
+      - dev/working
     addons:
       sonarcloud:
         organization: "swsnu"
