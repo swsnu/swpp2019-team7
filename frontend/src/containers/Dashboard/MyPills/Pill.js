@@ -102,6 +102,9 @@ class Pill extends Component {
               <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
                 <DeleteIcon fontSize="large" />
               </IconButton>
+              <IconButton id="detail-button" aria-label="detail" className={classes.margin} onClick={() => this.props.history.push({ pathname: '/pillDetail', state: { id: this.props.id } })}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
             </Grid>
           </Grid>
         </PillItemWrapper>

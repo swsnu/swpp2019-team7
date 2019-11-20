@@ -25,3 +25,12 @@ export const deleteUserPill = (id) => (dispatch) => {
       dispatch(deleteUserPill_(id));
     });
 };
+
+export const getPill_ = (selectedPill) => ({ type: 'GET_PILL', selected_pill: selectedPill });
+
+export const getPill = (id) => (dispatch) => {
+  ax.get(`/api/pill/${id}`)
+    .then((res) => {
+      dispatch(getPill_(res.data));
+    });
+};
