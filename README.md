@@ -14,12 +14,14 @@ Frontend:
     
     yarn start
 Backend:
-
+```
     cd ../backend
     
     pip install -r ./requirements.txt
-
-bash deletemigrations.sh
+```
+After that, we need to conduct an initial setup for the mysql database:
+```
+	bash deletemigrations.sh
 
 	sudo systemctl start mysql
 
@@ -36,11 +38,13 @@ bash deletemigrations.sh
 	bash makemigrations.sh
 
 	python manage.py migrate
-
+```
+And then, we finally launch our backend:
+```
 	python manage.py loaddata datatset/fixtures/pill-data.json
     
-    python manage.py runserver
+   	python manage.py runserver
+```
 
-Due to security reasons we cannot upload the GCP authentication info online. 
-
-If you wish to test this product and acquire GCP authentication, please contact JinSun Yoo at `jinsun1117 at snu dot ac dot kr`
+Due to security reasons we cannot upload the GCP authentication code online. Therefore, you will be unable to use the Cloud Vision API feature at this stage. 
+If anyone wishes to test the product and acquire the necessary GCP authentication JSON file, please contact JinSun Yoo at `jinsun1117 at snu dot ac dot kr`
