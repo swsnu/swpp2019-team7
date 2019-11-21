@@ -56,7 +56,7 @@ function dashboardDisplay(itemNo) {
       return <TelegramSetting />;
     case 3:
       return <AccountSetting />;
-    case 3:
+    case 4:
       return <PillDetail />;
     default:
       return <MyPills />;

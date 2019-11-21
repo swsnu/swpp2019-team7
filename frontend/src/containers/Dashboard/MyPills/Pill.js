@@ -14,7 +14,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteUserPill } from '../../../store/actions/pillAction';
 import { changeDashboard } from '../../../store/actions/dashboardAction';
 import { getPill } from '../../../store/actions/pillAction';
-import PillDetail from './PillDetail/PillDetail';
 // const useStyles = makeStyles((theme) => ({
 const styles = (theme) => ({
   root: {
@@ -76,10 +75,6 @@ class Pill extends Component {
 
   render() {
     const { classes } = this.props;
-    let id = 0;
-    if (this.props.id) {
-      id = this.props.id;
-    }
     return (
       <div className="Pill">
         <PillItemWrapper>
@@ -112,14 +107,7 @@ class Pill extends Component {
             <Grid item xs={1}>
               <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => {
                 this.props.getPill(this.props.id);
-                this.props.changeDashboard(3)}}>
-                <DeleteIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => {
-                this.props.getPill(this.props.id);
-                this.props.changeDashboard(3)}}>
+                this.props.changeDashboard(4)}}>
                 <DeleteIcon fontSize="large" />
               </IconButton>
             </Grid>
