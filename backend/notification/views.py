@@ -48,7 +48,8 @@ def crud_device(request):
             # Fields below are not mandatory anymore
             device.name = request.user.name
             device.user = request.user
-            device.type = "web"  # TODO check if this can always be web (or need something like "mobile")
+            # TODO check if this can always be web (or need something like "mobile")
+            device.type = "web"
             device.save()
             return HttpResponse(status=status.HTTP_201_CREATED)
         else:
@@ -76,7 +77,8 @@ def webnoti(request):
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
             print(webnoti_list)
-            webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
+            webnoti_formatted_list = list(
+                map(format_webnoti_list_object, webnoti_list))
             print(webnoti_formatted_list)
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
@@ -96,9 +98,11 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             for interval in interval_list:
-                start_time = interval['start_time']  # TODO check the string format for datetime from frontend
+                # TODO check the string format for datetime from frontend
+                start_time = interval['start_time']
                 end_time = interval['end_time']
-                NotificationInterval.objects.create(user=request.user, start_time=start_time, end_time=end_time)
+                NotificationInterval.objects.create(
+                    user=request.user, start_time=start_time, end_time=end_time)
             return HttpResponse(status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
@@ -111,7 +115,8 @@ def webnoti_pill(request, req_id):
     if request.method == 'PUT':
         if request.user.is_authenticated:
             pill = Pill.objects.get(pk=req_id)
-            webnoti_item = Notification.objects.get(user=request.user, pill=pill)
+            webnoti_item = Notification.objects.get(
+                user=request.user, pill=pill)
             print(webnoti_item)
             try:
                 req_data = json.loads(request.body.decode())
@@ -122,7 +127,8 @@ def webnoti_pill(request, req_id):
             webnoti_item.activated = activated
 
             # for time in time, get webnoti, edit, and then return
-            notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
+            notification_time_list = NotificationTime.objects.filter(
+                notification=webnoti_item)
             index = 0
 
             if len(notification_time_list) > len(datetime_list):
@@ -145,7 +151,8 @@ def webnoti_pill(request, req_id):
                     index += 1
                 for datetime in datetime_list[index:]:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
-                    NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
+                    NotificationTime.objects.create(
+                        notification=webnoti_item, time=datetime).save()
             else:
                 for datetime in datetime_list:
                     datetime = datetime[:-2] + ":" + datetime[-2:]
@@ -155,7 +162,7 @@ def webnoti_pill(request, req_id):
                     index += 1
             webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
-            webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
+            webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

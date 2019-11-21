@@ -160,7 +160,7 @@ class PillNoti extends Component {
                 </Typography>
               </Grid>
               <Grid item xs={1}>
-                <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }) }}>
+                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }) }}>
                   <EditIcon fontSize="large" />
                 </IconButton>
               </Grid>
@@ -194,12 +194,12 @@ class PillNoti extends Component {
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="check-button" aria-label="delete" className={classes.margin} onClick={() => this.onConfirm()}>
+              <IconButton id="check-button" aria-label="check" className={classes.margin} onClick={() => {this.onConfirm(); this.setState({edit_mode: 0})}}>
                 <CheckIcon fontSize="large" />
               </IconButton>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="cancel-button" aria-label="delete" className={classes.margin} onClick={() => this.setState({ edit_mode: 0 })}>
+              <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => this.setState({ edit_mode: 0 })}>
                 <CloseIcon fontSize="large" />
               </IconButton>
             </Grid>
