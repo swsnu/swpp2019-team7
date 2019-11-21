@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
 import * as pillActions from '../../../../store/actions/pillAction';
 
 const mapStateToProps = state => {
@@ -11,7 +12,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onGetPill: (id) => dispatch(pillActions.getPill(id))
+        onGetPill: (id) => dispatch(pillActions.getPill(id)),
+        onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
     }
 }
 
@@ -19,10 +21,10 @@ class PillDetail extends Component {
     state = {
     }
     componentDidMount(){
-        this.props.onGetPill(1);//this.props.location.state.id);
+        //this.props.onGetPill(1);//this.props.location.state.id);
     }
     goBackHandler = () => {
-        this.props.history.push('/dashboard')
+        this.props.onChangeDashboard(0)
     }
     render () {
         let pill_id = '';

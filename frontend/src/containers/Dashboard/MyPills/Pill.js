@@ -105,10 +105,14 @@ class Pill extends Component {
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <PillDetail id={id} />
+              <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
+              <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => {
+                this.props.getPill(this.props.id);
+                this.props.changeDashboard(3)}}>
                 <DeleteIcon fontSize="large" />
               </IconButton>
             </Grid>
