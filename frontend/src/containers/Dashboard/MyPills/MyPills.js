@@ -6,10 +6,13 @@ import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
+import LoggedInWidget from './LoggedInWidget/LoggedInWidget';
 import { getUserPills, addUserPill } from '../../../store/actions/pillAction';
 
 // theme for Material UI Typography
@@ -50,13 +53,14 @@ const styles = (myTheme) => ({
   },
 });
 
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 class MyPills extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // pills: [],
+      open: false,
     };
   }
 
@@ -65,7 +69,12 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.props.history.push('/loggedinwidget');
+    this.setState((state) => ({ open: !state.open }));
+    // this.props.history.push('/loggedinwidget');
+  }
+
+  handleClose() {
+    this.setState((state) => ({ open: !state.open }));
   }
 
   render() {
@@ -87,11 +96,26 @@ class MyPills extends Component {
           </Grid>
           {/* Pill List */}
           <Grid container spacing={4}>
-          {pillList}
+            {pillList}
           </Grid>
           <Fab id="addpill" color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
           </Fab>
+          <Dialog
+            fullScreen
+            keepMounted
+            open={this.state.open}
+            onClose={this.handleClose}
+            TransitionComponent={Transition}
+            PaperProps={{
+              style: {
+                backgroundColor: 'rgba(32,32,32,0.5)',
+                // boxShadow: 'none',
+              },
+            }}
+          >
+            <LoggedInWidget />
+          </Dialog>
         </ThemeProvider>
       </div>
     );

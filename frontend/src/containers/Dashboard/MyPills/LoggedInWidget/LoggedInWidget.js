@@ -14,11 +14,10 @@ const Wrapper = styled.section`
 class LoggedInWidget extends Component {
   render() {
     return (
-      <div>
+      <div className="LoggedInWidget">
         <Header />
         <Wrapper>
           <DemoWidget backgroundColor="#ffa184" />
-          logged in widget
         </Wrapper>
       </div>
     );
