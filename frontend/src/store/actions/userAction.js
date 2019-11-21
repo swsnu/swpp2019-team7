@@ -23,9 +23,13 @@ export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .catch((err) => console.log(err));
 
 export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
-  .then(() => {
-    dispatch({ type: 'SIGNUP_USER', logged_in: false, current_user: null });
-    dispatch(push('/login'));
+  .then((res) => {
+    ax.defaults.headers.common['X-CSRFToken'] = Cookies.get('csrftoken');
+    localStorage.setItem('localCsrf', JSON.stringify(Cookies.get('csrftoken')));
+    dispatch({
+      type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
+    });
+    dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });
 

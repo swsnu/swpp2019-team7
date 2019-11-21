@@ -12,6 +12,7 @@ export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: n
 export const addUserPill = (pillId) => (dispatch) => {
   ax.post(`/api/pill/${pillId}/`)
     .then((res) => {
+      console.log(res.data);
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
     });
@@ -20,8 +21,17 @@ export const addUserPill = (pillId) => (dispatch) => {
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
 
 export const deleteUserPill = (id) => (dispatch) => {
-  ax.delete(`/api/pill/${id}`)
+  ax.delete(`/api/pill/${id}/`)
     .then(() => {
       dispatch(deleteUserPill_(id));
+    });
+};
+
+export const getPill_ = (selectedPill) => ({ type: 'GET_PILL', selected_pill: selectedPill });
+
+export const getPill = (id) => (dispatch) => {
+  ax.get(`/api/pill/${id}/`)
+    .then((res) => {
+      dispatch(getPill_(res.data));
     });
 };

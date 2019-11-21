@@ -64,8 +64,12 @@ class SettingItem extends Component {
 
   render() {
     let checked = false;
+    let disabled = false;
     if (this.props.noti) {
       checked = this.props.noti[this.props.index];
+      if (this.props.index !== 'enable_noti') {
+        disabled = !this.props.noti.enable_noti;
+      }
     }
     const { classes } = this.props;
     return (
@@ -90,6 +94,7 @@ class SettingItem extends Component {
                   id="onoff-switch"
                   checked={checked}
                   onChange={() => this.toggleChecked()}
+                  disabled={disabled}
                 />
                 {/* <FormGroup>
                 <FormControlLabel

@@ -17,7 +17,9 @@ import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import TelegramSetting from './TelegramSetting/TelegramSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
+import PillDetail from './MyPills/PillDetail/PillDetail';
 
+import * as dashboardActionCreators from '../../store/actions/dashboardAction';
 const drawerWidth = 240;
 
 const styles = (theme) => ({
@@ -54,6 +56,8 @@ function dashboardDisplay(itemNo) {
       return <TelegramSetting />;
     case 3:
       return <AccountSetting />;
+    case 3:
+      return <PillDetail />;
     default:
       return <MyPills />;
   }
@@ -76,7 +80,7 @@ class Dashboard extends Component {
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
-        <ListItem button id={itemName} onClick={() => { this.setState({ itemNumber: itemNo }); }}>
+        <ListItem button id={itemName} onClick={() => { this.props.onChangeDashboard(itemNo); }}>
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
@@ -99,7 +103,7 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-    const text = dashboardDisplay(this.state.itemNumber);
+    const text = dashboardDisplay(this.props.dash.itemNo)
     return (
       <div className={classes.root}>
         <Header />
@@ -135,6 +139,10 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user.current_user,
+  dash: state.dash,
 });
 
-export default connect(mapStateToProps)((withStyles(styles)(Dashboard)));
+const mapDispatchToProps = (dispatch) => ({
+  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
+}); 
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(Dashboard)));
