@@ -11,11 +11,11 @@ from dataset.preprocess import PillDataset
 
 from pill.models import Pill
 from .models import Image
-#from .vision_api import call_ocr_api
 
 
 def _get_file_id():
     return shortuuid.uuid()
+
 
 def call_ocr_api(file):
     """ Call ocr"""
@@ -53,9 +53,8 @@ def image(request):
             pill = Pill.objects.get(id=product["pk"])
             Image.objects.filter(user=request.user, pill=pill).delete()
             image_instance.pill = pill
-
-        image_instance.filename = f'{request.user.name}_{pill.product_name}'
-        image_instance.save()
+            image_instance.filename = f'{request.user.name}_{pill.product_name}'
+            image_instance.save()
 
         return JsonResponse({
             "product": product["fields"] if isinstance(product, dict) else None,
