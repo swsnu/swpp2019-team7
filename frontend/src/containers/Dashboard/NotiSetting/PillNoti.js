@@ -101,7 +101,7 @@ class PillNoti extends Component {
     var timeList = [];
     var i;
     for (i = 0; i < this.props.nmTimes * 2; i = i + 2) {
-      timeList.push((this.state[i].length == 1 ? '0' + this.state[i] : this.state[i]) + (this.state[i + 1].length == 1 ? '0' + this.state[i + 1] : this.state[i + 1]))
+      timeList.push((this.state[i].length === 1 ? '0' + this.state[i] : this.state[i]) + (this.state[i + 1].length === 1 ? '0' + this.state[i + 1] : this.state[i + 1]))
     }
     console.log(timeList);
     //id should be the pill id
