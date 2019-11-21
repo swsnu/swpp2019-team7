@@ -24,6 +24,8 @@ export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
 
 export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
   .then((res) => {
+    ax.defaults.headers.common['X-CSRFToken'] = Cookies.get('csrftoken');
+    localStorage.setItem('localCsrf', JSON.stringify(Cookies.get('csrftoken')));
     dispatch({
       type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
     });
