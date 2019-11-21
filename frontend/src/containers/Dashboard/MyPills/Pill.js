@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { deleteUserPill } from '../../../store/actions/pillAction';
-
+import PillDetail from './PillDetail/PillDetail';
 // const useStyles = makeStyles((theme) => ({
 const styles = (theme) => ({
   root: {
@@ -74,6 +74,10 @@ class Pill extends Component {
 
   render() {
     const { classes } = this.props;
+    let id = 0;
+    if (this.props.id) {
+      id = this.props.id;
+    }
     return (
       <div className="Pill">
         <PillItemWrapper>
@@ -87,7 +91,7 @@ class Pill extends Component {
                 <LocalHospitalIcon className={classes.icon} />
               </Avatar>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={5}>
               <Typography variant="h5">{this.props.name}</Typography>
             </Grid>
             <Grid item xs={3}>
@@ -99,10 +103,10 @@ class Pill extends Component {
               </Typography>
             </Grid>
             <Grid item xs={1}>
+              <PillDetail id={id} />
+            </Grid>
+            <Grid item xs={1}>
               <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
-                <DeleteIcon fontSize="large" />
-              </IconButton>
-              <IconButton id="detail-button" aria-label="detail" className={classes.margin} onClick={() => this.props.history.push({ pathname: '/pillDetail', state: { id: this.props.id } })}>
                 <DeleteIcon fontSize="large" />
               </IconButton>
             </Grid>

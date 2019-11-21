@@ -92,6 +92,7 @@ class PillItemsPerUser(APIView):
     def get(self, request, pill_id):
         """ Delete pill_id """
         if request.user.is_authenticated:
+            print(pill_id)
             # don't delete pill_id twice
             existing_pills = request.user.pills.all().values_list('id', flat=True)
             if pill_id not in existing_pills:

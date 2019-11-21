@@ -65,7 +65,7 @@ class PillDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.onGetPill(this.props.location.state.id);
+    this.props.onGetPill(this.props.id);
   }
 
   goBackHandler = () => {
@@ -89,15 +89,15 @@ class PillDetail extends Component {
     let takeMethodPreprocessed = '';
     if (this.props.selected_pill) {
       pillId = this.props.selected_pill.id;
-      takeMethod = this.props.selected_pill.takeMethod;
-      productName = this.props.selected_pill.productName;
-      expirationDate = this.props.selected_pill.expirationDate;
+      takeMethod = this.props.selected_pill.take_method;
+      productName = this.props.selected_pill.product_name;
+      expirationDate = this.props.selected_pill.expiration_date;
       functions = this.props.selected_pill.functions;
-      storeMethod = this.props.selected_pill.storeMethod;
-      companyName = this.props.selected_pill.companyName;
+      storeMethod = this.props.selected_pill.store_method;
+      companyName = this.props.selected_pill.company_name;
       standards = this.props.selected_pill.standards;
       precautions = this.props.selected_pill.precautions;
-      takeMethodPreprocessed = this.props.selected_pill.takeMethodPreprocessed;
+      takeMethodPreprocessed = this.props.selected_pill.take_method_preprocessed;
     }
     return (
       <div>
@@ -131,7 +131,7 @@ class PillDetail extends Component {
             <Typography gutterBottom id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
           </DialogContent>
           <DialogActions>
-            <Button id="back-detail-article-button" autoFocus onClick={() => this.goBackHandler()} color="primary">
+            <Button id="back-detail-article-button" autoFocus onClick={() => this.handleClose()} color="primary">
               Go Back
             </Button>
           </DialogActions>
