@@ -87,10 +87,6 @@ class PillNoti extends Component {
   }
 
   onDateChange = id => date => {
-    console.log('this.onDateChange Called! date is ');
-    console.log(String(date));
-    console.log(String(date).substring(16, 21));
-    console.log('index is ' + id);
     this.setState({
       [id]: '1998-01-04T' + String(date).substring(16, 21)
     })
@@ -102,7 +98,6 @@ class PillNoti extends Component {
     for (i = 0; i < this.props.nmTimes; i++) {
       timeList.push((this.state[i].substring(11, 13) + (this.state[i].substring(14, 16))))
     }
-    console.log(timeList);
     //id should be the pill id
     const webNotiItem = { id: this.props.pillNotiSetting['pill-id'], activated: true, time: timeList };
     this.props.onEditWebNoti(webNotiItem);
@@ -140,7 +135,6 @@ class PillNoti extends Component {
         </Grid>
       </div>
     ))
-    console.log('inputFieldIndex: ' + inputFieldIndex)
     if (this.state.edit_mode === 0) {
       return (
         <div className="Pill">

@@ -21,8 +21,6 @@ class NotiSetting extends Component {
   content() {
     if (this.props.webnoti_list !== null) {
       const pillNotiSettingList = this.props.webnoti_list;
-      console.log('pillNotiSettingList in NotiSetting.js is :')
-      console.log(pillNotiSettingList);
       const renderedList = pillNotiSettingList.map((pillNotiSetting) => (<PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} nmTimes={pillNotiSetting.time.length}/>));
       return (
         <div className="NotiSetting">
