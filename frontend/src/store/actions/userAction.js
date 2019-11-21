@@ -24,7 +24,9 @@ export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
 
 export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
   .then((res) => {
-    dispatch({ type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user, });
+    dispatch({
+      type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
+    });
     dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });

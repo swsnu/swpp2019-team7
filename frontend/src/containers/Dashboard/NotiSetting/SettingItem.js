@@ -63,15 +63,12 @@ class SettingItem extends Component {
   }
 
   render() {
-    console.log('rerender')
-    console.log(this.props.index)
     let checked = false;
     let disabled = false;
-    const one = 1;
     if (this.props.noti) {
       checked = this.props.noti[this.props.index];
       if (this.props.index !== 'enable_noti') {
-        disabled = !this.props.noti['enable_noti'];
+        disabled = !this.props.noti.enable_noti;
       }
     }
     const { classes } = this.props;
