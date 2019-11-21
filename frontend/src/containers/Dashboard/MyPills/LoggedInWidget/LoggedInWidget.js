@@ -1,27 +1,53 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/core';
+
 import DemoWidget from '../../../Landing/DemoWidget/DemoWidget';
 import Header from '../../../Header/Header';
 
-const Wrapper = styled.section`
-  margin-top: 15em;
-  margin-right: 33em;
-  margin-left: 33em;
-  // background: #f7daad;
-`;
+
+const styles = (theme) => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    // alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+});
+
 // eslint-disable-next-line react/prefer-stateless-function
 class LoggedInWidget extends Component {
   render() {
+    const { classes } = this.props;
     return (
       <div className="LoggedInWidget">
         <Header />
-        <Wrapper>
-          <DemoWidget backgroundColor="#ffa184" />
-        </Wrapper>
+        <Container component="main" maxWidth="sm">
+          <div className={classes.paper}>
+            <DemoWidget backgroundColor="rgb(32,32,32)" />
+          </div>
+        </Container>
       </div>
     );
   }
 }
 
-export default LoggedInWidget;
+export default (withStyles(styles)(LoggedInWidget));

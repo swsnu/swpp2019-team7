@@ -9,6 +9,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
@@ -49,11 +51,15 @@ const styles = (myTheme) => ({
     [theme.breakpoints.down('sm')]: {
       marginBottom: '8%',
     },
-
+  },
+  closeModal: {
+    marginTop: myTheme.spacing(22),
+    color: 'white',
   },
 });
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+Transition.displayName = 'Transition';
 
 class MyPills extends Component {
   constructor(props) {
@@ -69,12 +75,12 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.setState((state) => ({ open: !state.open }));
+    this.setState(() => ({ open: true }));
     // this.props.history.push('/loggedinwidget');
   }
 
   handleClose() {
-    this.setState((state) => ({ open: !state.open }));
+    this.setState(() => ({ open: false }));
   }
 
   render() {
@@ -103,7 +109,7 @@ class MyPills extends Component {
           </Fab>
           <Dialog
             fullScreen
-            keepMounted
+            onBackdropClick
             open={this.state.open}
             onClose={this.handleClose}
             TransitionComponent={Transition}
@@ -114,6 +120,9 @@ class MyPills extends Component {
               },
             }}
           >
+            <IconButton className={classes.closeModal} color="inherit" onClick={() => this.handleClose()} aria-label="close">
+              <CloseIcon fontSize="large" />
+            </IconButton>
             <LoggedInWidget />
           </Dialog>
         </ThemeProvider>
