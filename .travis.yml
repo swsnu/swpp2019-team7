@@ -2,7 +2,7 @@ branches:
   only:
   - master
   - dev/working
-  - dev/pillDetail_notiSetting
+  - dev/merge-telegram-backend
 matrix:
   include:
   - language: 
