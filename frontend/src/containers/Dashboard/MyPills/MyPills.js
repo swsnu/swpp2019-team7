@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Fab from '@material-ui/core/Fab';
-// import Button from '@material-ui/core/Button';
-// import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
@@ -23,7 +21,11 @@ const theme = createMuiTheme({
       fontSize: 55,
       // fontStyle: "italic"
     },
-    h4: {
+    h3: {
+      fontWeight: 500,
+    },
+    h5: {
+      fontWeight: 500,
     },
   },
 });
@@ -33,15 +35,21 @@ const styles = (myTheme) => ({
   fab: {
     margin: myTheme.spacing(3),
   },
-  extendedIcon: {
-    marginRight: myTheme.spacing(1),
+  greenAvatar: {
+    // margin: 10,
+    color: '#fff',
+    backgroundColor: '#f8bbd0',
+  },
+  myPillTitle: {
+    marginTop: '10%',
+    marginBottom: '4%',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '8%',
+    },
+
   },
 });
 
-const PillListWrapper = styled.section`
-  margin: 2em;
-  // background: #f7daad;
-`;
 
 class MyPills extends Component {
   constructor(props) {
@@ -63,16 +71,24 @@ class MyPills extends Component {
   render() {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
-      <Pill key={pill.id} id={pill.id} name={pill.product_name} image={pill.image} takemethodpreprocessed={pill.take_method_preprocessed} />
+      <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
+        <CardActionArea component="a" href="#">
+          <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
+        </CardActionArea>
+      </Grid>
     ));
     return (
       <div className="MyPills">
         <ThemeProvider theme={theme}>
-          <div className="title">
-            <Typography variant="h3" align="left"> My Pills </Typography>
-          </div>
-          <Divider />
-          <PillListWrapper>{pillList}</PillListWrapper>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant="h3" align="left" style={{ marginTop: '10%', marginBottom: '6%' }}> My Pills </Typography>
+            </Grid>
+          </Grid>
+          {/* Pill List */}
+          <Grid container spacing={4}>
+          {pillList}
+          </Grid>
           <Fab id="addpill" color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
           </Fab>

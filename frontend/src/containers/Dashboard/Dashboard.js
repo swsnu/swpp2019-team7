@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import {createMuiTheme, ThemeProvider, withStyles, withTheme} from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
@@ -18,10 +19,28 @@ import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import TelegramSetting from './TelegramSetting/TelegramSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
+import './Dashboard.css'
 
 const drawerWidth = 240;
 
-const styles = (theme) => ({
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h2: {
+      fontWeight: 500,
+      fontSize: 55,
+      // fontStyle: "italic"
+    },
+    h3: {
+      fontWeight: 500,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+  },
+});
+
+const styles = (mytheme) => ({
   root: {
     display: 'flex',
   },
@@ -39,7 +58,21 @@ const styles = (theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    height: '100vh',
+    overflow: 'auto',
+    // padding: theme.spacing(3),
+  },
+  container: {
+    paddingTop: mytheme.spacing(4),
+    paddingBottom: mytheme.spacing(4),
+    // [theme.breakpoints.down('sm')]: {
+    //   marginLeft: 0,
+    // },
+    [theme.breakpoints.between('sm', 'md')]: {
+      paddingLeft: '7%',
+      paddingRight: '7%',
+    },
+
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -118,42 +151,44 @@ class Dashboard extends Component {
     );
     return (
       <div className={classes.root}>
-        <Header handleDrawerToggle={this.handleDrawerToggle} />
-        {/* temporary sidebar on smaller screens */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            variant="temporary"
-            anchor={this.props.theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.state.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        {/* permant sidebar on larger screens */}
-        <Hidden smDown implementation="css">
-          <Drawer
-            className={classes.drawer}
-            variant="permanent"
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <div align="top">
-            {text}
-          </div>
-        </main>
+        <ThemeProvider theme={theme}>
+          <Header handleDrawerToggle={this.handleDrawerToggle} />
+          {/* temporary sidebar on smaller screens */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              variant="temporary"
+              anchor={this.props.theme.direction === 'rtl' ? 'right' : 'left'}
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          {/* permant sidebar on larger screens */}
+          <Hidden smDown implementation="css">
+            <Drawer
+              className={classes.drawer}
+              variant="permanent"
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Container maxWidth="md" className={classes.container}>
+              {text}
+            </Container>
+          </main>
+        </ThemeProvider>
       </div>
     );
   }

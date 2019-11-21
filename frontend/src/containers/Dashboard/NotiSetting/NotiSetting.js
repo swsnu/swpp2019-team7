@@ -26,9 +26,7 @@ class NotiSetting extends Component {
     ));
     return (
       <div className="NotiSetting">
-        <div className="title">
-          <Typography variant="h1" align="left"> Notification Settings </Typography>
-        </div>
+        <Typography variant="h1" align="left"> Notification Settings </Typography>
         <Divider />
         <div className="settings">{settingList}</div>
       </div>

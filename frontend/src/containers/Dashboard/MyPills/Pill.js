@@ -1,70 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import {
   Grid, Typography, Avatar,
 } from '@material-ui/core';
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 import { deleteUserPill } from '../../../store/actions/pillAction';
 
-// const useStyles = makeStyles((theme) => ({
-const styles = (theme) => ({
-  root: {
-    height: '100%',
-    flex: 2,
-    padding: '10',
-    marginTop: 50,
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h2: {
+      fontWeight: 500,
+      fontSize: 55,
+      // fontStyle: "italic"
+    },
+    h3: {
+      fontWeight: 500,
+    },
+    h6: {
+      fontWeight: 500,
+    },
   },
-  card: {
-    display: 'flex',
-    marginBottom: theme.spacing(1),
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    alignItems: 'center',
-    display: 'flex',
-  },
+});
+
+const styles = () => ({
   title: {
     fontWeight: 900,
   },
   avatar: {
-    height: 56,
-    width: 56,
+    width: 60,
+    height: 60,
   },
   icon: {
     height: 32,
     width: 32,
   },
-  difference: {
-    marginTop: theme.spacing(2),
-    display: 'flex',
-    alignItems: 'center',
-  },
-  differenceIcon: {
-    color: theme.palette.error.dark,
-  },
-  differenceValue: {
-    color: theme.palette.error.dark,
-    marginRight: theme.spacing(1),
-  },
   deleteText: {
     color: 'red',
   },
+  card: {
+    display: 'flex',
+  },
+  cardDetails: {
+    flex: 1,
+  },
+  cardMedia: {
+    width: 160,
+  },
 });
-
-const PillItemWrapper = styled.section`
-  margin-bottom: 2em;
-  // background: #f7daad;
-`;
 
 class Pill extends Component {
   deletePill(id) {
@@ -76,80 +67,48 @@ class Pill extends Component {
     const { classes } = this.props;
     return (
       <div className="Pill">
-        <PillItemWrapper>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-          >
-            <Grid item xs={1}>
-              <Avatar className={classes.avatar}>
-                <LocalHospitalIcon className={classes.icon} />
-              </Avatar>
-            </Grid>
-            <Grid item xs={7}>
-              <Typography variant="h5">{this.props.name}</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography
-                className={classes.caption}
-                variant="h5"
-              >
-                {this.props.takemethodpreprocessed}
-              </Typography>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="delete-button" aria-label="delete" className={classes.margin} onClick={() => this.deletePill(this.props.id)}>
-                <DeleteIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </PillItemWrapper>
+        <ThemeProvider theme={theme}>
+          <Card className={classes.card}>
+            <div className={classes.cardDetails}>
+              <CardContent>
+                <Grid container alignItems="center" spacing={1}>
+                  <Grid item xs={3}>
+                    <Avatar src={this.props.file} className={classes.avatar} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="h5">
+                      {this.props.name}
+                    </Typography>
+                    <Typography variant="h6">
+                      {this.props.takemethod}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography variant="h6" style={{ color: '#53a5e0' }}>Detail</Typography>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
+                      <DeleteForeverOutlinedIcon
+                        fontSize="large"
+                        component={(svgProps) => (
+                          <svg {...svgProps}>
+                            {React.cloneElement(svgProps.children[0], {
+                              fill: '#ff7043',
+                            })}
+                          </svg>
+                        )}
+                      />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </div>
+          </Card>
+        </ThemeProvider>
       </div>
     );
   }
 }
-// const Pill = (props) => {
-//   const { className, ...rest } = props;
-//   const classes = useStyles();
-//   // TODO add dropdown in Pill component for user noti customization
-//   return (
-//     <Card
-//       {...rest}
-//       className={clsx(classes.root, className)}
-//     >
-//       <CardContent>
-//         <Grid
-//           container
-//           justify="space-between"
-//           alignItems="center"
-//         >
-//           <Grid item>
-//             <Avatar className={classes.avatar}>
-//               <LocalHospitalIcon className={classes.icon} />
-//             </Avatar>
-//           </Grid>
-//           <Grid item>
-//             <Typography variant="h5">{props.name}</Typography>
-//           </Grid>
-//           <Grid item>
-//             <Typography
-//               className={classes.caption}
-//               variant="h5"
-//             >
-//               {props.takemethodpreprocessed}
-//             </Typography>
-//           </Grid>
-//           <Grid item>
-//             <IconButton aria-label="delete" className={classes.margin} onClick={()=>deletePill()}>
-//               <DeleteIcon fontSize="large" />
-//             </IconButton>
-//           </Grid>
-//         </Grid>
-//       </CardContent>
-//     </Card>
-//   );
-// };
 
 export default connect(null, {
   deleteUserPill,
