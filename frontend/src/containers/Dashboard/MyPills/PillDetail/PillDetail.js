@@ -1,151 +1,78 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import * as pillActions from '../../../../store/actions/pillAction';
 
-
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-  const {
-    children, classes, onClose, ...other
-  } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
+const mapStateToProps = state => {
+    return {
+        pill: state.pill,
+        selected_pill: state.pill.selected_pill,
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetPill: (id) => dispatch(pillActions.getPill(id))
+    }
+}
 
 class PillDetail extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false,
-    };
-  }
-
-  componentDidMount() {
-    this.props.onGetPill(this.props.id);
-  }
-
-  goBackHandler = () => {
-    this.props.history.push('/dashboard');
-  }
-
-  handleClickOpen = () => { console.log('open'); this.setState({ open: true }); console.log(this.state.open); };
-
-  handleClose = () => this.setState({ open: false });
-
-  render() {
-    let pillId = '';
-    let takeMethod = '';
-    let productName = '';
-    let expirationDate = '';
-    let functions = '';
-    let storeMethod = '';
-    let companyName = '';
-    let standards = '';
-    let precautions = '';
-    let takeMethodPreprocessed = '';
-    if (this.props.selected_pill) {
-      pillId = this.props.selected_pill.id;
-      takeMethod = this.props.selected_pill.take_method;
-      productName = this.props.selected_pill.product_name;
-      expirationDate = this.props.selected_pill.expiration_date;
-      functions = this.props.selected_pill.functions;
-      storeMethod = this.props.selected_pill.store_method;
-      companyName = this.props.selected_pill.company_name;
-      standards = this.props.selected_pill.standards;
-      precautions = this.props.selected_pill.precautions;
-      takeMethodPreprocessed = this.props.selected_pill.take_method_preprocessed;
+    state = {
     }
-    return (
-      <div>
-        <Button variant="outlined" color="secondary" onClick={() => this.handleClickOpen()}>
-          Open dialog
-        </Button>
-        <Dialog onClose={() => this.handleClose()} aria-labelledby="customized-dialog-title" open={this.state.open}>
-          <DialogTitle id="customized-dialog-title" onClose={() => this.handleClose()}>
-            Modal title
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>pillId</Typography>
-            <Typography gutterBottom id="pill-id">{pillId}</Typography>
-            <Typography gutterBottom>`take`-method</Typography>
-            <Typography gutterBottom id="take-method">{takeMethod}</Typography>
-            <Typography gutterBottom>product-name</Typography>
-            <Typography gutterBottom id="product-name">{productName}</Typography>
-            <Typography gutterBottom>expiration-date</Typography>
-            <Typography gutterBottom id="expiration-date">{expirationDate}</Typography>
-            <Typography gutterBottom>functions</Typography>
-            <Typography gutterBottom id="functions">{functions}</Typography>
-            <Typography gutterBottom>store-method</Typography>
-            <Typography gutterBottom id="store-method">{storeMethod}</Typography>
-            <Typography gutterBottom>company-name</Typography>
-            <Typography gutterBottom id="company-name">{companyName}</Typography>
-            <Typography gutterBottom>standards</Typography>
-            <Typography gutterBottom id="standards">{standards}</Typography>
-            <Typography gutterBottom>precautions</Typography>
-            <Typography gutterBottom id="precautions">{precautions}</Typography>
-            <Typography gutterBottom>take-method-preprocessed</Typography>
-            <Typography gutterBottom id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button id="back-detail-article-button" autoFocus onClick={() => this.handleClose()} color="primary">
-              Go Back
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
-}
-const mapStateToProps = (state) => ({
-  pill: state.pill,
-  selected_pill: state.pill.selected_pill,
-});
-const mapDispatchToProps = (dispatch) => ({
-  onGetPill: (id) => dispatch(pillActions.getPill(id)),
-});
-
+    componentDidMount(){
+        this.props.onGetPill(1);//this.props.location.state.id);
+    }
+    goBackHandler = () => {
+        this.props.history.push('/dashboard')
+    }
+    render () {
+        let pill_id = '';
+        let take_method = '';
+        let product_name = '';
+        let expiration_date = '';
+        let functions = '';
+        let store_method = '';
+        let company_name = '';
+        let standards = '';
+        let precautions = '';
+        let take_method_preprocessed = '';
+        if(this.props.selected_pill){
+            pill_id= this.props.selected_pill.id;
+            take_method= this.props.selected_pill.take_method;
+            product_name= this.props.selected_pill.product_name;
+            expiration_date= this.props.selected_pill.expiration_date;
+            functions= this.props.selected_pill.functions;
+            store_method= this.props.selected_pill.store_method;
+            company_name= this.props.selected_pill.company_name;
+            standards= this.props.selected_pill.standards;
+            precautions= this.props.selected_pill.precautions;
+            take_method_preprocessed= this.props.selected_pill.take_method_preprocessed
+            
+        }
+        return (
+            <div className="PillDetail">
+                <h1>pill_id</h1>
+                <h3 id='pill-id'>{pill_id}</h3>
+                <h1>take-method</h1>
+                <h3 id='take-method'>{take_method}</h3>
+                <h1>product-name</h1>
+                <h3 id='product-name'>{product_name}</h3>
+                <h1>expiration-date</h1>
+                <h3 id='expiration-date'>{expiration_date}</h3>
+                <h1>functions</h1>
+                <h3 id='functions'>{functions}</h3>
+                <h1>store-method</h1>
+                <h3 id='store-method'>{store_method}</h3>
+                <h1>company-name</h1>
+                <h3 id='company-name'>{company_name}</h3>
+                <h1>standards</h1>
+                <h3 id='standards'>{standards}</h3>
+                <h1>precautions</h1>
+                <h3 id='precautions'>{precautions}</h3>
+                <h1>take-method-preprocessed</h1>
+                <h3 id='take-method-preprocessed'>{take_method_preprocessed}</h3>
+                <button id='back-detail-article-button' onClick={() => this.goBackHandler()}>Back</button>
+            </div>
+        )
+    }
+};
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PillDetail));
