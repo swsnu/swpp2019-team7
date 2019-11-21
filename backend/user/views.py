@@ -88,7 +88,9 @@ def signup(request):
         new_user = User.objects.create_user(email=email, password=password, name=name)
         new_noti = NotiSetting(user=new_user)
         new_noti.save()
-        return HttpResponse(format_user_object(new_user), status=201)
+        login(request, new_user)
+        response_json = {'user': format_user_object(new_user), 'noti': format_noti_object(new_noti)}
+        return JsonResponse(response_json, status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
 
