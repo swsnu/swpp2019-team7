@@ -1,6 +1,8 @@
 """Backend for registering the device using FCM token!"""
 import json
 import shortuuid
+import datetime
+import time
 
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt
@@ -122,10 +124,10 @@ def webnoti_pill(request, req_id):
 
             if len(notification_time_list) > len(datetime_list):
                 # if datetime doesn't exist, delete
-                for datetime in datetime_list:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                for datetime_item in datetime_list:
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
                     notification_time = notification_time_list[index]
-                    notification_time.time = datetime
+                    notification_time.time = modified_datetime
                     notification_time.save()
                     index += 1
                 for notification_time in notification_time_list[index:]:
@@ -133,19 +135,19 @@ def webnoti_pill(request, req_id):
             elif len(notification_time_list) < len(datetime_list):
                 # if notification_time doesn't exist, add new
                 for notification_time in notification_time_list:
-                    datetime = datetime_list[index]
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification_time.time = datetime
+                    datetime_item = datetime_list[index]
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
+                    notification_time.time = modified_datetime
                     notification_time.save()
                     index += 1
-                for datetime in datetime_list[index:]:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
+                for datetime_item in datetime_list[index:]:
+                    modified_datetime = datetime_item[:-2] + ":" + datetime_item[-2:]
+                    NotificationTime.objects.create(notification=webnoti_item, time=modified_datetime).save()
             else:
-                for datetime in datetime_list:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
+                for datetime_item in datetime_list:
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
                     notification_time = notification_time_list[index]
-                    notification_time.time = datetime
+                    notification_time.time = modified_datetime
                     notification_time.save()
                     index += 1
             webnoti_item.save()
