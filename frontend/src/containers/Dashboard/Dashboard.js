@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {createMuiTheme, ThemeProvider, withStyles, withTheme} from '@material-ui/core/styles';
+import {
+  createMuiTheme, ThemeProvider, withStyles, withTheme,
+} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -19,7 +21,7 @@ import MyPills from './MyPills/MyPills';
 import NotiSetting from './NotiSetting/NotiSetting';
 import TelegramSetting from './TelegramSetting/TelegramSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
-import './Dashboard.css'
+import './Dashboard.css';
 
 const drawerWidth = 240;
 
