@@ -10,7 +10,8 @@ Parses the xml file, and saves into json fixture format (for Django Model), excl
 """
 
 data_path = os.path.dirname(os.path.realpath(__file__))+"/data"  # Directory where original xml files are saved
-preprocessed_path = dir_path = os.path.dirname(os.path.realpath(__file__))  # Directory where take_method.preprocessed is saved
+preprocessed_path = dir_path = os.path.dirname(os.path.realpath(__file__))
+# Directory where take_method.preprocessed is saved
 product_template = {  # Django Model enforces this json format!
     "pk": 1,
     "model": "pill.pill",

@@ -1,8 +1,8 @@
-# pylint: skip-file
 # Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
 from dataset.preprocess import PillDataset
+
 
 def call_ocr_api(file):
     with file.open('rb') as img:

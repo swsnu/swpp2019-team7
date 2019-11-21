@@ -108,7 +108,6 @@ def webnoti_pill(request, req_id):
         if request.user.is_authenticated:
             pill = Pill.objects.get(pk=req_id)
             webnoti_item = Notification.objects.get(user=request.user, pill=pill)
-            print(webnoti_item)
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']
