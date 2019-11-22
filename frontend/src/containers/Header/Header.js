@@ -39,7 +39,9 @@ const styles = (theme) => ({
 
 class Header extends Component {
   componentDidMount(){
-    this.props.onGetUser();
+    if(this.props.logged_in){
+      this.props.onGetUser();
+    }
   }
   clickLoginHandler = () => {
     this.props.history.push('/login');

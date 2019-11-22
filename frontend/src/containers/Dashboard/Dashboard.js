@@ -138,7 +138,6 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user.current_user,
   dash: state.dash,
 });
 

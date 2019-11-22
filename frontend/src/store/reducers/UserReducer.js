@@ -1,5 +1,7 @@
 const initState = {
-  current_user: null,
+  current_user: {
+    name: '',
+  },
   noti_setting: null,
   logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),
 };
