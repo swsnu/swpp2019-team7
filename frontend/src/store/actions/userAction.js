@@ -15,11 +15,11 @@ export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', u
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
 
 export const getUserInfo = () => (dispatch) => ax.get('/api/user/')
-  .then((res)=> {
+  .then((res) => {
     dispatch({
-      type: 'GET_USERINFO', current_user: res.data
-    })
-  })
+      type: 'GET_USERINFO', current_user: res.data,
+    });
+  });
 
 export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .then(() => {

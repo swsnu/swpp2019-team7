@@ -19,17 +19,17 @@ class NotiSetting extends Component {
   componentDidMount() {
     this.props.onGetWebNoti();
   }
+
   usersSetting(settingList) {
     return (
       <div className="NotiSetting">
-        <div className="title">
-          <Typography variant="h1" align="left"> Notification Settings </Typography>
-        </div>
+        <Typography variant="h1" align="left"> Notification Settings </Typography>
         <Divider />
         <div className="settings">{settingList}</div>
       </div>
     );
   }
+
   content() {
     if (this.props.webnoti_list !== null) {
       const pillNotiSettingList = this.props.webnoti_list;
@@ -44,10 +44,10 @@ class NotiSetting extends Component {
         </div>
       );
     }
-    else {
-      return <div className="temp">No pills</div>
-    }
+
+    return <div className="temp">No pills</div>;
   }
+
   render() {
     const settingList = tempSetting.map((item) => (
       <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
@@ -57,7 +57,7 @@ class NotiSetting extends Component {
         {this.usersSetting(settingList)}
         {this.content()}
       </div>
-    )
+    );
   }
 }
 
@@ -65,7 +65,7 @@ const mapStateToProps = (state) => ({
   webnoti_list: state.noti.webnoti_list,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()) },
+  onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotiSetting);

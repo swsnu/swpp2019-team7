@@ -6,10 +6,10 @@ const DashboardReducer = (state = initState, action = null) => {
   if (action == null) return state;
   switch (action.type) {
     case 'CHANGE_DASHBOARD':
-      console.log('reducer')
-      console.log(action.itemNo)
+      console.log('reducer');
+      console.log(action.itemNo);
       return {
-        ...state, itemNo: action.itemNo
+        ...state, itemNo: action.itemNo,
       };
     default:
       break;

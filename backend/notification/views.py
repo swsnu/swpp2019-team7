@@ -1,8 +1,8 @@
 """Backend for registering the device using FCM token!"""
 import json
-import shortuuid
 import datetime
 import time
+import shortuuid
 
 from fcm_django.models import FCMDevice
 from django.views.decorators.csrf import csrf_exempt

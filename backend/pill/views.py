@@ -2,14 +2,18 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
 from rest_framework.views import APIView
 from rest_framework import status
 
+from vision.models import Image
 from notification.models import Notification
 from .models import Pill
 
 # url:  api/pill/
 
 
-def get_pill_dict(pill):
+def get_pill_dict(pill, image_instance=''):
     """Get pill object and return dictionary of it"""
+    file = ''
+    if image_instance:
+        file = image_instance.content.url
     pill_dict = {
         "id": pill.id,
         "take_method": pill.take_method,
@@ -20,12 +24,13 @@ def get_pill_dict(pill):
         "company_name": pill.company_name,
         "standards": pill.standards,
         "precautions": pill.precautions,
-        "take_method_preprocessed": pill.take_method_preprocessed
+        "take_method_preprocessed": pill.take_method_preprocessed,
+        "file": file,
     }
     return pill_dict
 
 
-def get_uer_pills(request):
+def get_user_pills(request):
     """Description of API to get list of pills for given user"""
     if request.method == 'GET':
         """ get pill list for request.user  """
@@ -34,7 +39,9 @@ def get_uer_pills(request):
 
             return_list = []
             for pill in saved_pills:
-                pill_dict = get_pill_dict(pill)
+                image_instance = Image.objects.filter(user=request.user, pill=pill)[0]
+                print(image_instance)
+                pill_dict = get_pill_dict(pill, image_instance)
                 return_list.append(pill_dict)
             return JsonResponse(return_list, status=200, safe=False)
         else:

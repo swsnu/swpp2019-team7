@@ -87,7 +87,7 @@ class PillDetail extends Component {
     let standards = '';
     let precautions = '';
     let takeMethodPreprocessed = '';
-    
+
     if (this.props.selected_pill) {
       pillId = this.props.selected_pill.id;
       takeMethod = this.props.selected_pill.take_method;
@@ -100,7 +100,7 @@ class PillDetail extends Component {
       precautions = this.props.selected_pill.precautions;
       takeMethodPreprocessed = this.props.selected_pill.take_method_preprocessed;
     }
-    
+
     return (
       <div>
         <Button variant="outlined" color="secondary" onClick={() => this.handleClickOpen()}>

@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
 
 import { withFirebase } from '../../components/Firebase';
@@ -34,15 +35,22 @@ const styles = (theme) => ({
     padding: theme.spacing(3),
   },
   toolbar: theme.mixins.toolbar,
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 });
 
 
 class Header extends Component {
-  componentDidMount(){
-    if(this.props.logged_in){
+  componentDidMount() {
+    if (this.props.logged_in) {
       this.props.onGetUser();
     }
   }
+
   clickLoginHandler = () => {
     this.props.history.push('/login');
   };
@@ -74,7 +82,6 @@ class Header extends Component {
               <IconButton
                 edge="start"
                 id="redirect-landing"
-                className={classes.menuButton}
                 onClick={() => this.clickRedirectToLanding()}
                 aria-label="menu"
               >
@@ -96,8 +103,15 @@ class Header extends Component {
         <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
           <Toolbar>
             <IconButton
+              aria-label="open drawer"
               edge="start"
+              onClick={this.props.handleDrawerToggle}
               className={classes.menuButton}
+            >
+              <MenuIcon style={{ color: 'black' }} />
+            </IconButton>
+            <IconButton
+              edge="start"
               onClick={() => this.clickRedirectToDashboard()}
               aria-label="menu"
             >
@@ -106,7 +120,10 @@ class Header extends Component {
               </Typography>
             </IconButton>
             <Typography variant="h6" className={classes.title} style={{ color: 'black' }} align="center">
-              Welcome {this.props.current_user.name}!
+              Welcome
+              {' '}
+              {this.props.current_user.name}
+!
             </Typography>
             <Button
               id="signout-button"
@@ -131,7 +148,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
   onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
-  onGetUser: ()=>{dispatch(userActionCreators.getUserInfo());},
+  onGetUser: () => { dispatch(userActionCreators.getUserInfo()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));
