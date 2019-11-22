@@ -135,6 +135,25 @@ class PillNoti extends Component {
         </Grid>
       </div>
     ))
+    inputFieldIndex=0;
+    const timesInputListReadOnly = (this.props.pillNotiSetting['time']).map((time) => (
+      <div key={inputFieldIndex++}>
+        <Grid container justify="space-around">
+          <KeyboardTimePicker
+            margin="normal"
+            id="time-picker"
+            label="Time picker"
+            key={inputFieldIndex - 1}
+            value={this.state[inputFieldIndex - 1]}
+            onChange={this.onDateChange(inputFieldIndex - 1)}
+            KeyboardButtonProps={{
+              'aria-label': 'change time',
+            }}
+            disabled={true}
+          />
+        </Grid>
+      </div>
+    ))
     if (this.state.edit_mode === 0) {
       return (
         <div className="Pill">
@@ -157,7 +176,9 @@ class PillNoti extends Component {
                   //className={classes.caption}
                   variant="h5"
                 >
-                  {timesList}
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {timesInputListReadOnly}
+                  </MuiPickersUtilsProvider>
                 </Typography>
               </Grid>
               <Grid item xs={1}>
