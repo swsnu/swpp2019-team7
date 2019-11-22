@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core';

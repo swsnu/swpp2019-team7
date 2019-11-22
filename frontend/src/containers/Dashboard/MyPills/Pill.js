@@ -10,6 +10,7 @@ import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined'
 import IconButton from '@material-ui/core/IconButton';
 
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
 import { deleteUserPill } from '../../../store/actions/pillAction';
@@ -55,6 +56,9 @@ const styles = () => ({
   cardMedia: {
     width: 160,
   },
+  cover: {
+    width: 151,
+  },
 });
 
 class Pill extends Component {
@@ -70,11 +74,16 @@ class Pill extends Component {
         <ThemeProvider theme={theme}>
           <Card className={classes.card}>
             <div className={classes.cardDetails}>
+              <CardMedia
+                className={classes.cover}
+                image={this.props.file}
+                title="Live from space album cover"
+              />
               <CardContent>
                 <Grid container alignItems="center" spacing={1}>
-                  <Grid item xs={3}>
-                    <Avatar src={this.props.file} className={classes.avatar} />
-                  </Grid>
+                  {/*<Grid item xs={3}>*/}
+                  {/*  <Avatar src={this.props.file} className={classes.avatar} />*/}
+                  {/*</Grid>*/}
                   <Grid item xs={6}>
                     <Typography variant="h5">
                       {this.props.name}

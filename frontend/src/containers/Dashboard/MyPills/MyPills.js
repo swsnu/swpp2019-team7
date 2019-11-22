@@ -115,7 +115,7 @@ class MyPills extends Component {
             TransitionComponent={Transition}
             PaperProps={{
               style: {
-                backgroundColor: 'rgba(32,32,32,0.5)',
+                backgroundColor: 'rgba(32,32,32,1)',
                 // boxShadow: 'none',
               },
             }}
