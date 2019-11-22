@@ -14,6 +14,7 @@ def time_to_datetime(time):
     datetime = time[0:2]+time[3:5]
     return datetime
 
+
 class TempTestCase(TestCase):
     def setUp(self):
         management.call_command('loaddata', 'dataset/fixtures/pill_data.json')
@@ -27,7 +28,6 @@ class TempTestCase(TestCase):
         new_notification = Notification.create(new_user, new_pill)
         new_notitime = NotificationTime.objects.get(notification=new_notification)
         time_string = time_to_datetime(new_notitime.get_4_digit_time())
-        
 
     def test_get(self):
         response = self.client.get('/api/webnoti/')
@@ -36,7 +36,6 @@ class TempTestCase(TestCase):
             str(response.content, encoding='utf8'),
             [{'id':1, 'activated':True, 'time':['0900']}]
         )
-
 
     def test_put(self):
         response = self.client.put('/api/webnoti/1/',

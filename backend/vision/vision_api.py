@@ -1,10 +1,13 @@
-# pylint: skip-file
-# Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
 from dataset.preprocess import PillDataset
 
+
+# pylint: disable=E1101
 def call_ocr_api(file):
+    """
+    Calls GCP OCR API, and returns fetched product in Pill Dataset
+    """
     with file.open('rb') as img:
         content = img.read()
 
