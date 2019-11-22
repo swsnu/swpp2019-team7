@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from user.models import User
 from pill.models import Pill
 
+
 class Image(models.Model):
     """Model implementation of Image Model"""
     filename = models.TextField(max_length=128)

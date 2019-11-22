@@ -7,18 +7,33 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
+
+import { withFirebase } from '../../components/Firebase';
 import * as userActionCreators from '../../store/actions/userAction';
 
+const drawerWidth = 240;
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  toolbar: theme.mixins.toolbar,
 });
 
 
@@ -39,15 +54,22 @@ class Header extends Component {
     this.props.history.push('/dashboard');
   };
 
+  onSignOutButtonClick = () => {
+    this.props.onDeleteToken(this.props.firebase.token);
+    this.props.onSignout();
+  };
+
   render() {
     const { classes } = this.props;
-    if (this.props.logged_in === false) {
+    const loggedInnStatus = JSON.parse(localStorage.getItem('loggedInnStatus'));
+    if (!loggedInnStatus || loggedInnStatus.logged_in === false) {
       return (
         <div className={classes.root}>
-          <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+          <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
             <Toolbar>
               <IconButton
                 edge="start"
+                id="redirect-landing"
                 className={classes.menuButton}
                 onClick={() => this.clickRedirectToLanding()}
                 aria-label="menu"
@@ -66,8 +88,8 @@ class Header extends Component {
     }
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+      <div className="header_login">
+        <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -76,11 +98,18 @@ class Header extends Component {
               aria-label="menu"
             >
               <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
-                  PillBox
+                    PillBox
               </Typography>
             </IconButton>
             <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-            <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
+            <Button
+              id="signout-button"
+              color="inherit"
+              style={{ color: 'black' }}
+              onClick={() => this.onSignOutButtonClick()}
+            >
+              Sign Out
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -94,6 +123,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(Header))));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

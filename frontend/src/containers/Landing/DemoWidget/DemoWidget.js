@@ -7,6 +7,7 @@ import {
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
+import { addUserPill } from '../../../store/actions/pillAction';
 
 class DemoWidget extends Component {
   constructor(props) {
@@ -24,7 +25,16 @@ class DemoWidget extends Component {
         precautions: '',
       },
       resultModalOpen: false,
+      newPillId: -1,
     };
+  }
+
+  getNewPillId(id) {
+    this.setState({ newPillId: id });
+  }
+
+  addNewPill() {
+    this.props.addUserPill(this.state.newPillId);
   }
 
   toggleAcceptPill() {
@@ -59,10 +69,12 @@ class DemoWidget extends Component {
 
   render() {
     return (
-      <div className="replaced">
+      <div className="DemoWidget">
         <UploadWidget
           updateProductInfo={this.updateProductInfo.bind(this)}
           toggleResultModal={this.toggleResultModal.bind(this)}
+          getNewPillId={this.getNewPillId.bind(this)}
+          backgroundColor={this.props.backgroundColor}
         />
         <Modal
           open={this.state.resultModalOpen}
@@ -99,18 +111,27 @@ class DemoWidget extends Component {
           {this.state.productInfo.productName
             ? (
               <Modal.Actions>
-                <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
-                  <Icon name="checkmark" />
-                  Log in to Save
-                </Button>
-                <Button color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
+                {this.props.loggedIn
+                  ? (
+                    <Button color="green" onClick={() => { this.addNewPill(); }}>
+                      <Icon name="checkmark" />
+                      Save
+                    </Button>
+                  )
+                  : (
+                    <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
+                      <Icon name="checkmark" />
+                      Log in to Save
+                    </Button>
+                  )}
+                <Button id="red" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
                   Retry
                 </Button>
               </Modal.Actions>
             )
             : (
               <Modal.Actions>
-                <Button onClick={() => { this.toggleResultModal(false); }}>
+                <Button id="red" onClick={() => { this.toggleResultModal(false); }}>
                   Go Back
                 </Button>
               </Modal.Actions>
@@ -122,4 +143,9 @@ class DemoWidget extends Component {
   }
 }
 
-export default connect()(withRouter(DemoWidget));
+const mapStateToProps = (state) => ({
+  loggedIn: state.user.logged_in,
+});
+export default connect(mapStateToProps, {
+  addUserPill,
+})(withRouter(DemoWidget));

@@ -10,8 +10,12 @@ matrix:
     python:
     - '3.6.8'
     dist: xenial
+    branches:
+      only:
+      - master
+      - dev/working
     services:
-    - sqlite3
+    - mysql
     addons:
       sonarcloud:
         organization: "swsnu"
@@ -19,6 +23,12 @@ matrix:
           secure: TQIg4b20lPC8lhkixOEfDLZCC3ryLlQq7+f/nJhon2ACPwmjvLNjARrSlJ99yg7AUw7n2+0/qwbWSJxVppSbmhxaAEL3cSIdFEOzsrNbTRs2RRvqO82/WKmqjGknrYrNlcpqgNBZD8goEg9uEYM4fFT000E2p/pRtTCXMvc3fIADojLif08bplSiuCP9xXuzwe7tcwu3D0YaVHNpJoI4gSW/+kdRH3Cq4OEV3AzgzHHJ1kaa98aSZlYp/jqEsjgyWDssPzreMQvnnAXFmju6PtNFyyLZEZXrwK8WGWXhd+dX94ddbKM6d95kCbm1CDZixuprVbkTX0JuK3OuxPhPCx+ukZH8TFs7lU2fXDD3LVGBf0T6I7OA+Wc6mXZ438rMyNw9M8UZ+pf5gVgrqPo6WCn2gwhoGDeyBjiIBm7QX8QIYiY6wuyItqRDVjENYg667w90FzsuVuLeON06KjLul02vzdwl4OtIPwxtDHGbt5qjV1zQ4+UN1/t9SUXW+Bb/E5Grfo/x+D96efNTZCgSSIxh8X2nrk2HNk5WnjLDRKzFn6yg79p4tWepIGHE5p6l4MokBFaIbXbL4/lOv4L99ZNar+WCm3i9Ec7w9R4BMUGSHQrUjlm2cajuxZlqw6E8gBV10DBbmzsQVuDkrdghvm7jkT72XZKIUh1pmWdeGVE=
     env:
     - DJANGO_VERSION=2.2.6
+    before_install:
+    - mysql -e 'CREATE DATABASE pillbox'
+    - mysql -e 'CREATE USER jay IDENTIFIED BY "pillbox1!"'
+    - mysql -e 'GRANT ALL PRIVILEGES ON pillbox.* TO jay'
+    - mysql -e 'GRANT ALL PRIVILEGES ON test_pillbox.* TO jay'
+    - mysql -e 'FLUSH PRIVILEGES'
     install:
     - cd frontend
     - yarn install
@@ -34,6 +44,9 @@ matrix:
     - cd ..
     before_script:
     - cd backend
+    - bash deletemigrations.sh
+    - bash makemigrations.sh
+      python3 manage.py migrate auth
     - python3 manage.py migrate
     - cd ..
     script:
@@ -43,7 +56,8 @@ matrix:
     - cd ..
     - cd backend
     - pylint --load-plugins pylint_django **/*.py
-    - coverage run --source='./' --omit='manage.py','*/wsgi.py','*/__init__.py','backend/*','dataset/*' manage.py test
+    - coverage run --source='./' --omit='manage.py','*/wsgi.py','*/__init__.py','backend/*','dataset/*','*/test.py' manage.py test
+    - coverage report -m
     - coverage xml
     - cd ..
     - sonar-scanner

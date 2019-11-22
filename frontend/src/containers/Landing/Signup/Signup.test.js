@@ -50,4 +50,38 @@ describe('Signup', () => {
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(1);
   });
+  it('should NOT accept signup', () => {
+    const component = mount(mockSignup);
+
+    const wrapperEmail = component.find({ id: 'email' }).at(1);
+    const wrapperPW = component.find({ id: 'password' }).at(1);
+    const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
+    const wrapperName = component.find({ id: 'name' }).at(1);
+    const wrapperButton = component.find({ id: 'signup-button' }).find('button').at(1);
+
+    wrapperEmail.props().onChange({ target: { value: 'swppsnu.com' } });
+    wrapperPW.props().onChange({ target: { value: 'Password123*' } });
+    wrapperPWConfirm.props().onChange({ target: { value: 'password123*' } });
+    wrapperName.props().onChange({ target: { value: 'peter' } });
+    wrapperButton.simulate('click');
+
+    expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
+  });
+  it('should NOT accept signup 2', () => {
+    const component = mount(mockSignup);
+
+    const wrapperEmail = component.find({ id: 'email' }).at(1);
+    const wrapperPW = component.find({ id: 'password' }).at(1);
+    const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
+    const wrapperName = component.find({ id: 'name' }).at(1);
+    const wrapperButton = component.find({ id: 'signup-button' }).find('button').at(1);
+
+    wrapperEmail.props().onChange({ target: { value: 'swppsnu.com' } });
+    wrapperPW.props().onChange({ target: { value: 'pwd*' } });
+    wrapperPWConfirm.props().onChange({ target: { value: 'pwd*' } });
+    wrapperName.props().onChange({ target: { value: 'peter' } });
+    wrapperButton.simulate('click');
+
+    expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
+  });
 });

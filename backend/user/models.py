@@ -12,13 +12,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     password = models.CharField(_('password'), max_length=100, blank=True)
     name = models.CharField(_('name'), max_length=100, blank=True)
+    telegram_first_name = models.CharField(_('telegram_first_name'), max_length=100, blank=True)
+    telegram_last_name = models.CharField(_('telegram_last_name'), max_length=100, blank=True)
+    telegram_username = models.CharField(_('telegram_username'), max_length=100, blank=True)
     register_date = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login_date = models.DateTimeField(
         _('last logged-in'), auto_now_add=True)
-    # pills = models.ManyToManyField(
-    #     Pill,
-    #     related_name='pills'
-    # )
+    # many-to-many between User and Pill
+    pills = models.ManyToManyField(Pill, related_name='pills')
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

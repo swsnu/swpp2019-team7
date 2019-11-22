@@ -1,49 +1,51 @@
-import axios from 'axios';
+import Cookies from 'js-cookie';
 import { push } from 'connected-react-router';
 
-export const signinUser = (user) => (dispatch) => axios.post('/api/user/signin/', user)
-  .then(() => {
-    dispatch({ type: 'SIGNIN_USER', logged_in: true });
+import ax from '../../api/index';
+
+export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', user)
+  .then((res) => {
+    ax.defaults.headers.common['X-CSRFToken'] = Cookies.get('csrftoken');
+    localStorage.setItem('localCsrf', JSON.stringify(Cookies.get('csrftoken')));
+    dispatch({
+      type: 'SIGNIN_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
+    });
     dispatch(push('/dashboard'));
   })
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
-// We need a button for this function!
-export const signoutUser = () => (dispatch) => axios.get('/api/user/signout/')
+
+export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
   .then(() => {
-    dispatch({ type: 'SIGNOUT_USER', logged_in: false });
+    localStorage.setItem('localCsrf', JSON.stringify(''));
+    dispatch({ type: 'SIGNOUT_USER', logged_in: false, current_user: null });
     dispatch(push('/landing'));
   })
   .catch((err) => console.log(err));
 
-export const signupUser = (user) => (dispatch) => axios.post('/api/user/signup/', user)
+export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
   .then(() => {
-    dispatch({ type: 'SIGNUP_USER', logged_in: false });
+    dispatch({ type: 'SIGNUP_USER', logged_in: false, current_user: null });
     dispatch(push('/login'));
   })
-  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log('error!'); console.log(err); });
-/*
-export const getUserInfo_ = (current_user) => {
-    return { type: "GET_USERINFO", current_user: current_user }
-}
+  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });
 
-export const getUserInfo = (id) => {
-    return dispatch => {
-        return axios.get('/api/user/' + id)
-            .then(res => dispatch(getUserInfo_(res.data.current_user)))
-    }
-}
+export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
+  .then((res) => {
+    dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
+  });
 
-export const editUserInfo_ = (current_user) => {
-    return { type: "EDIT_USERINFO", current_user: current_user }
-}
 
-export const editUserInfo = (id, user) => {
-    return dispatch => {
-        return axios.put('/api/user/' + id, user)
-            .then(res => {
-                dispatch(editUserInfo_(res.data.current_user));
-            })
-    }
-}
+export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/', noti)
+  .then((res) => {
+    dispatch({ type: 'EDIT_NOTI', logged_in: true, noti_setting: res.data });
+  });
 
-*/
+export const registerUserDevice = (token) => () => {
+  ax.post('/api/registerdevice/', token)
+    .catch((err) => console.log(err));
+};
+
+export const deleteUserDevice = (token) => () => {
+  ax.delete('/api/registerdevice/', token)
+    .catch((err) => console.log(err));
+};
