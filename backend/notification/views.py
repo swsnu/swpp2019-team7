@@ -74,7 +74,7 @@ def crud_device(request):
 
 
 def webnoti(request):
-    """Function for getting/returning web notification"""
+    """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)

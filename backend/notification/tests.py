@@ -34,7 +34,7 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(
             str(response.content, encoding='utf8'),
-            [{'id':1, 'activated':True, 'time':['0900']}]
+            [{'id':1, 'pill-name': '마이더블유피아이에이치쉐이크', 'pill-id': 1, 'activated': True, 'time': ['0900']}]
         )
 
     def test_put(self):
@@ -50,7 +50,7 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(
             str(response.content, encoding='utf8'),
-            [{'id':2, 'activated':False, 'time':['1000']}]
+            [{'id':2, 'pill-name': '마이더블유피아이에이치쉐이크', 'pill-id': 1, 'activated': False, 'time': ['1000']}]
         )
 
         response = self.client.put('/api/webnoti/1/',
