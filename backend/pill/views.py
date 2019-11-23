@@ -97,10 +97,9 @@ class PillItemsPerUser(APIView):
     # @csrf_exempt
     # pylint: disable=R0201
     def get(self, request, pill_id):
-        """ Delete pill_id """
+        """ Get pill of user of pill_id """
         if request.user.is_authenticated:
-            print(pill_id)
-            # don't delete pill_id twice
+            # Check if user has pill_id
             existing_pills = request.user.pills.all().values_list('id', flat=True)
             if pill_id not in existing_pills:
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
