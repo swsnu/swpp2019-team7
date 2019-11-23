@@ -22,7 +22,7 @@ class NotiSetting extends Component {
 
   usersSetting(settingList) {
     return (
-      <div className="NotiSetting">
+      <div className="UserNotiSetting">
         <Typography variant="h1" align="left"> Notification Settings </Typography>
         <Divider />
         <div className="settings">{settingList}</div>
@@ -35,7 +35,7 @@ class NotiSetting extends Component {
       const pillNotiSettingList = this.props.webnoti_list;
       const renderedList = pillNotiSettingList.map((pillNotiSetting) => (<PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} nmTimes={pillNotiSetting.time.length} />));
       return (
-        <div className="NotiSetting">
+        <div className="WebnotiListSetting">
           <div className="title">
             <Typography variant="h3" align="left"> Notification Times </Typography>
           </div>

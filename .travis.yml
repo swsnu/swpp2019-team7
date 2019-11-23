@@ -2,7 +2,7 @@ branches:
   only:
   - master
   - dev/working
-  - dev/merge-telegram-backend
+  - dev/working_test
 matrix:
   include:
   - language: 
