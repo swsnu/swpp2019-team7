@@ -77,6 +77,7 @@ class DemoWidget extends Component {
           backgroundColor={this.props.backgroundColor}
         />
         <Modal
+          id="Modal"
           open={this.state.resultModalOpen}
         >
           <Modal.Header>
@@ -110,28 +111,28 @@ class DemoWidget extends Component {
           </Modal.Content>
           {this.state.productInfo.productName
             ? (
-              <Modal.Actions>
+              <Modal.Actions id="actionone">
                 {this.props.loggedIn
                   ? (
-                    <Button color="green" onClick={() => { this.addNewPill(); }}>
+                    <Button id="loginGreen" color="green" onClick={() => { this.addNewPill(); }}>
                       <Icon name="checkmark" />
                       Save
                     </Button>
                   )
                   : (
-                    <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
+                    <Button id="noLoginGreen" color="green" onClick={() => { this.toggleAcceptPill(); }}>
                       <Icon name="checkmark" />
                       Log in to Save
                     </Button>
                   )}
-                <Button id="red" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
+                <Button id="productRed" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
                   Retry
                 </Button>
               </Modal.Actions>
             )
             : (
-              <Modal.Actions>
-                <Button id="red" onClick={() => { this.toggleResultModal(false); }}>
+              <Modal.Actions id="actiontwo">
+                <Button id="noProductRed" onClick={() => { this.toggleResultModal(false); }}>
                   Go Back
                 </Button>
               </Modal.Actions>

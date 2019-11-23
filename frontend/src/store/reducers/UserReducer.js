@@ -2,8 +2,12 @@ const initState = {
   current_user: {
     name: '',
   },
-  noti_setting: null,
-  logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),
+  noti_setting: {
+    enable_noti: false,
+    enable_segregation: false,
+    enable_kakao: false,
+  },
+  logged_in: false,
 };
 
 const UserReducer = (state = initState, action = null) => {

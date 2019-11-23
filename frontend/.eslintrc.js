@@ -35,5 +35,6 @@ module.exports = {
     "react/jsx-props-no-spreading": [0],
     "class-methods-use-this": [0],
     "no-return-assign": [0],
+    "react/display-name": [0],
   },
 };

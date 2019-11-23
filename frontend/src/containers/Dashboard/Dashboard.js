@@ -88,6 +88,7 @@ function dashboardDisplay(itemNo) {
     case 0:
       return <MyPills />;
     case 1:
+      console.log(1);
       return <NotiSetting />;
     case 2:
       return <TelegramSetting />;
@@ -131,7 +132,7 @@ class Dashboard extends Component {
       <div>
         {this.listItemCreator('My Pills', 0, <LocalHospitalIcon />)}
         {this.listItemCreator('Notification Settings', 1, <SettingsIcon />)}
-        {this.listItemCreator('Telegram Setting', 2, <SettingsIcon />)}
+        {this.listItemCreator('Telegram Settings', 2, <SettingsIcon />)}
         {this.listItemCreator('Account Settings', 3, <SettingsIcon />)}
       </div>
     );

@@ -33,6 +33,14 @@ const stubPillState = {
 
 // stub user state for a logged out user
 export const stubUserState = {
+  current_user: {
+    name: '',
+  },
+  noti_setting: {
+    enable_noti: false,
+    enable_segregation: false,
+    enable_kakao: false,
+  },
   logged_in: false,
 };
 
@@ -42,9 +50,6 @@ export const stubUserStateLoggedIn = {
 };
 
 export const stubNotiState = {
-  enable_noti: true,
-  enable_segregate: false,
-  enable_kakao: false,
   webnoti_list: [{
     id: 1, 'pill-name': '마이더블유피아이에이치쉐이크', 'pill-id': 1, activated: true, time: ['0900'],
   }],

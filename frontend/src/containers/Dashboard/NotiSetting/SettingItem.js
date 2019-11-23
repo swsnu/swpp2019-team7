@@ -65,11 +65,9 @@ class SettingItem extends Component {
   render() {
     let checked = false;
     let disabled = false;
-    if (this.props.noti) {
-      checked = this.props.noti[this.props.index];
-      if (this.props.index !== 'enable_noti') {
-        disabled = !this.props.noti.enable_noti;
-      }
+    checked = this.props.noti[this.props.index];
+    if (this.props.index !== 'enable_noti') {
+      disabled = !this.props.noti.enable_noti;
     }
     const { classes } = this.props;
     return (
@@ -118,8 +116,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onGetUser: () => dispatch(userActionCreators.getUser()),
-  // onGetNoti: () => dispatch(userActionCreators.getNoti()),
   onEditNoti: (noti) => dispatch(userActionCreators.editNoti(noti)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SettingItem)));
