@@ -7,7 +7,7 @@ from pill.models import Pill
 from user.models import User
 from notisetting.models import NotiSetting
 from notification.models import Notification
-
+from vision.models import Image
 
 class TempTestCase(TestCase):
     def setUp(self):
@@ -23,6 +23,9 @@ class TempTestCase(TestCase):
         # add retrieved pill object to current user's pills field
         new_user.pills.add(new_pill)
         new_notification = Notification.create(new_user, new_pill)
+        new_image = Image.objects.create(filename="file", user=new_user, pill=new_pill)
+        new_image.save()
+        print(f'setup all images view{Image.objects.all()}')
         self.maxDiff = None
 
     def temp_test(self):
@@ -70,7 +73,14 @@ class TempTestCase(TestCase):
         response = self.client.delete('/api/pill/1/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+        #response = self.client.get('/api/pill/')
+        #self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
     def test_bad_and_unauthorized(self):
+        response = self.client.delete('/api/pill/')
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
         response = self.client.post('/api/pill/1/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         response = self.client.delete('/api/pill/3/')
@@ -85,5 +95,8 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         response = self.client.get('/api/pill/1/')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        response = self.client.get('/api/pill/')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
 
     

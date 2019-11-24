@@ -36,7 +36,8 @@ def get_user_pills(request):
         """ get pill list for request.user  """
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
-
+            print(f'saved_pills {saved_pills}')
+            print(f'all images view{Image.objects.all()}')
             return_list = []
             for pill in saved_pills:
                 image_instance = Image.objects.filter(user=request.user, pill=pill)[0]

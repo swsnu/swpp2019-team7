@@ -163,3 +163,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # CORS Setting
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+
+#import sys
+#if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+#    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'

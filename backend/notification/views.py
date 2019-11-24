@@ -70,7 +70,7 @@ def crud_device(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 
 def webnoti(request):
@@ -78,38 +78,13 @@ def webnoti(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
-            print(webnoti_list)
             webnoti_formatted_list = list(
                 map(format_webnoti_list_object, webnoti_list))
-            print(webnoti_formatted_list)
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET'])
-
-
-def notification_interval(request):
-    """ CRUD operation for notification interval per each user """
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            try:
-                req_data = json.loads(request.body.decode())
-                interval_list = req_data['interval_list']
-            except (KeyError, ValueError):
-                return HttpResponseBadRequest()
-
-            for interval in interval_list:
-                # TODO check the string format for datetime from frontend
-                start_time = interval['start_time']
-                end_time = interval['end_time']
-                NotificationInterval.objects.create(
-                    user=request.user, start_time=start_time, end_time=end_time)
-            return HttpResponse(status=status.HTTP_200_OK)
-        else:
-            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
-    else:
-        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 def webnoti_pill(request, req_id):
@@ -119,7 +94,6 @@ def webnoti_pill(request, req_id):
             pill = Pill.objects.get(pk=req_id)
             webnoti_item = Notification.objects.get(
                 user=request.user, pill=pill)
-            print(webnoti_item)
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']
@@ -170,6 +144,27 @@ def webnoti_pill(request, req_id):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+def notification_interval(request):
+    """ CRUD operation for notification interval per each user """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_list = req_data['interval_list']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            for interval in interval_list:
+                # TODO check the string format for datetime from frontend
+                start_time = interval['start_time']
+                end_time = interval['end_time']
+                NotificationInterval.objects.create(
+                    user=request.user, send_time=start_time, start_time=start_time, end_time=end_time)
+            return HttpResponse(status=status.HTTP_200_OK)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 @csrf_exempt
 def telegram(request):
@@ -224,15 +219,14 @@ def telegram(request):
                     "telegram_username": telegram_user.telegram_username,
                     "telegram_first_name": telegram_user.telegram_first_name,
                     "telegram_last_name": telegram_user.telegram_last_name
-                }, status.HTTP_200_OK)
+                }, status=status.HTTP_200_OK)
             else:
                 return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
-
-    return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
-
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 def register_telegram(request):
     """
@@ -261,9 +255,10 @@ def register_telegram(request):
             )
             new_telegram_user.save()
 
-            return JsonResponse({"auth_key": auth_key}, status=status.HTTP_200_OK)
+            return JsonResponse({"auth_key": auth_key}, status=status.HTTP_201_CREATED)
         else:
-            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     else:
-        return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
+        print('delete')
+        return HttpResponseNotAllowed(['POST'])
