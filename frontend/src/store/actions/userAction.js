@@ -43,7 +43,9 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
 export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
   .then((res) => {
     dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
-  });
+    alert('Successfully changed!');
+  })
+  .catch((err) => { alert('Internal Error') });
 
 export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/', noti)
   .then((res) => {
