@@ -80,12 +80,19 @@ class PillNoti extends Component {
     this.state = {
       edit_mode: 0,
       /*
-       I assumed that the maximum number of notifications per day are 3 times.
-       0~2 indicate the KeyboardTimePicker field id for changing the time.
+       I assumed that the maximum number of notifications per day are 10 times.
+       0~9 indicate the KeyboardTimePicker field id for changing the time.
       */
       0: (this.props.nmTimes > 0) ? `1998-01-04T${this.props.pillNotiSetting.time[0].substring(0, 2)}:${this.props.pillNotiSetting.time[0].substring(2, 4)}` : '',
       1: (this.props.nmTimes > 1) ? `1998-01-04T${this.props.pillNotiSetting.time[1].substring(0, 2)}:${this.props.pillNotiSetting.time[1].substring(2, 4)}` : '',
       2: (this.props.nmTimes > 2) ? `1998-01-04T${this.props.pillNotiSetting.time[2].substring(0, 2)}:${this.props.pillNotiSetting.time[2].substring(2, 4)}` : '',
+      3: (this.props.nmTimes > 3) ? `1998-01-04T${this.props.pillNotiSetting.time[3].substring(0, 2)}:${this.props.pillNotiSetting.time[3].substring(2, 4)}` : '',
+      4: (this.props.nmTimes > 4) ? `1998-01-04T${this.props.pillNotiSetting.time[4].substring(0, 2)}:${this.props.pillNotiSetting.time[4].substring(2, 4)}` : '',
+      5: (this.props.nmTimes > 5) ? `1998-01-04T${this.props.pillNotiSetting.time[5].substring(0, 2)}:${this.props.pillNotiSetting.time[5].substring(2, 4)}` : '',
+      6: (this.props.nmTimes > 6) ? `1998-01-04T${this.props.pillNotiSetting.time[6].substring(0, 2)}:${this.props.pillNotiSetting.time[6].substring(2, 4)}` : '',
+      7: (this.props.nmTimes > 7) ? `1998-01-04T${this.props.pillNotiSetting.time[7].substring(0, 2)}:${this.props.pillNotiSetting.time[7].substring(2, 4)}` : '',
+      8: (this.props.nmTimes > 8) ? `1998-01-04T${this.props.pillNotiSetting.time[8].substring(0, 2)}:${this.props.pillNotiSetting.time[8].substring(2, 4)}` : '',
+      9: (this.props.nmTimes > 9) ? `1998-01-04T${this.props.pillNotiSetting.time[9].substring(0, 2)}:${this.props.pillNotiSetting.time[9].substring(2, 4)}` : '',
     };
   }
 
@@ -111,6 +118,13 @@ class PillNoti extends Component {
       0: (this.props.nmTimes > 0) ? `1998-01-04T${this.props.pillNotiSetting.time[0].substring(0, 2)}:${this.props.pillNotiSetting.time[0].substring(2, 4)}` : '',
       1: (this.props.nmTimes > 1) ? `1998-01-04T${this.props.pillNotiSetting.time[1].substring(0, 2)}:${this.props.pillNotiSetting.time[1].substring(2, 4)}` : '',
       2: (this.props.nmTimes > 2) ? `1998-01-04T${this.props.pillNotiSetting.time[2].substring(0, 2)}:${this.props.pillNotiSetting.time[2].substring(2, 4)}` : '',
+      3: (this.props.nmTimes > 3) ? `1998-01-04T${this.props.pillNotiSetting.time[3].substring(0, 2)}:${this.props.pillNotiSetting.time[3].substring(2, 4)}` : '',
+      4: (this.props.nmTimes > 4) ? `1998-01-04T${this.props.pillNotiSetting.time[4].substring(0, 2)}:${this.props.pillNotiSetting.time[4].substring(2, 4)}` : '',
+      5: (this.props.nmTimes > 5) ? `1998-01-04T${this.props.pillNotiSetting.time[5].substring(0, 2)}:${this.props.pillNotiSetting.time[5].substring(2, 4)}` : '',
+      6: (this.props.nmTimes > 6) ? `1998-01-04T${this.props.pillNotiSetting.time[6].substring(0, 2)}:${this.props.pillNotiSetting.time[6].substring(2, 4)}` : '',
+      7: (this.props.nmTimes > 7) ? `1998-01-04T${this.props.pillNotiSetting.time[7].substring(0, 2)}:${this.props.pillNotiSetting.time[7].substring(2, 4)}` : '',
+      8: (this.props.nmTimes > 8) ? `1998-01-04T${this.props.pillNotiSetting.time[8].substring(0, 2)}:${this.props.pillNotiSetting.time[8].substring(2, 4)}` : '',
+      9: (this.props.nmTimes > 9) ? `1998-01-04T${this.props.pillNotiSetting.time[9].substring(0, 2)}:${this.props.pillNotiSetting.time[9].substring(2, 4)}` : '',
     });
   }
 
