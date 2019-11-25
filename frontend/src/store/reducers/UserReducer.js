@@ -7,7 +7,7 @@ const initState = {
     enable_segregation: false,
     enable_kakao: false,
   },
-  logged_in: false,
+  logged_in:  JSON.parse(localStorage.getItem('loggedInStatus')),
 };
 
 const UserReducer = (state = initState, action = null) => {

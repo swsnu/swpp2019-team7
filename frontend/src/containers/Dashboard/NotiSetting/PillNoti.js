@@ -10,8 +10,10 @@ import {
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import CancelIcon from '@material-ui/icons/Cancel';
+import AddAlertIcon from '@material-ui/icons/AddAlert';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -82,6 +84,7 @@ class PillNoti extends Component {
       /*
        I assumed that the maximum number of notifications per day are 10 times.
        0~9 indicate the KeyboardTimePicker field id for changing the time.
+       1998-01-04 === Jeehoon's Birthday : )
       */
       0: (this.props.nmTimes > 0) ? `1998-01-04T${this.props.pillNotiSetting.time[0].substring(0, 2)}:${this.props.pillNotiSetting.time[0].substring(2, 4)}` : '',
       1: (this.props.nmTimes > 1) ? `1998-01-04T${this.props.pillNotiSetting.time[1].substring(0, 2)}:${this.props.pillNotiSetting.time[1].substring(2, 4)}` : '',
@@ -133,10 +136,8 @@ class PillNoti extends Component {
     const { classes } = this.props;
     // Assuming 'time' is a string like 0900, 1200
     // const timesList = (this.props.pillNotiSetting.time).map((time) => (`${time.substring(0, 2)}:${time.substring(2, 4)} `));
-    // const timesInputList = (this.props.pillNotiSetting['time']).map((time) => (<div key={time}><input id={inputFieldIndex++} size='2' value={this.state[inputFieldIndex - 1]} onChange={this.handleInputChange}></input>:<input id={inputFieldIndex++} size='2' value={this.state[inputFieldIndex - 1]} onChange={this.handleInputChange}></input> </div>));
     const timesInputList = (this.props.pillNotiSetting.time).map(() => (
       <div key={inputFieldIndex += 1}>
-        <Grid container justify="space-around">
           <KeyboardTimePicker
             margin="normal"
             id="time-picker"
@@ -148,13 +149,14 @@ class PillNoti extends Component {
               'aria-label': 'change time',
             }}
           />
-        </Grid>
+          <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
+            <DeleteForeverIcon fontSize="small" />
+          </IconButton>
       </div>
     ));
     inputFieldIndex = 0;
     const timesInputListReadOnly = (this.props.pillNotiSetting.time).map(() => (
       <div key={inputFieldIndex += 1}>
-        <Grid container justify="space-around">
           <KeyboardTimePicker
             margin="normal"
             id="time-picker"
@@ -167,7 +169,6 @@ class PillNoti extends Component {
             }}
             disabled
           />
-        </Grid>
       </div>
     ));
     if (this.state.edit_mode === 0) {
@@ -220,7 +221,7 @@ class PillNoti extends Component {
                 <LocalHospitalIcon className={classes.icon} />
               </Avatar>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Typography variant="h5">{this.props.pillNotiSetting['pill-name']}</Typography>
             </Grid>
             <Grid item xs={4}>
@@ -231,16 +232,19 @@ class PillNoti extends Component {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   {timesInputList}
                 </MuiPickersUtilsProvider>
+                <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
+                  <AddAlertIcon fontSize="large" />
+                </IconButton>
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="check-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); this.setState({ edit_mode: 0 }); }}>
-                <CheckIcon fontSize="large" />
+              <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); this.setState({ edit_mode: 0 }); }}>
+                <DoneOutlineIcon fontSize="large" />
               </IconButton>
             </Grid>
             <Grid item xs={1}>
               <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
-                <CloseIcon fontSize="large" />
+                <CancelIcon fontSize="large" />
               </IconButton>
             </Grid>
           </Grid>
