@@ -19,7 +19,7 @@ describe('User Reducer', () => {
         enable_segregation: false,
         enable_kakao: false,
       },
-      logged_in: false,
+      logged_in: null,
     });
   });
   it('should get pills of a user', () => {

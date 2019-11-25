@@ -138,6 +138,7 @@ class PillNoti extends Component {
     // const timesList = (this.props.pillNotiSetting.time).map((time) => (`${time.substring(0, 2)}:${time.substring(2, 4)} `));
     const timesInputList = (this.props.pillNotiSetting.time).map(() => (
       <div key={inputFieldIndex += 1}>
+        <Grid container justify="space-around" alignItems="flex-end">
           <KeyboardTimePicker
             margin="normal"
             id="time-picker"
@@ -152,23 +153,24 @@ class PillNoti extends Component {
           <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
             <DeleteForeverIcon fontSize="small" />
           </IconButton>
+        </Grid>
       </div>
     ));
     inputFieldIndex = 0;
     const timesInputListReadOnly = (this.props.pillNotiSetting.time).map(() => (
       <div key={inputFieldIndex += 1}>
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-picker"
-            label="Time picker"
-            key={inputFieldIndex - 1}
-            value={this.state[inputFieldIndex - 1]}
-            onChange={this.onDateChange(inputFieldIndex - 1)}
-            KeyboardButtonProps={{
-              'aria-label': 'change time',
-            }}
-            disabled
-          />
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker"
+          label="Time picker"
+          key={inputFieldIndex - 1}
+          value={this.state[inputFieldIndex - 1]}
+          onChange={this.onDateChange(inputFieldIndex - 1)}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+          disabled
+        />
       </div>
     ));
     if (this.state.edit_mode === 0) {
