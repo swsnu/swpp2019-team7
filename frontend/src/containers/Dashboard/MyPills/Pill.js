@@ -51,13 +51,24 @@ const styles = () => ({
     display: 'flex',
   },
   cardDetails: {
-    flex: 1,
+    // flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   cardMedia: {
     width: 160,
   },
   cover: {
     width: 151,
+  },
+  controls: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  content: {
+    flex: '1 0 auto',
   },
 });
 
@@ -73,44 +84,68 @@ class Pill extends Component {
       <div className="Pill">
         <ThemeProvider theme={theme}>
           <Card className={classes.card}>
+            <CardMedia
+              className={classes.cover}
+              image={this.props.file}
+              title="Live from space album cover"
+            />
             <div className={classes.cardDetails}>
-              <CardMedia
-                className={classes.cover}
-                image={this.props.file}
-                title="Live from space album cover"
-              />
-              <CardContent>
-                <Grid container alignItems="center" spacing={1}>
+              <CardContent className={classes.content}>
+                {/*<Grid container alignItems="center" spacing={1}>*/}
                   {/*<Grid item xs={3}>*/}
                   {/*  <Avatar src={this.props.file} className={classes.avatar} />*/}
                   {/*</Grid>*/}
-                  <Grid item xs={6}>
+                  {/*<Grid item xs={6}>*/}
                     <Typography variant="h5">
                       {this.props.name}
                     </Typography>
                     <Typography variant="h6">
                       {this.props.takemethod}
                     </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="h6" style={{ color: '#53a5e0' }}>Detail</Typography>
-                  </Grid>
-                  <Grid item xs={1}>
-                    <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
-                      <DeleteForeverOutlinedIcon
-                        fontSize="large"
-                        component={(svgProps) => (
-                          <svg {...svgProps}>
-                            {React.cloneElement(svgProps.children[0], {
-                              fill: '#ff7043',
-                            })}
-                          </svg>
-                        )}
-                      />
-                    </IconButton>
-                  </Grid>
-                </Grid>
+                  {/*</Grid>*/}
+                  {/*<Grid item xs={2}>*/}
+                  {/*  <Typography variant="h6" style={{ color: '#53a5e0' }}>Detail</Typography>*/}
+                  {/*</Grid>*/}
+                  {/*<Grid item xs={1}>*/}
+                  {/*  <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>*/}
+                  {/*    <DeleteForeverOutlinedIcon*/}
+                  {/*      fontSize="large"*/}
+                  {/*      component={(svgProps) => (*/}
+                  {/*        <svg {...svgProps}>*/}
+                  {/*          {React.cloneElement(svgProps.children[0], {*/}
+                  {/*            fill: '#ff7043',*/}
+                  {/*          })}*/}
+                  {/*        </svg>*/}
+                  {/*      )}*/}
+                  {/*    />*/}
+                  {/*  </IconButton>*/}
+                  {/*</Grid>*/}
+                {/*</Grid>*/}
               </CardContent>
+              <div className={classes.controls}>
+                <Typography variant="h6" style={{ color: '#53a5e0' }}>Detail</Typography>
+                <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
+                  <DeleteForeverOutlinedIcon
+                    fontSize="large"
+                    component={(svgProps) => (
+                      <svg {...svgProps}>
+                        {React.cloneElement(svgProps.children[0], {
+                          fill: '#ff7043',
+                        })}
+                      </svg>
+                    )}
+                  />
+                </IconButton>
+                {/*<IconButton aria-label="previous">*/}
+                {/*  {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}*/}
+                {/*</IconButton>*/}
+                {/*<IconButton aria-label="play/pause">*/}
+                {/*  <PlayArrowIcon className={classes.playIcon} />*/}
+                {/*</IconButton>*/}
+                {/*<IconButton aria-label="next">*/}
+                {/*  {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}*/}
+                {/*</IconButton>*/}
+              </div>
             </div>
           </Card>
         </ThemeProvider>
