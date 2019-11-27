@@ -33,7 +33,6 @@ class NotiSetting extends Component {
   content() {
     if (this.props.webnoti_list !== null) {
       const pillNotiSettingList = this.props.webnoti_list;
-      console.log(pillNotiSettingList);
       const renderedList = pillNotiSettingList.map((pillNotiSetting) => (<PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} />));
       return (
         <div className="WebnotiListSetting">
@@ -45,7 +44,6 @@ class NotiSetting extends Component {
         </div>
       );
     }
-
     return <div className="temp">No pills</div>;
   }
 
