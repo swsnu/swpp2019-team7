@@ -12,32 +12,50 @@ const firebaseConfig = {
   appId: '1:907542495339:web:d7c280ebb697d50f8fb12e',
   measurementId: 'G-PCGWM5N0RX',
 };
-
+/*
 export function getOS() {
-  console.log('testif ios')
   var userAgent = window.navigator.userAgent,
       platform = window.navigator.platform,
+      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
       iosPlatforms = ['iPhone', 'iPad', 'iPod'],
       os = null;
-
-  if (iosPlatforms.indexOf(platform) !== -1) {
+  alert(platform)
+  if (macosPlatforms.indexOf(platform) !== -1) {
     os = 'iOS';
-  } 
-
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = 'iOS';
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = 'Windows';
+  } else if (/Android/.test(userAgent)) {
+    os = 'Android';
+  } else if (!os && /Linux/.test(platform)) {
+    os = 'Linux';
+  } else {
+    os = 'Else';
+  }
+  alert(os)
   return os;
+}*/
+export function getOS() {
+  var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)
+  alert(iOS)
+  return iOS;
 }
-
 
 
 class Firebase {
   constructor() {
     firebase.initializeApp(firebaseConfig);
     if(getOS() !== 'iOS'){
+      alert('[constructor]this is NOT iOS')
       firebase.analytics();
 
       this.messaging = firebase.messaging();
       this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
       this.token = null;
+    } else {
+      alert('[constructor]this is iOS')
     }
   }
 

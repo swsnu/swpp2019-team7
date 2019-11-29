@@ -78,12 +78,14 @@ class Login extends Component {
       pw_input: '',
     });
     if (getOS() !== 'iOS') {
+      alert('[login] this is not ios')
       this.props.firebase.getToken().then((token) => {
         this.props.onLoginUser(user).then(() => {
           this.props.onRegisterToken(token);
         });
       });
     } else {
+      alert('[login] this is ios')
       this.props.onLoginUser(user)
     }
   };
