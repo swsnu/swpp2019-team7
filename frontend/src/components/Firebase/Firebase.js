@@ -13,14 +13,32 @@ const firebaseConfig = {
   measurementId: 'G-PCGWM5N0RX',
 };
 
+export function getOS() {
+  console.log('testif ios')
+  var userAgent = window.navigator.userAgent,
+      platform = window.navigator.platform,
+      iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+      os = null;
+
+  if (iosPlatforms.indexOf(platform) !== -1) {
+    os = 'iOS';
+  } 
+
+  return os;
+}
+
+
+
 class Firebase {
   constructor() {
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+    if(getOS() !== 'iOS'){
+      firebase.analytics();
 
-    this.messaging = firebase.messaging();
-    this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
-    this.token = null;
+      this.messaging = firebase.messaging();
+      this.messaging.usePublicVapidKey('BESeE4VQofG0e8ghA0Y80LVHrTNUTA81sHrdf6DYjb2rGZwGKTxRTkTcUQoc8dhmdoI9389yHloGV5_9dNs_2wQ');
+      this.token = null;
+    }
   }
 
   requestPermission = () => {

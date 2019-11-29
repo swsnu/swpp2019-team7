@@ -22,11 +22,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9x3!!chcz)_*2uq*71p7i6_v385x7ou!j93uzq_y=cvjz&pakp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '.ngrok.io',
     'localhost',
+    '52.141.47.21',
+    '127.0.0.1',
+    '127.0.0.0',
+    'pillbox.me',
+    'www.pillbox.me',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -157,6 +162,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT= os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -164,7 +170,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-
+#SECURE_CONTENT_TYPE_NOSNIFF = True
+#SECURE_BROWSER_XSS_FILTER = True
+#SECURE_SSL_REDIRECT = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+#X_FRAME_OPTIONS = 'DENY'
+#SECURE_HSTS_SECONDS = 30
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_PRELOAD = True
 #import sys
 #if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
 #    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'

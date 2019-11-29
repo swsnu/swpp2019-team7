@@ -17,6 +17,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Header from '../../Header/Header';
 import * as userActionCreators from '../../../store/actions/userAction';
 import { withFirebase } from '../../../components/Firebase';
+import { getOS } from '../../../components/Firebase/Firebase';
 
 function Copyright() {
   return (
@@ -76,11 +77,15 @@ class Login extends Component {
       email_input: '',
       pw_input: '',
     });
-    this.props.firebase.getToken().then((token) => {
-      this.props.onLoginUser(user).then(() => {
-        this.props.onRegisterToken(token);
+    if (getOS() !== 'iOS') {
+      this.props.firebase.getToken().then((token) => {
+        this.props.onLoginUser(user).then(() => {
+          this.props.onRegisterToken(token);
+        });
       });
-    });
+    } else {
+      this.props.onLoginUser(user)
+    }
   };
 
   render() {
