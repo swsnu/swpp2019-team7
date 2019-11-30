@@ -119,7 +119,6 @@ class TelegramSetting extends Component {
     const { classes } = this.props;
     return (
       <div className="telegram-setting">
-        <Header />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
