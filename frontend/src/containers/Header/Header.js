@@ -69,7 +69,7 @@ class Header extends Component {
   };
 
   onSignOutButtonClick = () => {
-    if(getOS() !== 'iOS'){
+    if(!getOS()){
       alert('[Header]this is not iOS')
       this.props.onDeleteToken(this.props.firebase.token);
     } else {

@@ -47,7 +47,7 @@ export function getOS() {
 class Firebase {
   constructor() {
     firebase.initializeApp(firebaseConfig);
-    if(getOS() !== 'iOS'){
+    if(!getOS()){
       alert('[constructor]this is NOT iOS')
       firebase.analytics();
 
