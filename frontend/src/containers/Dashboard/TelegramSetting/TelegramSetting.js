@@ -11,7 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 
-import Header from '../../Header/Header';
 import ax from '../../../api/index';
 
 
