@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { withFirebase } from '../../components/Firebase';
 import * as userActionCreators from '../../store/actions/userAction';
-import { getOS } from '../../components/Firebase/Firebase';
+import { isIOS } from '../../components/Firebase/Firebase';
 
 const drawerWidth = 240;
 const styles = (theme) => ({
@@ -69,11 +69,9 @@ class Header extends Component {
   };
 
   onSignOutButtonClick = () => {
-    if(!getOS()){
-      alert('[Header]this is not iOS')
+    if(!isIOS()){
       this.props.onDeleteToken(this.props.firebase.token);
     } else {
-      alert('[Header]this is ios')
     }
     this.props.onSignout();
   };

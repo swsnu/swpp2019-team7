@@ -84,7 +84,7 @@ class DemoWidget extends Component {
             { this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
           </Modal.Header>
           <Modal.Content image>
-            <Image wrapped size="medium" src={`http://localhost:8000${this.state.productInfo.imageUrl}`} />
+            <Image wrapped size="medium" src={`https://www.pillbox.me:8000${this.state.productInfo.imageUrl}`} />
             {this.state.productInfo.productName
               ? (
                 <Modal.Description>
