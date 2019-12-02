@@ -161,21 +161,25 @@ class PillNoti extends Component {
     const { classes } = this.props;
     // Assuming 'time' is a list of strings like [0900, 1200]
     const timesInputListEdit = (this.state.pillNotiSetting.time).map((time) => (
-      <Grid item key={inputFieldIndex++}>
-        <KeyboardTimePicker
-          margin="normal"
-          id="time-picker"
-          label="Time picker"
-          key={inputFieldIndex - 1}
-          value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
-          onChange={this.onDateChange(inputFieldIndex - 1)}
-          KeyboardButtonProps={{
-            'aria-label': 'change time',
-          }}
-        />
-        <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
-          <DeleteForeverIcon fontSize="large" />
-        </IconButton>
+      <Grid item key={inputFieldIndex++} container alignItems="center">
+        <Grid item>
+          <KeyboardTimePicker
+            margin="normal"
+            id="time-picker"
+            label="Time picker"
+            key={inputFieldIndex - 1}
+            value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
+            onChange={this.onDateChange(inputFieldIndex - 1)}
+            KeyboardButtonProps={{
+              'aria-label': 'change time',
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
+            <DeleteForeverIcon fontSize="large" />
+          </IconButton>
+        </Grid>
       </Grid>
     ));
     inputFieldIndex = 0;
@@ -213,7 +217,7 @@ class PillNoti extends Component {
             </Grid>
             <Grid item xs={4}>
               <Typography
-                  // className={classes.caption}
+                // className={classes.caption}
                 variant="h5"
               >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -248,7 +252,7 @@ class PillNoti extends Component {
           </Grid>
           <Grid item container justify="center" xs={4}>
             <Typography
-                // className={classes.caption}
+              // className={classes.caption}
               variant="h5"
             >
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
