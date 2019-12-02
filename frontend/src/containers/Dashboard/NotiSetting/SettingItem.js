@@ -85,7 +85,7 @@ class SettingItem extends Component {
                 </Avatar>
               </Grid>
               <Grid item>
-                <Typography variant="h3">{this.props.name}</Typography>
+                <Typography variant="h4">{this.props.name}</Typography>
               </Grid>
               <Grid item>
                 <Switch

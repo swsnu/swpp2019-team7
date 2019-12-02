@@ -23,7 +23,7 @@ class NotiSetting extends Component {
   usersSetting(settingList) {
     return (
       <div className="UserNotiSetting">
-        <Typography variant="h1" align="left"> Notification Settings </Typography>
+        <Typography variant="h3" align="left"> Notification Settings </Typography>
         <Divider />
         <div className="settings">{settingList}</div>
       </div>

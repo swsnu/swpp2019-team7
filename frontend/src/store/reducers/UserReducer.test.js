@@ -16,7 +16,7 @@ describe('User Reducer', () => {
       },
       noti_setting: {
         enable_noti: false,
-        enable_segregation: false,
+        enable_segregate: false,
         enable_kakao: false,
       },
       logged_in: null,

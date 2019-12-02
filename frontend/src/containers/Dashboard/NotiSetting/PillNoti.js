@@ -22,7 +22,6 @@ import {
 } from '@material-ui/pickers';
 import * as notiActionCreators from '../../../store/actions/notiAction';
 
-
 // const useStyles = makeStyles((theme) => ({
 const styles = (theme) => ({
   root: {
@@ -68,6 +67,9 @@ const styles = (theme) => ({
   },
   deleteText: {
     color: 'red',
+  },
+  selected: {
+    background: '#e1f5fe',
   },
 });
 
@@ -159,24 +161,22 @@ class PillNoti extends Component {
     const { classes } = this.props;
     // Assuming 'time' is a list of strings like [0900, 1200]
     const timesInputListEdit = (this.state.pillNotiSetting.time).map((time) => (
-      <div key={inputFieldIndex++}>
-        <Grid container justify="space-around" alignItems="flex-end">
-          <KeyboardTimePicker
-            margin="normal"
-            id="time-picker"
-            label="Time picker"
-            key={inputFieldIndex - 1}
-            value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
-            onChange={this.onDateChange(inputFieldIndex - 1)}
-            KeyboardButtonProps={{
-              'aria-label': 'change time',
-            }}
-          />
-          <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
-            <DeleteForeverIcon fontSize="small" />
-          </IconButton>
-        </Grid>
-      </div>
+      <Grid item key={inputFieldIndex++}>
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker"
+          label="Time picker"
+          key={inputFieldIndex - 1}
+          value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
+          onChange={this.onDateChange(inputFieldIndex - 1)}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+        <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
+          <DeleteForeverIcon fontSize="large" />
+        </IconButton>
+      </Grid>
     ));
     inputFieldIndex = 0;
     const timesInputListReadOnly = (this.props.pillNotiSetting.time).map((time) => (
@@ -197,43 +197,6 @@ class PillNoti extends Component {
     ));
     if (this.state.edit_mode === 0) {
       return (
-        <div className="Pill">
-          <PillItemWrapper>
-            <Grid
-              container
-              justify="space-between"
-              alignItems="center"
-            >
-              <Grid item xs={1}>
-                <Avatar className={classes.avatar}>
-                  <LocalHospitalIcon className={classes.icon} />
-                </Avatar>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography
-                  // className={classes.caption}
-                  variant="h5"
-                >
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    {timesInputListReadOnly}
-                  </MuiPickersUtilsProvider>
-                </Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
-                  <EditIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </PillItemWrapper>
-        </div>
-      );
-    }
-    return (
-      <div className="Pill">
         <PillItemWrapper>
           <Grid
             container
@@ -245,37 +208,71 @@ class PillNoti extends Component {
                 <LocalHospitalIcon className={classes.icon} />
               </Avatar>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
             </Grid>
-            <Grid item container alignItems="center" xs={4}>
-              <Grid item xs={12}>
-                <Typography
+            <Grid item xs={4}>
+              <Typography
                   // className={classes.caption}
-                  variant="h5"
-                >
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    {timesInputListEdit}
-                  </MuiPickersUtilsProvider>
-                </Typography>
-                <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
-                  <AddAlertIcon fontSize="large" />
-                </IconButton>
-              </Grid>
+                variant="h5"
+              >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  {timesInputListReadOnly}
+                </MuiPickersUtilsProvider>
+              </Typography>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
-                <DoneOutlineIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
-                <CancelIcon fontSize="large" />
+              <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
+                <EditIcon fontSize="large" />
               </IconButton>
             </Grid>
           </Grid>
         </PillItemWrapper>
-      </div>
+      );
+    }
+    return (
+      <PillItemWrapper>
+        <Grid
+          container
+          justify="space-between"
+          alignItems="center"
+          className={classes.selected}
+        >
+          <Grid item xs={1}>
+            <Avatar className={classes.avatar}>
+              <LocalHospitalIcon className={classes.icon} />
+            </Avatar>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
+          </Grid>
+          <Grid item container justify="center" xs={4}>
+            <Typography
+                // className={classes.caption}
+              variant="h5"
+            >
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {timesInputListEdit}
+              </MuiPickersUtilsProvider>
+            </Typography>
+            <Grid item>
+              <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
+                <AddAlertIcon fontSize="large" />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
+              <DoneOutlineIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
+              <CancelIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </PillItemWrapper>
     );
   }
 }
