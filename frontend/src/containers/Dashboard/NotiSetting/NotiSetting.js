@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
+import {
+  Grid, Typography,
+} from '@material-ui/core';
 import PillNoti from './PillNoti';
 import * as notiActionCreators from '../../../store/actions/notiAction';
+import * as pillActionCreators from '../../../store/actions/pillAction';
 import SettingItem from './SettingItem';
 
+const styles = () => ({
+  settingList: {
+    height: '30%',
+  },
+  content: {
+    height: '70%',
+  },
+});
 
 const tempSetting = [
   { id: 1, name: 'Enable notification', index: 'enable_noti' },
@@ -18,6 +30,7 @@ const tempSetting = [
 class NotiSetting extends Component {
   componentDidMount() {
     this.props.onGetWebNoti();
+    this.props.onGetUserPills();
   }
 
   usersSetting(settingList) {
@@ -31,30 +44,45 @@ class NotiSetting extends Component {
   }
 
   content() {
-    if (this.props.webnoti_list !== null) {
+    if (this.props.webnoti_list !== null && this.props.pillList !== null) {
+      // console.log(this.props.webnoti_list);
+      // console.log(this.props.pillList);
       const pillNotiSettingList = this.props.webnoti_list;
-      const renderedList = pillNotiSettingList.map((pillNotiSetting) => (<PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} />));
+      const renderedList = pillNotiSettingList.map((pillNotiSetting) => {
+        function checkPill(pill) {
+          return pill.id === pillNotiSetting['pill-id'];
+        }
+        return <PillNoti key={pillNotiSetting.id} pillNotiSetting={pillNotiSetting} pill={this.props.pillList.find(checkPill)} />;
+      });
       return (
         <div className="WebnotiListSetting">
           <div className="title">
             <Typography variant="h3" align="left"> Notification Times </Typography>
+            <Divider />
           </div>
           <Divider />
           <div className="settings">{renderedList}</div>
         </div>
       );
     }
-    return <div className="temp">No pills</div>;
+    return <div className="loading" />;
   }
 
   render() {
+    const { classes } = this.props;
     const settingList = tempSetting.map((item) => (
       <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
     ));
     return (
       <div className="NotiSetting">
-        {this.usersSetting(settingList)}
-        {this.content()}
+        <Grid container alignItems="center">
+          <Grid item xs={12} className={classes.settingList}>
+            {this.usersSetting(settingList)}
+          </Grid>
+          <Grid item xs={12} className={classes.content}>
+            {this.content()}
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -62,9 +90,12 @@ class NotiSetting extends Component {
 
 const mapStateToProps = (state) => ({
   webnoti_list: state.noti.webnoti_list,
-});
-const mapDispatchToProps = (dispatch) => ({
-  onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
+  pillList: state.pill.pill_list,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotiSetting);
+const mapDispatchToProps = (dispatch) => ({
+  onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
+  onGetUserPills: () => { dispatch(pillActionCreators.getUserPills()); },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotiSetting));

@@ -208,12 +208,12 @@ class PillNoti extends Component {
             alignItems="center"
           >
             <Grid item xs={1}>
-              <Avatar className={classes.avatar}>
+              <Avatar className={classes.avatar} src={this.props.pill.file}>
                 <LocalHospitalIcon className={classes.icon} />
               </Avatar>
             </Grid>
             <Grid item xs={2}>
-              <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
+              <Typography variant="h6">{this.state.pillNotiSetting['pill-name']}</Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography
@@ -243,12 +243,12 @@ class PillNoti extends Component {
           className={classes.selected}
         >
           <Grid item xs={1}>
-            <Avatar className={classes.avatar}>
+            <Avatar className={classes.avatar} src={this.props.pill.file}>
               <LocalHospitalIcon className={classes.icon} />
             </Avatar>
           </Grid>
           <Grid item xs={1}>
-            <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
+            <Typography variant="h6">{this.state.pillNotiSetting['pill-name']}</Typography>
           </Grid>
           <Grid item container justify="center" xs={4}>
             <Typography
