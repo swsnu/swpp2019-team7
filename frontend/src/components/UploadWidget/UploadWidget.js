@@ -33,14 +33,14 @@ class UploadWidget extends Component {
             instantUpload={false}
             server={
               {
-		url: 'https://www.pillbox.me:8000/api',
+		            url: 'https://www.pillbox.me/api',
                 process: {
                   url: '/vision/',
                   method: 'POST',
                   withCredentials: true,
                   headers: {
                   },
-                  timeout: 1000000,
+                  timeout: 9000,
                   onload: (response) => {
                     const parsedResponse = JSON.parse(response);
                     console.log(JSON.stringify(parsedResponse.product));

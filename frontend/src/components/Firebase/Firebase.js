@@ -14,7 +14,6 @@ const firebaseConfig = {
 };
 export function isIOS() {
   var iOS = !(firebase.messaging.isSupported())
-  alert(iOS)
   return iOS;
 }
 
