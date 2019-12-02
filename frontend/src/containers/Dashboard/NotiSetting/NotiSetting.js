@@ -44,10 +44,12 @@ class NotiSetting extends Component {
   }
 
   content() {
-    if (this.props.webnoti_list !== null && this.props.pillList !== null) {
+    if (this.props.webnoti_list !== null && this.props.pillList.length !== 0) {
       // console.log(this.props.webnoti_list);
       // console.log(this.props.pillList);
       const pillNotiSettingList = this.props.webnoti_list;
+      console.log('this.props.pillList: ');
+      console.log(this.props.pillList);
       const renderedList = pillNotiSettingList.map((pillNotiSetting) => {
         function checkPill(pill) {
           return pill.id === pillNotiSetting['pill-id'];

@@ -7,6 +7,10 @@ import { withStyles } from '@material-ui/core/styles';
 import {
   Grid, Typography, Avatar,
 } from '@material-ui/core';
+import {
+  createMuiTheme, ThemeProvider,
+} from '@material-ui/core/styles';
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -70,6 +74,21 @@ const styles = (theme) => ({
   },
   selected: {
     background: '#e1f5fe',
+  },
+});
+
+const breakpoints = createBreakpoints({});
+const mytheme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h5: {
+      [breakpoints.down('xs')]: {
+        fontSize: '0.9rem',
+      },
+      [breakpoints.down('sm')]: {
+        fontSize: '1.1rem',
+      },
+    },
   },
 });
 
@@ -213,7 +232,7 @@ class PillNoti extends Component {
               </Avatar>
             </Grid>
             <Grid item xs={2}>
-              <Typography variant="h6">{this.state.pillNotiSetting['pill-name']}</Typography>
+              <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
             </Grid>
             <Grid item xs={4}>
               <Typography
@@ -248,7 +267,7 @@ class PillNoti extends Component {
             </Avatar>
           </Grid>
           <Grid item xs={1}>
-            <Typography variant="h6">{this.state.pillNotiSetting['pill-name']}</Typography>
+            <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
           </Grid>
           <Grid item container justify="center" xs={4}>
             <Typography
