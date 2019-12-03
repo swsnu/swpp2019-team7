@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { withStyles } from '@material-ui/core/styles';
+import {
+  withStyles,
+  createMuiTheme, ThemeProvider,
+} from '@material-ui/core/styles';
 import {
   Grid, Typography, Avatar,
 } from '@material-ui/core';
-import {
-  createMuiTheme, ThemeProvider,
-} from '@material-ui/core/styles';
+
 import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import IconButton from '@material-ui/core/IconButton';
