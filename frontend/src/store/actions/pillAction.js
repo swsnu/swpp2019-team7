@@ -12,7 +12,6 @@ export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: n
 export const addUserPill = (pillId) => (dispatch) => {
   ax.post(`/api/pill/${pillId}/`)
     .then((res) => {
-      console.log(res.data);
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
     })

@@ -68,6 +68,10 @@ class MyPills extends Component {
     this.props.history.push('/loggedinwidget');
   }
 
+  handleAddPillManually() {
+    this.props.history.push('/manuallyadd');
+  }
+
   render() {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
@@ -89,8 +93,13 @@ class MyPills extends Component {
           <Grid container spacing={4}>
             {pillList}
           </Grid>
-          <Fab id="addpill" color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
+          <Fab id="addpill" color="primary" aria-label="add" variant="extended" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
+            Add by photo
+          </Fab>
+          <Fab id="addpillManually" color="secondary" aria-label="add" variant="extended" className={classes.fab} onClick={() => this.handleAddPillManually()}>
+            <AddIcon />
+            Add manually
           </Fab>
         </ThemeProvider>
       </div>
