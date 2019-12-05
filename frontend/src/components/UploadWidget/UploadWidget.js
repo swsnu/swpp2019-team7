@@ -62,7 +62,7 @@ class UploadWidget extends Component {
             }
             maxFileSize="50MB"
             labelMaxFileSize="Maximum file size is 50MB"
-            acceptedFileTypes={['image/*']}
+            acceptedFileTypes={['image/png', 'image/jpeg', 'image/bmp', 'image/gif']}
             labelFileTypeNotAllowed="Can only upload image files"
             imagePreviewMinHeight="100"
             allow-multiple="false"

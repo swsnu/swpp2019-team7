@@ -255,7 +255,7 @@ class PillNoti extends Component {
       );
     }
     return (
-      <PillItemWrapper>
+      <PillItemWrapper className="PillNoti">
         <Grid
           container
           justify="space-between"

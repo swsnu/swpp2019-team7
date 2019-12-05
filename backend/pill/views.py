@@ -5,7 +5,6 @@ from rest_framework import status
 from vision.models import Image
 from notification.models import Notification
 from .models import Pill
-
 # url:  api/pill/
 
 
@@ -40,9 +39,17 @@ def get_user_pills(request):
             print(f'all images view{Image.objects.all()}')
             return_list = []
             for pill in saved_pills:
-                image_instance = Image.objects.filter(user=request.user, pill=pill)[0]
-                print(image_instance)
-                pill_dict = get_pill_dict(pill, image_instance)
+                print('pill is ')
+                print(pill)
+                image_query = Image.objects.filter(
+                    user=request.user, pill=pill)
+                if image_query.exists():
+                    image_instance = image_query[0]
+                    print('image_instance is ')
+                    print(image_instance)
+                    pill_dict = get_pill_dict(pill, image_instance)
+                else:
+                    pill_dict = get_pill_dict(pill)
                 return_list.append(pill_dict)
             return JsonResponse(return_list, status=200, safe=False)
         else:
@@ -51,7 +58,21 @@ def get_user_pills(request):
         return HttpResponseNotAllowed(['GET'])
 
 
+def get_pill_list(request):
+    '''This method is for the autosuggestion used in manual lookup. This returns all pill`s product name and id'''
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            fetched_pills_list = [(pill['product_name'], pill['id'])
+                                  for pill in Pill.objects.all().values()]
+            return JsonResponse(fetched_pills_list, status=200, safe=False)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
 # url:  api/pill/pill_id
+
+
 class PillItemsPerUser(APIView):
     """Define view for specific pill. pill_id is a global, DB wise index, not within user"""
 
