@@ -124,7 +124,7 @@ class Header extends Component {
               </Typography>
             </IconButton>
             <Typography variant="h6" className={classes.title} style={{ color: 'black' }} align="center">
-              Welcome
+              Stay Healthy
               {' '}
               {this.props.current_user.name}
 !

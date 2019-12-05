@@ -6,6 +6,8 @@ import FilePondPluginValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginValidateType from 'filepond-plugin-file-validate-type';
 import FilePondImagePreview from 'filepond-plugin-image-preview';
 import FilePondImageCrop from 'filepond-plugin-image-crop';
+import FilePondPluginImageResize from 'filepond-plugin-image-resize';
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -18,9 +20,12 @@ import { addUserPill } from '../../store/actions/pillAction';
 registerPlugin(
   FilePondPluginValidateSize,
   FilePondPluginValidateType,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform,
   FilePondImageCrop,
   FilePondImagePreview,
 );
+
 
 class UploadWidget extends Component {
   render() {
@@ -61,6 +66,10 @@ class UploadWidget extends Component {
             labelFileTypeNotAllowed="Can only upload image files"
             imagePreviewMinHeight="100"
             allow-multiple="false"
+            imageResizeTargetWidth="800"
+            imageResizeTargetHeight="600"
+            imageResizeMode="cover"
+            allowImageTransform="true"
           />
           <Button
             className="confirm-button"

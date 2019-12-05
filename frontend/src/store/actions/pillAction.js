@@ -15,7 +15,8 @@ export const addUserPill = (pillId) => (dispatch) => {
       console.log(res.data);
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
-    });
+    })
+    .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });

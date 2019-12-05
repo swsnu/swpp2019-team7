@@ -4,7 +4,7 @@ const initState = {
   },
   noti_setting: {
     enable_noti: false,
-    enable_segregation: false,
+    enable_segregate: false,
     enable_kakao: false,
   },
   logged_in: JSON.parse(localStorage.getItem('loggedInStatus')),

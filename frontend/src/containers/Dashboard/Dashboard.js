@@ -88,7 +88,6 @@ function dashboardDisplay(itemNo) {
     case 0:
       return <MyPills />;
     case 1:
-      console.log(1);
       return <NotiSetting />;
     case 2:
       return <TelegramSetting />;

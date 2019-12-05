@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { withStyles } from '@material-ui/core/styles';
+import {
+  withStyles,
+  createMuiTheme, ThemeProvider,
+} from '@material-ui/core/styles';
 import {
   Grid, Typography, Avatar,
 } from '@material-ui/core';
+
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -15,7 +20,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import AddAlertIcon from '@material-ui/icons/AddAlert';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -69,6 +73,24 @@ const styles = (theme) => ({
   deleteText: {
     color: 'red',
   },
+  selected: {
+    background: '#e1f5fe',
+  },
+});
+
+const breakpoints = createBreakpoints({});
+const mytheme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h5: {
+      [breakpoints.down('xs')]: {
+        fontSize: '0.9rem',
+      },
+      [breakpoints.down('sm')]: {
+        fontSize: '1.1rem',
+      },
+    },
+  },
 });
 
 const PillItemWrapper = styled.section`
@@ -81,90 +103,114 @@ class PillNoti extends Component {
     super(props);
     this.state = {
       edit_mode: 0,
-      /*
-       I assumed that the maximum number of notifications per day are 10 times.
-       0~9 indicate the KeyboardTimePicker field id for changing the time.
-       1998-01-04 === Jeehoon's Birthday : )
-      */
-      0: (this.props.nmTimes > 0) ? `1998-01-04T${this.props.pillNotiSetting.time[0].substring(0, 2)}:${this.props.pillNotiSetting.time[0].substring(2, 4)}` : '',
-      1: (this.props.nmTimes > 1) ? `1998-01-04T${this.props.pillNotiSetting.time[1].substring(0, 2)}:${this.props.pillNotiSetting.time[1].substring(2, 4)}` : '',
-      2: (this.props.nmTimes > 2) ? `1998-01-04T${this.props.pillNotiSetting.time[2].substring(0, 2)}:${this.props.pillNotiSetting.time[2].substring(2, 4)}` : '',
-      3: (this.props.nmTimes > 3) ? `1998-01-04T${this.props.pillNotiSetting.time[3].substring(0, 2)}:${this.props.pillNotiSetting.time[3].substring(2, 4)}` : '',
-      4: (this.props.nmTimes > 4) ? `1998-01-04T${this.props.pillNotiSetting.time[4].substring(0, 2)}:${this.props.pillNotiSetting.time[4].substring(2, 4)}` : '',
-      5: (this.props.nmTimes > 5) ? `1998-01-04T${this.props.pillNotiSetting.time[5].substring(0, 2)}:${this.props.pillNotiSetting.time[5].substring(2, 4)}` : '',
-      6: (this.props.nmTimes > 6) ? `1998-01-04T${this.props.pillNotiSetting.time[6].substring(0, 2)}:${this.props.pillNotiSetting.time[6].substring(2, 4)}` : '',
-      7: (this.props.nmTimes > 7) ? `1998-01-04T${this.props.pillNotiSetting.time[7].substring(0, 2)}:${this.props.pillNotiSetting.time[7].substring(2, 4)}` : '',
-      8: (this.props.nmTimes > 8) ? `1998-01-04T${this.props.pillNotiSetting.time[8].substring(0, 2)}:${this.props.pillNotiSetting.time[8].substring(2, 4)}` : '',
-      9: (this.props.nmTimes > 9) ? `1998-01-04T${this.props.pillNotiSetting.time[9].substring(0, 2)}:${this.props.pillNotiSetting.time[9].substring(2, 4)}` : '',
+      pillNotiSetting: { ...this.props.pillNotiSetting },
     };
   }
 
-  onDateChange = (id) => (date) => {
-    this.setState({
-      [id]: `1998-01-04T${String(date).substring(16, 21)}`,
-    });
-  };
-
   onConfirm() {
-    const timeList = [];
-    let i;
-    for (i = 0; i < this.props.nmTimes; i += 1) {
-      timeList.push((this.state[i].substring(11, 13) + (this.state[i].substring(14, 16))));
+    if (this.isRedundant()) {
+      alert('Redundant notification times are not allowed. Please set unique times only.');
+      return;
     }
+    const timeList = [...this.state.pillNotiSetting.time];
     // id should be the pill id
-    const webNotiItem = { id: this.props.pillNotiSetting['pill-id'], activated: true, time: timeList };
+    const webNotiItem = { id: this.state.pillNotiSetting['pill-id'], activated: true, time: timeList };
     this.props.onEditWebNoti(webNotiItem);
+    this.setState({ edit_mode: 0 });
   }
 
   onCancel() {
-    this.setState({
-      0: (this.props.nmTimes > 0) ? `1998-01-04T${this.props.pillNotiSetting.time[0].substring(0, 2)}:${this.props.pillNotiSetting.time[0].substring(2, 4)}` : '',
-      1: (this.props.nmTimes > 1) ? `1998-01-04T${this.props.pillNotiSetting.time[1].substring(0, 2)}:${this.props.pillNotiSetting.time[1].substring(2, 4)}` : '',
-      2: (this.props.nmTimes > 2) ? `1998-01-04T${this.props.pillNotiSetting.time[2].substring(0, 2)}:${this.props.pillNotiSetting.time[2].substring(2, 4)}` : '',
-      3: (this.props.nmTimes > 3) ? `1998-01-04T${this.props.pillNotiSetting.time[3].substring(0, 2)}:${this.props.pillNotiSetting.time[3].substring(2, 4)}` : '',
-      4: (this.props.nmTimes > 4) ? `1998-01-04T${this.props.pillNotiSetting.time[4].substring(0, 2)}:${this.props.pillNotiSetting.time[4].substring(2, 4)}` : '',
-      5: (this.props.nmTimes > 5) ? `1998-01-04T${this.props.pillNotiSetting.time[5].substring(0, 2)}:${this.props.pillNotiSetting.time[5].substring(2, 4)}` : '',
-      6: (this.props.nmTimes > 6) ? `1998-01-04T${this.props.pillNotiSetting.time[6].substring(0, 2)}:${this.props.pillNotiSetting.time[6].substring(2, 4)}` : '',
-      7: (this.props.nmTimes > 7) ? `1998-01-04T${this.props.pillNotiSetting.time[7].substring(0, 2)}:${this.props.pillNotiSetting.time[7].substring(2, 4)}` : '',
-      8: (this.props.nmTimes > 8) ? `1998-01-04T${this.props.pillNotiSetting.time[8].substring(0, 2)}:${this.props.pillNotiSetting.time[8].substring(2, 4)}` : '',
-      9: (this.props.nmTimes > 9) ? `1998-01-04T${this.props.pillNotiSetting.time[9].substring(0, 2)}:${this.props.pillNotiSetting.time[9].substring(2, 4)}` : '',
+    if (this.isRedundant()) {
+      alert('You can\'t cancel editing unless you remove the redundancy of notification times.');
+      return;
+    }
+    this.setState((currentState) => {
+      currentState.edit_mode = 0;
+
+      return { edit_mode: currentState.edit_mode };
     });
+  }
+
+  onDateChange = (id) => (date) => {
+    this.setState((currentState) => {
+      currentState.pillNotiSetting.time[id] = String(date).substring(16, 18) + String(date).substring(19, 21);
+      return { pillNotiSetting: currentState.pillNotiSetting };
+    });
+  };
+
+  onAddPillNoti() {
+    this.setState((currentState) => {
+      currentState.pillNotiSetting.time.push('0000');
+      return {
+        pillNotiSetting: currentState.pillNotiSetting,
+      };
+    });
+  }
+
+  onDeletePillNoti(time) {
+    const isMatchingTime = (element) => element === time;
+    const id = this.state.pillNotiSetting.time.findIndex(isMatchingTime);
+    this.setState((currentState) => {
+      currentState.pillNotiSetting.time.splice(id, 1);
+      return {
+        pillNotiSetting: currentState.pillNotiSetting,
+      };
+    });
+  }
+
+  /*
+  Function that checks redundancy
+  true if redundant.
+  false if not redundant.
+  */
+  isRedundant() {
+    let iterator1;
+    let iterator2;
+    for (iterator1 = 0; iterator1 < (this.state.pillNotiSetting.time.length); iterator1 += 1) {
+      for (iterator2 = iterator1 + 1; iterator2 < (this.state.pillNotiSetting.time.length); iterator2 += 1) {
+        if (this.state.pillNotiSetting.time[iterator1] === this.state.pillNotiSetting.time[iterator2]) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   render() {
     let inputFieldIndex = 0;
     const { classes } = this.props;
-    // Assuming 'time' is a string like 0900, 1200
-    // const timesList = (this.props.pillNotiSetting.time).map((time) => (`${time.substring(0, 2)}:${time.substring(2, 4)} `));
-    const timesInputList = (this.props.pillNotiSetting.time).map(() => (
-      <div key={inputFieldIndex += 1}>
-        <Grid container justify="space-around" alignItems="flex-end">
+    // Assuming 'time' is a list of strings like [0900, 1200]
+    const timesInputListEdit = (this.state.pillNotiSetting.time).map((time) => (
+      <Grid item key={inputFieldIndex++} container alignItems="center">
+        <Grid item>
           <KeyboardTimePicker
             margin="normal"
             id="time-picker"
             label="Time picker"
             key={inputFieldIndex - 1}
-            value={this.state[inputFieldIndex - 1]}
+            value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
             onChange={this.onDateChange(inputFieldIndex - 1)}
             KeyboardButtonProps={{
               'aria-label': 'change time',
             }}
           />
-          <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
-            <DeleteForeverIcon fontSize="small" />
+        </Grid>
+        <Grid item>
+          <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
+            <DeleteForeverIcon fontSize="large" />
           </IconButton>
         </Grid>
-      </div>
+      </Grid>
     ));
     inputFieldIndex = 0;
-    const timesInputListReadOnly = (this.props.pillNotiSetting.time).map(() => (
+    const timesInputListReadOnly = (this.props.pillNotiSetting.time).map((time) => (
       <div key={inputFieldIndex += 1}>
         <KeyboardTimePicker
           margin="normal"
           id="time-picker"
           label="Time picker"
           key={inputFieldIndex - 1}
-          value={this.state[inputFieldIndex - 1]}
+          value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
           onChange={this.onDateChange(inputFieldIndex - 1)}
           KeyboardButtonProps={{
             'aria-label': 'change time',
@@ -175,43 +221,6 @@ class PillNoti extends Component {
     ));
     if (this.state.edit_mode === 0) {
       return (
-        <div className="Pill">
-          <PillItemWrapper>
-            <Grid
-              container
-              justify="space-between"
-              alignItems="center"
-            >
-              <Grid item xs={1}>
-                <Avatar className={classes.avatar}>
-                  <LocalHospitalIcon className={classes.icon} />
-                </Avatar>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant="h5">{this.props.pillNotiSetting['pill-name']}</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography
-                  // className={classes.caption}
-                  variant="h5"
-                >
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    {timesInputListReadOnly}
-                  </MuiPickersUtilsProvider>
-                </Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
-                  <EditIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </PillItemWrapper>
-        </div>
-      );
-    }
-    return (
-      <div className="Pill">
         <PillItemWrapper>
           <Grid
             container
@@ -219,12 +228,12 @@ class PillNoti extends Component {
             alignItems="center"
           >
             <Grid item xs={1}>
-              <Avatar className={classes.avatar}>
+              <Avatar className={classes.avatar} src={this.props.pill.file}>
                 <LocalHospitalIcon className={classes.icon} />
               </Avatar>
             </Grid>
-            <Grid item xs={1}>
-              <Typography variant="h5">{this.props.pillNotiSetting['pill-name']}</Typography>
+            <Grid item xs={2}>
+              <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
             </Grid>
             <Grid item xs={4}>
               <Typography
@@ -232,26 +241,62 @@ class PillNoti extends Component {
                 variant="h5"
               >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  {timesInputList}
+                  {timesInputListReadOnly}
                 </MuiPickersUtilsProvider>
-                <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
-                  <AddAlertIcon fontSize="large" />
-                </IconButton>
               </Typography>
             </Grid>
             <Grid item xs={1}>
-              <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); this.setState({ edit_mode: 0 }); }}>
-                <DoneOutlineIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="close-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); this.setState({ edit_mode: 0 }); }}>
-                <CancelIcon fontSize="large" />
+              <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
+                <EditIcon fontSize="large" />
               </IconButton>
             </Grid>
           </Grid>
         </PillItemWrapper>
-      </div>
+      );
+    }
+    return (
+      <PillItemWrapper>
+        <Grid
+          container
+          justify="space-between"
+          alignItems="center"
+          className={classes.selected}
+        >
+          <Grid item xs={1}>
+            <Avatar className={classes.avatar} src={this.props.pill.file}>
+              <LocalHospitalIcon className={classes.icon} />
+            </Avatar>
+          </Grid>
+          <Grid item xs={1}>
+            <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
+          </Grid>
+          <Grid item container justify="center" xs={4}>
+            <Typography
+              // className={classes.caption}
+              variant="h5"
+            >
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {timesInputListEdit}
+              </MuiPickersUtilsProvider>
+            </Typography>
+            <Grid item>
+              <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
+                <AddAlertIcon fontSize="large" />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
+              <DoneOutlineIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
+              <CancelIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </PillItemWrapper>
     );
   }
 }
