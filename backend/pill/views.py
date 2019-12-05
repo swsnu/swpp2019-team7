@@ -5,6 +5,7 @@ from rest_framework import status
 from vision.models import Image
 from notification.models import Notification
 from .models import Pill
+import json
 
 # url:  api/pill/
 
@@ -40,7 +41,8 @@ def get_user_pills(request):
             print(f'all images view{Image.objects.all()}')
             return_list = []
             for pill in saved_pills:
-                image_instance = Image.objects.filter(user=request.user, pill=pill)[0]
+                image_instance = Image.objects.filter(
+                    user=request.user, pill=pill)[0]
                 print(image_instance)
                 pill_dict = get_pill_dict(pill, image_instance)
                 return_list.append(pill_dict)
@@ -51,7 +53,21 @@ def get_user_pills(request):
         return HttpResponseNotAllowed(['GET'])
 
 
+def get_pill_list(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            fetched_pills_list = [pill['product_name']
+                                  for pill in Pill.objects.all().values()]
+            # print(fetched_pills_list)
+            return JsonResponse(fetched_pills_list, status=200, safe=False)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
 # url:  api/pill/pill_id
+
+
 class PillItemsPerUser(APIView):
     """Define view for specific pill. pill_id is a global, DB wise index, not within user"""
 
