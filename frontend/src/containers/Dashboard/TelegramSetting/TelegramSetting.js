@@ -65,12 +65,14 @@ class TelegramSetting extends Component {
       telegramFirstNameError: false,
       telegramLastNameError: false,
       telegramUsernameError: false,
+      auth_key: '',
     };
   }
 
   registerTelegramAccount = (telegramUser) => {
     ax.post('api/register-telegram/', telegramUser).then((res) => {
       console.log(res.data.auth_key);
+      this.setState({auth_key: res.data.auth_key})
       // TODO show the auth_key such that user can type this in telegram
     });
   };
@@ -127,6 +129,14 @@ class TelegramSetting extends Component {
                 <Grid item xs={12}>
                   <Typography component="h1" variant="h5" align="center">
                     Change Telegram Account
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography component="h1" variant="h5" align="center">
+                    Send auth key to "pillbox-bot" in tlgm
+                  </Typography>
+                  <Typography component="h1" variant="h5" align="center" id="auth_key">
+                    Authentication key: {this.state.auth_key}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
