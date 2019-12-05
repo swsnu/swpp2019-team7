@@ -86,10 +86,16 @@ class Pill extends Component {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography variant="h6" style={{ color: '#53a5e0' }} onClick={() => {
+                    <Typography
+                      variant="h6"
+                      style={{ color: '#53a5e0' }}
+                      onClick={() => {
                         this.props.getPill(this.props.id);
                         this.props.changeDashboard(4);
-                      }}>Detail</Typography>
+                      }}
+                    >
+Detail
+                    </Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
@@ -105,7 +111,7 @@ class Pill extends Component {
                       />
                     </IconButton>
                   </Grid>
-                  {/*<Grid item xs={1}>
+                  {/* <Grid item xs={1}>
                     <IconButton
                       id="delete-button"
                       className={classes.margin}
@@ -126,7 +132,7 @@ class Pill extends Component {
                         )}
                       />
                     </IconButton>
-                  </Grid>*/}
+                  </Grid> */}
                 </Grid>
               </CardContent>
             </div>
