@@ -18,6 +18,15 @@ export const addUserPill = (pillId) => (dispatch) => {
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
+export const addUserPillByName = (pillName) => (dispatch) => {
+  ax.post('/api/pill/name/', { pill_name: pillName })
+    .then((res) => {
+      dispatch(addUserPill_(res.data));
+      dispatch(push('/dashboard'));
+    })
+    .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
+};
+
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
 
 export const deleteUserPill = (id) => (dispatch) => {

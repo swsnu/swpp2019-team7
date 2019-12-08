@@ -1,4 +1,5 @@
-from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
+import json
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -62,13 +63,33 @@ def get_pill_list(request):
     '''This method is for the autosuggestion used in manual lookup. This returns all pill`s product name and id'''
     if request.method == 'GET':
         if request.user.is_authenticated:
-            fetched_pills_list = [(pill['product_name'], pill['id'])
+            fetched_pills_list = [(pill['product_name'], pill['company_name'])
                                   for pill in Pill.objects.all().values()]
             return JsonResponse(fetched_pills_list, status=200, safe=False)
         else:
             return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['GET'])
+
+
+def register_pill_by_name(request):
+    '''This method is for the autosuggestion used in manual lookup. This method is for registering pills using the name, not the id'''
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            pill_name = req_data['pill_name']
+            new_pill = Pill.objects.get(product_name=pill_name)
+            request.user.pills.add(new_pill)
+            Notification.create(request.user, new_pill)
+            new_pill_dict = get_pill_dict(new_pill)
+            return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 # url:  api/pill/pill_id
 
