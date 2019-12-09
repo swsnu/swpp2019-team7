@@ -11,7 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 
-import Header from '../../Header/Header';
 import ax from '../../../api/index';
 
 
@@ -119,7 +118,6 @@ class TelegramSetting extends Component {
     const { classes } = this.props;
     return (
       <div className="telegram-setting">
-        <Header />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
