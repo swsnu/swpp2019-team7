@@ -36,18 +36,12 @@ def get_user_pills(request):
         """ get pill list for request.user  """
         if request.user.is_authenticated:
             saved_pills = request.user.pills.all()
-            print(f'saved_pills {saved_pills}')
-            print(f'all images view{Image.objects.all()}')
             return_list = []
             for pill in saved_pills:
-                print('pill is ')
-                print(pill)
                 image_query = Image.objects.filter(
                     user=request.user, pill=pill)
                 if image_query.exists():
                     image_instance = image_query[0]
-                    print('image_instance is ')
-                    print(image_instance)
                     pill_dict = get_pill_dict(pill, image_instance)
                 else:
                     pill_dict = get_pill_dict(pill)
@@ -60,11 +54,19 @@ def get_user_pills(request):
 
 
 def get_pill_list(request):
-    '''This method is for the autosuggestion used in manual lookup. This returns all pill`s product name and id'''
+    '''This method is for the autosuggestion used in dmanual lookup. This returns all pill`s product name and id'''
     if request.method == 'GET':
         if request.user.is_authenticated:
+            print(f'len is {len(Pill.objects.all())}')
+            print(f'type is {type(Pill.objects.all()[26517])}')
+            pill = Pill.objects.all().values()[26517]
+            print(pill)
+            print(type(pill))
+            print(pill['product_name'])
+            print(pill['custom'])
             fetched_pills_list = [(pill['product_name'], pill['company_name'])
-                                  for pill in Pill.objects.all().values()]
+                                  for pill in Pill.objects.all().values()
+                                  if pill['custom'] is False]
             return JsonResponse(fetched_pills_list, status=200, safe=False)
         else:
             return HttpResponse(status=401)
@@ -81,7 +83,7 @@ def register_pill_by_name(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             pill_name = req_data['pill_name']
-            new_pill = Pill.objects.get(product_name=pill_name)
+            new_pill = Pill.objects.get(product_name=pill_name, custom=False)
             request.user.pills.add(new_pill)
             Notification.create(request.user, new_pill)
             new_pill_dict = get_pill_dict(new_pill)
@@ -173,11 +175,14 @@ class CustomPillItem(APIView):
                 standards = pill_data['standards']
                 precautions = pill_data['precautions']
                 take_method_preprocessed = pill_data['take_method_preprocessed']
+                image_id = pill_data['image_id']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             existing_pills = request.user.pills.all().values_list('product_name', flat=True)
             if product_name in existing_pills:
                 return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+
+
 
             # get pill object from Pill model by id
             new_pill = CustomPill.objects.create(
@@ -190,14 +195,21 @@ class CustomPillItem(APIView):
                 company_name=company_name,
                 standards=standards,
                 precautions=precautions,
-                take_method_preprocessed=take_method_preprocessed
+                take_method_preprocessed=take_method_preprocessed,
+                custom=True,
             )
+
+            # Assign pill to image
+            image_instance = Image.objects.get(id=image_id)
+            image_instance.pill = new_pill
+            image_instance.user = request.user
+            image_instance.save()
+
             # add retrieved pill object to current user's pills field
             request.user.pills.add(new_pill)
             # add notification for the new pill
             Notification.create(request.user, new_pill)
 
-            new_pill_dict = get_pill_dict(new_pill)
-            return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
+            return JsonResponse(get_pill_dict(new_pill), status=status.HTTP_201_CREATED)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

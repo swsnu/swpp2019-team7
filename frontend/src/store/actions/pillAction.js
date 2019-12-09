@@ -24,7 +24,7 @@ export const addUserPillByName = (pillName) => (dispatch) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
     })
-    .catch((err) => { alert(`Either this pill is already registered or the pill with this name doesn't exist in our database.\nPlease check again.`); console.log(err); });
+    .catch((err) => { alert('Either this pill is already registered or the pill with this name doesn\'t exist in our database.\nPlease check again.'); console.log(err); });
 };
 
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });

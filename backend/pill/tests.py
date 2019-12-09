@@ -84,6 +84,7 @@ class TempTestCase(TestCase):
                     "standards": "성상 : 이미 이취가 없고 고유의 향미가 있는 미백색의 분말을 함유한 투명한 경질캡슐\n대장균군 : 음성\n프로바이오틱스수 : 10,000,000,000 CFU/500mg 이상\n아연 : 2.6mg/500mg (표시량의 80 ~ 150%)\n붕해시험 : 20분이내",
                     "precautions": "1) 임산부, 수유부, 질병치료(의약품 복용) 중이신 분은 의사, 약사 등 전문가와 상담 후 섭취하시기 바랍니다.\n2) 특정성분에 알레르기가 있는 분은 과민반응이 나타날 수 있으니 섭취 전에 반드시 원료(성분)를 확인하시기 바랍니다.\n3) 어린이가 함부로 섭취하지 않도록 일일섭취량을 확인하시기 바랍니다.\n4) 이상사례 발생 시 섭취를 중단하고 의사, 약사 등 전문가와 상담하시기 바랍니다.",
                     "take_method_preprocessed": "1일 1회",
+                    "image_id": 2,
                 }),
                 content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -116,6 +117,7 @@ class TempTestCase(TestCase):
                     "standards": "성상 : 이미 이취가 없고 고유의 향미가 있는 미백색의 분말을 함유한 투명한 경질캡슐\n대장균군 : 음성\n프로바이오틱스수 : 10,000,000,000 CFU/500mg 이상\n아연 : 2.6mg/500mg (표시량의 80 ~ 150%)\n붕해시험 : 20분이내",
                     "precautions": "1) 임산부, 수유부, 질병치료(의약품 복용) 중이신 분은 의사, 약사 등 전문가와 상담 후 섭취하시기 바랍니다.\n2) 특정성분에 알레르기가 있는 분은 과민반응이 나타날 수 있으니 섭취 전에 반드시 원료(성분)를 확인하시기 바랍니다.\n3) 어린이가 함부로 섭취하지 않도록 일일섭취량을 확인하시기 바랍니다.\n4) 이상사례 발생 시 섭취를 중단하고 의사, 약사 등 전문가와 상담하시기 바랍니다.",
                     "take_method_preprocessed": "1일 1회",
+                    "image_id": 2,
                 }),
                 content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
