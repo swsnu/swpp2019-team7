@@ -7,4 +7,5 @@ urlpatterns = [
     path('pill/<int:pill_id>/', views.PillItemsPerUser.as_view()),
     path('pill/allpills/', views.get_pill_list),
     path('pill/name/', views.register_pill_by_name),
+    path('custompill/', views.CustomPillItem.as_view(), name='customUserPills'),
 ]
