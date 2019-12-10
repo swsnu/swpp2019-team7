@@ -152,7 +152,7 @@ class DemoWidget extends Component {
                             Log in to Save
                           </Button>
                         )}
-                      <Button id="productRed" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
+                      <Button onClick={() => { this.toggleResultModal(false); }}>
                         Retry
                       </Button>
                     </CardActions>
