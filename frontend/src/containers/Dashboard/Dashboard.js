@@ -113,6 +113,10 @@ class Dashboard extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log('dashboard did mount');
+  }
+
   handleDrawerToggle = () => {
     this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -144,6 +148,7 @@ class Dashboard extends Component {
   render() {
     const { classes } = this.props;
     const text = dashboardDisplay(this.props.dash.itemNo);
+    console.log('dashboard rendered');
     const drawer = (
       <div>
         <div className={classes.toolbar} />
