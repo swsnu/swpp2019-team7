@@ -38,5 +38,6 @@ module.exports = {
     "react/display-name": [0],
     "no-param-reassign": [0],
     "no-plusplus": [0],
+    "global-require": [0],
   },
 };

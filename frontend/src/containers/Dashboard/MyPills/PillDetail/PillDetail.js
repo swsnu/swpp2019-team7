@@ -1,81 +1,187 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import {
+  createMuiTheme, responsiveFontSizes, ThemeProvider, withStyles,
+} from '@material-ui/core/styles';
+import { Typography, Avatar } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import * as pillActionCreators from '../../../../store/actions/pillAction';
 import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
-import * as pillActions from '../../../../store/actions/pillAction';
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
 
 const mapStateToProps = (state) => ({
   pill: state.pill,
   selected_pill: state.pill.selected_pill,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onGetPill: (id) => dispatch(pillActions.getPill(id)),
   onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
+  onUploadPhoto: (image, id) => dispatch(pillActionCreators.addUserPillImage(image, id)),
+});
+
+const styles = () => ({
+  avatar: {
+    width: 240,
+    height: 240,
+  },
 });
 
 class PillDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedImage: null,
     };
   }
 
-  componentDidMount() {
-    // this.props.onGetPill(1);//this.props.location.state.id);
+  goBackHandler = () => {
+    this.props.onChangeDashboard(0);
   }
 
-    goBackHandler = () => {
-      this.props.onChangeDashboard(0);
-    }
-
-    render() {
-      let pillId = '';
-      let takeMethod = '';
-      let productName = '';
-      let expirationDate = '';
-      let functions = '';
-      let storeMethod = '';
-      let companyName = '';
-      let standards = '';
-      let precautions = '';
-      let takeMethodPreprocessed = '';
-      if (this.props.selected_pill) {
-        pillId = this.props.selected_pill.id;
-        takeMethod = this.props.selected_pill.take_method;
-        productName = this.props.selected_pill.product_name;
-        expirationDate = this.props.selected_pill.expiration_date;
-        functions = this.props.selected_pill.functions;
-        storeMethod = this.props.selected_pill.store_method;
-        companyName = this.props.selected_pill.company_name;
-        standards = this.props.selected_pill.standards;
-        precautions = this.props.selected_pill.precautions;
-        takeMethodPreprocessed = this.props.selected_pill.take_method_preprocessed;
+  onChange = (e) => {
+    if (e.target.files.length !== 0) {
+      if (e.target.files[0].size > 50000000) {
+        alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
+      } else if (e.target.files[0].size < 10) {
+        alert('Don\'t mess with Pillbox. Choose a proper image file.');
+      } else {
+        this.setState({ selectedImage: e.target.files[0] }, () => {
+          const formData = new FormData();
+          formData.append(
+            'pillImage',
+            this.state.selectedImage,
+          );
+          this.props.onUploadPhoto(formData, this.props.selected_pill.id);
+        });
       }
-      return (
-        <div className="PillDetail">
-          <h1>pill_id</h1>
-          <h3 id="pill-id">{pillId}</h3>
-          <h1>take-method</h1>
-          <h3 id="take-method">{takeMethod}</h3>
-          <h1>product-name</h1>
-          <h3 id="product-name">{productName}</h3>
-          <h1>expiration-date</h1>
-          <h3 id="expiration-date">{expirationDate}</h3>
-          <h1>functions</h1>
-          <h3 id="functions">{functions}</h3>
-          <h1>store-method</h1>
-          <h3 id="store-method">{storeMethod}</h3>
-          <h1>company-name</h1>
-          <h3 id="company-name">{companyName}</h3>
-          <h1>standards</h1>
-          <h3 id="standards">{standards}</h3>
-          <h1>precautions</h1>
-          <h3 id="precautions">{precautions}</h3>
-          <h1>take-method-preprocessed</h1>
-          <h3 id="take-method-preprocessed">{takeMethodPreprocessed}</h3>
-          <button id="back-detail-article-button" type="button" onClick={() => this.goBackHandler()}>Back</button>
-        </div>
-      );
     }
+  }
+
+  uploadHandler = () => {
+    const formData = new FormData();
+    formData.append(
+      'pillImage',
+      this.state.selectedImage,
+    );
+    this.props.onUploadPhoto(formData, this.props.selected_pill.id);
+  }
+
+  breakLine(text) {
+    if (text === null) {
+      return text;
+    }
+    const regex = /(\n)/g;
+    const uuidv1 = require('uuid/v1');
+    return text.split(regex).map((line) => (line.match(regex) ? <br key={uuidv1()} /> : line));
+  }
+
+  render() {
+    const { classes } = this.props;
+    let pillId = '';
+    let takeMethod = '';
+    let productName = '';
+    let expirationDate = '';
+    let functions = '';
+    let storeMethod = '';
+    let companyName = '';
+    let standards = '';
+    let precautions = '';
+    let takeMethodPreprocessed = '';
+    let file = '';
+    if (this.props.selected_pill) {
+      pillId = this.props.selected_pill.id;
+      takeMethod = this.breakLine(this.props.selected_pill.take_method);
+      productName = this.props.selected_pill.product_name;
+      expirationDate = this.props.selected_pill.expiration_date;
+      functions = this.breakLine(this.props.selected_pill.functions);
+      storeMethod = this.breakLine(this.props.selected_pill.store_method);
+      companyName = this.props.selected_pill.company_name;
+      standards = this.breakLine(this.props.selected_pill.standards);
+      precautions = this.breakLine(this.props.selected_pill.precautions);
+      takeMethodPreprocessed = this.props.selected_pill.take_method_preprocessed;
+      file = this.props.selected_pill.file;
+    }
+    const askUpload = (
+      <Button
+        variant="contained"
+        component="label"
+      >
+        <input
+          type="file"
+          id="image"
+          accept="image/png, image/jpeg, image/pjpeg, image/gif"
+          onChange={this.onChange}
+          style={{ display: 'none' }}
+        />
+        Upload An Image!
+      </Button>
+    );
+    /*
+     <div>
+       <input
+         type="file"
+         id='image'
+         accept="image/png, image/jpeg, image/pjpeg, image/gif"
+         onChange={this.onChange}
+       />
+       <Button onClick={this.uploadHandler}>Upload!</Button>
+     </div>
+     */
+    return (
+      <div className="PillDetail">
+        <Button variant="contained" color="primary" id="back-detail-article-button" type="button" onClick={() => this.goBackHandler()}>Back</Button>
+        <br />
+        <br />
+        {file !== '' ? <Avatar src={file} className={classes.avatar} variant="square" /> : askUpload}
+        <br />
+        <br />
+        <ThemeProvider theme={theme}>
+          <Typography variant="h3">Pill ID</Typography>
+          <br />
+          <Typography variant="h6" id="pill-id">{pillId}</Typography>
+          <br />
+          <Typography variant="h3">Take Method</Typography>
+          <br />
+          <Typography variant="h6" id="take-method">{takeMethod}</Typography>
+          <br />
+          <Typography variant="h3">Product Name</Typography>
+          <br />
+          <Typography variant="h6" id="product-name">{productName}</Typography>
+          <br />
+          <Typography variant="h3">Expiration Date</Typography>
+          <br />
+          <Typography variant="h6" id="expiration-date">{expirationDate}</Typography>
+          <br />
+          <Typography variant="h3">Functions</Typography>
+          <br />
+          <Typography variant="h6" id="functions">{functions}</Typography>
+          <br />
+          <Typography variant="h3">Store Method</Typography>
+          <br />
+          <Typography variant="h6" id="store-method">{storeMethod !== null ? storeMethod : 'Not in the database'}</Typography>
+          <br />
+          <Typography variant="h3">Company Name</Typography>
+          <br />
+          <Typography variant="h6" id="company-name">{companyName}</Typography>
+          <br />
+          <Typography variant="h3">Standards</Typography>
+          <br />
+          <Typography variant="h6" id="standards">{standards}</Typography>
+          <br />
+          <Typography variant="h3">Precautions</Typography>
+          <br />
+          <Typography variant="h6" id="precautions">{precautions}</Typography>
+          <br />
+          <Typography variant="h3">Recommended Times To Take Per Day</Typography>
+          <br />
+          <Typography variant="h6" id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PillDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(PillDetail)));

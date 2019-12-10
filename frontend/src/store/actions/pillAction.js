@@ -24,7 +24,22 @@ export const addUserPillByName = (pillName) => (dispatch) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
     })
-    .catch((err) => { alert(`Either this pill is already registered or the pill with this name doesn't exist in our database.\nPlease check again.`); console.log(err); });
+    .catch((err) => { alert('Either this pill is already registered or the pill with this name doesn\'t exist in our database.\nPlease check again.'); console.log(err); });
+};
+
+export const addUserPillImage_ = (newPillObj) => ({ type: 'ADD_USER_PILLIMAGE', selected_pill: newPillObj });
+
+export const addUserPillImage = (pillImage, id) => (dispatch) => {
+  ax.post(`/api/pill/${id}/image`, pillImage, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+    .then((res) => {
+      console.log(res.data);
+      dispatch(addUserPillImage_(res.data));
+    })
+    .catch((err) => { console.log(err); alert('Your image file is not valid. Please check again.'); });
 };
 
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
