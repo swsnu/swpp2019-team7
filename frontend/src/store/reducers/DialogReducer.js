@@ -10,7 +10,6 @@ const DialogReducer = (state = initState, action = null) => {
         ...state, open: false,
       };
     case 'RESET_DIALOG':
-      console.log('reset dialog to TRUE');
       return {
         ...state, open: true,
       };

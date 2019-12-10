@@ -78,7 +78,6 @@ class MyPills extends Component {
   handleAddPill() {
     this.setState(() => ({ open: true }));
     this.props.handleDialogReset();
-    // this.props.history.push('/loggedinwidget');
   }
 
   handleClose() {
@@ -90,8 +89,6 @@ class MyPills extends Component {
   }
 
   render() {
-    console.log("mypills.js this.state.open: ", this.state.open);
-    console.log("mypills.js this.props.dialogOpened: ", this.props.dialogOpened);
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
