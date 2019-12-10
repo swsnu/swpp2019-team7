@@ -10,9 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import Header from '../../Header/Header';
 
-// import * as userActionCreators from '../../../store/actions/userAction';
+import ax from '../../../api/index';
 
 
 function Copyright() {
@@ -66,93 +65,61 @@ class TelegramSetting extends Component {
       telegramFirstNameError: false,
       telegramLastNameError: false,
       telegramUsernameError: false,
+      auth_key: '',
     };
   }
 
-  credentialChecker = (e) => {
-    e.preventDefault();
-    const telegramReg = /^([A-za-z0-9])+$/;
-    let telegramError = false;
-    let telegramUsernameError = false;
-    let telegramFirstNameError = false;
-    let telegramLastNameError = false;
-    if (this.state.telegram_first_name_input !== '') {
-      console.log(`first name is ${this.state.telegram_first_name_input}.`);
-    }
-    if (this.state.telegram_last_name_input !== '') {
-      console.log(`last name is ${this.state.telegram_last_name_input}.`);
-    }
-
-    if (this.state.telegram_username_input !== '') {
-      console.log(`user name is ${this.state.telegram_username_input}.`);
-    }
-
-
-    if (this.state.telegram_first_name_input !== ''
-      || this.state.telegram_last_name_input !== ''
-      || this.state.telegram_username_input !== ''
-    ) {
-      if (this.state.telegram_first_name_input === ''
-        || !telegramReg.test(this.state.telegram_first_name_input)) {
-        telegramFirstNameError = true;
-        telegramError = true;
-        this.setState({
-          telegramFirstNameError,
-        });
-      } else {
-        telegramFirstNameError = false;
-        this.setState({
-          telegramFirstNameError,
-        });
-      }
-      if (this.state.telegram_last_name_input === ''
-        || !telegramReg.test(this.state.telegram_last_name_input)) {
-        telegramLastNameError = true;
-        telegramError = true;
-        this.setState({
-          telegramLastNameError,
-        });
-      } else {
-        telegramLastNameError = false;
-        this.setState({
-          telegramLastNameError,
-        });
-      }
-      if (this.state.telegram_username_input === ''
-        || !telegramReg.test(this.state.telegram_username_input)) {
-        telegramUsernameError = true;
-        telegramError = true;
-        this.setState({
-          telegramUsernameError,
-        });
-      } else {
-        telegramUsernameError = false;
-        this.setState({
-          telegramUsernameError,
-        });
-      }
-    }
-    return (!telegramError);
+  registerTelegramAccount = (telegramUser) => {
+    ax.post('api/register-telegram/', telegramUser).then((res) => {
+      console.log(res.data.auth_key);
+      this.setState({ auth_key: res.data.auth_key });
+      // TODO show the auth_key such that user can type this in telegram
+    });
   };
 
-  onEditInfoButtonClick = (event) => {
-    const correctForm = this.credentialChecker(event);
-    if (correctForm === true) {
-      const user = {
+  credentialCheckHelper = (name) => {
+    const telegramReg = /^([A-za-z0-9])+$/;
+    console.log('NAME:', name);
+    console.log(telegramReg.test(name));
+    return name.length !== 0 && telegramReg.test(name);
+  };
+
+  credentialCheck = () => {
+    const usernameError = !this.credentialCheckHelper(this.state.telegram_username_input);
+    const firstNameError = !this.credentialCheckHelper(this.state.telegram_first_name_input);
+    const lastNameError = !this.credentialCheckHelper(this.state.telegram_last_name_input);
+
+    const result = !(usernameError || firstNameError || lastNameError);
+
+    this.setState((prevState) => ({
+      ...prevState,
+      telegramUsernameError: usernameError,
+      telegramFirstNameError: firstNameError,
+      telegramLastNameError: lastNameError,
+    }));
+
+    return result;
+  };
+
+  onEditButtonClick = (event) => {
+    event.preventDefault();
+    const correct = this.credentialCheck();
+
+    if (correct) {
+      const telegramUser = {
         telegram_first_name: this.state.telegram_first_name_input,
         telegram_last_name: this.state.telegram_last_name_input,
         telegram_username: this.state.telegram_username_input,
       };
-      console.log('Change user to ! %O', user);
-      // this.props.onEditUserInfo(user);
+      console.log('Change user to ! %O', telegramUser);
+      this.registerTelegramAccount(telegramUser);
     }
   };
 
   render() {
     const { classes } = this.props;
     return (
-      <div className="Signup">
-        <Header />
+      <div className="telegram-setting">
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
@@ -165,9 +132,19 @@ class TelegramSetting extends Component {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                  <Typography component="h1" variant="h5" align="center">
+                    Send auth key to &quot;pillbox-bot&quot; in tlgm
+                  </Typography>
+                  <Typography component="h1" variant="h5" align="center" id="auth_key">
+                    Authentication key:
+                    {' '}
+                    {this.state.auth_key}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     error={this.state.telegramFirstNameError}
-                    helperText={this.state.telegramFirstNameError ? 'Must match Telegram Id.' : false}
+                    helperText={this.state.telegramFirstNameError ? 'Please check your first name again.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -180,7 +157,7 @@ class TelegramSetting extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.telegramLastNameError}
-                    helperText={this.state.telegramLastNameError ? 'Must match Telegram Id.' : false}
+                    helperText={this.state.telegramLastNameError ? 'Please check your last name again.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -193,7 +170,7 @@ class TelegramSetting extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.telegramUsernameError}
-                    helperText={this.state.telegramUsernameError ? 'Must match Telegram Id.' : false}
+                    helperText={this.state.telegramUsernameError ? 'Please check your username again.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -209,10 +186,10 @@ class TelegramSetting extends Component {
                 fullWidth
                 variant="contained"
                 color="primary"
-                id="editinfo-button"
+                id="submit-button"
                 className={classes.submit}
                 onClick={(event) => {
-                  this.onEditInfoButtonClick(event);
+                  this.onEditButtonClick(event);
                 }}
               >
                 Finish Change
@@ -228,8 +205,4 @@ class TelegramSetting extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//   onEditUserInfo: (user) => { dispatch(userActionCreators.editUserInfo(user)); },
-// });
-
-export default connect(null, null)(withStyles(styles)(TelegramSetting));
+export default connect(null)(withStyles(styles)(TelegramSetting));

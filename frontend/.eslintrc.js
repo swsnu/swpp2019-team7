@@ -33,5 +33,10 @@ module.exports = {
     "react/jsx-no-bind": [0],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "react/jsx-props-no-spreading": [0],
+    "class-methods-use-this": [0],
+    "no-return-assign": [0],
+    "react/display-name": [0],
+    "no-param-reassign": [0],
+    "no-plusplus": [0],
   },
 };

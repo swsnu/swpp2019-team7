@@ -83,6 +83,10 @@ class MyPills extends Component {
     this.setState(() => ({ open: false }));
   }
 
+  handleAddPillManually() {
+    this.props.history.push('/manuallyadd');
+  }
+
   render() {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
@@ -104,14 +108,19 @@ class MyPills extends Component {
           <Grid container spacing={4}>
             {pillList}
           </Grid>
-          <Fab id="addpill" color="primary" aria-label="add" className={classes.fab} onClick={() => this.handleAddPill()}>
+          <Fab id="addpill" color="primary" aria-label="add" variant="extended" className={classes.fab} onClick={() => this.handleAddPill()}>
             <AddIcon />
+            Add by photo
+          </Fab>
+          <Fab id="addpillManually" color="secondary" aria-label="add" variant="extended" className={classes.fab} onClick={() => this.handleAddPillManually()}>
+            <AddIcon />
+            Add manually
           </Fab>
           <Dialog
             fullScreen
-            onBackdropClick
-            open={this.state.open}
-            onClose={this.handleClose}
+            // onBackdropClick
+            open={this.state.open && this.props.dialogOpened}
+            // onClose={this.handleClose}
             TransitionComponent={Transition}
             PaperProps={{
               style: {
@@ -133,6 +142,7 @@ class MyPills extends Component {
 const mapStateToProps = (state) => ({
   pillList: state.pill.pill_list,
   loggedIn: state.user.logged_in,
+  dialogOpened: state.dialog.open,
 });
 export default connect(mapStateToProps, {
   getUserPills,

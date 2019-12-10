@@ -39,17 +39,11 @@ describe('SignupAccount', () => {
     const wrapperPW = component.find({ id: 'password' }).at(1);
     const wrapperPWConfirm = component.find({ id: 'password-confirmation' }).at(1);
     const wrapperName = component.find({ id: 'name' }).at(1);
-    const wrapperFirst = component.find({ id: 'telegram_first_name' }).at(1);
-    const wrapperLast = component.find({ id: 'telegram_last_name' }).at(1);
-    const wrapperUser = component.find({ id: 'telegram_username' }).at(1);
     const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
 
     wrapperPW.props().onChange({ target: { value: 'Password123*' } });
     wrapperPWConfirm.props().onChange({ target: { value: 'Password123*' } });
     wrapperName.props().onChange({ target: { value: 'Peter' } });
-    wrapperFirst.props().onChange({ target: { value: 'first' } });
-    wrapperLast.props().onChange({ target: { value: 'last' } });
-    wrapperUser.props().onChange({ target: { value: 'username' } });
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(1);
@@ -87,21 +81,6 @@ describe('SignupAccount', () => {
 
     wrapperPW.props().onChange({ target: { value: 'pwd111111' } });
     wrapperPWConfirm.props().onChange({ target: { value: 'pwd11111' } });
-    wrapperButton.simulate('click');
-
-    expect(spyAcceptSignup).toHaveBeenCalledTimes(0);
-  });
-  it('should NOT accept signup4 - telegramname mismatch', () => {
-    const component = mount(mockSignup);
-
-    const wrapperFirst = component.find({ id: 'telegram_first_name' }).at(1);
-    const wrapperLast = component.find({ id: 'telegram_last_name' }).at(1);
-    const wrapperUser = component.find({ id: 'telegram_username' }).at(1);
-    const wrapperButton = component.find({ id: 'editinfo-button' }).at(1);
-
-    wrapperFirst.props().onChange({ target: { value: '' } });
-    wrapperLast.props().onChange({ target: { value: '@!3@@!#' } });
-    wrapperUser.props().onChange({ target: { value: '!1!' } });
     wrapperButton.simulate('click');
 
     expect(spyAcceptSignup).toHaveBeenCalledTimes(0);

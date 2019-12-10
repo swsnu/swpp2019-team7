@@ -11,7 +11,8 @@ import Dashboard from '../containers/Dashboard/Dashboard';
 import TestLanding from '../containers/Landing/TestLanding';
 import DemoWidget from '../containers/Landing/DemoWidget/DemoWidget';
 import LoggedInWidget from '../containers/Dashboard/MyPills/LoggedInWidget/LoggedInWidget';
-// import Dashboard from '../dashboard/Dashboard';
+import PillDetail from '../containers/Dashboard/MyPills/PillDetail/PillDetail';
+import PillLookup from '../containers/Dashboard/MyPills/PillLookup';
 import './App.css';
 
 function App(props) {
@@ -25,6 +26,8 @@ function App(props) {
           <PublicRoute path="/demowidget" exact component={DemoWidget} />
           <PrivateRoute path="/dashboard" exact component={Dashboard} />
           <PrivateRoute path="/loggedinwidget" exact component={LoggedInWidget} />
+          <PrivateRoute path="/pillDetail" exact component={PillDetail} />
+          <PrivateRoute path="/manuallyadd" exact component={PillLookup} />
           <Redirect exact from="/" to="/landing" />
           <Route render={() => <TestLanding />} />
         </Switch>

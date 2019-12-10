@@ -1,3 +1,8 @@
+branches:
+  only:
+  - master
+  - dev/working
+  - dev/working_test
 matrix:
   include:
   - language: 
@@ -10,12 +15,12 @@ matrix:
     python:
     - '3.6.8'
     dist: xenial
+    services:
+    - mysql
     branches:
       only:
       - master
       - dev/working
-    services:
-    - mysql
     addons:
       sonarcloud:
         organization: "swsnu"
@@ -56,8 +61,8 @@ matrix:
     - cd ..
     - cd backend
     - pylint --load-plugins pylint_django **/*.py
-    - coverage run --source='./' --omit='manage.py','*/wsgi.py','*/__init__.py','backend/*','dataset/*','*/test.py' manage.py test
-    - coverage report -m
+    - coverage run --source='./' --omit='manage.py,*wsgi*,*cron*,*/dataset/*' manage.py test
+    - coverage report -m --omit="manage.py,*wsgi*,*cron*,*/dataset/*,*vision_api*"
     - coverage xml
     - cd ..
     - sonar-scanner

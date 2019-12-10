@@ -5,6 +5,8 @@ import { createBrowserHistory } from 'history';
 import UserReducer from './UserReducer';
 import PillReducer from './PillReducer';
 import NotiReducer from './NotiReducer';
+import DashboardReducer from './DashboardReducer';
+import DialogReducer from './DialogReducer';
 
 
 export const history = createBrowserHistory();
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   pill: PillReducer,
   user: UserReducer,
   noti: NotiReducer,
+  dash: DashboardReducer,
+  dialog: DialogReducer,
   router: connectRouter(history),
 });
 export default rootReducer;

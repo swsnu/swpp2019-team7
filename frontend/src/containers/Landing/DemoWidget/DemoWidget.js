@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Modal, Header, Image, Button, Icon,
-} from 'semantic-ui-react';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import { Typography, withStyles } from '@material-ui/core';
 
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
 import { addUserPill } from '../../../store/actions/pillAction';
+
+const styles = () => ({
+  card: {
+    // maxWidth: 335,
+    // maxWidth: 345,
+  },
+  media: {
+    maxWidth: 335,
+    // height: 0,
+    // paddingTop: '56.25%', // 16:9
+  },
+  cardButtons: {
+    justifyContent: 'center',
+  },
+});
 
 class DemoWidget extends Component {
   constructor(props) {
@@ -68,76 +88,95 @@ class DemoWidget extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="DemoWidget">
-        <UploadWidget
-          updateProductInfo={this.updateProductInfo.bind(this)}
-          toggleResultModal={this.toggleResultModal.bind(this)}
-          getNewPillId={this.getNewPillId.bind(this)}
-          backgroundColor={this.props.backgroundColor}
-        />
-        <Modal
-          open={this.state.resultModalOpen}
-        >
-          <Modal.Header>
-            { this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
-          </Modal.Header>
-          <Modal.Content image>
-            <Image wrapped size="medium" src={`http://localhost:8000${this.state.productInfo.imageUrl}`} />
-            {this.state.productInfo.productName
-              ? (
-                <Modal.Description>
-                  <Header>{this.state.productInfo.productName}</Header>
-                  <p>
-                    제조사:
-                    {this.state.productInfo.companyName}
-                  </p>
-                  <p>
-                    복용방법:
-                    {this.state.productInfo.takeMethod}
-                  </p>
-                  <p>
-                    유통기한:
-                    {this.state.productInfo.expirationDate}
-                  </p>
-                </Modal.Description>
-              )
-              : (
-                <Modal.Description>
-                  We couldn&apos;t find your product...
-                </Modal.Description>
-              )}
-          </Modal.Content>
-          {this.state.productInfo.productName
-            ? (
-              <Modal.Actions>
-                {this.props.loggedIn
+        {this.state.resultModalOpen
+          ? (
+            // shows parsed results
+            <Box align="center">
+              <Card className={classes.card}>
+                {/* <Box maxWidth="335"> */}
+                <CardHeader
+                  title={this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
+                />
+                <CardMedia
+                  component="img"
+                  className={classes.media}
+                  image={`http://localhost:8000${this.state.productInfo.imageUrl}`}
+                  title="Pill"
+                />
+                {this.state.productInfo.productName
                   ? (
-                    <Button color="green" onClick={() => { this.addNewPill(); }}>
-                      <Icon name="checkmark" />
-                      Save
-                    </Button>
+                    <CardContent>
+                      {/* <Box align="left" maxLength="335"> */}
+                      <Typography align="left" gutterBottom variant="h5" component="h2">
+                        {this.state.productInfo.productName}
+                      </Typography>
+                      <Typography variant="h6">
+                        제조사:
+                        {this.state.productInfo.companyName}
+                      </Typography>
+                      <Typography variant="h6" component="p">
+                        복용방법:
+                        {this.state.productInfo.takeMethod}
+                      </Typography>
+                      <Typography variant="h6" component="p">
+                        유통기한:
+                        {this.state.productInfo.expirationDate}
+                      </Typography>
+                      {/* </Box> */}
+                    </CardContent>
                   )
                   : (
-                    <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
-                      <Icon name="checkmark" />
-                      Log in to Save
-                    </Button>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        We couldn&apos;t find your product...
+                      </Typography>
+                    </CardContent>
                   )}
-                <Button id="red" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
-                  Retry
-                </Button>
-              </Modal.Actions>
-            )
-            : (
-              <Modal.Actions>
-                <Button id="red" onClick={() => { this.toggleResultModal(false); }}>
-                  Go Back
-                </Button>
-              </Modal.Actions>
-            )}
-
-        </Modal>
+                {/* card actions */}
+                {this.state.productInfo.productName
+                  ? (
+                    <CardActions className={classes.cardButtons}>
+                      {this.props.loggedIn
+                        ? (
+                          <Button onClick={() => { this.addNewPill(); }}>
+                            {/* <Icon name="checkmark" /> */}
+                            Save
+                          </Button>
+                        )
+                        : (
+                          <Button onClick={() => { this.toggleAcceptPill(); }}>
+                            {/* <Icon name="checkmark" /> */}
+                            Log in to Save
+                          </Button>
+                        )}
+                      <Button id="productRed" color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
+                        Retry
+                      </Button>
+                    </CardActions>
+                  )
+                  : (
+                    <CardActions className={classes.cardButtons}>
+                      <Button id="noProductRed" onClick={() => { this.toggleResultModal(false); }}>
+                        Go Back
+                      </Button>
+                    </CardActions>
+                  )}
+                {/* </Box> */}
+              </Card>
+            </Box>
+          )
+          : (
+            // shows uploading widget
+            <UploadWidget
+              updateProductInfo={this.updateProductInfo.bind(this)}
+              toggleResultModal={this.toggleResultModal.bind(this)}
+              getNewPillId={this.getNewPillId.bind(this)}
+              backgroundColor={this.props.backgroundColor}
+            />
+          )}
       </div>
     );
   }
@@ -148,4 +187,4 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   addUserPill,
-})(withRouter(DemoWidget));
+})(withRouter(withStyles(styles)(DemoWidget)));

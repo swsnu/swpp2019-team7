@@ -64,8 +64,10 @@ class SettingItem extends Component {
 
   render() {
     let checked = false;
-    if (this.props.noti) {
-      checked = this.props.noti[this.props.index];
+    let disabled = false;
+    checked = this.props.noti[this.props.index];
+    if (this.props.index !== 'enable_noti') {
+      disabled = !this.props.noti.enable_noti;
     }
     const { classes } = this.props;
     return (
@@ -83,13 +85,14 @@ class SettingItem extends Component {
                 </Avatar>
               </Grid>
               <Grid item>
-                <Typography variant="h3">{this.props.name}</Typography>
+                <Typography variant="h4">{this.props.name}</Typography>
               </Grid>
               <Grid item>
                 <Switch
                   id="onoff-switch"
                   checked={checked}
                   onChange={() => this.toggleChecked()}
+                  disabled={disabled}
                 />
                 {/* <FormGroup>
                 <FormControlLabel
@@ -113,8 +116,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onGetUser: () => dispatch(userActionCreators.getUser()),
-  // onGetNoti: () => dispatch(userActionCreators.getNoti()),
   onEditNoti: (noti) => dispatch(userActionCreators.editNoti(noti)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SettingItem)));

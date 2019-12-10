@@ -1,5 +1,7 @@
 """Backend for registering the device using FCM token!"""
 import json
+import datetime
+import time
 import shortuuid
 
 from fcm_django.models import FCMDevice
@@ -23,8 +25,10 @@ def format_webnoti_list_object(item):
         time_list.append((noti.get_4_digit_time()))
     return {
         'id': item.id,
+        'pill-name': item.pill.product_name,
+        'pill-id': item.pill.id,
         'activated': item.activated,
-        'time': time_list
+        'time': time_list,
     }
 
 
@@ -46,7 +50,8 @@ def crud_device(request):
             # Fields below are not mandatory anymore
             device.name = request.user.name
             device.user = request.user
-            device.type = "web"  # TODO check if this can always be web (or need something like "mobile")
+            # TODO check if this can always be web (or need something like "mobile")
+            device.type = "web"
             device.save()
             return HttpResponse(status=status.HTTP_201_CREATED)
         else:
@@ -65,13 +70,72 @@ def crud_device(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 
 def webnoti(request):
-    """Function for getting/returning web notification"""
+    """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
         if request.user.is_authenticated:
+            webnoti_list = Notification.objects.filter(user=request.user)
+            webnoti_formatted_list = list(
+                map(format_webnoti_list_object, webnoti_list))
+            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+def webnoti_pill(request, req_id):
+    """Function for editing specific pill of webnoti"""
+    if request.method == 'PUT':
+        if request.user.is_authenticated:
+            pill = Pill.objects.get(pk=req_id)
+            webnoti_item = Notification.objects.get(
+                user=request.user, pill=pill)
+            try:
+                req_data = json.loads(request.body.decode())
+                activated = req_data['activated']
+                datetime_list = req_data['time']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            webnoti_item.activated = activated
+
+            # for time in time, get webnoti, edit, and then return
+            notification_time_list = NotificationTime.objects.filter(
+                notification=webnoti_item)
+            index = 0
+
+            if len(notification_time_list) > len(datetime_list):
+                # if datetime doesn't exist, delete
+                for datetime_item in datetime_list:
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
+                    notification_time = notification_time_list[index]
+                    notification_time.time = modified_datetime
+                    notification_time.save()
+                    index += 1
+                for notification_time in notification_time_list[index:]:
+                    notification_time.delete()
+            elif len(notification_time_list) < len(datetime_list):
+                # if notification_time doesn't exist, add new
+                for notification_time in notification_time_list:
+                    datetime_item = datetime_list[index]
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
+                    notification_time.time = modified_datetime
+                    notification_time.save()
+                    index += 1
+                for datetime_item in datetime_list[index:]:
+                    modified_datetime = datetime_item[:-2] + ":" + datetime_item[-2:]
+                    NotificationTime.objects.create(notification=webnoti_item, time=modified_datetime).save()
+            else:
+                for datetime_item in datetime_list:
+                    modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
+                    notification_time = notification_time_list[index]
+                    notification_time.time = modified_datetime
+                    notification_time.save()
+                    index += 1
+            webnoti_item.save()
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
@@ -79,7 +143,6 @@ def webnoti(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET'])
-
 
 def notification_interval(request):
     """ CRUD operation for notification interval per each user """
@@ -92,72 +155,16 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             for interval in interval_list:
-                start_time = interval['start_time']  # TODO check the string format for datetime from frontend
+                # TODO check the string format for datetime from frontend
+                start_time = interval['start_time']
                 end_time = interval['end_time']
-                NotificationInterval.objects.create(user=request.user, start_time=start_time, end_time=end_time)
+                NotificationInterval.objects.create(
+                    user=request.user, send_time=start_time, start_time=start_time, end_time=end_time)
             return HttpResponse(status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
-        return HttpResponse(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
-def webnoti_pill(request, req_id):
-    """Function for editing specific pill of webnoti"""
-    if request.method == 'PUT':
-        if request.user.is_authenticated:
-            pill = Pill.objects.get(pk=req_id)
-            webnoti_item = Notification.objects.get(user=request.user, pill=pill)
-            print(webnoti_item)
-            try:
-                req_data = json.loads(request.body.decode())
-                activated = req_data['activated']
-                datetime_list = req_data['time']
-            except (KeyError, ValueError):
-                return HttpResponseBadRequest()
-            webnoti_item.activated = activated
-
-            # for time in time, get webnoti, edit, and then return
-            notification_time_list = NotificationTime.objects.filter(notification=webnoti_item)
-            index = 0
-
-            if len(notification_time_list) > len(datetime_list):
-                # if datetime doesn't exist, delete
-                for datetime in datetime_list:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification_time = notification_time_list[index]
-                    notification_time.time = datetime
-                    notification_time.save()
-                    index += 1
-                for notification_time in notification_time_list[index:]:
-                    notification_time.delete()
-            elif len(notification_time_list) < len(datetime_list):
-                # if notification_time doesn't exist, add new
-                for notification_time in notification_time_list:
-                    datetime = datetime_list[index]
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification_time.time = datetime
-                    notification_time.save()
-                    index += 1
-                for datetime in datetime_list[index:]:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    NotificationTime.objects.create(notification=webnoti_item, time=datetime).save()
-            else:
-                for datetime in datetime_list:
-                    datetime = datetime[:-2] + ":" + datetime[-2:]
-                    notification_time = notification_time_list[index]
-                    notification_time.time = datetime
-                    notification_time.save()
-                    index += 1
-            webnoti_item.save()
-            webnoti_list = Notification.objects.filter(user=request.user)
-            webnoti_formatted_list = list(webnoti_list.values('id', 'activated'))
-            return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
-        else:
-            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
-    else:
-        return HttpResponseNotAllowed(['GET'])
-
+        return HttpResponseNotAllowed(['POST'])
 
 @csrf_exempt
 def telegram(request):
@@ -212,15 +219,14 @@ def telegram(request):
                     "telegram_username": telegram_user.telegram_username,
                     "telegram_first_name": telegram_user.telegram_first_name,
                     "telegram_last_name": telegram_user.telegram_last_name
-                }, status.HTTP_200_OK)
+                }, status=status.HTTP_200_OK)
             else:
                 return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         else:
-            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
-
-    return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
-
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 def register_telegram(request):
     """
@@ -249,9 +255,10 @@ def register_telegram(request):
             )
             new_telegram_user.save()
 
-            return JsonResponse({"auth_key": auth_key}, status.HTTP_200_OK)
+            return JsonResponse({"auth_key": auth_key}, status=status.HTTP_201_CREATED)
         else:
-            return HttpResponse(status.HTTP_401_UNAUTHORIZED)
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     else:
-        return HttpResponse(status.HTTP_405_METHOD_NOT_ALLOWED)
+        print('delete')
+        return HttpResponseNotAllowed(['POST'])

@@ -33,6 +33,14 @@ const stubPillState = {
 
 // stub user state for a logged out user
 export const stubUserState = {
+  current_user: {
+    name: '',
+  },
+  noti_setting: {
+    enable_noti: false,
+    enable_segregation: false,
+    enable_kakao: false,
+  },
   logged_in: false,
 };
 
@@ -42,9 +50,13 @@ export const stubUserStateLoggedIn = {
 };
 
 export const stubNotiState = {
-  enable_noti: true,
-  enable_segregate: false,
-  enable_kakao: false,
+  webnoti_list: [{
+    id: 1, 'pill-name': '마이더블유피아이에이치쉐이크', 'pill-id': 1, activated: true, time: ['0900'],
+  }],
+};
+
+export const stubDashState = {
+  itemNo: 0,
 };
 
 
@@ -54,6 +66,7 @@ export const getMockStore = () => {
     user: getmockReducer(stubUserState),
     pill: getmockReducer(stubPillState),
     noti: getmockReducer(stubNotiState),
+    dash: getmockReducer(stubDashState),
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

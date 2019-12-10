@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import SettingItem from './SettingItem';
 import { getMockStore } from '../../../test-utils/mocks';
-// import * as userActionCreator from '../../../store/actions/userAction';
+import * as userActionCreator from '../../../store/actions/userAction';
 import { history } from '../../../store/reducers/index';
 
 
@@ -13,15 +13,14 @@ const mockStore = getMockStore();
 
 describe('SettingItem', () => {
   let mockSettingItem;
-
-  // let spyEditNoti;
+  let spyEditNoti;
   beforeEach(() => {
-    // spyEditNoti = jest.spyOn(userActionCreator, 'editNoti')
-    // .mockImplementation(() => ({ type: 'EDIT_NOTI' }));
-    mockSettingItem = (
+    spyEditNoti = jest.spyOn(userActionCreator, 'editNoti')
+      .mockImplementation(() => ({ type: 'EDIT_NOTI' }));
+    mockSettingItem = (index) => (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
-          <SettingItem index={1} />
+          <SettingItem index={index} />
         </ConnectedRouter>
       </Provider>
     );
@@ -31,8 +30,15 @@ describe('SettingItem', () => {
   });
 
   it('should render SettingItem', () => {
-    const component = mount(mockSettingItem);
+    const component = mount(mockSettingItem('enable_noti'));
     expect(component.find('.SettingItem').length).toBe(1);
+  });
+  it('should Disable at false enable_noti', () => {
+    const component = mount(mockSettingItem('enable_kakao'));
+    expect(component.find('.SettingItem').length).toBe(1);
+    const switchWrapper = component.find({ id: 'onoff-switch' }).at(1);
+    switchWrapper.simulate('click');
+    expect(spyEditNoti).toHaveBeenCalledTimes(0);
   });
   /*
   it('should change switch', () => {

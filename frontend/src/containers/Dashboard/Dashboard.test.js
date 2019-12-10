@@ -1,27 +1,20 @@
-// import {getMockStoreArticleCreate} from '../../mocks'
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-// import { ConnectedRouter } from 'connected-react-router';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-//
-// import ArticleCreate from "./ArticleCreate";
-// import {history} from '../../mockStore';
-// import * as actionCreators from '../../actions'
-// import WriteTab from "./WriteTab";
-// import {ax} from '../../actions'
-// import axios from 'axios';
 import Dashboard from './Dashboard';
 import { getMockStore } from '../../test-utils/mocks';
+// import * as dashAction from '../../store/actions/dashboardAction';
 
 const mockStore = getMockStore();
-
 let dashboard;
 const history = createBrowserHistory();
-
 describe('<Dashboard />', () => {
+  // let mockChangeDashboard;
   beforeEach(() => {
+    // mockChangeDashboard = jest.spyOn(dashAction, 'changeDashboard')
+    // .mockImplementation((number) => ({ type: 'CHANGE_DASHBOARD', itemNo: number }));
     dashboard = (
       <Provider store={mockStore}>
         <Router history={history}>
@@ -30,13 +23,26 @@ describe('<Dashboard />', () => {
       </Provider>
     );
   });
-  it('should render account setting', () => {
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should render various settings', () => {
     const component = mount(dashboard);
-    const buttonOne = component.find({ id: 'MyPills' }).at(1);
+    const buttonOne = component.find({ id: 'My Pills' }).at(1);
     buttonOne.simulate('click');
-    const buttonTwo = component.find({ id: 'NotificationSettings' }).at(1);
+    expect(component.find('MyPills').length).toBe(1);
+
+    const buttonTwo = component.find({ id: 'Notification Settings' }).at(1);
     buttonTwo.simulate('click');
-    const buttonThree = component.find({ id: 'AccountSettings' }).at(1);
+    // expect(component.find('NotiSetting').length).toBe(1);
+
+    const buttonThree = component.find({ id: 'Telegram Settings' }).at(1);
     buttonThree.simulate('click');
+    // expect(component.find('TelegramSetting').length).toBe(1);
+
+    const buttonFour = component.find({ id: 'Account Settings' }).at(1);
+    buttonFour.simulate('click');
+    // expect(component.find('AccountSetting').length).toBe(1);
   });
 });

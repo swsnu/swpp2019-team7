@@ -10,7 +10,17 @@ const stubNoti = stubs.stubNotiState;
 describe('User Reducer', () => {
   it('should return default state', () => {
     const newState = reducer(undefined);
-    expect(newState).toEqual({ logged_in: null, current_user: null, noti_setting: null });
+    expect(newState).toEqual({
+      current_user: {
+        name: '',
+      },
+      noti_setting: {
+        enable_noti: false,
+        enable_segregate: false,
+        enable_kakao: false,
+      },
+      logged_in: null,
+    });
   });
   it('should get pills of a user', () => {
     const newState = reducer(undefined, {

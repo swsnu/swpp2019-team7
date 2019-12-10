@@ -1,4 +1,6 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/messaging';
+import 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTwtNJzyKJg6vD1MMrpvKYeXpzBrv3e90',
@@ -38,7 +40,6 @@ class Firebase {
       .then((currentToken) => {
         if (currentToken) {
           token = currentToken;
-          console.log('getToken', currentToken);
         } else {
           // Show permission request.
           console.log('getToken: No Instance ID token available. Request permission to generate one.');
@@ -53,8 +54,6 @@ class Firebase {
       this.messaging.getToken()
         .then((refreshedToken) => {
           token = refreshedToken;
-          console.log('onTokenRefresh getToken Token refreshed.');
-          console.log('onTokenRefresh getToken', refreshedToken);
         })
         .catch((err) => {
           console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);

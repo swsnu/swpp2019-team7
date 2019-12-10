@@ -77,7 +77,7 @@ class Signup extends Component {
   credentialChecker = (e) => {
     e.preventDefault();
     const emailReg = /^[^@\s]+@[^@.\s]+\.[^@\s]+$/;
-    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const passwordReg = /^(?=.*[a-z])(?=.*\d).{6,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
     let passwordError = false;
@@ -190,7 +190,7 @@ class Signup extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.pw_error}
-                    helperText={this.state.pw_error ? 'Must contain at least one number and one lowercase letter, and at least 8 or more characters.' : false}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one letter, and at least 6 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth

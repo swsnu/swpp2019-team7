@@ -28,7 +28,6 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         new_notisetting = NotiSetting.objects.get(user = 
                             User.objects.get(email="test1@test.com"))
-        print(new_notisetting)
         
         self.assertEqual(new_notisetting.enable_noti, False)
         self.assertEqual(new_notisetting.enable_segregate, True)
