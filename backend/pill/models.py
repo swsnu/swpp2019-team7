@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import User
-# from backend.user import models as user_models
+#from backend.user import models as user_models
 
 
 class Pill(models.Model):

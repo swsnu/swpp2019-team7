@@ -59,16 +59,16 @@ def get_user_pills(request):
 
 
 def get_pill_list(request):
-    '''This method is for the autosuggestion used in dmanual lookup. This returns all pill`s product name and id'''
+    '''This method is for the autosuggestion used in manual lookup. This returns all pill`s product name and id'''
     if request.method == 'GET':
         if request.user.is_authenticated:
-            print(f'len is {len(Pill.objects.all())}')
-            print(f'type is {type(Pill.objects.all()[26517])}')
-            pill = Pill.objects.all().values()[26517]
-            print(pill)
-            print(type(pill))
-            print(pill['product_name'])
-            print(pill['custom'])
+            #print(f'len is {len(Pill.objects.all())}')
+            #print(f'type is {type(Pill.objects.all()[26517])}')
+            #pill = Pill.objects.all().values()[26517]
+            #print(pill)
+            #print(type(pill))
+            #print(pill['product_name'])
+            #print(pill['custom'])
             fetched_pills_list = [(pill['product_name'], pill['company_name'])
                                   for pill in Pill.objects.all().values()
                                   if pill['custom'] is False]
@@ -88,7 +88,8 @@ def register_pill_by_name(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             pill_name = req_data['pill_name']
-            new_pill = Pill.objects.get(product_name=pill_name, custom=False)
+            pill_company = req_data['pill_company']
+            new_pill = Pill.objects.get(product_name=pill_name, company_name=pill_company, custom=False)
             request.user.pills.add(new_pill)
             Notification.create(request.user, new_pill)
             new_pill_dict = get_pill_dict(new_pill)
