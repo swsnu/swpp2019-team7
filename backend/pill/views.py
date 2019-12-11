@@ -90,6 +90,9 @@ def register_pill_by_name(request):
             pill_name = req_data['pill_name']
             pill_company = req_data['pill_company']
             new_pill = Pill.objects.get(product_name=pill_name, company_name=pill_company, custom=False)
+            existing_pill_names = request.user.pills.all().values_list('product_name', flat=True)
+            if pill_name in existing_pill_names:
+                return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
             request.user.pills.add(new_pill)
             Notification.create(request.user, new_pill)
             new_pill_dict = get_pill_dict(new_pill)
