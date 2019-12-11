@@ -70,6 +70,11 @@ class TempTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         new_user = User.objects.get(email="test1@test.com")
         self.assertEqual(new_user.name, 'John Doe')
+    def test_bad(self):
+        response = self.client.put('/api/user/',
+                            json.dumps({'name': 'John Doe'}),
+                            content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_unauth(self):
         self.client.logout()

@@ -43,9 +43,13 @@
         "redux": "^4.0.4",
         "redux-thunk": "^2.3.0",
         "semantic-ui-react": "^0.88.1",
+<<<<<<< HEAD
         "styled-components": "^4.4.1",
-        "serialize-javascript": "^2.1.1",
         "uuid": "^3.3.3"
+=======
+        "serialize-javascript": "^2.1.1",
+        "styled-components": "^4.4.1"
+>>>>>>> fa0ef968fe50950dbf359d3f8735a4ed22d80bf1
     },
     "scripts": {
         "start": "react-scripts start",

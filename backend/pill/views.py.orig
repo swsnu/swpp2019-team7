@@ -6,8 +6,12 @@ from rest_framework import status
 
 from vision.models import Image
 from notification.models import Notification
-from .models import Pill, CustomPill
+<<<<<<< HEAD
+from .models import Pill
 
+=======
+from .models import Pill, CustomPill
+>>>>>>> fa0ef968fe50950dbf359d3f8735a4ed22d80bf1
 # url:  api/pill/
 
 def _get_file_id():
@@ -42,7 +46,11 @@ def get_user_pills(request):
             saved_pills = request.user.pills.all()
             return_list = []
             for pill in saved_pills:
+<<<<<<< HEAD
+                print('pill is ')
                 print(pill.pk)
+=======
+>>>>>>> fa0ef968fe50950dbf359d3f8735a4ed22d80bf1
                 image_query = Image.objects.filter(
                     user=request.user, pill=pill)
                 if image_query.exists():
