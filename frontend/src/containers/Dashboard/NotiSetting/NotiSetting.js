@@ -7,6 +7,7 @@ import {
   Grid, Typography,
 } from '@material-ui/core';
 import PillNoti from './PillNoti';
+import IntervalSetting from './IntervalSetting';
 import * as notiActionCreators from '../../../store/actions/notiAction';
 import * as pillActionCreators from '../../../store/actions/pillAction';
 import SettingItem from './SettingItem';
@@ -80,6 +81,12 @@ class NotiSetting extends Component {
         <Grid container alignItems="center">
           <Grid item xs={12} className={classes.settingList}>
             {this.usersSetting(settingList)}
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h3" align="left" style={{marginTop: 64}}> Interval Notification </Typography>
+          </Grid>
+          <Grid item xs={12} align="center">
+            <IntervalSetting />
           </Grid>
           <Grid item xs={12} className={classes.content}>
             {this.content()}
