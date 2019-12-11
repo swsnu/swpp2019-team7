@@ -65,7 +65,7 @@ class TempTestCase(TestCase):
                 "standards": "① 성상 : 고유의 색택과 향미를 가지고 이미, 이취가 없어야 한다.\r\n② 조단백질 : 표시량(25g/35g)의 80%~120%\r\n③ 대장균군 : 음성",
                 "precautions": "[단백질]특정 단백질에 알레르기를 나타내는 경우에는 섭취 주의\r\n섭취 시 위장장애, 소화불량의 증상이 있을 경우 섭취를 중단하십시오. \r\n개인의 신체 상태에 따라 이상 증상이 생길 경우 섭취를 중단하십시오. \r\n섭취 전 제품에 이상이 있는 경우 섭취를 금하십시오.\r\n특정 원료 성분에 알레르기 체질은 원료 성분을 확인 후 섭취하십시오.",
                 "take_method_preprocessed": "1일 1회",
-                "file": '',
+                "file": '/media/image/default_pill_image.png',
             }
         )
     

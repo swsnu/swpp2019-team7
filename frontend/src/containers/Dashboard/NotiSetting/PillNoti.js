@@ -255,9 +255,8 @@ class PillNoti extends Component {
           </PillItemWrapper>
         );
       }
-      else {
-        return (<div></div>);
-      }
+
+      return (<div />);
     }
     return (
       <PillItemWrapper className="PillNoti">
