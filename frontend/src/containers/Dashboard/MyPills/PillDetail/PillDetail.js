@@ -46,18 +46,29 @@ class PillDetail extends Component {
     if (e.target.files.length !== 0) {
       if (e.target.files[0].size > 50000000) {
         alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
-      } else if (e.target.files[0].size < 10) {
-        alert('Don\'t mess with Pillbox. Choose a proper image file.');
-      } else {
-        this.setState({ selectedImage: e.target.files[0] }, () => {
+        return;
+      }
+      // Test if image is valid
+      const File = e.target.files[0];
+      console.log(File);
+
+      const url = window.URL || window.webkitURL;
+      const image = new Image();
+      image.onerror = () => {
+        alert('Invalid image. Please upload a valid image');
+      };
+      image.onload = () => {
+        console.log('Valid image');
+        this.setState({ selectedImage: File }, () => {
           const formData = new FormData();
           formData.append(
             'pillImage',
-            this.state.selectedImage,
+            File,
           );
           this.props.onUploadPhoto(formData, this.props.selected_pill.id);
         });
-      }
+      };
+      image.src = url.createObjectURL(File);
     }
   }
 
