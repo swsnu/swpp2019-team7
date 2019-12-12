@@ -22,9 +22,6 @@ def image(request):
     """REST API handler for image model
     POST: recieve image from frontend. Send it to google vision API and return result"""
     if request.method == 'POST':
-        print('start log')
-        print(request)
-        print(request.FILES)
         file = request.FILES['filepond']
 
         image_instance = Image(filename=_get_file_id(), content=file, user=request.user, pill=None)
@@ -43,6 +40,7 @@ def image(request):
         return JsonResponse({
             "product": product["fields"] if isinstance(product, dict) else None,
             "file": image_instance.content.url,  # url of image file saved in Image DB
+            "id": image_instance.id,
         }, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':

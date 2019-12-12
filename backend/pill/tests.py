@@ -65,7 +65,7 @@ class TempTestCase(TestCase):
                 "standards": "① 성상 : 고유의 색택과 향미를 가지고 이미, 이취가 없어야 한다.\r\n② 조단백질 : 표시량(25g/35g)의 80%~120%\r\n③ 대장균군 : 음성",
                 "precautions": "[단백질]특정 단백질에 알레르기를 나타내는 경우에는 섭취 주의\r\n섭취 시 위장장애, 소화불량의 증상이 있을 경우 섭취를 중단하십시오. \r\n개인의 신체 상태에 따라 이상 증상이 생길 경우 섭취를 중단하십시오. \r\n섭취 전 제품에 이상이 있는 경우 섭취를 금하십시오.\r\n특정 원료 성분에 알레르기 체질은 원료 성분을 확인 후 섭취하십시오.",
                 "take_method_preprocessed": "1일 1회",
-                "file": '',
+                "file": '/media/image/default_pill_image.png',
             }
         )
     
@@ -84,6 +84,7 @@ class TempTestCase(TestCase):
                     "standards": "성상 : 이미 이취가 없고 고유의 향미가 있는 미백색의 분말을 함유한 투명한 경질캡슐\n대장균군 : 음성\n프로바이오틱스수 : 10,000,000,000 CFU/500mg 이상\n아연 : 2.6mg/500mg (표시량의 80 ~ 150%)\n붕해시험 : 20분이내",
                     "precautions": "1) 임산부, 수유부, 질병치료(의약품 복용) 중이신 분은 의사, 약사 등 전문가와 상담 후 섭취하시기 바랍니다.\n2) 특정성분에 알레르기가 있는 분은 과민반응이 나타날 수 있으니 섭취 전에 반드시 원료(성분)를 확인하시기 바랍니다.\n3) 어린이가 함부로 섭취하지 않도록 일일섭취량을 확인하시기 바랍니다.\n4) 이상사례 발생 시 섭취를 중단하고 의사, 약사 등 전문가와 상담하시기 바랍니다.",
                     "take_method_preprocessed": "1일 1회",
+                    "image_id": 2,
                 }),
                 content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -116,6 +117,7 @@ class TempTestCase(TestCase):
                     "standards": "성상 : 이미 이취가 없고 고유의 향미가 있는 미백색의 분말을 함유한 투명한 경질캡슐\n대장균군 : 음성\n프로바이오틱스수 : 10,000,000,000 CFU/500mg 이상\n아연 : 2.6mg/500mg (표시량의 80 ~ 150%)\n붕해시험 : 20분이내",
                     "precautions": "1) 임산부, 수유부, 질병치료(의약품 복용) 중이신 분은 의사, 약사 등 전문가와 상담 후 섭취하시기 바랍니다.\n2) 특정성분에 알레르기가 있는 분은 과민반응이 나타날 수 있으니 섭취 전에 반드시 원료(성분)를 확인하시기 바랍니다.\n3) 어린이가 함부로 섭취하지 않도록 일일섭취량을 확인하시기 바랍니다.\n4) 이상사례 발생 시 섭취를 중단하고 의사, 약사 등 전문가와 상담하시기 바랍니다.",
                     "take_method_preprocessed": "1일 1회",
+                    "image_id": 2,
                 }),
                 content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

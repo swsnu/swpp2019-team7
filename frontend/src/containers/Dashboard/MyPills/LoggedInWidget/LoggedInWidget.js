@@ -18,7 +18,6 @@ class LoggedInWidget extends Component {
         <Header />
         <Wrapper>
           <DemoWidget backgroundColor="#ffa184" />
-          logged in widget
         </Wrapper>
       </div>
     );

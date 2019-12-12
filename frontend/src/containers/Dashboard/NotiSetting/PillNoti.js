@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { withStyles } from '@material-ui/core/styles';
+import {
+  withStyles,
+  createMuiTheme, ThemeProvider,
+} from '@material-ui/core/styles';
 import {
   Grid, Typography, Avatar,
 } from '@material-ui/core';
+
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -21,7 +26,6 @@ import {
   KeyboardTimePicker,
 } from '@material-ui/pickers';
 import * as notiActionCreators from '../../../store/actions/notiAction';
-
 
 // const useStyles = makeStyles((theme) => ({
 const styles = (theme) => ({
@@ -68,6 +72,24 @@ const styles = (theme) => ({
   },
   deleteText: {
     color: 'red',
+  },
+  selected: {
+    background: '#e1f5fe',
+  },
+});
+
+const breakpoints = createBreakpoints({});
+const mytheme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    h5: {
+      [breakpoints.down('xs')]: {
+        fontSize: '0.9rem',
+      },
+      [breakpoints.down('sm')]: {
+        fontSize: '1.1rem',
+      },
+    },
   },
 });
 
@@ -159,8 +181,8 @@ class PillNoti extends Component {
     const { classes } = this.props;
     // Assuming 'time' is a list of strings like [0900, 1200]
     const timesInputListEdit = (this.state.pillNotiSetting.time).map((time) => (
-      <div key={inputFieldIndex++}>
-        <Grid container justify="space-around" alignItems="flex-end">
+      <Grid item key={inputFieldIndex++} container alignItems="center">
+        <Grid item>
           <KeyboardTimePicker
             margin="normal"
             id="time-picker"
@@ -172,11 +194,13 @@ class PillNoti extends Component {
               'aria-label': 'change time',
             }}
           />
+        </Grid>
+        <Grid item>
           <IconButton id="delete-pillnoti-button" aria-label="close" className={classes.margin} onClick={() => { this.onDeletePillNoti(time); }}>
-            <DeleteForeverIcon fontSize="small" />
+            <DeleteForeverIcon fontSize="large" />
           </IconButton>
         </Grid>
-      </div>
+      </Grid>
     ));
     inputFieldIndex = 0;
     const timesInputListReadOnly = (this.props.pillNotiSetting.time).map((time) => (
@@ -196,8 +220,8 @@ class PillNoti extends Component {
       </div>
     ));
     if (this.state.edit_mode === 0) {
-      return (
-        <div className="Pill">
+      if (this.props.pill !== undefined) {
+        return (
           <PillItemWrapper>
             <Grid
               container
@@ -205,12 +229,12 @@ class PillNoti extends Component {
               alignItems="center"
             >
               <Grid item xs={1}>
-                <Avatar className={classes.avatar}>
+                <Avatar className={classes.avatar} src={this.props.pill.file}>
                   <LocalHospitalIcon className={classes.icon} />
                 </Avatar>
               </Grid>
               <Grid item xs={2}>
-                <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
+                <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
               </Grid>
               <Grid item xs={4}>
                 <Typography
@@ -229,53 +253,54 @@ class PillNoti extends Component {
               </Grid>
             </Grid>
           </PillItemWrapper>
-        </div>
-      );
+        );
+      }
+
+      return (<div />);
     }
     return (
-      <div className="Pill">
-        <PillItemWrapper>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-          >
-            <Grid item xs={1}>
-              <Avatar className={classes.avatar}>
-                <LocalHospitalIcon className={classes.icon} />
-              </Avatar>
-            </Grid>
-            <Grid item xs={1}>
-              <Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography>
-            </Grid>
-            <Grid item container alignItems="center" xs={4}>
-              <Grid item xs={12}>
-                <Typography
-                  // className={classes.caption}
-                  variant="h5"
-                >
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    {timesInputListEdit}
-                  </MuiPickersUtilsProvider>
-                </Typography>
-                <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
-                  <AddAlertIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
-                <DoneOutlineIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
-                <CancelIcon fontSize="large" />
+      <PillItemWrapper className="PillNoti">
+        <Grid
+          container
+          justify="space-between"
+          alignItems="center"
+          className={classes.selected}
+        >
+          <Grid item xs={1}>
+            <Avatar className={classes.avatar} src={this.props.pill.file}>
+              <LocalHospitalIcon className={classes.icon} />
+            </Avatar>
+          </Grid>
+          <Grid item xs={1}>
+            <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
+          </Grid>
+          <Grid item container justify="center" xs={4}>
+            <Typography
+              // className={classes.caption}
+              variant="h5"
+            >
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {timesInputListEdit}
+              </MuiPickersUtilsProvider>
+            </Typography>
+            <Grid item>
+              <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
+                <AddAlertIcon fontSize="large" />
               </IconButton>
             </Grid>
           </Grid>
-        </PillItemWrapper>
-      </div>
+          <Grid item xs={1}>
+            <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
+              <DoneOutlineIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
+              <CancelIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </PillItemWrapper>
     );
   }
 }

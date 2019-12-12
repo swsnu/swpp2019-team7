@@ -3,7 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
-from pill.models import Pill
+#from pill.models import Pill
 
 from .managers import UserManager
 
@@ -17,7 +17,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login_date = models.DateTimeField(
         _('last logged-in'), auto_now_add=True)
     # many-to-many between User and Pill
-    pills = models.ManyToManyField(Pill, related_name='users')
+    #pills = models.ManyToManyField(Pill, related_name='users')
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

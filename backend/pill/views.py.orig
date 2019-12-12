@@ -7,13 +7,10 @@ from rest_framework import status
 from vision.models import Image
 from notification.models import Notification
 from .models import Pill, CustomPill
-
 # url:  api/pill/
-
 
 def _get_file_id():
     return shortuuid.uuid()
-
 
 def get_pill_dict(pill, image_instance=''):
     """Get pill object and return dictionary of it"""
@@ -44,7 +41,6 @@ def get_user_pills(request):
             saved_pills = request.user.pills.all()
             return_list = []
             for pill in saved_pills:
-                print(pill.pk)
                 image_query = Image.objects.filter(
                     user=request.user, pill=pill)
                 if image_query.exists():
@@ -61,16 +57,16 @@ def get_user_pills(request):
 
 
 def get_pill_list(request):
-    '''This method is for the autosuggestion used in manual lookup. This returns all pill`s product name and id'''
+    '''This method is for the autosuggestion used in dmanual lookup. This returns all pill`s product name and id'''
     if request.method == 'GET':
         if request.user.is_authenticated:
-            # print(f'len is {len(Pill.objects.all())}')
-            # print(f'type is {type(Pill.objects.all()[26517])}')
-            # pill = Pill.objects.all().values()[26517]
-            # print(pill)
-            # print(type(pill))
-            # print(pill['product_name'])
-            # print(pill['custom'])
+            print(f'len is {len(Pill.objects.all())}')
+            print(f'type is {type(Pill.objects.all()[26517])}')
+            pill = Pill.objects.all().values()[26517]
+            print(pill)
+            print(type(pill))
+            print(pill['product_name'])
+            print(pill['custom'])
             fetched_pills_list = [(pill['product_name'], pill['company_name'])
                                   for pill in Pill.objects.all().values()
                                   if pill['custom'] is False]
@@ -90,12 +86,7 @@ def register_pill_by_name(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             pill_name = req_data['pill_name']
-            pill_company = req_data['pill_company']
-            new_pill = Pill.objects.get(
-                product_name=pill_name, company_name=pill_company, custom=False)
-            existing_pill_names = request.user.pills.all().values_list('product_name', flat=True)
-            if pill_name in existing_pill_names:
-                return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+            new_pill = Pill.objects.get(product_name=pill_name, custom=False)
             request.user.pills.add(new_pill)
             Notification.create(request.user, new_pill)
             new_pill_dict = get_pill_dict(new_pill)
@@ -104,7 +95,6 @@ def register_pill_by_name(request):
             return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['POST'])
-
 
 def post_pill_photo(request, pill_id):
     '''This method is for registering the pill photo in case the pill was added manually and doesn't have a photo'''
@@ -118,6 +108,7 @@ def post_pill_photo(request, pill_id):
                 return HttpResponseBadRequest()
             print('SUCCESS TO HERE!')
             pill = Pill.objects.get(pk=pill_id)
+            print(pill)
             image_instance = Image(filename=_get_file_id(), content=req_data, user=request.user, pill=pill)
             image_instance.save()
             pill_dict = get_pill_dict(pill, image_instance)

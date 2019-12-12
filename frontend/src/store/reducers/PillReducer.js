@@ -15,6 +15,8 @@ const PillReducer = (state = initState, action = null) => {
       return { ...state, pill_list: state.pill_list.filter(({ id }) => id !== action.payload) };
     case 'GET_PILL':
       return { ...state, selected_pill: action.selected_pill };
+    case 'ADD_USER_PILLIMAGE':
+      return { ...state, selected_pill: action.selected_pill };
     default:
       break;
   }
