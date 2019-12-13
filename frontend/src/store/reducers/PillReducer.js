@@ -4,6 +4,7 @@ const initState = {
   render_custompill: false,
   pill_list: [],
   selected_pill: null,
+  new_pill_id: -1,
 };
 
 const PillReducer = (state = initState, action = null) => {
@@ -23,6 +24,10 @@ const PillReducer = (state = initState, action = null) => {
     case 'GET_PILL':
     case 'ADD_USER_PILLIMAGE':
       return { ...state, selected_pill: action.selected_pill };
+    case 'SET_NEW_PILL':
+      return { ...state, new_pill_id: action.new_pill_id };
+    case 'CLEAR_LAZY_PILL':
+      return { ...state, new_pill_id: -1, image_id: -1 };
     default:
       break;
   }

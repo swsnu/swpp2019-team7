@@ -6,13 +6,13 @@ const stubPill2 = { id: 2, name: 'testPill2' };
 const stubPill3 = { id: 3, name: 'testPill3' };
 const stubPillList = [stubPill1, stubPill2];
 const initState = {
-  user_id: -1, pill_list: stubPillList, selected_pill: null, render_custompill: false,
+  user_id: -1, new_pill_id: -1, pill_list: stubPillList, selected_pill: null, render_custompill: false,
 };
 describe('Pill Reducer', () => {
   it('should return default state', () => {
     const newState = reducer(undefined);
     expect(newState).toEqual({
-      user_id: -1, image_id: -1, pill_list: [], selected_pill: null, render_custompill: false,
+      user_id: -1, new_pill_id: -1, image_id: -1, pill_list: [], selected_pill: null, render_custompill: false,
     });
   });
   xit('should get pills of a user', () => {

@@ -10,16 +10,38 @@ export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
   });
 export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: newPillObj });
 
+export const clearLazyPill_ = () => ({ type: 'CLEAR_LAZY_PILL' });
 export const addUserPill = (pillId) => (dispatch) => {
   ax.post(`/api/pill/${pillId}/`)
     .then((res) => {
       dispatch(addUserPill_(res.data));
+      dispatch(clearLazyPill_());
+      console.log(res.data);
       dispatch(push('/dashboard'));
       dispatch(handleDialogClose());
     })
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
+export const addLazyPill = (pillId, imageId) => (dispatch) => {
+  ax.put('/api/vision/', {
+    image_id: imageId,
+  })
+    .then(() => {
+      ax.post(`/api/pill/${pillId}/`)
+        .then((res) => {
+          dispatch(addUserPill_(res.data));
+          dispatch(clearLazyPill_());
+        })
+        .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
+    });
+};
+
+export const setNewPill_ = (pillId) => ({ type: 'SET_NEW_PILL', new_pill_id: pillId });
+
+export const setNewPill = (pillId) => (dispatch) => {
+  dispatch(setNewPill_(pillId));
+};
 export const setRenderCustomPill_ = (key) => ({ type: 'SET_RENDER_CUSTOM', render_custompill: key });
 
 export const setRenderCustomPill = (key) => (dispatch) => {

@@ -12,7 +12,9 @@ import { Typography, withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
-import { addUserPill, setImageId, setRenderCustomPill } from '../../../store/actions/pillAction';
+import {
+  addUserPill, setImageId, setRenderCustomPill, setNewPill,
+} from '../../../store/actions/pillAction';
 
 const styles = () => ({
   card: {
@@ -50,7 +52,7 @@ class DemoWidget extends Component {
   }
 
   getNewPillId(id) {
-    this.setState({ newPillId: id });
+    this.props.setNewPill(id);
   }
 
   getImageId(id) {
@@ -58,7 +60,7 @@ class DemoWidget extends Component {
   }
 
   addNewPill() {
-    this.props.addUserPill(this.state.newPillId);
+    this.props.addUserPill(this.props.newPillId);
   }
 
   toggleAcceptPill() {
@@ -100,8 +102,6 @@ class DemoWidget extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.productInfo.productName);
-    if (this.state.productInfo.productName) console.log('if clause');
     return (
       <div className="DemoWidget">
         {this.state.resultModalOpen
@@ -201,7 +201,8 @@ class DemoWidget extends Component {
 
 const mapStateToProps = (state) => ({
   loggedIn: state.user.logged_in,
+  newPillId: state.pill.new_pill_id,
 });
 export default connect(mapStateToProps, {
-  addUserPill, setImageId, setRenderCustomPill,
+  addUserPill, setImageId, setRenderCustomPill, setNewPill,
 })(withRouter(withStyles(styles)(DemoWidget)));

@@ -42,5 +42,10 @@ class VisionTestCase(TestCase):
                                         {'filepond': f})
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+            response = self.client.put('/api/vision/',
+                                        {'image_id': 3})
+            self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
             response = self.client.delete('/api/vision/')
             self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

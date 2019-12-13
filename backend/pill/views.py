@@ -149,8 +149,13 @@ class PillItemsPerUser(APIView):
             # add notification for the new pill
             Notification.create(request.user, new_pill)
 
-            # get new pill image
-            new_pill_dict = get_pill_dict(new_pill)
+            image_query = Image.objects.filter(
+                user=request.user, pill=new_pill)
+            if image_query.exists():
+                image_instance = image_query[0]
+                new_pill_dict = get_pill_dict(new_pill, image_instance)
+            else:
+                new_pill_dict = get_pill_dict(new_pill)
 
             # new_pill_dict = get_pill_dict(new_pill)
             return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
