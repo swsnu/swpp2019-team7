@@ -1,6 +1,5 @@
 import { push } from 'connected-react-router';
 import ax from '../../api/index';
-import { handleDialogClose } from './dialogAction';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
 
@@ -15,18 +14,18 @@ export const addUserPill = (pillId) => (dispatch) => {
     .then((res) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
-      dispatch(handleDialogClose());
     })
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
-export const addUserPillByNameAndCompany = (pillName, pillCompany) => (dispatch) => {
-  ax.post('/api/pill/name/', { pill_name: pillName, pill_company: pillCompany })
+export const addUserPillByName = (pillName) => (dispatch) => {
+  ax.post('/api/pill/name/', { pill_name: pillName })
     .then((res) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
     })
     .catch((err) => { alert('Either this pill is already registered or the pill with this name doesn\'t exist in our database.\nPlease check again.'); console.log(err); });
+<<<<<<< HEAD
 };
 
 export const addUserPillImage_ = (newPillObj) => ({ type: 'ADD_USER_PILLIMAGE', selected_pill: newPillObj });
@@ -42,6 +41,8 @@ export const addUserPillImage = (pillImage, id) => (dispatch) => {
       dispatch(addUserPillImage_(res.data));
     })
     .catch((err) => { console.log(err); alert('Your image file is not valid. Please check again.'); });
+=======
+>>>>>>> fa0ef968fe50950dbf359d3f8735a4ed22d80bf1
 };
 
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });

@@ -40,6 +40,7 @@ def image(request):
         return JsonResponse({
             "product": product["fields"] if isinstance(product, dict) else None,
             "file": image_instance.content.url,  # url of image file saved in Image DB
+            "id": image_instance.id,
         }, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':

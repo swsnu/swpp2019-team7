@@ -27,8 +27,11 @@ class PillLookup extends Component {
     super(props);
 
     this.state = {
+      // value is the pill name
       value: '',
       suggestions: [],
+      // company is the pill's company name
+      company: '',
     };
 
     ax.get('/api/pill/allpills/').then((res) => {
@@ -47,7 +50,7 @@ class PillLookup extends Component {
   // When suggestion is clicked, Autosuggest needs to populate the input
   // based on the clicked suggestion. Teach Autosuggest how to calculate the
   // input value for every given suggestion.
-  getSuggestionValue = (suggestion) => suggestion[0];
+  getSuggestionValue = (suggestion) => { this.setState({ company: suggestion[1] }); return suggestion[0]; };
 
   onChange = (event, { newValue }) => {
     this.setState({
@@ -56,7 +59,7 @@ class PillLookup extends Component {
   };
 
   onConfirm = () => {
-    this.props.addUserPillByName(this.state.value);
+    this.props.addUserPillByNameAndCompany(this.state.value, this.state.company);
   }
 
   // Autosuggest will call this function every time you need to update suggestions.
@@ -112,7 +115,7 @@ class PillLookup extends Component {
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" onClick={() => { this.onConfirm(); }} disabled={this.state.value === ''}>
+              <Button variant="contained" color="primary" onClick={() => { this.onConfirm(); }} disabled={this.state.company === ''}>
                 Confirm
               </Button>
             </Grid>
@@ -124,7 +127,7 @@ class PillLookup extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addUserPillByName: (name) => { dispatch(pillActionCreators.addUserPillByName(name)); },
+  addUserPillByNameAndCompany: (name, pillCompany) => { dispatch(pillActionCreators.addUserPillByNameAndCompany(name, pillCompany)); },
 });
 
 export default connect(null, mapDispatchToProps)(PillLookup);

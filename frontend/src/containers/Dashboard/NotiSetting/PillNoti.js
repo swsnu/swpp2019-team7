@@ -220,39 +220,43 @@ class PillNoti extends Component {
       </div>
     ));
     if (this.state.edit_mode === 0) {
-      return (
-        <PillItemWrapper>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-          >
-            <Grid item xs={1}>
-              <Avatar className={classes.avatar} src={this.props.pill.file}>
-                <LocalHospitalIcon className={classes.icon} />
-              </Avatar>
+      if (this.props.pill !== undefined) {
+        return (
+          <PillItemWrapper>
+            <Grid
+              container
+              justify="space-between"
+              alignItems="center"
+            >
+              <Grid item xs={1}>
+                <Avatar className={classes.avatar} src={this.props.pill.file}>
+                  <LocalHospitalIcon className={classes.icon} />
+                </Avatar>
+              </Grid>
+              <Grid item xs={2}>
+                <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography
+                  // className={classes.caption}
+                  variant="h5"
+                >
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {timesInputListReadOnly}
+                  </MuiPickersUtilsProvider>
+                </Typography>
+              </Grid>
+              <Grid item xs={1}>
+                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
+                  <EditIcon fontSize="large" />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography
-                // className={classes.caption}
-                variant="h5"
-              >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  {timesInputListReadOnly}
-                </MuiPickersUtilsProvider>
-              </Typography>
-            </Grid>
-            <Grid item xs={1}>
-              <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
-                <EditIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </PillItemWrapper>
-      );
+          </PillItemWrapper>
+        );
+      }
+
+      return (<div />);
     }
     return (
       <PillItemWrapper className="PillNoti">
