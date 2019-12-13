@@ -13,6 +13,7 @@ import DemoWidget from '../containers/Landing/DemoWidget/DemoWidget';
 import LoggedInWidget from '../containers/Dashboard/MyPills/LoggedInWidget/LoggedInWidget';
 import PillDetail from '../containers/Dashboard/MyPills/PillDetail/PillDetail';
 import PillLookup from '../containers/Dashboard/MyPills/PillLookup';
+import CustomPill from '../containers/Dashboard/MyPills/CustomPill';
 import './App.css';
 
 function App(props) {
@@ -28,6 +29,7 @@ function App(props) {
           <PrivateRoute path="/loggedinwidget" exact component={LoggedInWidget} />
           <PrivateRoute path="/pillDetail" exact component={PillDetail} />
           <PrivateRoute path="/manuallyadd" exact component={PillLookup} />
+          <PrivateRoute path="/custompilladd" exact component={CustomPill} />
           <Redirect exact from="/" to="/landing" />
           <Route render={() => <TestLanding />} />
         </Switch>
@@ -36,6 +38,7 @@ function App(props) {
   );
 }
 
+// this.props.history.push('/custompilladd');
 const mapStateToProps = (state) => ({
   logged_in: state.user.logged_in,
 });

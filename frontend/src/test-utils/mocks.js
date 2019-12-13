@@ -50,10 +50,17 @@ export const stubPill2 = {
 };
 const stubPillState = {
   user_id: -1,
+  render_custompill: false,
   pill_list: [stubPill1, stubPill2],
   selected_pill: null,
 };
 
+const stubPillStateCustom = {
+  user_id: -1,
+  render_custompill: true,
+  pill_list: [stubPill1, stubPill2],
+  selected_pill: null,
+};
 // stub user state for a logged out user
 export const stubUserState = {
   current_user: {
@@ -128,6 +135,23 @@ export const getMockStoreLoggedIn = () => {
   const rootReducer = combineReducers({
     user: getmockReducer(stubUserStateLoggedIn),
     pill: getmockReducer(stubPillState),
+    noti: getmockReducer(stubNotiState),
+    dash: getmockReducer(stubDashState),
+    router: connectRouter(history),
+  });
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const mockStore = createStore(rootReducer,
+    composeEnhancers(applyMiddleware(...middlewares)));
+  return mockStore;
+};
+
+// mock store for a logged out user
+export const getMockStoreCustomPill = () => {
+  const rootReducer = combineReducers({
+    user: getmockReducer(stubUserState),
+    pill: getmockReducer(stubPillStateCustom),
+    noti: getmockReducer(stubNotiState),
+    dash: getmockReducer(stubDashState),
     router: connectRouter(history),
     dialog: getmockReducer(stubDialogState),
   });
