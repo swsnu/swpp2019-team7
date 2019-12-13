@@ -83,7 +83,7 @@ class NotiSetting extends Component {
             {this.usersSetting(settingList)}
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h3" align="left" style={{marginTop: 64}}> Interval Notification </Typography>
+            <Typography variant="h3" align="left" style={{ marginTop: 64 }}> Interval Notification </Typography>
           </Grid>
           <Grid item xs={12} align="center">
             <IntervalSetting />

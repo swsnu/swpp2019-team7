@@ -21,11 +21,11 @@ describe('<MyPills />', () => {
       </Provider>
     );
   });
-  it('should render account setting', () => {
+  it('should render MyPills', () => {
     const component = mount(mockMyPills);
     expect(component.find('.MyPills').length).toBe(1);
   });
-  it('should delete correctly', () => {
+  xit('should push to addpill correctly', () => {
     const component = mount(mockMyPills);
     const spyPush = jest.spyOn(history, 'push')
       .mockImplementation(() => { });

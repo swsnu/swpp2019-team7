@@ -60,7 +60,7 @@ const SelectIntervalSlider = withStyles({
 
 function valueLabelFormat(value) {
   // return marks.findIndex(mark => mark.value === value) + 1;
-  return parseInt(parseInt(value)/60)+":" +parseInt(value)%60;
+  return `${parseInt(parseInt(value) / 60)}:${parseInt(value) % 60}`;
 }
 
 
@@ -110,18 +110,18 @@ class IntervalSlider extends React.Component {
   }
 
   componentDidMount() {
-    const node = ReactDOM.findDOMNode(this)
-    const tmp = node.getElementsByClassName('MuiSlider-thumb WithStyles(ForwardRef(Slider))-thumb-824 MuiSlider-thumbColorPrimary PrivateValueLabel-open-852 PrivateValueLabel-thumb-851')
+    const node = ReactDOM.findDOMNode(this);
+    const tmp = node.getElementsByClassName('MuiSlider-thumb WithStyles(ForwardRef(Slider))-thumb-824 MuiSlider-thumbColorPrimary PrivateValueLabel-open-852 PrivateValueLabel-thumb-851');
     tmp[0].style.color = 'blue';
     tmp[0].style.backgroundColor = '#5178d9';
-    console.log(tmp)
+    console.log(tmp);
   }
 
   updateIntervalValue(e, value) {
-    console.log(e)
+    console.log(e);
     console.log(e.target.dataset.index);
     // console.log(e.toElement)
-    console.log(value)
+    console.log(value);
     this.setState({ intervalStart: value[0] });
     this.setState({ intervalEnd: value[1] });
     // if (e.target.dataset.index == 0) {
@@ -148,7 +148,7 @@ class IntervalSlider extends React.Component {
           // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
         />
         Start:
-        { parseInt(this.state.intervalStart / 60) + ':' + parseInt(this.state.intervalStart % 60) }
+        { `${parseInt(this.state.intervalStart / 60)}:${parseInt(this.state.intervalStart % 60)}` }
         <br />
         End:
         { this.state.intervalEnd}

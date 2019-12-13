@@ -59,6 +59,9 @@ export const stubDashState = {
   itemNo: 0,
 };
 
+export const stubDialogState = {
+  open: true,
+};
 
 // mock store for a logged out user
 export const getMockStore = () => {
@@ -67,6 +70,7 @@ export const getMockStore = () => {
     pill: getmockReducer(stubPillState),
     noti: getmockReducer(stubNotiState),
     dash: getmockReducer(stubDashState),
+    dialog: getmockReducer(stubDialogState),
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -81,6 +85,7 @@ export const getMockStoreLoggedIn = () => {
     user: getmockReducer(stubUserStateLoggedIn),
     pill: getmockReducer(stubPillState),
     router: connectRouter(history),
+    dialog: getmockReducer(stubDialogState),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const mockStore = createStore(rootReducer,

@@ -39,5 +39,7 @@ module.exports = {
     "no-param-reassign": [0],
     "no-plusplus": [0],
     "global-require": [0],
+    "radix": [0],
+    "react/no-find-dom-node": [0],
   },
 };

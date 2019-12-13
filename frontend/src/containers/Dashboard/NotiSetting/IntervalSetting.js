@@ -102,6 +102,81 @@ const PrettoSlider2 = withStyles({
 })(Slider);
 
 
+function valueLabelFormat(value) {
+  // return marks.findIndex(mark => mark.value === value) + 1;
+  return `${parseInt(parseInt(value) / 60)}:${parseInt(value) % 60}`;
+}
+
+
+class IntervalSetting extends React.Component {
+  updateIntervalValue(e) {
+    console.log(e.target.dataset.index);
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <div className={classes.margin} />
+        {/* <Typography gutterBottom>Your Current Pills</Typography> */}
+        {/* <ThemeProvider theme={muiTheme}> */}
+        <div className={classes.margin} />
+        <div className={classes.margin} />
+        <IntervalSlider />
+        {/* <SelectIntervalSlider */}
+        {/*  // valueLabelDisplay="auto" */}
+        {/*  className="Select Interval Slider" */}
+        {/*  min={0} */}
+        {/*  max={1440} */}
+        {/*  // step={0} */}
+        {/*  // aria-label="pretto slider" */}
+        {/*  marks={marks} */}
+        {/*  defaultValue={[360, 1080]} */}
+        {/*  valueLabelDisplay="on" */}
+        {/*  valueLabelFormat={valueLabelFormat} */}
+        {/*  onChange={(e, value) => this.updateIntervalValue(e, value)} */}
+        {/*  // onDragStop={ (e) => this.props.update(e, control.id, this.val)} */}
+        {/* /> */}
+        <div className={classes.margin} />
+        <PrettoSlider
+          // valueLabelDisplay="auto"
+          className="Pretto Slider"
+          min={0}
+          max={1440}
+          step={0}
+          // aria-label="pretto slider"
+          // marks={marks}
+          defaultValue={[0, 1440, 400, 800]}
+          valueLabelDisplay="on"
+          valueLabelFormat={valueLabelFormat}
+          // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
+        />
+        <div className={classes.margin} />
+        <PrettoSlider2
+          // valueLabelDisplay="auto"
+          className="Pretto Slider2"
+          min={0}
+          max={1440}
+          step={0}
+          // aria-label="pretto slider"
+          // marks={marks}
+          defaultValue={[0, 1440, 1000, 600]}
+          valueLabelDisplay="on"
+          valueLabelFormat={valueLabelFormat}
+          // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
+        />
+        {/* </ThemeProvider> */}
+        <div className={classes.margin} />
+      </div>
+    );
+  }
+}
+
+export default (withStyles(styles)(IntervalSetting));
+
+
+/*
+
 const SelectIntervalSlider = withStyles({
   root: {
     color: '#ff788d',
@@ -153,12 +228,6 @@ const SelectIntervalSlider = withStyles({
     // color: 'rgba(0,0,0,100)',
   },
 })(Slider);
-
-function valueLabelFormat(value) {
-  // return marks.findIndex(mark => mark.value === value) + 1;
-  return parseInt(parseInt(value)/60)+":" +parseInt(value)%60;
-}
-
 const marks = [
   {
     value: 0,
@@ -197,75 +266,4 @@ const marks = [
     label: '0AM',
   },
 ];
-
-
-class IntervalSetting extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { intervalStart: '', intervalEnd: '' };
-  }
-
-  updateIntervalValue(e, value) {
-    console.log(e.target.dataset.index);
-  }
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <div className={classes.margin} />
-        {/*<Typography gutterBottom>Your Current Pills</Typography>*/}
-        {/* <ThemeProvider theme={muiTheme}> */}
-        <div className={classes.margin} />
-        <div className={classes.margin} />
-        <IntervalSlider />
-        {/*<SelectIntervalSlider*/}
-        {/*  // valueLabelDisplay="auto"*/}
-        {/*  className="Select Interval Slider"*/}
-        {/*  min={0}*/}
-        {/*  max={1440}*/}
-        {/*  // step={0}*/}
-        {/*  // aria-label="pretto slider"*/}
-        {/*  marks={marks}*/}
-        {/*  defaultValue={[360, 1080]}*/}
-        {/*  valueLabelDisplay="on"*/}
-        {/*  valueLabelFormat={valueLabelFormat}*/}
-        {/*  onChange={(e, value) => this.updateIntervalValue(e, value)}*/}
-        {/*  // onDragStop={ (e) => this.props.update(e, control.id, this.val)}*/}
-        {/*/>*/}
-        <div className={classes.margin} />
-        <PrettoSlider
-          // valueLabelDisplay="auto"
-          className="Pretto Slider"
-          min={0}
-          max={1440}
-          step={0}
-          // aria-label="pretto slider"
-          // marks={marks}
-          defaultValue={[0, 1440, 400, 800]}
-          valueLabelDisplay="on"
-          valueLabelFormat={valueLabelFormat}
-          // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
-        />
-        <div className={classes.margin} />
-        <PrettoSlider2
-          // valueLabelDisplay="auto"
-          className="Pretto Slider2"
-          min={0}
-          max={1440}
-          step={0}
-          // aria-label="pretto slider"
-          // marks={marks}
-          defaultValue={[0, 1440, 1000, 600]}
-          valueLabelDisplay="on"
-          valueLabelFormat={valueLabelFormat}
-          // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
-        />
-        {/* </ThemeProvider> */}
-        <div className={classes.margin} />
-      </div>
-    );
-  }
-}
-
-export default (withStyles(styles)(IntervalSetting))
+*/
