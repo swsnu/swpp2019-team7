@@ -22,5 +22,6 @@ class Image(models.Model):
     )
 
     def __str__(self):
-        return self.filename
+        #return self.filename
         #return str(self.filename) + str(self.user) + str(self.pill)
+        return f'{str(self.pill)} added by {str(self.user)}'

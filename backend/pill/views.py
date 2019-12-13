@@ -168,6 +168,9 @@ class PillItemsPerUser(APIView):
             # remove notification for the deleted pill
             Notification.objects.filter(
                 user=request.user, pill=new_pill).delete()
+            # remove images for the deleted pill
+            Image.objects.filter(
+                user=request.user, pill=new_pill).delete()
             request.user.pills.remove(new_pill)
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
