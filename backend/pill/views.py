@@ -19,6 +19,7 @@ def get_pill_dict(pill, image_instance=''):
     """Get pill object and return dictionary of it"""
     file = ''
     if image_instance:
+        print('image url: ', image_instance.content.url)
         file = image_instance.content.url
     pill_dict = {
         "id": pill.id,
@@ -148,7 +149,10 @@ class PillItemsPerUser(APIView):
             # add notification for the new pill
             Notification.create(request.user, new_pill)
 
+            # get new pill image
             new_pill_dict = get_pill_dict(new_pill)
+
+            # new_pill_dict = get_pill_dict(new_pill)
             return JsonResponse(new_pill_dict, status=status.HTTP_201_CREATED)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)

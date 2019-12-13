@@ -79,6 +79,10 @@ const styles = (mytheme) => ({
     },
 
   },
+  listItemText: {
+    color: 'black',
+    fontWeight: 800,
+  },
   toolbar: theme.mixins.toolbar,
 });
 
@@ -120,7 +124,7 @@ class Dashboard extends Component {
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
-          <ListItemText primary={itemName} />
+          <ListItemText primary={itemName} style={{ color: 'black' }} />
         </ListItem>
       </div>
     );
@@ -143,7 +147,7 @@ class Dashboard extends Component {
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <List>{this.mainListItems()}</List>
+        <List component="nav">{this.mainListItems()}</List>
         <Divider />
         <List>
           {['App Info', 'About Developers'].map((name, index) => (

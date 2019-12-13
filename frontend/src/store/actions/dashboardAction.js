@@ -3,3 +3,4 @@ export const changeDashboard = (number) => (dispatch) => {
     type: 'CHANGE_DASHBOARD', itemNo: number,
   });
 };
+

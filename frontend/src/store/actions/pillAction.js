@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router';
 import ax from '../../api/index';
+import { handleDialogClose } from './dialogAction';
 
 export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list: pillList });
 
@@ -14,6 +15,7 @@ export const addUserPill = (pillId) => (dispatch) => {
     .then((res) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
+      dispatch(handleDialogClose());
     })
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
