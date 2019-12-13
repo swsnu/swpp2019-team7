@@ -146,7 +146,21 @@ def webnoti_pill(request, req_id):
 
 def notification_interval(request):
     """ CRUD operation for notification interval per each user """
-    if request.method == 'POST':
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            try:
+                existing_intervals = NotificationInterval.objects.filter(user=request.user)
+                print('notification interval back: ', existing_intervals)
+
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            return JsonResponse({
+                "example": "notification_interval",
+                    # "telegram_username": telegram_user.telegram_username,
+                    # "telegram_first_name": telegram_user.telegram_first_name,
+                    # "telegram_last_name": telegram_user.telegram_last_name
+                }, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
         if request.user.is_authenticated:
             try:
                 req_data = json.loads(request.body.decode())
