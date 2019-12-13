@@ -37,7 +37,9 @@ def format_webnoti_list_object(item):
 def crud_device(request):
     """ CRUD Operation for FCM devices """
     if request.method == 'POST':
+        print('call crud')
         if request.user.is_authenticated:
+            print('authen')
             try:
                 req_data = json.loads(request.body.decode())
                 fcm_token = req_data['fcmtoken']
@@ -76,6 +78,7 @@ def crud_device(request):
 def webnoti(request):
     """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
+        print('webnoti get')
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(

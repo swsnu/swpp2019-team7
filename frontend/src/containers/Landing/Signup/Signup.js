@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
+import { withFirebase } from '../../../components/Firebase';
 
 
 function Copyright() {
@@ -130,7 +131,7 @@ class Signup extends Component {
     return (!emailError) && (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
-  onSignupButtonClick = (event) => {
+  onSignupButtonClick = async (event) => {
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
@@ -138,7 +139,13 @@ class Signup extends Component {
         password: this.state.pw_input,
         name: this.state.username_input,
       };
-      this.props.onSignupUser(user);
+      this.props.firebase.getToken().then((token) => {
+        console.log('token from firebase is');
+        console.log(token);
+        this.props.onSignupUser(user).then(() => {
+          this.props.onRegisterToken(token);
+        });
+      });
     }
   };
 
@@ -249,9 +256,10 @@ class Signup extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onSignupUser: (user) => { dispatch(userActionCreators.signupUser(user)); },
+export const mapDispatchToProps = (dispatch) => ({
+  onSignupUser: async (user) => { await dispatch(userActionCreators.signupUser(user)); },
+  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
 });
 
 // export default Signup
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Signup));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(withFirebase(Signup)));

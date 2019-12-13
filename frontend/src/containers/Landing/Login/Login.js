@@ -77,6 +77,8 @@ class Login extends Component {
       pw_input: '',
     });
     this.props.firebase.getToken().then((token) => {
+      console.log('token from firebase is');
+      console.log(token);
       this.props.onLoginUser(user).then(() => {
         this.props.onRegisterToken(token);
       });
