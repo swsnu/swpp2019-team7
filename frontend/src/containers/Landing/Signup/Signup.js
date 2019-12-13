@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
+import * as pillActionCreators from '../../../store/actions/pillAction';
 import { withFirebase } from '../../../components/Firebase';
 
 
@@ -131,6 +132,9 @@ class Signup extends Component {
     return (!emailError) && (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
+  handlerSignup = () => {
+    this.props.history.push('/signin')
+  }
   onSignupButtonClick = async (event) => {
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
@@ -143,6 +147,7 @@ class Signup extends Component {
         console.log('token from firebase is');
         console.log(token);
         this.props.onSignupUser(user).then(() => {
+          if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
           this.props.onRegisterToken(token);
         });
       });
@@ -240,7 +245,7 @@ class Signup extends Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link href="/login" variant="body2" onClick={() => this.handlerLogin()}>
                     Already have an account? Log in
                   </Link>
                 </Grid>
@@ -259,7 +264,13 @@ class Signup extends Component {
 export const mapDispatchToProps = (dispatch) => ({
   onSignupUser: async (user) => { await dispatch(userActionCreators.signupUser(user)); },
   onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
+  onAddLazyPill: (newPillId, imageId) => { dispatch(pillActionCreators.addLazyPill(newPillId, imageId)); },
+});
+
+const mapStateToProps = (state) => ({
+  newPillId: state.pill.new_pill_id,
+  imageId: state.pill.image_id,
 });
 
 // export default Signup
-export default connect(null, mapDispatchToProps)(withStyles(styles)(withFirebase(Signup)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withFirebase(Signup)));
