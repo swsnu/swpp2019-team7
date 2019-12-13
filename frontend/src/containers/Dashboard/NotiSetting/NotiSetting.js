@@ -78,6 +78,8 @@ class NotiSetting extends Component {
     ));
     return (
       <div className="NotiSetting">
+        {/*<div style={{width: "300"}}>*/}
+        {/*</div>*/}
         <Grid container alignItems="center">
           <Grid item xs={12} className={classes.settingList}>
             {this.usersSetting(settingList)}
