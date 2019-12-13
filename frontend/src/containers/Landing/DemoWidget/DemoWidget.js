@@ -7,7 +7,7 @@ import {
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
-import { addUserPill, setImageId } from '../../../store/actions/pillAction';
+import { addUserPill, setImageId, setRenderCustomPill } from '../../../store/actions/pillAction';
 
 class DemoWidget extends Component {
   constructor(props) {
@@ -50,6 +50,9 @@ class DemoWidget extends Component {
   }
 
   toggleCustomPill() {
+    console.log('set render');
+    this.props.setRenderCustomPill(true);
+    console.log('finish set render');
     this.props.history.push('/custompilladd');
   }
 
@@ -160,5 +163,5 @@ const mapStateToProps = (state) => ({
   loggedIn: state.user.logged_in,
 });
 export default connect(mapStateToProps, {
-  addUserPill, setImageId,
+  addUserPill, setImageId, setRenderCustomPill,
 })(withRouter(DemoWidget));

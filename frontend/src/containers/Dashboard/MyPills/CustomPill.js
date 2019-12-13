@@ -66,44 +66,50 @@ class CustomPill extends Component {
         </div>
       ))
     );
+    if (this.props.render_custompill) {
+      return (
+        <div className="CustomPill">
+          <Header />
+          <Wrapper>
 
-    return (
-      <div className="CustomPill">
-        <Header />
-        <Wrapper>
+            <Grid container justify="center" alignItems="center">
+              <Grid item>
+                <Typography variant="h3" align="left"> Tell us about your pill! </Typography>
+              </Grid>
+            </Grid>
+            <Grid container justify="center" alignItems="center">
+              <Grid item>
+                <Typography variant="h5" align="left"> Pill name is required </Typography>
+              </Grid>
+            </Grid>
+            <Grid container justify="center" alignItems="center">
+              <Grid item>
+                {textboxList}
+              </Grid>
+            </Grid>
+            <Grid container justify="center" alignItems="center">
+              <Grid item>
+                <Button variant="contained" id="confirm_button" color="primary" onClick={() => { this.onConfirm(); }} disabled={this.state.product_name === ''}>
+                  Confirm
+                </Button>
+              </Grid>
+            </Grid>
+          </Wrapper>
+        </div>
+      );
+    }
 
-          <Grid container justify="center" alignItems="center">
-            <Grid item>
-              <Typography variant="h3" align="left"> Tell us about your pill! </Typography>
-            </Grid>
-          </Grid>
-          <Grid container justify="center" alignItems="center">
-            <Grid item>
-              <Typography variant="h5" align="left"> Pill name is required </Typography>
-            </Grid>
-          </Grid>
-          <Grid container justify="center" alignItems="center">
-            <Grid item>
-              {textboxList}
-            </Grid>
-          </Grid>
-          <Grid container justify="center" alignItems="center">
-            <Grid item>
-              <Button variant="contained" id="confirm_button" color="primary" onClick={() => { this.onConfirm(); }} disabled={this.state.product_name === ''}>
-                Confirm
-              </Button>
-            </Grid>
-          </Grid>
-        </Wrapper>
-      </div>
-    );
+    this.props.history.push('/dashboard');
+    return null;
   }
 }
 const mapStateToProps = (state) => ({
   image_id: state.pill.image_id,
+  render_custompill: state.pill.render_custompill,
 });
 const mapDispatchToProps = (dispatch) => ({
   addCustomPill: (pillInfo, imageId) => { console.log(pillInfo); dispatch(pillActionCreators.addCustomPill(pillInfo, imageId)); },
+  setRenderCustomPill: (key) => dispatch(pillActionCreators.setRenderCustomPill(key)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomPill);

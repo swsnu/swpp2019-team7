@@ -38,6 +38,7 @@ function App(props) {
   );
 }
 
+// this.props.history.push('/custompilladd');
 const mapStateToProps = (state) => ({
   logged_in: state.user.logged_in,
 });

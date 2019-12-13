@@ -4,21 +4,30 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import CustomPill from './CustomPill';
-import { getMockStore } from '../../../test-utils/mocks';
+import { getMockStore, getMockStoreCustomPill } from '../../../test-utils/mocks';
 import * as pillActionCreator from '../../../store/actions/pillAction';
 // import * as pillActionCreator from '../../../store/actions/pillAction';
 
 const mockStore = getMockStore();
-
+const mockStoreCustom = getMockStoreCustomPill();
 const history = createBrowserHistory();
 
 describe('<CustomPill />', () => {
   let mockCustomPill;
+  let mockCustomPillNorender;
   let spyAddCustomPill;
+
   beforeEach(() => {
     spyAddCustomPill = jest.spyOn(pillActionCreator, 'addCustomPill')
       .mockImplementation(() => ({ type: 'ADD_CUSTOM_PILL' }));
     mockCustomPill = (
+      <Provider store={mockStoreCustom}>
+        <Router history={history}>
+          <CustomPill />
+        </Router>
+      </Provider>
+    );
+    mockCustomPillNorender = (
       <Provider store={mockStore}>
         <Router history={history}>
           <CustomPill />
@@ -78,5 +87,10 @@ describe('<CustomPill />', () => {
     wrapperButton.simulate('click');
 
     expect(spyAddCustomPill).toHaveBeenCalledTimes(1);
+  });
+
+  xit('should not render custom pill without button click', () => {
+    const component = mount(mockCustomPillNorender);
+    expect(component.find('.CustomPill').length).toBe(0);
   });
 });

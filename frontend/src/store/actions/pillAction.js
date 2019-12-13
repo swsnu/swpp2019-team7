@@ -18,6 +18,12 @@ export const addUserPill = (pillId) => (dispatch) => {
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
+export const setRenderCustomPill_ = (key) => ({ type: 'SET_RENDER_CUSTOM', render_custompill: key });
+
+export const setRenderCustomPill = (key) => (dispatch) => {
+  dispatch(setRenderCustomPill_(key));
+};
+
 export const addCustomPill_ = (newPillObj) => ({ type: 'ADD_CUSTOM_PILL', payload: newPillObj });
 
 export const addCustomPill = (newPillObj, imageId) => (dispatch) => {
