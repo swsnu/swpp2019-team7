@@ -69,9 +69,6 @@ class TempTestCase(TestCase):
             }
         )
     
-        response = self.client.delete('/api/pill/1/')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
 
         response = self.client.post('/api/custompill/',
                 json.dumps({
@@ -135,6 +132,10 @@ class TempTestCase(TestCase):
                 content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
     
+
+        response = self.client.delete('/api/pill/1/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
         #response = self.client.get('/api/pill/')
         #self.assertEqual(response.status_code, status.HTTP_200_OK)
 

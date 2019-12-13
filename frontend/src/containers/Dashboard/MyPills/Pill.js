@@ -85,6 +85,7 @@ class Pill extends Component {
         <ThemeProvider theme={theme}>
           <Card className={classes.card}>
             <CardMedia
+              component="img"
               className={classes.cover}
               image={this.props.file}
               title="Live from space album cover"

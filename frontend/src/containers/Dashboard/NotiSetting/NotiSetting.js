@@ -11,6 +11,7 @@ import IntervalSetting from './IntervalSetting';
 import * as notiActionCreators from '../../../store/actions/notiAction';
 import * as pillActionCreators from '../../../store/actions/pillAction';
 import SettingItem from './SettingItem';
+import * as intervalSettingCreators from '../../../store/actions/intervalSettingAction';
 
 const styles = () => ({
   settingList: {
@@ -32,6 +33,7 @@ class NotiSetting extends Component {
   componentDidMount() {
     this.props.onGetWebNoti();
     this.props.onGetUserPills();
+    this.props.onGetIntervals();
   }
 
   usersSetting(settingList) {
@@ -72,6 +74,7 @@ class NotiSetting extends Component {
   }
 
   render() {
+    console.log('noti setting front: ', this.props.intervalsList);
     const { classes } = this.props;
     const settingList = tempSetting.map((item) => (
       <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
@@ -85,7 +88,7 @@ class NotiSetting extends Component {
             {this.usersSetting(settingList)}
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="h3" align="left" style={{marginTop: 64}}> Interval Notification </Typography>
+            <Typography variant="h3" align="left" style={{ marginTop: 64 }}> Interval Notification </Typography>
           </Grid>
           <Grid item xs={12} align="center">
             <IntervalSetting />
@@ -102,11 +105,13 @@ class NotiSetting extends Component {
 const mapStateToProps = (state) => ({
   webnoti_list: state.noti.webnoti_list,
   pillList: state.pill.pill_list,
+  intervalsList: state.interval.intervalsList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
   onGetUserPills: () => { dispatch(pillActionCreators.getUserPills()); },
+  onGetIntervals: () => { dispatch(intervalSettingCreators.getIntervals()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotiSetting));

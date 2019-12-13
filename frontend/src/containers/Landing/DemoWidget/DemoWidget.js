@@ -89,12 +89,14 @@ class DemoWidget extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.state.productInfo.productName);
+    if (this.state.productInfo.productName) console.log('if clause');
     return (
       <div className="DemoWidget">
         {this.state.resultModalOpen
           ? (
             // shows parsed results
-            <Box align="center">
+            <Box id="resultmodal" align="center">
               <Card className={classes.card}>
                 {/* <Box maxWidth="335"> */}
                 <CardHeader
@@ -141,25 +143,25 @@ class DemoWidget extends Component {
                     <CardActions className={classes.cardButtons}>
                       {this.props.loggedIn
                         ? (
-                          <Button onClick={() => { this.addNewPill(); }}>
+                          <Button id="add-new-pill" onClick={() => { this.addNewPill(); }}>
                             {/* <Icon name="checkmark" /> */}
                             Save
                           </Button>
                         )
                         : (
-                          <Button onClick={() => { this.toggleAcceptPill(); }}>
+                          <Button id="login-to-save" onClick={() => { this.toggleAcceptPill(); }}>
                             {/* <Icon name="checkmark" /> */}
                             Log in to Save
                           </Button>
                         )}
-                      <Button onClick={() => { this.toggleResultModal(false); }}>
+                      <Button id="retry" onClick={() => { this.toggleResultModal(false); }}>
                         Retry
                       </Button>
                     </CardActions>
                   )
                   : (
                     <CardActions className={classes.cardButtons}>
-                      <Button id="noProductRed" onClick={() => { this.toggleResultModal(false); }}>
+                      <Button id="go-back" onClick={() => { this.toggleResultModal(false); }}>
                         Go Back
                       </Button>
                     </CardActions>
