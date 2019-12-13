@@ -1,5 +1,6 @@
 const initState = {
   user_id: -1,
+  image_id: -1,
   pill_list: [],
   selected_pill: null,
 };
@@ -11,6 +12,10 @@ const PillReducer = (state = initState, action = null) => {
       return { ...state, pill_list: action.pill_list };
     case 'ADD_USER_PILL':
       return { ...state, pill_list: state.pill_list.concat(action.payload) };
+    case 'ADD_CUSTOM_PILL':
+      return { ...state, pill_list: state.pill_list.concat(action.payload) };
+    case 'SET_IMAGE_ID':
+      return { ...state, image_id: action.image_id };
     case 'DELETE_USERPILL':
       return { ...state, pill_list: state.pill_list.filter(({ id }) => id !== action.payload) };
     case 'GET_PILL':

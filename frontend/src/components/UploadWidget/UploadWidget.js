@@ -47,10 +47,11 @@ class UploadWidget extends Component {
                   timeout: 9000,
                   onload: (response) => {
                     const parsedResponse = JSON.parse(response);
-                    console.log(JSON.stringify(parsedResponse.product));
-                    if (parsedResponse.product != null) this.props.getNewPillId(parsedResponse.product.id);
+                    console.log(parsedResponse);
+                    if (parsedResponse.product != null) { this.props.getNewPillId(parsedResponse.product.id); }
                     this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
                     this.props.toggleResultModal(true);
+                    this.props.getImageId(parsedResponse.image_id);
                   },
                 },
                 delete: {

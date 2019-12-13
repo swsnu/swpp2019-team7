@@ -7,7 +7,7 @@ import {
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
-import { addUserPill } from '../../../store/actions/pillAction';
+import { addUserPill, setImageId } from '../../../store/actions/pillAction';
 
 class DemoWidget extends Component {
   constructor(props) {
@@ -33,6 +33,10 @@ class DemoWidget extends Component {
     this.setState({ newPillId: id });
   }
 
+  getImageId(id) {
+    this.props.setImageId(id);
+  }
+
   addNewPill() {
     this.props.addUserPill(this.state.newPillId);
   }
@@ -43,6 +47,10 @@ class DemoWidget extends Component {
 
   toggleResultModal(open) {
     this.setState({ resultModalOpen: open });
+  }
+
+  toggleCustomPill() {
+    this.props.history.push('/custompilladd');
   }
 
   updateProductInfo(data) {
@@ -75,6 +83,7 @@ class DemoWidget extends Component {
           toggleResultModal={this.toggleResultModal.bind(this)}
           getNewPillId={this.getNewPillId.bind(this)}
           backgroundColor={this.props.backgroundColor}
+          getImageId={this.getImageId.bind(this)}
         />
         <Modal
           id="Modal"
@@ -135,6 +144,9 @@ class DemoWidget extends Component {
                 <Button id="noProductRed" onClick={() => { this.toggleResultModal(false); }}>
                   Go Back
                 </Button>
+                <Button id="newCustom" onClick={() => { this.toggleCustomPill(false); }}>
+                  Custom Pill
+                </Button>
               </Modal.Actions>
             )}
 
@@ -148,5 +160,5 @@ const mapStateToProps = (state) => ({
   loggedIn: state.user.logged_in,
 });
 export default connect(mapStateToProps, {
-  addUserPill,
+  addUserPill, setImageId,
 })(withRouter(DemoWidget));

@@ -18,6 +18,36 @@ export const addUserPill = (pillId) => (dispatch) => {
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
+export const addCustomPill_ = (newPillObj) => ({ type: 'ADD_CUSTOM_PILL', payload: newPillObj });
+
+export const addCustomPill = (newPillObj, imageId) => (dispatch) => {
+  console.log('at ac');
+  console.log(imageId);
+  ax.post('/api/custompill/', {
+    take_method: newPillObj.take_method,
+    product_name: newPillObj.product_name,
+    expiration_date: newPillObj.expiration_date,
+    functions: newPillObj.take_method,
+    store_method: newPillObj.store_method,
+    company_name: newPillObj.company_name,
+    standards: newPillObj.standards,
+    precautions: newPillObj.precautions,
+    take_method_preprocessed: newPillObj.take_method,
+    image_id: imageId,
+  })
+    .then((res) => {
+      dispatch(addCustomPill_(res.data));
+      dispatch(push('/dashboard'));
+    })
+    .catch(() => { alert('Error in adding custom pill'); });
+};
+
+export const setImageId_ = (imageId) => ({ type: 'SET_IMAGE_ID', image_id: imageId });
+
+export const setImageId = (imageId) => (dispatch) => {
+  dispatch(setImageId_(imageId));
+};
+
 export const addUserPillByNameAndCompany = (pillName, pillCompany) => (dispatch) => {
   ax.post('/api/pill/name/', { pill_name: pillName, pill_company: pillCompany })
     .then((res) => {
