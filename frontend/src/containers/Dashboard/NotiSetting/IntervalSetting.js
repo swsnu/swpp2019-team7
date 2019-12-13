@@ -109,14 +109,16 @@ function valueLabelFormat(value) {
 
 
 class IntervalSetting extends React.Component {
+  /*
   updateIntervalValue(e) {
     console.log(e.target.dataset.index);
   }
+  */
 
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <div className={classes.root} id="interval-setting">
         <div className={classes.margin} />
         {/* <Typography gutterBottom>Your Current Pills</Typography> */}
         {/* <ThemeProvider theme={muiTheme}> */}

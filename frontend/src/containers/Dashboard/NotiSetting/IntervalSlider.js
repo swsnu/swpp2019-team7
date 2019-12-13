@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 
@@ -110,11 +109,10 @@ class IntervalSlider extends React.Component {
   }
 
   componentDidMount() {
-    const node = ReactDOM.findDOMNode(this);
+    /* const node = ReactDOM.findDOMNode(this);
     const tmp = node.getElementsByClassName('MuiSlider-thumb WithStyles(ForwardRef(Slider))-thumb-824 MuiSlider-thumbColorPrimary PrivateValueLabel-open-852 PrivateValueLabel-thumb-851');
     tmp[0].style.color = 'blue';
-    tmp[0].style.backgroundColor = '#5178d9';
-    console.log(tmp);
+    tmp[0].style.backgroundColor = '#5178d9'; */
   }
 
   updateIntervalValue(e, value) {
@@ -130,11 +128,13 @@ class IntervalSlider extends React.Component {
   }
 
   render() {
+    console.log('render');
     return (
-      <div>
+      <div className="IntervalSlider">
         <SelectIntervalSlider
           // valueLabelDisplay="auto"
-          className="Select Interval Slider"
+          className="SelectIntervalSlider"
+          id="select-interval-slider"
           min={0}
           max={1440}
           // step={0}
@@ -143,15 +143,15 @@ class IntervalSlider extends React.Component {
           defaultValue={[360, 1080, 900, 500]}
           valueLabelDisplay="on"
           valueLabelFormat={valueLabelFormat}
-          onChange={(e, value) => this.updateIntervalValue(e, value)}
+          onChange={(e, value) => { console.log('change'); this.updateIntervalValue(e, value); }}
           track={false}
-          // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
+        // onDragStop={ (e) => this.props.update(e, control.id, this.val)}
         />
         Start:
-        { `${parseInt(this.state.intervalStart / 60)}:${parseInt(this.state.intervalStart % 60)}` }
+        {`${parseInt(this.state.intervalStart / 60)}:${parseInt(this.state.intervalStart % 60)}`}
         <br />
         End:
-        { this.state.intervalEnd}
+        {this.state.intervalEnd}
       </div>
     );
   }

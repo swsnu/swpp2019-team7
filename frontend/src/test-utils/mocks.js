@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import {
   createStore, combineReducers, applyMiddleware, compose,
 } from 'redux';
@@ -7,7 +8,7 @@ import { history } from '../store/reducers/index';
 
 import { middlewares } from '../store/index';
 
-const getmockReducer = jest.fn(
+export const getmockReducer = jest.fn(
   (initialState) => (state = initialState, action) => {
     switch (action.type) {
       default:
@@ -17,13 +18,35 @@ const getmockReducer = jest.fn(
   },
 );
 
-const stubPill1 = {
+export const stubPill1 = {
   id: 1,
+  pillId: '1',
   name: 'testpill1',
+  take_method: 'asdf',
+  product_name: 'asdf',
+  expiration_date: 'asdf',
+  functions: 'asdf',
+  store_method: 'asdf',
+  company_name: 'asdf',
+  standards: 'asdf',
+  precautions: 'asdf',
+  take_method_preprocessed: 'asdf',
+  file: '',
 };
-const stubPill2 = {
+export const stubPill2 = {
   id: 2,
+  pillId: '2',
   name: 'testpill2',
+  takeMethod: 'asdf',
+  productName: 'asdf',
+  expirationDate: 'asdf',
+  functions: 'asdf',
+  storeMethod: 'asdf',
+  companyName: 'asdf',
+  standards: 'asdf',
+  precautions: 'asdf',
+  takeMethodPreprocessed: 'asdf',
+  file: '',
 };
 const stubPillState = {
   user_id: -1,
@@ -64,13 +87,34 @@ export const stubDialogState = {
 };
 
 // mock store for a logged out user
-export const getMockStore = () => {
+export const getMockStore = (...args) => {
+  let userReducer; let pillReducer; let
+    notiReducer;
+  let dashReducer; let dialogReducer; let
+    newReducer;
+
+  userReducer = getmockReducer(stubUserState);
+  pillReducer = getmockReducer(stubPillState);
+  notiReducer = getmockReducer(stubNotiState);
+  dashReducer = getmockReducer(stubDashState);
+  dialogReducer = getmockReducer(stubDialogState);
+  if (args.length) {
+    newReducer = getmockReducer(args[1]);
+    switch (args[0]) {
+      case 'user': userReducer = newReducer; break;
+      case 'pill': pillReducer = newReducer; break;
+      case 'noti': notiReducer = newReducer; break;
+      case 'dash': dashReducer = newReducer; break;
+      case 'dialog': dialogReducer = newReducer; break;
+      default: break;
+    }
+  }
   const rootReducer = combineReducers({
-    user: getmockReducer(stubUserState),
-    pill: getmockReducer(stubPillState),
-    noti: getmockReducer(stubNotiState),
-    dash: getmockReducer(stubDashState),
-    dialog: getmockReducer(stubDialogState),
+    user: userReducer,
+    pill: pillReducer,
+    noti: notiReducer,
+    dash: dashReducer,
+    dialog: dialogReducer,
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -25,7 +25,7 @@ describe('NotiSetting', () => {
     jest.clearAllMocks();
   });
 
-  xit('should render NotiSetting', () => {
+  it('should render NotiSetting', () => {
     const component = mount(mockNotiSetting);
     expect(component.find('.NotiSetting').length).toBe(1);
   });

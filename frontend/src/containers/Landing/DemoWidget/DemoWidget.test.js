@@ -7,17 +7,55 @@ import DemoWidget from './DemoWidget';
 import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/reducers/index';
 
+import * as pillActionCreator from '../../../store/actions/pillAction';
 
-const mockStore = getMockStore();
+const stubUserLogin = {
+  current_user: {
+    name: '',
+  },
+  noti_setting: {
+    enable_noti: false,
+    enable_segregation: false,
+    enable_kakao: false,
+  },
+  logged_in: true,
+};
+
+const mockData = {
+  take_method: '',
+  product_name: 'asdf',
+  expiration_date: '',
+  functions: '',
+  store_method: '',
+  company_name: '',
+  precautions: '',
+  file: 'asdf',
+};
+
+jest.mock('../../../components/UploadWidget/UploadWidget', () => jest.fn((props) => (
+  <div className="spyUploadWidget">
+    <button
+      className="finishUpload"
+      type="button"
+      onClick={() => { props.toggleResultModal(true); }}
+    >
+hello
+    </button>
+    <button
+      className="retrieveProduct"
+      type="button"
+      onClick={() => { console.log('retrieve'); props.updateProductInfo(mockData); }}
+    >
+world
+    </button>
+  </div>
+)));
+
 
 describe('DemoWidget', () => {
   let mockDemoWidget;
-  let spyPush;
+  const mockStore = getMockStore();
   beforeEach(() => {
-    spyPush = jest.spyOn(history, 'push')
-      .mockImplementation(() => { });
-    /* spyResultModal = jest.spyOn(userActionCreator, 'signupUser')
-      .mockImplementation(() => ({ type: 'SIGNUP_USER' })); */
     mockDemoWidget = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
@@ -35,28 +73,70 @@ describe('DemoWidget', () => {
     expect(component.find('.DemoWidget').length).toBe(1);
   });
 
-  xit('should click green button', () => {
-    const component = mount(mockDemoWidget);
-    const buttonWrapper = component.find({ id: 'loginGreen' }).at(1);
-    buttonWrapper.simulate('click');
-    expect(spyPush).toHaveBeenCalledTimes(1);
+  it('should click save button', () => {
+    const mockDemoWidgetLogin = (
+      <Provider store={getMockStore('user', stubUserLogin)}>
+        <ConnectedRouter history={history}>
+          <DemoWidget />
+        </ConnectedRouter>
+      </Provider>
+    );
+    const component = mount(mockDemoWidgetLogin);
+    const spyAction = jest.spyOn(pillActionCreator, 'addUserPill')
+      .mockImplementation(() => ({ type: 'SIGNIN_USER', logged_in: true }));
+
+    const wrapperUploadWidget = component.find('.spyUploadWidget');
+    const wrapperRetrieveProduct = wrapperUploadWidget.find('.retrieveProduct');
+    wrapperRetrieveProduct.simulate('click');
+    const wrapperOpenButton = wrapperUploadWidget.find('.finishUpload');
+    wrapperOpenButton.simulate('click');
+
+    const wrapperButton = component.find({ id: 'add-new-pill' }).at(1);
+    wrapperButton.simulate('click');
+    expect(spyAction).toHaveBeenCalledTimes(0);
   });
 
-  xit('should click red button', () => {
+  it('should click login-to-save button', () => {
     const component = mount(mockDemoWidget);
-    const wrappedcomp = component.find(DemoWidget.WrappedComponent).instance();
-    expect(wrappedcomp.state.resultModalOpen).toEqual(false);
-    wrappedcomp.setState({ resultModalOpen: true });
-    wrappedcomp.setState({ productInfo: { productName: 'hello' } });
-    expect(wrappedcomp.state.resultModalOpen).toEqual(true);
-    expect(wrappedcomp.state.productInfo.productName).toEqual('hello');
-    const modalWrapper = component.find({ id: 'Modal' });
-    expect(modalWrapper.length).toBe(1);
-    expect(modalWrapper.open).toBe(true);
-    expect(component.find({ id: 'actiontwo' }).length).toBe(1);
-    const buttonWrapper = component.find({ id: 'productRed' }).at(1);
+
+    const wrapperUploadWidget = component.find('.spyUploadWidget');
+    const wrapperRetrieveProduct = wrapperUploadWidget.find('.retrieveProduct');
+    wrapperRetrieveProduct.simulate('click');
+    const wrapperOpenButton = wrapperUploadWidget.find('.finishUpload');
+    wrapperOpenButton.simulate('click');
+
+    const wrapperButton = component.find({ id: 'login-to-save' }).at(0);
+    const spyAction = jest.spyOn(history, 'push');
+    wrapperButton.simulate('click');
+    expect(spyAction).toHaveBeenCalledTimes(1);
+  });
+
+  it('should click retry button', () => {
+    const component = mount(mockDemoWidget);
+
+    const wrapperUploadWidget = component.find('.spyUploadWidget');
+    const wrapperRetrieveProduct = wrapperUploadWidget.find('.retrieveProduct');
+    wrapperRetrieveProduct.simulate('click');
+    const wrapperOpenButton = wrapperUploadWidget.find('.finishUpload');
+    wrapperOpenButton.simulate('click');
+
+    const wrapperButton = component.find({ id: 'retry' }).at(0);
+    wrapperButton.simulate('click');
+    const wrapperModal = component.find({ id: 'result-modal' }).at(1);
+    expect(wrapperModal.length).toBe(0);
+  });
+
+  it('should click goback button', () => {
+    const component = mount(mockDemoWidget);
+
+    const wrapperUploadWidget = component.find('.spyUploadWidget');
+    const wrapperOpenButton = wrapperUploadWidget.find('.finishUpload');
+    wrapperOpenButton.simulate('click');
+
+    const buttonWrapper = component.find({ id: 'go-back' }).at(1);
     buttonWrapper.simulate('click');
-    expect(wrappedcomp.find({ id: 'modal' }).length).toBe(0);
+    const wrapperModal = component.find({ id: 'result-modal' }).at(1);
+    expect(wrapperModal.length).toBe(0);
   });
 });
 

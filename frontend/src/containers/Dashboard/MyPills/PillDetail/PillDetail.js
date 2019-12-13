@@ -72,6 +72,7 @@ class PillDetail extends Component {
     }
   }
 
+  /*
   uploadHandler = () => {
     const formData = new FormData();
     formData.append(
@@ -80,7 +81,7 @@ class PillDetail extends Component {
     );
     this.props.onUploadPhoto(formData, this.props.selected_pill.id);
   }
-
+*/
   breakLine(text) {
     if (text === null) {
       return text;
@@ -120,6 +121,7 @@ class PillDetail extends Component {
       <Button
         variant="contained"
         component="label"
+        id="askUpload"
       >
         <input
           type="file"

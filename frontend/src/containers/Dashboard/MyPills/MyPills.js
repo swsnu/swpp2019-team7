@@ -118,6 +118,7 @@ class MyPills extends Component {
             Add manually
           </Fab>
           <Dialog
+            id="dialog"
             fullScreen
             // onBackdropClick
             open={this.state.open && this.props.dialogOpened}
@@ -130,7 +131,7 @@ class MyPills extends Component {
               },
             }}
           >
-            <IconButton className={classes.closeModal} color="inherit" onClick={() => this.handleClose()} aria-label="close">
+            <IconButton id="close-dialog" className={classes.closeModal} color="inherit" onClick={() => this.handleClose()} aria-label="close">
               <CloseIcon fontSize="large" />
             </IconButton>
             <LoggedInWidget />
