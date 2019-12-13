@@ -10,10 +10,12 @@ export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
   });
 export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: newPillObj });
 
+export const clearLazyPill_ = () => ({ type: 'CLEAR_LAZY_PILL' });
 export const addUserPill = (pillId) => (dispatch) => {
   ax.post(`/api/pill/${pillId}/`)
     .then((res) => {
       dispatch(addUserPill_(res.data));
+      dispatch(clearLazyPill_());
       console.log(res.data);
       dispatch(push('/dashboard'));
       dispatch(handleDialogClose());
@@ -29,6 +31,7 @@ export const addLazyPill = (pillId, imageId) => (dispatch) => {
       ax.post(`/api/pill/${pillId}/`)
         .then((res) => {
           dispatch(addUserPill_(res.data));
+          dispatch(clearLazyPill_());
         })
         .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
     });

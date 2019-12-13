@@ -26,6 +26,8 @@ const PillReducer = (state = initState, action = null) => {
       return { ...state, selected_pill: action.selected_pill };
     case 'SET_NEW_PILL':
       return { ...state, new_pill_id: action.new_pill_id };
+    case 'CLEAR_LAZY_PILL':
+      return { ...state, new_pill_id: -1, image_id: -1 };
     default:
       break;
   }

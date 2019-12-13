@@ -25,12 +25,11 @@ def image(request):
         file = request.FILES['filepond']
 
         image_instance = Image(filename=_get_file_id(), content=file, user=None, pill=None)
-        print(request.user)
-        print(request)
         if request.user.is_authenticated:
             image_instance.user = request.user
         image_instance.save()
-
+        print('***this is id')
+        print(image_instance.id)
         product = call_ocr_api(file)
 
         if product is not None:
@@ -60,9 +59,6 @@ def image(request):
 
             image_instance = Image.objects.get(id=req_id)
             image_instance.user = request.user
-            print(len('[Anonymous]_'))
-            print(image_instance.filename[len('[Anonymous]_')+1:])
-            print(f'{request.user.name}_{image_instance.filename[len("[Anonymous]_")+1:]}')
             image_instance.filename = image_instance.filename = f'{request.user.name}_{image_instance.filename[len("[Anonymous]_")+1:]}'
             image_instance.save()
             return HttpResponse(status=204)

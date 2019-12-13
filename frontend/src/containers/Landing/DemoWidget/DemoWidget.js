@@ -102,8 +102,6 @@ class DemoWidget extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.productInfo.productName);
-    if (this.state.productInfo.productName) console.log('if clause');
     return (
       <div className="DemoWidget">
         {this.state.resultModalOpen

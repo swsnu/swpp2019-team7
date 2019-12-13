@@ -133,8 +133,9 @@ class Signup extends Component {
   };
 
   handlerSignup = () => {
-    this.props.history.push('/signin')
+    this.props.history.push('/signin');
   }
+
   onSignupButtonClick = async (event) => {
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {

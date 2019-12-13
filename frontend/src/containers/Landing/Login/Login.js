@@ -72,8 +72,9 @@ class Login extends Component {
   };
 
   handlerSignup = () => {
-    this.props.history.push('/signup')
+    this.props.history.push('/signup');
   }
+
   onLoginButtonClick = async () => {
     const user = { email: this.state.email_input, password: this.state.pw_input };
     this.setState({
