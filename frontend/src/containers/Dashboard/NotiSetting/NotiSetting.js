@@ -13,12 +13,15 @@ import * as pillActionCreators from '../../../store/actions/pillAction';
 import SettingItem from './SettingItem';
 import * as intervalSettingCreators from '../../../store/actions/intervalSettingAction';
 
-const styles = () => ({
+const styles = (theme) => ({
   settingList: {
     height: '30%',
   },
   content: {
     height: '70%',
+  },
+  margin: {
+    height: theme.spacing(8),
   },
 });
 
@@ -40,8 +43,10 @@ class NotiSetting extends Component {
     return (
       <div className="UserNotiSetting">
         <Typography variant="h3" align="left"> Notification Settings </Typography>
-        <Divider />
+        <div style={{ margin: 64 }} />
         <div className="settings">{settingList}</div>
+        <div style={{ margin: 64 }} />
+        <div style={{ margin: 64 }} />
       </div>
     );
   }
@@ -62,10 +67,9 @@ class NotiSetting extends Component {
       return (
         <div className="WebnotiListSetting">
           <div className="title">
-            <Typography variant="h3" align="left"> Notification Times </Typography>
-            <Divider />
+            <Typography variant="h3" align="left"> Individual Notifications </Typography>
+            <div style={{ margin: 64 }} />
           </div>
-          <Divider />
           <div className="settings">{renderedList}</div>
         </div>
       );

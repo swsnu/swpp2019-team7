@@ -88,7 +88,7 @@ class Pill extends Component {
               component="img"
               className={classes.cover}
               image={this.props.file}
-              title="Live from space album cover"
+              title={this.props.file}
             />
             <div className={classes.cardDetails}>
               <CardContent className={classes.content}>

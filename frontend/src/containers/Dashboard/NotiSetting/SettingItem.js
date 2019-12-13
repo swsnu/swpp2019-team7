@@ -81,12 +81,12 @@ class SettingItem extends Component {
               alignItems="flex-end"
             >
               <Grid item>
-                <Avatar className={classes.avatar}>
+                <Avatar className={classes.avatar} >
                   <NotificationsIcon className={classes.icon} />
                 </Avatar>
               </Grid>
               <Grid item>
-                <Typography variant="h4">{this.props.name}</Typography>
+                <Typography variant="h5">{this.props.name}</Typography>
               </Grid>
               <Grid item>
                 <Switch
