@@ -7,13 +7,49 @@ import {
 } from '@material-ui/core/styles';
 import { Typography, Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+
+import '../../../Landing/TestLanding.css';
 import * as pillActionCreators from '../../../../store/actions/pillAction';
 import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
 
-let theme = createMuiTheme();
-theme = responsiveFontSizes(theme);
 
+// let theme = createMuiTheme();
+// theme = responsiveFontSizes(theme);
 
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'DM Sans', sans-serif",
+    // h2: {
+    //   fontWeight: 500,
+    //   fontSize: '4rem',
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '3.4rem',
+    //   },
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '3rem',
+    //   },
+    // },
+    // h3: {
+    //   fontWeight: 500,
+    //   fontSize: '4rem',
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '3rem',
+    //   },
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '2.8rem',
+    //   },
+    // },
+    // h4: {
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '1.45rem',
+    //   },
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '1.65rem',
+    //   },
+    // },
+  },
+});
 const mapStateToProps = (state) => ({
   pill: state.pill,
   selected_pill: state.pill.selected_pill,
@@ -27,6 +63,9 @@ const styles = () => ({
   avatar: {
     width: 240,
     height: 240,
+    border: 0,
+    borderRadius: '100%',
+    objectFit: 'cover'
   },
 });
 
@@ -145,54 +184,60 @@ class PillDetail extends Component {
      </div>
      */
     return (
+
       <div className="PillDetail">
-        <Button variant="contained" color="primary" id="back-detail-article-button" type="button" onClick={() => this.goBackHandler()}>Back</Button>
-        <br />
-        <br />
-        {file !== '' ? <Avatar src={file} className={classes.avatar} variant="square" /> : askUpload}
-        <br />
-        <br />
-        <ThemeProvider theme={theme}>
-          <Typography variant="h3">Pill ID</Typography>
+        <Button variant="contained" style={{ marginLeft: 40, marginTop: 60 }} color="primary" id="back-detail-article-button" type="button" onClick={() => this.goBackHandler()}>Back</Button>
+        <Paper style={{background: '#F0FAF1', marginRight: 40, marginLeft: 40, marginTop: 80, marginBottom: 60, padding: 40}}>
           <br />
-          <Typography variant="h6" id="pill-id">{pillId}</Typography>
           <br />
-          <Typography variant="h3">Take Method</Typography>
+          <div align="center">
+          {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
+          </div>
           <br />
-          <Typography variant="h6" id="take-method">{takeMethod}</Typography>
           <br />
-          <Typography variant="h3">Product Name</Typography>
-          <br />
-          <Typography variant="h6" id="product-name">{productName}</Typography>
-          <br />
-          <Typography variant="h3">Expiration Date</Typography>
-          <br />
-          <Typography variant="h6" id="expiration-date">{expirationDate}</Typography>
-          <br />
-          <Typography variant="h3">Functions</Typography>
-          <br />
-          <Typography variant="h6" id="functions">{functions}</Typography>
-          <br />
-          <Typography variant="h3">Store Method</Typography>
-          <br />
-          <Typography variant="h6" id="store-method">{storeMethod !== null ? storeMethod : 'Not in the database'}</Typography>
-          <br />
-          <Typography variant="h3">Company Name</Typography>
-          <br />
-          <Typography variant="h6" id="company-name">{companyName}</Typography>
-          <br />
-          <Typography variant="h3">Standards</Typography>
-          <br />
-          <Typography variant="h6" id="standards">{standards}</Typography>
-          <br />
-          <Typography variant="h3">Precautions</Typography>
-          <br />
-          <Typography variant="h6" id="precautions">{precautions}</Typography>
-          <br />
-          <Typography variant="h3">Recommended Times To Take Per Day</Typography>
-          <br />
-          <Typography variant="h6" id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
-        </ThemeProvider>
+          <ThemeProvider theme={theme}>
+            {/*<Typography variant="h3">Pill ID</Typography>*/}
+            {/*<br />*/}
+            {/*<Typography variant="h6" id="pill-id">{pillId}</Typography>*/}
+            {/*<br />*/}
+            <div style={{marginLeft: 20, marginRight: 20 }} align="center">
+              <Typography variant="h4">Product : {productName}</Typography>
+              {/*<Typography style={{marginLeft: 10, marginRight: 10 }} variant="h4" id="product-name">{productName}</Typography>*/}
+              <br />
+              <Typography variant="h4">Take Method</Typography>
+              <br />
+              <Typography style={{marginLeft: 20, marginRight: 10 }} variant="h6" id="take-method">{takeMethod}</Typography>
+              <br />
+              <Typography variant="h4">Expiration Date</Typography>
+              <br />
+              <Typography variant="h6" id="expiration-date">{expirationDate}</Typography>
+              <br />
+              <Typography variant="h4">Functions</Typography>
+              <br />
+              <Typography variant="h6" id="functions">{functions}</Typography>
+              <br />
+              <Typography variant="h4">Store Method</Typography>
+              <br />
+              <Typography variant="h6" id="store-method">{storeMethod !== null ? storeMethod : 'Not in the database'}</Typography>
+              <br />
+              <Typography variant="h4">Company Name</Typography>
+              <br />
+              <Typography variant="h6" id="company-name">{companyName}</Typography>
+              <br />
+              <Typography variant="h4">Standards</Typography>
+              <br />
+              <Typography variant="h6" id="standards">{standards}</Typography>
+              <br />
+              <Typography variant="h4">Precautions</Typography>
+              <br />
+              <Typography variant="h6" id="precautions">{precautions}</Typography>
+              <br />
+              <Typography variant="h4">Recommended Times To Take Per Day</Typography>
+              <br />
+            </div>
+            <Typography variant="h6" id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
+          </ThemeProvider>
+        </Paper>
       </div>
     );
   }

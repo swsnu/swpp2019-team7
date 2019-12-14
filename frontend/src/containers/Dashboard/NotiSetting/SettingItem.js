@@ -21,8 +21,8 @@ const styles = (theme) => ({
     fontWeight: 700,
   },
   avatar: {
-    height: 56,
-    width: 56,
+    height: 48,
+    width: 48,
   },
   icon: {
     height: 32,

@@ -178,8 +178,8 @@ def notification_interval(request):
             tmp = {
                 "id": new_interval.id,
                 "send_time": new_interval.send_time,
-                "start_time": new_intervalnew_interval.start_time,
-                "end_time": existing_interval.end_time,
+                "start_time": new_interval.start_time,
+                "end_time": new_interval.end_time,
             }
             return JsonResponse(tmp, status=status.HTTP_200_OK)
         else:

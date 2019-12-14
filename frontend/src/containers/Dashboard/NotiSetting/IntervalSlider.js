@@ -20,35 +20,24 @@ const styles = () => ({
   },
 });
 
-function createData(name, time, pills) {
-  return { name, time, pills };
-}
-
-const rows = [
-  createData('Interval 1', '10AM - 12:30PM', 'Vitamin C, Teardrops,Teardrops, Teardrops'),
-  createData('Interval 2', '2:00PM - 5:00PM', 'Vitamin C, Teardrops'),
-];
-
-// const rows = this.props.intervalsList.map(
-//   (intervalObj) => {
-//     'interval',
-//   }
-// )
-
-
 class SimpleTable extends React.Component {
   render() {
     const { classes } = this.props;
     const intervalList = this.props.intervalsList.map((row) => (
       <TableRow key={row.id}>
-        <TableCell component="th" scope="row" style={{ background: 'yellow' }}>
-          {/*{row.name}*/}
-          interval {row.id}
+        <TableCell component="th" scope="row" style={{}}>
+          interval
+          {' '}
+          { row.id }
         </TableCell>
         <TableCell style={{ padding: 1 }} />
-        <TableCell align="right" style={{ background: 'pink', marginRight: 10 }}>
+        <TableCell align="right" style={{ marginRight: 10 }}>
           {/* <Paper style={{background: 'pink', padding: 10}}> */}
-          {row.start_time} - {row.end_time}
+          { row.start_time }
+          {' '}
+          -
+          {' '}
+          { row.end_time }
           {/* </Paper> */}
         </TableCell>
         <TableCell align="right">{row.send_time}</TableCell>
@@ -56,11 +45,6 @@ class SimpleTable extends React.Component {
         <TableCell align="right"><EditIcon /></TableCell>
         <TableCell align="right"><DeleteIcon /></TableCell>
       </TableRow>
-      // <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
-      //   <CardActionArea component="a" href="#">
-      //     <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
-      //   </CardActionArea>
-      // </Grid>
     ));
     return (
       <Paper className={classes.root}>
@@ -70,7 +54,7 @@ class SimpleTable extends React.Component {
               <TableCell>Intervals</TableCell>
               <TableCell align="right" />
               <TableCell align="right">From - To</TableCell>
-              <TableCell align="right">Receive @</TableCell>
+              <TableCell align="right">Receive Alarm At</TableCell>
               <TableCell align="right">Pills</TableCell>
               <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
@@ -78,22 +62,6 @@ class SimpleTable extends React.Component {
           </TableHead>
           <TableBody>
             {intervalList}
-            {/*{rows.map((row) => (*/}
-            {/*  <TableRow key={row.name}>*/}
-            {/*    <TableCell component="th" scope="row" style={{ background: 'yellow' }}>*/}
-            {/*      {row.name}*/}
-            {/*    </TableCell>*/}
-            {/*    <TableCell style={{ padding: 1 }} />*/}
-            {/*    <TableCell align="right" style={{ background: 'pink', marginRight: 10 }}>*/}
-            {/*      /!* <Paper style={{background: 'pink', padding: 10}}> *!/*/}
-            {/*      {row.time}*/}
-            {/*      /!* </Paper> *!/*/}
-            {/*    </TableCell>*/}
-            {/*    <TableCell align="right">{row.pills}</TableCell>*/}
-            {/*    <TableCell align="right"><EditIcon /></TableCell>*/}
-            {/*    <TableCell align="right"><DeleteIcon /></TableCell>*/}
-            {/*  </TableRow>*/}
-            {/*))}*/}
           </TableBody>
         </Table>
       </Paper>

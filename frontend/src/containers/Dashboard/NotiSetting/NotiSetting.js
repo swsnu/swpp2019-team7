@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import { connect } from 'react-redux';
 import {
   Grid, Typography,
@@ -53,11 +52,7 @@ class NotiSetting extends Component {
 
   content() {
     if (this.props.webnoti_list !== null && this.props.pillList.length !== 0) {
-      // console.log(this.props.webnoti_list);
-      // console.log(this.props.pillList);
       const pillNotiSettingList = this.props.webnoti_list;
-      console.log('this.props.pillList: ');
-      console.log(this.props.pillList);
       const renderedList = pillNotiSettingList.map((pillNotiSetting) => {
         function checkPill(pill) {
           return pill.id === pillNotiSetting['pill-id'];
@@ -78,15 +73,16 @@ class NotiSetting extends Component {
   }
 
   render() {
-    console.log('noti setting front: ', this.props.intervalsList);
     const { classes } = this.props;
     const settingList = tempSetting.map((item) => (
-      <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
+      <div style={{marginBottom: 20 }}>
+        <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
+      </div>
     ));
     return (
       <div className="NotiSetting">
-        {/*<div style={{width: "300"}}>*/}
-        {/*</div>*/}
+        {/* <div style={{width: "300"}}> */}
+        {/* </div> */}
         <Grid container alignItems="center">
           <Grid item xs={12} className={classes.settingList}>
             {this.usersSetting(settingList)}
