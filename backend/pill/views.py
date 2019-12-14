@@ -188,7 +188,7 @@ class PillItemsPerUser(APIView):
     # @csrf_exempt
     # pylint: disable=R0201
     def get(self, request, pill_id):
-        """ Get specific pill of pill_id from this user"""
+        """ Get  user's pill specified by pill_id """
         if request.user.is_authenticated:
             # Check if user has pill_id
             existing_pills = request.user.pills.all().values_list('id', flat=True)

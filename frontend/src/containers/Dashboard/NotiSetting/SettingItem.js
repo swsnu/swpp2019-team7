@@ -21,8 +21,8 @@ const styles = (theme) => ({
     fontWeight: 700,
   },
   avatar: {
-    height: 56,
-    width: 56,
+    height: 48,
+    width: 48,
   },
   icon: {
     height: 32,
@@ -81,12 +81,12 @@ class SettingItem extends Component {
               alignItems="flex-end"
             >
               <Grid item>
-                <Avatar className={classes.avatar}>
+                <Avatar className={classes.avatar} >
                   <NotificationsIcon className={classes.icon} />
                 </Avatar>
               </Grid>
               <Grid item>
-                <Typography variant="h4">{this.props.name}</Typography>
+                <Typography variant="h5">{this.props.name}</Typography>
               </Grid>
               <Grid item>
                 <Switch

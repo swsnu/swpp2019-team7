@@ -208,7 +208,7 @@ class PillNoti extends Component {
         <KeyboardTimePicker
           margin="normal"
           id="time-picker"
-          label="Time picker"
+          // label="Time picker"
           key={inputFieldIndex - 1}
           value={`1998-01-04T${time.substring(0, 2)}:${time.substring(2, 4)}`}
           onChange={this.onDateChange(inputFieldIndex - 1)}
@@ -216,6 +216,7 @@ class PillNoti extends Component {
             'aria-label': 'change time',
           }}
           disabled
+          style={{ marginTop: 0, marginBottom: 12 }}
         />
       </div>
     ));
@@ -225,16 +226,20 @@ class PillNoti extends Component {
           <PillItemWrapper>
             <Grid
               container
-              justify="space-between"
-              alignItems="center"
+              justify="flex-start"
+              alignItems="flex-start"
             >
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <Avatar className={classes.avatar} src={this.props.pill.file}>
                   <LocalHospitalIcon className={classes.icon} />
                 </Avatar>
               </Grid>
-              <Grid item xs={2}>
-                <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
+              <Grid item xs={3}>
+                <ThemeProvider theme={mytheme}>
+                  <Typography variant="h5">
+                    {this.state.pillNotiSetting['pill-name']}
+                  </Typography>
+                </ThemeProvider>
               </Grid>
               <Grid item xs={4}>
                 <Typography

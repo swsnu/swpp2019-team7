@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
@@ -92,9 +91,7 @@ class MyPills extends Component {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
-        <CardActionArea component="a" href="#">
           <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
-        </CardActionArea>
       </Grid>
     ));
     return (

@@ -44,6 +44,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+backend/envSecondTeam7/*
+frontend/package-lock.json
 build/
 develop-eggs/
 dist/
