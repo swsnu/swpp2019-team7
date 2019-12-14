@@ -47,19 +47,28 @@ class PillDataset:
             PillDataset()
         return PillDataset._instance
 
+    def get_number(self, filename):
+        """if filenumber is 9999.xml, return 9999"""
+        return int(filename[:-4])
+
     def __init__(self):
         assert PillDataset._instance is None, \
             "PillDataset class is singleton. Call PillDataset.get_instance() instead."
 
         PillDataset._instance = self
+        filenamelist=[]
 
         for filename in os.listdir(data_path):
             if not filename.endswith('.xml'):
                 continue
             else:
-                print(f"Processing {filename}")
-                tree = ElementTree.parse(os.path.join(data_path, filename))
-                self.parse_file(tree)
+                filenamelist.append(filename)
+        filenamelist.sort(key=self.get_number)
+
+        for filename in filenamelist:
+            print(f"Processing {filename}")
+            tree = ElementTree.parse(os.path.join(data_path, filename))
+            self.parse_file(tree)
 
         # Date Parsing (e.g. 1일 1회)
         # I added encoding = "utf-8"... BUT this may cause problems.
