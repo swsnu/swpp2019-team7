@@ -33,10 +33,12 @@ def send_notification():
                 notification_interval_list = list(NotificationInterval.objects.filter(user=user, send_time=now))
                 for notification_interval in notification_interval_list:
                     notification_list = list(notification_interval.get_notification_in_interval())
-                    product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
-                    device.send_message(title="Pillbox Notification",
-                                        body=f'Time to take {product_name_str}!',
-                                        icon="./Pillbox.png")
+                    if len(notification_list) > 0:
+                        product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
+                        # If aggregated, then will not send image...
+                        device.send_message(title="Pillbox Notification",
+                                            body=f'Time to take {product_name_str}!',
+                                            icon="./Pillbox.png")
             else:
                 notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
                 for notification in notification_list:
@@ -62,12 +64,12 @@ def send_notification():
                 notification_interval_list = list(NotificationInterval.objects.filter(user=user, send_time=now))
                 for notification_interval in notification_interval_list:
                     notification_list = list(notification_interval.get_notification_in_interval())
-                    product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
-
-                    # If aggregated, then will not send image...
-                    TELEGRAM_BOT.send_message(
-                        chat_id=telegram_user.chat_id,
-                        text=f"Time to take {product_name_str}!")
+                    if len(notification_list) > 0:
+                        product_name_str = ", ".join(map(lambda x: x.pill.product_name, notification_list))
+                        # If aggregated, then will not send image...
+                        TELEGRAM_BOT.send_message(
+                            chat_id=telegram_user.chat_id,
+                            text=f"Time to take {product_name_str}!")
             else:
                 notification_list = list(Notification.objects.filter(user=user))  # list of datetime.time(hour, minute)
                 for notification in notification_list:
