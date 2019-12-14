@@ -46,8 +46,10 @@ class SimpleTable extends React.Component {
         <TableCell align="right"><DeleteIcon /></TableCell>
       </TableRow>
     ));
+    console.log('interval slider');
+    console.log(classes.root);
     return (
-      <Paper className={classes.root}>
+      <Paper className={classes.root} id="interval-slider">
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>

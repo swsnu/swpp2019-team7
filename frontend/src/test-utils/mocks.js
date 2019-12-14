@@ -93,18 +93,24 @@ export const stubDialogState = {
   open: true,
 };
 
+export const stubIntervalState = {
+  intervalsList: [],
+};
+
+
 // mock store for a logged out user
 export const getMockStore = (...args) => {
   let userReducer; let pillReducer; let
     notiReducer;
   let dashReducer; let dialogReducer; let
-    newReducer;
+    newReducer; let intervalReducer;
 
   userReducer = getmockReducer(stubUserState);
   pillReducer = getmockReducer(stubPillState);
   notiReducer = getmockReducer(stubNotiState);
   dashReducer = getmockReducer(stubDashState);
   dialogReducer = getmockReducer(stubDialogState);
+  intervalReducer = getmockReducer(stubIntervalState);
   if (args.length) {
     newReducer = getmockReducer(args[1]);
     switch (args[0]) {
@@ -113,6 +119,7 @@ export const getMockStore = (...args) => {
       case 'noti': notiReducer = newReducer; break;
       case 'dash': dashReducer = newReducer; break;
       case 'dialog': dialogReducer = newReducer; break;
+      case 'interval': intervalReducer = newReducer; break;
       default: break;
     }
   }
@@ -122,6 +129,7 @@ export const getMockStore = (...args) => {
     noti: notiReducer,
     dash: dashReducer,
     dialog: dialogReducer,
+    interval: intervalReducer,
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -91,7 +91,7 @@ class MyPills extends Component {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
-          <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
+        <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
       </Grid>
     ));
     return (

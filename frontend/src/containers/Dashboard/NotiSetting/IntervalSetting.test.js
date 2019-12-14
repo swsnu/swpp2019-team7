@@ -23,6 +23,6 @@ describe('<IntervalSetting />', () => {
   });
   it('should render IntervalSetting', () => {
     const component = mount(mockIntervalSetting);
-    expect(component.find({ id: 'interval-setting' }).length).toBe(1);
+    expect(component.find({ id: 'interval-time-select' }).length).toBe(2);
   });
 });

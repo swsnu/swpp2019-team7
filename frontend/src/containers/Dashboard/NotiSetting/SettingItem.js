@@ -81,7 +81,7 @@ class SettingItem extends Component {
               alignItems="flex-end"
             >
               <Grid item>
-                <Avatar className={classes.avatar} >
+                <Avatar className={classes.avatar}>
                   <NotificationsIcon className={classes.icon} />
                 </Avatar>
               </Grid>

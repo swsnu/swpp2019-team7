@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 
-import IntervalSlider from './IntervalSlider';
+import SimpleTable from './IntervalSlider';
 import IntervalTimeSelect from './IntervalTimeSelect';
 
 const styles = (theme) => ({
@@ -31,11 +29,11 @@ class IntervalSetting extends React.Component {
     return (
       <div className={classes.root}>
         <div className={classes.margin} />
-        <IntervalSlider />
-        {/*<Fab color="primary" aria-label="add">*/}
-        {/*  <AddIcon onClick={() => this.onClickAddInterval()} />*/}
-        {/*</Fab>*/}
-        <IntervalTimeSelect />
+        <SimpleTable />
+        {/* <Fab color="primary" aria-label="add"> */}
+        {/*  <AddIcon onClick={() => this.onClickAddInterval()} /> */}
+        {/* </Fab> */}
+        <IntervalTimeSelect id="interval-time-select" />
       </div>
     );
   }

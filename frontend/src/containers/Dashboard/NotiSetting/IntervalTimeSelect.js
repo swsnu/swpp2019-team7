@@ -7,8 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { Typography, Avatar } from '@material-ui/core';
 
 import { postInterval } from '../../../store/actions/intervalSettingAction';
 import { changeDashboard } from '../../../store/actions/dashboardAction';
@@ -100,29 +98,29 @@ class IntervalTimeSelect extends React.Component {
     return (
       <div align="right">
         {/* className={classes.margin} */}
-{/*        Start Time:*/}
-{/*        {' '}*/}
-{/*        { this.state.startHour }*/}
-{/*        {' '}*/}
-{/*:*/}
-{/*        {' '}*/}
-{/*        { this.state.startMin }*/}
-{/*        <br />*/}
-{/*        End Time:*/}
-{/*        {' '}*/}
-{/*        { this.state.endHour }*/}
-{/*        {' '}*/}
-{/*        :*/}
-{/*        {' '}*/}
-{/*        { this.state.endMin }*/}
-{/*        <br />*/}
+        {/*        Start Time: */}
+        {/*        {' '} */}
+        {/*        { this.state.startHour } */}
+        {/*        {' '} */}
+        {/*: */}
+        {/*        {' '} */}
+        {/*        { this.state.startMin } */}
+        {/*        <br /> */}
+        {/*        End Time: */}
+        {/*        {' '} */}
+        {/*        { this.state.endHour } */}
+        {/*        {' '} */}
+        {/*        : */}
+        {/*        {' '} */}
+        {/*        { this.state.endMin } */}
+        {/*        <br /> */}
         {/* start time */}
-        {/*<Grid container alignItems="center">*/}
-        {/*  <Grid item >*/}
-        {/*<Typography variant="h6">Set interval notification from: {'  '}</Typography>*/}
-        {/*  </Grid>*/}
-        {/*  <Grid item>*/}
-        <FormControl style={{ width: 100}}>
+        {/* <Grid container alignItems="center"> */}
+        {/*  <Grid item > */}
+        {/* <Typography variant="h6">Set interval notification from: {'  '}</Typography> */}
+        {/*  </Grid> */}
+        {/*  <Grid item> */}
+        <FormControl style={{ width: 100 }}>
           <InputLabel id="demo-customized-select-label">Hr</InputLabel>
           <Select
             labelId="demo-customized-select-label"
@@ -178,9 +176,9 @@ class IntervalTimeSelect extends React.Component {
             <MenuItem value={45}>45</MenuItem>
           </Select>
         </FormControl>
-            <br />
-        {/*  </Grid>*/}
-        {/*</Grid>*/}
+        <br />
+        {/*  </Grid> */}
+        {/* </Grid> */}
         {/* end time */}
         <FormControl style={{ width: 100 }}>
           <InputLabel id="demo-customized-select-label">Hr</InputLabel>
@@ -246,7 +244,7 @@ class IntervalTimeSelect extends React.Component {
           // className={classes.button}
           // startIcon={<SaveIcon />}
           onClick={() => this.onSaveInterval()}
-          style={{marginTop: 20}}
+          style={{ marginTop: 20 }}
         >
           Save New Interval
         </Button>

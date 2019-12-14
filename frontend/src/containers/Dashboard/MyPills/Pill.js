@@ -7,12 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import ButtonBase from '@material-ui/core/ButtonBase';
 
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
 import { deleteUserPill, getPill } from '../../../store/actions/pillAction';
@@ -120,42 +117,41 @@ class Pill extends Component {
     return (
       <div className="Pill">
         <ThemeProvider theme={theme}>
-          {/*<Paper className={classes.paper}>*/}
-          {/*  <Grid container spacing={2}>*/}
-          {/*    <Grid item style={{padding: 0}}>*/}
-          {/*      <ButtonBase className={classes.image}>*/}
-          {/*        <img className={classes.img} alt="complex" src={this.props.file} />*/}
-          {/*      </ButtonBase>*/}
-          {/*    </Grid>*/}
-          {/*    <Grid item xs sm container alignItems="center">*/}
-          {/*      <Grid item xs container direction="column" spacing={2}>*/}
-          {/*        <Grid item xs>*/}
-          {/*          <Typography variant="h5">*/}
-          {/*            {this.props.name}*/}
-          {/*          </Typography>*/}
-          {/*          <Typography variant="body2" gutterBottom>*/}
-          {/*            {this.props.takemethod}*/}
-          {/*          </Typography>*/}
-          {/*        </Grid>*/}
-          {/*      </Grid>*/}
-          {/*      <Grid item>*/}
-          {/*        <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>*/}
-          {/*          <DeleteForeverOutlinedIcon*/}
-          {/*            fontSize="large"*/}
-          {/*            component={(svgProps) => (*/}
-          {/*              <svg {...svgProps}>*/}
-          {/*                {React.cloneElement(svgProps.children[0], {*/}
-          {/*                  fill: '#ff7043',*/}
-          {/*                })}*/}
-          {/*              </svg>*/}
-          {/*            )}*/}
-          {/*          />*/}
-          {/*        </IconButton>*/}
-          {/*      </Grid>*/}
-          {/*    </Grid>*/}
-          {/*  </Grid>*/}
-          {/*</Paper>*/}
-
+          {/* <Paper className={classes.paper}> */}
+          {/*  <Grid container spacing={2}> */}
+          {/*    <Grid item style={{padding: 0}}> */}
+          {/*      <ButtonBase className={classes.image}> */}
+          {/*        <img className={classes.img} alt="complex" src={this.props.file} /> */}
+          {/*      </ButtonBase> */}
+          {/*    </Grid> */}
+          {/*    <Grid item xs sm container alignItems="center"> */}
+          {/*      <Grid item xs container direction="column" spacing={2}> */}
+          {/*        <Grid item xs> */}
+          {/*          <Typography variant="h5"> */}
+          {/*            {this.props.name} */}
+          {/*          </Typography> */}
+          {/*          <Typography variant="body2" gutterBottom> */}
+          {/*            {this.props.takemethod} */}
+          {/*          </Typography> */}
+          {/*        </Grid> */}
+          {/*      </Grid> */}
+          {/*      <Grid item> */}
+          {/*        <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}> */}
+          {/*          <DeleteForeverOutlinedIcon */}
+          {/*            fontSize="large" */}
+          {/*            component={(svgProps) => ( */}
+          {/*              <svg {...svgProps}> */}
+          {/*                {React.cloneElement(svgProps.children[0], { */}
+          {/*                  fill: '#ff7043', */}
+          {/*                })} */}
+          {/*              </svg> */}
+          {/*            )} */}
+          {/*          /> */}
+          {/*        </IconButton> */}
+          {/*      </Grid> */}
+          {/*    </Grid> */}
+          {/*  </Grid> */}
+          {/* </Paper> */}
 
 
           <CardActionArea
@@ -174,44 +170,44 @@ class Pill extends Component {
                 title={this.props.file}
               />
               <div className={classes.cardDetails} align="center">
-                {/*<CardContent className={classes.content}>*/}
-                  <Grid container justify="center" alignItems="center">
-                    <Grid item xs={9}>
-                      <Typography variant="h5" align="left">
-                        {this.props.name}
-                      </Typography>
-                      <Typography variant="h6" align="left">
-                        {this.props.takemethod}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                      {/*<div className={classes.controls}>*/}
-                      {/*  <Typography*/}
-                      {/*    variant="h6"*/}
-                      {/*    style={{ color: '#53a5e0' }}*/}
-                      {/*    onClick={() => {*/}
-                      {/*      this.props.getPill(this.props.id);*/}
-                      {/*      this.props.changeDashboard(4);*/}
-                      {/*    }}*/}
-                      {/*  >*/}
-                      {/*    Detail*/}
-                      {/*  </Typography>*/}
-                        <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
-                          <DeleteForeverOutlinedIcon
-                            fontSize="large"
-                            component={(svgProps) => (
-                              <svg {...svgProps}>
-                                {React.cloneElement(svgProps.children[0], {
-                                  fill: '#ff7043',
-                                })}
-                              </svg>
-                            )}
-                          />
-                        </IconButton>
-                      {/*</div>*/}
-                    </Grid>
+                {/* <CardContent className={classes.content}> */}
+                <Grid container justify="center" alignItems="center">
+                  <Grid item xs={9}>
+                    <Typography variant="h5" align="left">
+                      {this.props.name}
+                    </Typography>
+                    <Typography variant="h6" align="left">
+                      {this.props.takemethod}
+                    </Typography>
                   </Grid>
-                {/*</CardContent>*/}
+                  <Grid item xs={3}>
+                    {/* <div className={classes.controls}> */}
+                    {/*  <Typography */}
+                    {/*    variant="h6" */}
+                    {/*    style={{ color: '#53a5e0' }} */}
+                    {/*    onClick={() => { */}
+                    {/*      this.props.getPill(this.props.id); */}
+                    {/*      this.props.changeDashboard(4); */}
+                    {/*    }} */}
+                    {/*  > */}
+                    {/*    Detail */}
+                    {/*  </Typography> */}
+                    <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
+                      <DeleteForeverOutlinedIcon
+                        fontSize="large"
+                        component={(svgProps) => (
+                          <svg {...svgProps}>
+                            {React.cloneElement(svgProps.children[0], {
+                              fill: '#ff7043',
+                            })}
+                          </svg>
+                        )}
+                      />
+                    </IconButton>
+                    {/* </div> */}
+                  </Grid>
+                </Grid>
+                {/* </CardContent> */}
 
               </div>
             </Card>

@@ -166,15 +166,17 @@ def notification_interval(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
             return JsonResponse(intervals_list, status=status.HTTP_200_OK, safe=False)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     elif request.method == 'POST':
         if request.user.is_authenticated:
             try:
                 req_data = json.loads(request.body.decode())
+                start_time = req_data['start_time']
+                end_time = req_data['end_time']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
-            start_time = req_data['start_time']
-            end_time = req_data['end_time']
             NotificationInterval.objects.create(
                 user=request.user, send_time=start_time, start_time=start_time, end_time=end_time).save()
             new_interval = NotificationInterval.objects.filter(user=request.user).order_by('-id')[0]

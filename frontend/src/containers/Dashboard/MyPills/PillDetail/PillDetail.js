@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
-  createMuiTheme, responsiveFontSizes, ThemeProvider, withStyles,
+  createMuiTheme, ThemeProvider, withStyles,
 } from '@material-ui/core/styles';
 import { Typography, Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -65,7 +65,7 @@ const styles = () => ({
     height: 240,
     border: 0,
     borderRadius: '100%',
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
 });
 
@@ -132,7 +132,6 @@ class PillDetail extends Component {
 
   render() {
     const { classes } = this.props;
-    let pillId = '';
     let takeMethod = '';
     let productName = '';
     let expirationDate = '';
@@ -144,7 +143,6 @@ class PillDetail extends Component {
     let takeMethodPreprocessed = '';
     let file = '';
     if (this.props.selected_pill) {
-      pillId = this.props.selected_pill.id;
       takeMethod = this.breakLine(this.props.selected_pill.take_method);
       productName = this.props.selected_pill.product_name;
       expirationDate = this.props.selected_pill.expiration_date;
@@ -187,26 +185,32 @@ class PillDetail extends Component {
 
       <div className="PillDetail">
         <Button variant="contained" style={{ marginLeft: 40, marginTop: 60 }} color="primary" id="back-detail-article-button" type="button" onClick={() => this.goBackHandler()}>Back</Button>
-        <Paper style={{background: '#F0FAF1', marginRight: 40, marginLeft: 40, marginTop: 80, marginBottom: 60, padding: 40}}>
+        <Paper style={{
+          background: '#F0FAF1', marginRight: 40, marginLeft: 40, marginTop: 80, marginBottom: 60, padding: 40,
+        }}
+        >
           <br />
           <br />
           <div align="center">
-          {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
+            {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
           </div>
           <br />
           <br />
           <ThemeProvider theme={theme}>
-            {/*<Typography variant="h3">Pill ID</Typography>*/}
-            {/*<br />*/}
-            {/*<Typography variant="h6" id="pill-id">{pillId}</Typography>*/}
-            {/*<br />*/}
-            <div style={{marginLeft: 20, marginRight: 20 }} align="center">
-              <Typography variant="h4">Product : {productName}</Typography>
-              {/*<Typography style={{marginLeft: 10, marginRight: 10 }} variant="h4" id="product-name">{productName}</Typography>*/}
+            {/* <Typography variant="h3">Pill ID</Typography> */}
+            {/* <br /> */}
+            {/* <Typography variant="h6" id="pill-id">{pillId}</Typography> */}
+            {/* <br /> */}
+            <div style={{ marginLeft: 20, marginRight: 20 }} align="center">
+              <Typography variant="h4">
+Product :
+                {productName}
+              </Typography>
+              {/* <Typography style={{marginLeft: 10, marginRight: 10 }} variant="h4" id="product-name">{productName}</Typography> */}
               <br />
               <Typography variant="h4">Take Method</Typography>
               <br />
-              <Typography style={{marginLeft: 20, marginRight: 10 }} variant="h6" id="take-method">{takeMethod}</Typography>
+              <Typography style={{ marginLeft: 20, marginRight: 10 }} variant="h6" id="take-method">{takeMethod}</Typography>
               <br />
               <Typography variant="h4">Expiration Date</Typography>
               <br />

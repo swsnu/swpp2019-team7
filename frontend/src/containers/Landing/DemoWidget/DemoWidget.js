@@ -113,7 +113,7 @@ class DemoWidget extends Component {
                 {/* <Box maxWidth="335"> */}
                 <CardHeader
                   title={this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
-                  style={{ marginTop: 24, marginBottom: 24, fontSize: 28}}
+                  style={{ marginTop: 24, marginBottom: 24, fontSize: 28 }}
                 />
                 <CardMedia
                   component="img"
@@ -123,39 +123,39 @@ class DemoWidget extends Component {
                 />
                 {this.state.productInfo.productName
                   ? (
-                    <CardContent style={{maxWidth: 335,}}>
+                    <CardContent style={{ maxWidth: 335 }}>
                       {/* <Box align="left" maxLength="335"> */}
                       <Grid container alignItems="left">
                         <Grid item xs={12}>
-                        <Typography align="left" gutterBottom variant="h4" component="h2">
-                          {this.state.productInfo.productName}
-                        </Typography>
+                          <Typography align="left" gutterBottom variant="h4" component="h2">
+                            {this.state.productInfo.productName}
+                          </Typography>
                         </Grid>
                         {' '}
                         <br />
                         <Grid item xs={12}>
-                        <Typography align="left" variant="h6">
+                          <Typography align="left" variant="h6">
                           제조사:
-                          {' '}
-                          {' '}
-                          {this.state.productInfo.companyName}
-                        </Typography>
-                        </Grid>
-                        <Grid item xs ={12}>
-                        <Typography align="left" variant="h6" component="p">
-                          복용방법:
-                          {' '}
-                          {' '}
-                          {this.state.productInfo.takeMethod}
-                        </Typography>
+                            {' '}
+                            {' '}
+                            {this.state.productInfo.companyName}
+                          </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                        <Typography align="left" variant="h6" component="p">
+                          <Typography align="left" variant="h6" component="p">
+                          복용방법:
+                            {' '}
+                            {' '}
+                            {this.state.productInfo.takeMethod}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography align="left" variant="h6" component="p">
                           유통기한:
-                          {' '}
-                          {' '}
-                          {this.state.productInfo.expirationDate}
-                        </Typography>
+                            {' '}
+                            {' '}
+                            {this.state.productInfo.expirationDate}
+                          </Typography>
                         </Grid>
                       </Grid>
                       {/* </Box> */}
@@ -174,7 +174,7 @@ class DemoWidget extends Component {
                     <CardActions className={classes.cardButtons}>
                       {this.props.loggedIn
                         ? (
-                          <Button id="add-new-pill" variant="contained" color="primary" style={{margin: 16}} onClick={() => { this.addNewPill(); }}>
+                          <Button id="add-new-pill" variant="contained" color="primary" style={{ margin: 16 }} onClick={() => { this.addNewPill(); }}>
                             {/* <Icon name="checkmark" /> */}
                             Save
                           </Button>
@@ -185,7 +185,7 @@ class DemoWidget extends Component {
                             Log in to Save
                           </Button>
                         )}
-                      <Button id="retry" variant="contained" color="primary" style={{margin: 16}} onClick={() => { this.toggleResultModal(false); }}>
+                      <Button id="retry" variant="contained" color="primary" style={{ margin: 16 }} onClick={() => { this.toggleResultModal(false); }}>
                         Retry
                       </Button>
                     </CardActions>

@@ -75,8 +75,8 @@ class NotiSetting extends Component {
   render() {
     const { classes } = this.props;
     const settingList = tempSetting.map((item) => (
-      <div style={{marginBottom: 20 }}>
-        <SettingItem key={item.id} id={item.id} name={item.name} index={item.index} />
+      <div key={item.id} style={{ marginBottom: 20 }}>
+        <SettingItem id={item.id} name={item.name} index={item.index} />
       </div>
     ));
     return (
