@@ -37,7 +37,9 @@ def format_webnoti_list_object(item):
 def crud_device(request):
     """ CRUD Operation for FCM devices """
     if request.method == 'POST':
+        print('call crud')
         if request.user.is_authenticated:
+            print('authen')
             try:
                 req_data = json.loads(request.body.decode())
                 fcm_token = req_data['fcmtoken']
@@ -76,6 +78,7 @@ def crud_device(request):
 def webnoti(request):
     """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
+        print('webnoti get')
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(
@@ -146,25 +149,48 @@ def webnoti_pill(request, req_id):
 
 def notification_interval(request):
     """ CRUD operation for notification interval per each user """
-    if request.method == 'POST':
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            try:
+                existing_intervals = NotificationInterval.objects.filter(user=request.user)
+                intervals_list = []
+                for existing_interval in existing_intervals:
+                    tmp = {
+                        "id": existing_interval.id,
+                        "send_time": existing_interval.send_time,
+                        "start_time": existing_interval.start_time,
+                        "end_time": existing_interval.end_time,
+                    }
+                    intervals_list.append(tmp)
+
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+            return JsonResponse(intervals_list, status=status.HTTP_200_OK, safe=False)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    elif request.method == 'POST':
         if request.user.is_authenticated:
             try:
                 req_data = json.loads(request.body.decode())
-                interval_list = req_data['interval_list']
+                start_time = req_data['start_time']
+                end_time = req_data['end_time']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
-            for interval in interval_list:
-                # TODO check the string format for datetime from frontend
-                start_time = interval['start_time']
-                end_time = interval['end_time']
-                NotificationInterval.objects.create(
-                    user=request.user, send_time=start_time, start_time=start_time, end_time=end_time)
-            return HttpResponse(status=status.HTTP_200_OK)
+            NotificationInterval.objects.create(
+                user=request.user, send_time=start_time, start_time=start_time, end_time=end_time).save()
+            new_interval = NotificationInterval.objects.filter(user=request.user).order_by('-id')[0]
+            tmp = {
+                "id": new_interval.id,
+                "send_time": new_interval.send_time,
+                "start_time": new_interval.start_time,
+                "end_time": new_interval.end_time,
+            }
+            return JsonResponse(tmp, status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 @csrf_exempt
 def telegram(request):

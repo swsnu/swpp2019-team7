@@ -161,14 +161,11 @@ class IntervalTest(TestCase):
  
     def test_interval_test(self):
         response = self.client.post('/api/notification-interval/',
-            json.dumps({'interval_list': [{'start_time': '10:00', 'end_time': '13:00'}]}),
+            json.dumps({'start_time': '10:00', 'end_time': '13:00'}),
             content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
     
         """Unallowed operation"""
-        response = self.client.get('/api/notification-interval/')
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
         response = self.client.post('/api/notification-interval/', 
             json.dumps({'name': 'JinSun'}),
             content_type='application/json')
@@ -176,7 +173,7 @@ class IntervalTest(TestCase):
     
         self.client.logout()
         response = self.client.post('/api/notification-interval/',
-            json.dumps({'interval_list': [{'start_time': '10:00', 'end_time': '13:00'}]}),
+            json.dumps({'start_time': '10:00', 'end_time': '13:00'}),
             content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 

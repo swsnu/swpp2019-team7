@@ -1,0 +1,93 @@
+{
+    "name": "skeleton",
+    "version": "0.1.0",
+    "private": true,
+    "proxy": "http://localhost:8000",
+    "dependencies": {
+        "@date-io/date-fns": "^1.3.11",
+        "@material-ui/core": "^4.5.2",
+        "@material-ui/icons": "^4.5.1",
+        "@material-ui/lab": "^4.0.0-alpha.35",
+        "@material-ui/pickers": "^3.2.8",
+        "@types/date-fns": "^2.6.0",
+        "axios": "^0.19.0",
+        "clsx": "^1.0.4",
+        "connected-react-router": "^6.5.2",
+        "date-fns": "^2.8.0",
+        "eslint-config-airbnb": "^18.0.1",
+        "eslint-plugin-import": "^2.18.2",
+        "filepond": "^4.7.2",
+        "filepond-plugin-file-validate-size": "^2.2.0",
+        "filepond-plugin-file-validate-type": "^1.2.4",
+        "filepond-plugin-image-crop": "^2.0.3",
+        "filepond-plugin-image-preview": "^4.5.0",
+        "filepond-plugin-image-resize": "^2.0.4",
+        "filepond-plugin-image-transform": "^3.6.0",
+        "firebase": "^7.3.0",
+        "history": "^4.10.1",
+        "js-cookie": "^2.2.1",
+        "json-server": "^0.15.1",
+        "react": "^16.9.0",
+        "react-autosuggest": "^9.4.3",
+        "react-bootstrap": "^1.0.0-beta.14",
+        "react-dom": "^16.12.0",
+        "react-filepond": "^7.0.1",
+        "react-hot-loader": "^4.12.18",
+        "react-mock-router": "^1.0.15",
+        "react-popper": "^1.3.6",
+        "react-redux": "^7.1.1",
+        "react-router": "^5.1.2",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.1.1",
+        "react-test-renderer": "^16.9.0",
+        "redux": "^4.0.4",
+        "redux-thunk": "^2.3.0",
+        "semantic-ui-react": "^0.88.1",
+<<<<<<< HEAD
+        "styled-components": "^4.4.1",
+        "uuid": "^3.3.3"
+=======
+        "serialize-javascript": "^2.1.1",
+        "styled-components": "^4.4.1"
+>>>>>>> fa0ef968fe50950dbf359d3f8735a4ed22d80bf1
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "backend": "cp api/db.json api/_db.json && json-server --watch api/_db.json --routes api/routes.json --port 8000"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "enzyme": "^3.10.0",
+        "enzyme-adapter-react-16": "^1.15.1",
+        "enzyme-to-json": "^3.4.3",
+        "eslint": "^6.6.0",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.16.0"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js, jsx}",
+            "!src/index.js",
+            "!src/serviceWorker.js",
+            "!src/components/UploadWidget.js",
+            "!src/components/Firebase/Firebase.js"
+        ]
+    }
+}

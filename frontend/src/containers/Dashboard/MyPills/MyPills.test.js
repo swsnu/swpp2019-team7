@@ -21,17 +21,28 @@ describe('<MyPills />', () => {
       </Provider>
     );
   });
-  it('should render account setting', () => {
+  it('should render MyPills', () => {
     const component = mount(mockMyPills);
     expect(component.find('.MyPills').length).toBe(1);
   });
-  it('should delete correctly', () => {
+  it('should add by photo', () => {
     const component = mount(mockMyPills);
+    const wrapperButton = component.find({ id: 'addpill' }).at(0);
+    const dialog = component.find({ id: 'dialog' }).at(0);
+    wrapperButton.simulate('click');
+
+    expect(dialog.length).toBe(1);
+
+    const buttonClose = component.find({ id: 'close-dialog' }).at(0);
+    buttonClose.simulate('click');
+  });
+  it('should add manually', () => {
+    const component = mount(mockMyPills);
+    const buttonWrapper = component.find({ id: 'addpillManually' }).at(0);
     const spyPush = jest.spyOn(history, 'push')
       .mockImplementation(() => { });
-    const buttonWrapper = component.find({ id: 'addpill' }).at(1);
+
     buttonWrapper.simulate('click');
     expect(spyPush).toHaveBeenCalledTimes(1);
-    // expect(spyDelete).toHaveBeenCalledTimes(1)
   });
 });

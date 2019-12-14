@@ -53,6 +53,8 @@ export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/'
   });
 
 export const registerUserDevice = (token) => () => {
+  console.log('token is {token}');
+  console.log(token);
   ax.post('/api/registerdevice/', token)
     .catch((err) => console.log(err));
 };

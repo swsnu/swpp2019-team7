@@ -21,8 +21,8 @@ const styles = (theme) => ({
     fontWeight: 700,
   },
   avatar: {
-    height: 56,
-    width: 56,
+    height: 48,
+    width: 48,
   },
   icon: {
     height: 32,
@@ -58,6 +58,7 @@ class SettingItem extends Component {
 
   toggleChecked() {
     const { noti } = this.props;
+    console.log(noti);
     noti[this.props.index] = !noti[this.props.index];
     this.props.onEditNoti(noti);
   }
@@ -85,7 +86,7 @@ class SettingItem extends Component {
                 </Avatar>
               </Grid>
               <Grid item>
-                <Typography variant="h4">{this.props.name}</Typography>
+                <Typography variant="h5">{this.props.name}</Typography>
               </Grid>
               <Grid item>
                 <Switch

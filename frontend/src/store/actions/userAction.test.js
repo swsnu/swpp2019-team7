@@ -114,3 +114,43 @@ describe('User Action', () => {
     });
   });
 });
+
+
+describe('User Action Error', () => {
+  beforeEach(() => {
+    window.alert = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('Signin User should login the user correctly', (done) => {
+    const spy = jest.spyOn(ax, 'post')
+      .mockImplementation(() => new Promise((resolve, reject) => {
+        const result = {
+          status: 400,
+        };
+        reject(result);
+      }));
+    store.dispatch(actionCreators.signinUser()).then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+
+  it('Edit User Info ', (done) => {
+    const spy = jest.spyOn(ax, 'put')
+      .mockImplementation(() => new Promise((resolve, reject) => {
+        const result = {
+          status: 400,
+        };
+        reject(result);
+      }));
+    store.dispatch(actionCreators.editUserInfo(stubUser)).then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+});

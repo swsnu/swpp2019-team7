@@ -38,5 +38,10 @@ module.exports = {
     "react/display-name": [0],
     "no-param-reassign": [0],
     "no-plusplus": [0],
+    "global-require": [0],
+    "radix": [0],
+    "react/no-find-dom-node": [0],
+    "react/no-unused-state": [0],
+    "react/prefer-stateless-function": [0],
   },
 };

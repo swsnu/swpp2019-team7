@@ -5,12 +5,17 @@ import { withRouter } from 'react-router-dom';
 import { Typography, withStyles } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 
 import Pill from './Pill';
+import LoggedInWidget from './LoggedInWidget/LoggedInWidget';
 import { getUserPills, addUserPill } from '../../../store/actions/pillAction';
+import { handleDialogReset } from '../../../store/actions/dialogAction';
 
 // theme for Material UI Typography
 const theme = createMuiTheme({
@@ -46,17 +51,22 @@ const styles = (myTheme) => ({
     [theme.breakpoints.down('sm')]: {
       marginBottom: '8%',
     },
-
+  },
+  closeModal: {
+    marginTop: myTheme.spacing(22),
+    color: 'white',
   },
 });
 
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+Transition.displayName = 'Transition';
 
 class MyPills extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // pills: [],
+      open: false,
     };
   }
 
@@ -65,7 +75,12 @@ class MyPills extends Component {
   }
 
   handleAddPill() {
-    this.props.history.push('/loggedinwidget');
+    this.setState(() => ({ open: true }));
+    this.props.handleDialogReset();
+  }
+
+  handleClose() {
+    this.setState(() => ({ open: false }));
   }
 
   handleAddPillManually() {
@@ -76,9 +91,7 @@ class MyPills extends Component {
     const { classes } = this.props;
     const pillList = this.props.pillList.map((pill) => (
       <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
-        <CardActionArea component="a" href="#">
-          <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
-        </CardActionArea>
+        <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
       </Grid>
     ));
     return (
@@ -101,6 +114,25 @@ class MyPills extends Component {
             <AddIcon />
             Add manually
           </Fab>
+          <Dialog
+            id="dialog"
+            fullScreen
+            // onBackdropClick
+            open={this.state.open && this.props.dialogOpened}
+            // onClose={this.handleClose}
+            TransitionComponent={Transition}
+            PaperProps={{
+              style: {
+                backgroundColor: 'rgba(32,32,32,1)',
+                // boxShadow: 'none',
+              },
+            }}
+          >
+            <IconButton id="close-dialog" className={classes.closeModal} color="inherit" onClick={() => this.handleClose()} aria-label="close">
+              <CloseIcon fontSize="large" />
+            </IconButton>
+            <LoggedInWidget />
+          </Dialog>
         </ThemeProvider>
       </div>
     );
@@ -109,8 +141,10 @@ class MyPills extends Component {
 const mapStateToProps = (state) => ({
   pillList: state.pill.pill_list,
   loggedIn: state.user.logged_in,
+  dialogOpened: state.dialog.open,
 });
 export default connect(mapStateToProps, {
   getUserPills,
   addUserPill,
+  handleDialogReset,
 })(withRouter((withStyles(styles)(MyPills))));

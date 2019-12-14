@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     'www.pillbox.me',
 ]
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5242880
+
 AUTH_USER_MODEL = 'user.User'
 
 # Application definition

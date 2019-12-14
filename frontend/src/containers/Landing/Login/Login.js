@@ -16,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../../Header/Header';
 import * as userActionCreators from '../../../store/actions/userAction';
+import * as pillActionCreators from '../../../store/actions/pillAction';
 import { withFirebase } from '../../../components/Firebase';
 import { isIOS } from '../../../components/Firebase/Firebase';
 
@@ -71,6 +72,10 @@ class Login extends Component {
     e.preventDefault();
   };
 
+  handlerSignup = () => {
+    this.props.history.push('/signup');
+  }
+
   onLoginButtonClick = async () => {
     const user = { email: this.state.email_input, password: this.state.pw_input };
     this.setState({
@@ -80,6 +85,7 @@ class Login extends Component {
     if (!isIOS()) {
       this.props.firebase.getToken().then((token) => {
         this.props.onLoginUser(user).then(() => {
+        if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
           this.props.onRegisterToken(token);
         });
       });
@@ -148,7 +154,7 @@ class Login extends Component {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
+                  <Link variant="body2" onClick={() => this.handlerSignup()}>
                     Don&apos;t have an account? Sign Up
                   </Link>
                 </Grid>
@@ -167,6 +173,11 @@ class Login extends Component {
 export const mapDispatchToProps = (dispatch) => ({
   onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)); },
   onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
+  onAddLazyPill: (newPillId, imageId) => { dispatch(pillActionCreators.addLazyPill(newPillId, imageId)); },
 });
 
-export default connect(null, mapDispatchToProps)((withStyles(styles)(withFirebase(Login))));
+const mapStateToProps = (state) => ({
+  newPillId: state.pill.new_pill_id,
+  imageId: state.pill.image_id,
+});
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(withFirebase(Login))));

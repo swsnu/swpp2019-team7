@@ -41,6 +41,7 @@ class Firebase {
   };
 
   async getToken() {
+    console.log('ask for token');
     this.requestPermission();
     let token = null;
     await this.messaging.getToken()
@@ -66,7 +67,8 @@ class Firebase {
           console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
         });
     });
-
+    console.log('token return is ');
+    console.log(token);
     this.token = token;
     return token;
   }

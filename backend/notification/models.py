@@ -44,6 +44,12 @@ class Notification(models.Model):
         :param time_list: list of 3 or 4 digit integer representing time e.g. [900, 1300, 1900]
         :return: WebNotification Instance
         """
+        #If pill is custom pill, It won't have formatted take method. Create only notification, without time
+        if pill.custom is True:
+            notification = cls(activated=activated, user=user, pill=pill)
+            notification.save()
+            return notification
+
         datetime_list = time_list
 
         # If time not given, set to default pill take-time
@@ -90,6 +96,7 @@ class NotificationInterval(models.Model):
     send_time = models.TimeField(blank="09:00")  # time to send the notification
     start_time = models.TimeField(blank="09:00")  # start time of the interval
     end_time = models.TimeField(blank="12:00")  # ending time of the interval
+
     """
         @classmethod
         def create(cls, user, start_time, end_time):

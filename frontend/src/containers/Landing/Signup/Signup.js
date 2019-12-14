@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
+import * as pillActionCreators from '../../../store/actions/pillAction';
+import { withFirebase } from '../../../components/Firebase';
 
 
 function Copyright() {
@@ -77,7 +79,7 @@ class Signup extends Component {
   credentialChecker = (e) => {
     e.preventDefault();
     const emailReg = /^[^@\s]+@[^@.\s]+\.[^@\s]+$/;
-    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const passwordReg = /^(?=.*[a-z])(?=.*\d).{6,}$/;
     const usernameReg = /^[A-Z][a-z]+$/;
     let emailError = false;
     let passwordError = false;
@@ -130,7 +132,11 @@ class Signup extends Component {
     return (!emailError) && (!passwordError) && (!passwordConfirmError) && (!usernameError);
   };
 
-  onSignupButtonClick = (event) => {
+  handlerSignup = () => {
+    this.props.history.push('/signin');
+  }
+
+  onSignupButtonClick = async (event) => {
     const correctForm = this.credentialChecker(event);
     if (correctForm === true) {
       const user = {
@@ -138,7 +144,14 @@ class Signup extends Component {
         password: this.state.pw_input,
         name: this.state.username_input,
       };
-      this.props.onSignupUser(user);
+      this.props.firebase.getToken().then((token) => {
+        console.log('token from firebase is');
+        console.log(token);
+        this.props.onSignupUser(user).then(() => {
+          if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
+          this.props.onRegisterToken(token);
+        });
+      });
     }
   };
 
@@ -190,7 +203,7 @@ class Signup extends Component {
                 <Grid item xs={12}>
                   <TextField
                     error={this.state.pw_error}
-                    helperText={this.state.pw_error ? 'Must contain at least one number and one lowercase letter, and at least 8 or more characters.' : false}
+                    helperText={this.state.pw_error ? 'Must contain at least one number and one letter, and at least 6 or more characters.' : false}
                     variant="outlined"
                     required
                     fullWidth
@@ -233,7 +246,7 @@ class Signup extends Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link href="/login" variant="body2" onClick={() => this.handlerLogin()}>
                     Already have an account? Log in
                   </Link>
                 </Grid>
@@ -249,9 +262,16 @@ class Signup extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onSignupUser: (user) => { dispatch(userActionCreators.signupUser(user)); },
+export const mapDispatchToProps = (dispatch) => ({
+  onSignupUser: async (user) => { await dispatch(userActionCreators.signupUser(user)); },
+  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
+  onAddLazyPill: (newPillId, imageId) => { dispatch(pillActionCreators.addLazyPill(newPillId, imageId)); },
+});
+
+const mapStateToProps = (state) => ({
+  newPillId: state.pill.new_pill_id,
+  imageId: state.pill.image_id,
 });
 
 // export default Signup
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Signup));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(withFirebase(Signup)));
