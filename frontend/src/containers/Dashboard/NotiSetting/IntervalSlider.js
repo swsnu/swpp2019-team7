@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,10 +29,39 @@ const rows = [
   createData('Interval 2', '2:00PM - 5:00PM', 'Vitamin C, Teardrops'),
 ];
 
+// const rows = this.props.intervalsList.map(
+//   (intervalObj) => {
+//     'interval',
+//   }
+// )
+
 
 class SimpleTable extends React.Component {
   render() {
     const { classes } = this.props;
+    const intervalList = this.props.intervalsList.map((row) => (
+      <TableRow key={row.id}>
+        <TableCell component="th" scope="row" style={{ background: 'yellow' }}>
+          {/*{row.name}*/}
+          interval {row.id}
+        </TableCell>
+        <TableCell style={{ padding: 1 }} />
+        <TableCell align="right" style={{ background: 'pink', marginRight: 10 }}>
+          {/* <Paper style={{background: 'pink', padding: 10}}> */}
+          {row.start_time} - {row.end_time}
+          {/* </Paper> */}
+        </TableCell>
+        <TableCell align="right">{row.send_time}</TableCell>
+        <TableCell align="right">pills</TableCell>
+        <TableCell align="right"><EditIcon /></TableCell>
+        <TableCell align="right"><DeleteIcon /></TableCell>
+      </TableRow>
+      // <Grid item key={pill.id} xs={12} md={6} style={{ marginBottom: '2%' }}>
+      //   <CardActionArea component="a" href="#">
+      //     <Pill key={pill.id} id={pill.id} name={pill.product_name} file={pill.file} takemethod={pill.take_method_preprocessed} />
+      //   </CardActionArea>
+      // </Grid>
+    ));
     return (
       <Paper className={classes.root}>
         <Table className={classes.table} aria-label="simple table">
@@ -39,29 +69,31 @@ class SimpleTable extends React.Component {
             <TableRow>
               <TableCell>Intervals</TableCell>
               <TableCell align="right" />
-              <TableCell align="right">Time</TableCell>
+              <TableCell align="right">From - To</TableCell>
+              <TableCell align="right">Receive @</TableCell>
               <TableCell align="right">Pills</TableCell>
               <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row" style={{ background: 'yellow' }}>
-                  {row.name}
-                </TableCell>
-                <TableCell style={{ padding: 1 }} />
-                <TableCell align="right" style={{ background: 'pink', marginRight: 10 }}>
-                  {/* <Paper style={{background: 'pink', padding: 10}}> */}
-                  {row.time}
-                  {/* </Paper> */}
-                </TableCell>
-                <TableCell align="right">{row.pills}</TableCell>
-                <TableCell align="right"><EditIcon /></TableCell>
-                <TableCell align="right"><DeleteIcon /></TableCell>
-              </TableRow>
-            ))}
+            {intervalList}
+            {/*{rows.map((row) => (*/}
+            {/*  <TableRow key={row.name}>*/}
+            {/*    <TableCell component="th" scope="row" style={{ background: 'yellow' }}>*/}
+            {/*      {row.name}*/}
+            {/*    </TableCell>*/}
+            {/*    <TableCell style={{ padding: 1 }} />*/}
+            {/*    <TableCell align="right" style={{ background: 'pink', marginRight: 10 }}>*/}
+            {/*      /!* <Paper style={{background: 'pink', padding: 10}}> *!/*/}
+            {/*      {row.time}*/}
+            {/*      /!* </Paper> *!/*/}
+            {/*    </TableCell>*/}
+            {/*    <TableCell align="right">{row.pills}</TableCell>*/}
+            {/*    <TableCell align="right"><EditIcon /></TableCell>*/}
+            {/*    <TableCell align="right"><DeleteIcon /></TableCell>*/}
+            {/*  </TableRow>*/}
+            {/*))}*/}
           </TableBody>
         </Table>
       </Paper>
@@ -69,4 +101,9 @@ class SimpleTable extends React.Component {
   }
 }
 
-export default (withStyles(styles)(SimpleTable));
+const mapStateToProps = (state) => ({
+  intervalsList: state.interval.intervalsList,
+});
+export default connect(mapStateToProps, {
+  // postInterval,
+})(withStyles(styles)(SimpleTable));

@@ -5,8 +5,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import IntervalSlider from './IntervalSlider';
-// import IntervalTimeSelect from './IntervalTimeSelect'
-import { postInterval } from '../../../store/actions/intervalSettingAction';
+import IntervalTimeSelect from './IntervalTimeSelect';
+// import { postInterval } from '../../../store/actions/intervalSettingAction';
 
 const styles = (theme) => ({
   root: {
@@ -36,12 +36,12 @@ class IntervalSetting extends React.Component {
         <Fab color="primary" aria-label="add">
           <AddIcon onClick={() => this.onClickAddInterval()} />
         </Fab>
-        {/*<IntervalTimeSelect />*/}
+        <IntervalTimeSelect />
       </div>
     );
   }
 }
 
 export default connect(null, {
-  postInterval,
+  // postInterval,
 })(withStyles(styles)(IntervalSetting));

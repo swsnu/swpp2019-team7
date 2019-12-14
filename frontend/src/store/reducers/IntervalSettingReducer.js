@@ -1,5 +1,5 @@
 const initState = {
-  intervalsList: null,
+  intervalsList: [],
 };
 
 
@@ -8,8 +8,7 @@ const IntervalSettingReducer = (state = initState, action = null) => {
   switch (action.type) {
     case 'GET_INTERVALS':
       return { ...state, intervalsList: action.intervalsList };
-    case 'POST_INTERVAL':
-      console.log('IntervalSettingReducer: ', action.intervalItem);
+    case 'POST_INTERVALS':
       return { ...state, intervalsList: state.intervalsList.concat(action.intervalItem) };
     default:
       break;

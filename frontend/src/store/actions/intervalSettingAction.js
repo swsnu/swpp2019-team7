@@ -7,7 +7,6 @@ export const getIntervals = () => (dispatch) => ax.get('/api/notification-interv
 
 export const postInterval = (intervalItem) => (dispatch) => ax.post('/api/notification-interval/', intervalItem)
   .then((res) => {
-    console.log('intervalSettingAction: ', res.data);
     dispatch({ type: 'POST_INTERVALS', intervalItem: res.data });
   });
 
