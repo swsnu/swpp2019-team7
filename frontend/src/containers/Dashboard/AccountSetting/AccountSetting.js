@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
 
@@ -135,7 +134,6 @@ class AccountSetting extends Component {
     const { classes } = this.props;
     return (
       <div className="Signup">
-        <Header />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>

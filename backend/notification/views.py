@@ -37,9 +37,7 @@ def format_webnoti_list_object(item):
 def crud_device(request):
     """ CRUD Operation for FCM devices """
     if request.method == 'POST':
-        print('call crud')
         if request.user.is_authenticated:
-            print('authen')
             try:
                 req_data = json.loads(request.body.decode())
                 fcm_token = req_data['fcmtoken']
@@ -78,7 +76,6 @@ def crud_device(request):
 def webnoti(request):
     """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
-        print('webnoti get')
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user_id=request.user.id)
             webnoti_formatted_list = list(
@@ -172,6 +169,7 @@ def notification_interval(request):
         if request.user.is_authenticated:
             try:
                 req_data = json.loads(request.body.decode())
+                send_time = req_data['send_time']
                 start_time = req_data['start_time']
                 end_time = req_data['end_time']
             except (KeyError, ValueError):
@@ -189,8 +187,63 @@ def notification_interval(request):
             return JsonResponse(tmp, status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_id = req_data['id']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            if NotificationInterval.objects.filter(id=interval_id).exists():
+                NotificationInterval.objects.get(id=interval_id).delete()
+                return HttpResponse(status=status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+    elif request.method == 'PUT':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_id = req_data['id']
+                send_time = req_data['send_time']
+                start_time = req_data['start_time']
+                end_time = req_data['end_time']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            if NotificationInterval.objects.filter(id=interval_id).exists():
+                interval = NotificationInterval.objects.get(interval_id)
+                interval.send_time = send_time
+                interval.start_time = start_time
+                interval.end_time = end_time
+                interval.save()
+                return HttpResponse(status=status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+        return HttpResponseNotAllowed(['GET', 'POST', 'DELETE', 'PUT'])
+
+
+def notification_in_interval(request, id):
+    """ GET operation for retrieving only notification in the given interval"""
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if NotificationInterval.objects.filter(user=request.user, id=id).exists():
+                interval = NotificationInterval.objects.filter(user=request.user, id=id)
+                notification_list = list(map(format_webnoti_list_object, interval.get_notification_in_interval()))
+                return JsonResponse(notification_list, status=status.HTTP_200_OK, safe=False)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+    return HttpResponseNotAllowed(['GET'])
 
 
 @csrf_exempt
