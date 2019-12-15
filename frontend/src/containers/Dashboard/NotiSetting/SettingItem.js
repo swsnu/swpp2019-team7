@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Card, CardContent, Grid, Typography, Avatar, withStyles,
+  Card, CardContent, Grid, Typography, withStyles,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
@@ -96,9 +96,9 @@ class SettingItem extends Component {
               alignItems="center"
             >
               <Grid item xs={2}>
-                {/*<Avatar className={classes.avatar}>*/}
-                  <NotificationsNoneIcon className={classes.icon} />
-                {/*</Avatar>*/}
+                {/* <Avatar className={classes.avatar}> */}
+                <NotificationsNoneIcon className={classes.icon} />
+                {/* </Avatar> */}
               </Grid>
               <Grid item xs={1} />
               <Grid item xs={7}>

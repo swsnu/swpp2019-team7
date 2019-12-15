@@ -47,7 +47,7 @@ def get_user_pills(request):
             for pill in saved_pills:
                 print(pill.pk)
                 image_query = Image.objects.filter(
-                    user=request.user, pill=pill)
+                    user_id=request.user.id, pill_id=pill.id)
                 if image_query.exists():
                     image_instance = image_query[0]
                     pill_dict = get_pill_dict(pill, image_instance)
@@ -73,7 +73,7 @@ def get_pill_list(request):
             # print(pill['product_name'])
             # print(pill['custom'])
             fetched_pills_list = [(pill['product_name'], pill['company_name'])
-                                  for pill in Pill.objects.all().values()
+                                  for pill in Pill.values_list('product_name', 'company_name')
                                   if pill['custom'] is False]
             return JsonResponse(fetched_pills_list, status=200, safe=False)
         else:
@@ -150,7 +150,7 @@ class PillItemsPerUser(APIView):
             Notification.create(request.user, new_pill)
 
             image_query = Image.objects.filter(
-                user=request.user, pill=new_pill)
+                user_id=request.user.id, pill_id=new_pill.id)
             if image_query.exists():
                 image_instance = image_query[0]
                 new_pill_dict = get_pill_dict(new_pill, image_instance)
@@ -176,10 +176,10 @@ class PillItemsPerUser(APIView):
 
             # remove notification for the deleted pill
             Notification.objects.filter(
-                user=request.user, pill=new_pill).delete()
+                user_id=request.user.id, pill_id=new_pill.id).delete()
             # remove images for the deleted pill
             Image.objects.filter(
-                user=request.user, pill=new_pill).delete()
+                user_id=request.user.id, pill_id=new_pill.id).delete()
             request.user.pills.remove(new_pill)
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
@@ -198,7 +198,7 @@ class PillItemsPerUser(APIView):
             selected_pill = Pill.objects.get(id=pill_id)
 
             image_query = Image.objects.filter(
-                user=request.user, pill=selected_pill)
+                user_id=request.user.id, pill_id=pill_id)
             if image_query.exists():
                 image_instance = image_query[0]
                 print('image_instance is ')
@@ -239,7 +239,7 @@ def custompill_post(request):
 
         # get pill object from Pill model by id
         new_pill = CustomPill.objects.create(
-            user=request.user,
+            user_id=request.user.id,
             take_method=take_method,
             product_name=product_name,
             expiration_date=expiration_date,
@@ -253,7 +253,7 @@ def custompill_post(request):
         )
 
         # Assign pill to image
-        image_instance = Image.objects.get(id=image_id)
+        image_instance = Image.objects.select_related('pill', 'user').get(id=image_id)
         image_instance.pill = new_pill
         image_instance.user = request.user
         image_instance.save()
