@@ -68,10 +68,6 @@ class SimpleTable extends React.Component {
     }));
   }
 
-  submitEdit(intervalItem) {
-    this.props.editInterval(intervalItem);
-  }
-
   formatTime(str) {
     if (str < 10) {
       return str.split('')[1];
