@@ -126,10 +126,10 @@ class NotificationInterval(models.Model):
         notification_set = set()
 
         for notification in Notification.objects.filter(user=self.user):
-            notification_set.union(
+            notification_set = notification_set.union(
                 set(map(lambda x: x.notification,
                         NotificationTime.objects.filter(
-                            notification=notification, time__in=(self.start_time, self.end_time)
+                            notification=notification, time__gte=self.start_time, time__lte=self.end_time
                             )
                         )
                     )

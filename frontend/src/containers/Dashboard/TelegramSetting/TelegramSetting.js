@@ -133,7 +133,7 @@ class TelegramSetting extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography component="h1" variant="h5" align="center">
-                    Send auth key to &quot;pillbox-bot&quot; in tlgm
+                    Send auth key below to &quot;PillBoxNotificationBot&quot; in Telegram!!!
                   </Typography>
                   <Typography component="h1" variant="h5" align="center" id="auth_key">
                     Authentication key:

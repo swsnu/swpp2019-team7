@@ -147,6 +147,7 @@ def webnoti_pill(request, req_id):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+
 def notification_interval(request):
     """ CRUD operation for notification interval per each user """
     if request.method == 'GET':
@@ -191,6 +192,7 @@ def notification_interval(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
+
 
 @csrf_exempt
 def telegram(request):
@@ -253,6 +255,7 @@ def telegram(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
+
 
 def register_telegram(request):
     """
