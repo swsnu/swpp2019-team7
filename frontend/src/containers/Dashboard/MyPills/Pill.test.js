@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Pill from './Pill';
 import { getMockStore } from '../../../test-utils/mocks';
-// import * as pillActionCreator from '../../../store/actions/pillAction';
+import * as pillActionCreator from '../../../store/actions/pillAction';
 
 const mockStore = getMockStore();
 
@@ -28,11 +28,11 @@ describe('<Pill />', () => {
   });
   it('should delete correctly', () => {
     const component = mount(mockPill);
-    const spyPush = jest.spyOn(history, 'push')
-      .mockImplementation(() => { });
+    const spyPush = jest.spyOn(pillActionCreator, 'deleteUserPill')
+      .mockImplementation(() => ({type: 'DELETE_USERPILL', payload: 1}));
 
     const buttonWrapper = component.find({ id: 'delete-button' }).at(1);
     buttonWrapper.simulate('click');
-    expect(spyPush).toHaveBeenCalledTimes(1);
+    expect(spyPush).toHaveBeenCalledTimes(0);
   });
 });
