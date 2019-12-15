@@ -80,6 +80,7 @@ class SimpleTable extends React.Component {
   }
 
   render() {
+    console.log(this.props.intervalsList)
     const { classes } = this.props;
     const intervalList = this.props.intervalsList.map((row) => (
       <TableRow key={row.id}>

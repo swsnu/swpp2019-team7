@@ -22,6 +22,7 @@ const IntervalSettingReducer = (state = initState, action = null) => {
         ),
       };
     case 'EDIT_SEND_TIME':
+      console.log(action.sendItem.sendHour)
       return { ...state, editSendHour: action.sendItem.sendHour, editSendMin: action.sendItem.sendMin };
     default:
       break;
