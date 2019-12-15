@@ -54,6 +54,8 @@ const styles = (myTheme) => ({
   closeModal: {
     marginTop: myTheme.spacing(22),
     color: 'white',
+    height: 35,
+    width: 35,
   },
 });
 
@@ -126,6 +128,7 @@ class MyPills extends Component {
                 // boxShadow: 'none',
               },
             }}
+            align="center"
           >
             <IconButton id="close-dialog" className={classes.closeModal} color="inherit" onClick={() => this.handleClose()} aria-label="close">
               <CloseIcon fontSize="large" />
