@@ -63,7 +63,7 @@ const styles = (myTheme) => ({
     }
 });
 
-class MyPills extends Component {
+class AboutDevelopers extends Component {
     render() {
         const { classes } = this.props;
         return (
@@ -151,4 +151,4 @@ class MyPills extends Component {
     }
 }
 
-export default (withRouter((withStyles(styles)(MyPills))));
+export default (withRouter((withStyles(styles)(AboutDevelopers))));
