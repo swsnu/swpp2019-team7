@@ -209,7 +209,7 @@ class PillNoti extends Component {
     const { classes } = this.props;
     // Assuming 'time' is a list of strings like [0900, 1200]
     const timesInputListEdit = (this.state.pillNotiSetting.time).map((time) => (
-      <Grid item key={inputFieldIndex++} container alignItems="center">
+      <Grid item key={inputFieldIndex++} container justify="center" alignItems="center">
         <Grid item>
           <KeyboardTimePicker
             margin="normal"
@@ -221,6 +221,7 @@ class PillNoti extends Component {
             KeyboardButtonProps={{
               'aria-label': 'change time',
             }}
+            style={{ width: 160 }}
           />
         </Grid>
         <Grid item>
@@ -312,19 +313,21 @@ class PillNoti extends Component {
               <LocalHospitalIcon className={classes.icon} />
             </Avatar>
           </Grid>
-          <Grid item xs={12} sm={1}>
+          <Grid item xs={12} sm={5} style={{ paddingLeft: 25, paddingRight: 25 }}>
             <ThemeProvider theme={mytheme}><Typography variant="h5" align="center">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
           </Grid>
-          <Grid item container justify="center" xs={12} sm={4}>
-            <Typography
-              // className={classes.caption}
-              variant="h5"
-            >
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                {timesInputListEdit}
-              </MuiPickersUtilsProvider>
-            </Typography>
-            <Grid item>
+          <Grid item container direction="column" justify="center" align="center" xs={12} sm={3}>
+            <Grid item xs={12}>
+              <Typography
+                // className={classes.caption}
+                variant="h5"
+              >
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  {timesInputListEdit}
+                </MuiPickersUtilsProvider>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
               <IconButton id="add-button" disabled={this.state.pillNotiSetting.time.length >= 10} aria-label="close" className={classes.margin} onClick={() => { this.onAddPillNoti(); }}>
                 <AddAlertIcon fontSize="large" />
               </IconButton>
