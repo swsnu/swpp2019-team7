@@ -17,16 +17,16 @@ describe('PublicRoute', () => {
 
   it('`PublicRoute` should not show Landing page if logged in', () => {
     mount(
-      <MemoryRouter initialEntries={['/dashboard']} initialIndex={0}>
-        <PublicRoute path="/dashboard" component={Dashboard} store={store} />
+      <MemoryRouter initialEntries={['/dashboard/0']} initialIndex={0}>
+        <PublicRoute path="/dashboard/0" component={Dashboard} store={store} />
       </MemoryRouter>,
     );
   });
 
   it('`PublicRoute` should show Landing page if logged out', () => {
     mount(
-      <MemoryRouter initialEntries={['/dashboard']} initialIndex={0}>
-        <PublicRoute path="/dashboard" component={Dashboard} store={storeLoggedIn} />
+      <MemoryRouter initialEntries={['/dashboard/0']} initialIndex={0}>
+        <PublicRoute path="/dashboard/0" component={Dashboard} store={storeLoggedIn} />
       </MemoryRouter>,
     );
   });

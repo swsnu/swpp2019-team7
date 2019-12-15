@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 
 import '../../../Landing/TestLanding.css';
 import * as pillActionCreators from '../../../../store/actions/pillAction';
-import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
 
 
 // let theme = createMuiTheme();
@@ -55,7 +54,6 @@ const mapStateToProps = (state) => ({
   selected_pill: state.pill.selected_pill,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
   onUploadPhoto: (image, id) => dispatch(pillActionCreators.addUserPillImage(image, id)),
 });
 
@@ -78,7 +76,7 @@ class PillDetail extends Component {
   }
 
   goBackHandler = () => {
-    this.props.onChangeDashboard(0);
+    this.props.history.push('/dashboard/0')
   }
 
   onChange = (e) => {
