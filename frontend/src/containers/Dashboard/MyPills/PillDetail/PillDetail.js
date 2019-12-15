@@ -201,7 +201,7 @@ class PillDetail extends Component {
             {/* <br /> */}
             <div style={{ marginLeft: 20, marginRight: 20 }} align="center">
               <Typography variant="h4">
-Product :
+                Product :
                 {productName}
               </Typography>
               {/* <Typography style={{marginLeft: 10, marginRight: 10 }} variant="h4" id="product-name">{productName}</Typography> */}
@@ -236,8 +236,8 @@ Product :
               <br />
               <Typography variant="h4">Recommended Times To Take Per Day</Typography>
               <br />
+              <Typography variant="h6" id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
             </div>
-            <Typography variant="h6" id="take-method-preprocessed">{takeMethodPreprocessed}</Typography>
           </ThemeProvider>
         </Paper>
       </div>
