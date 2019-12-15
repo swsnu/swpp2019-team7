@@ -229,7 +229,8 @@ const mapStateToProps = (state) => {
     newSendHour: state.interval.editSendHour,
     newSendMin: state.interval.editSendMin,
     intervalsList: state.interval.intervalsList,
-};};
+  };
+};
 
 export default connect(mapStateToProps, {
   editInterval,

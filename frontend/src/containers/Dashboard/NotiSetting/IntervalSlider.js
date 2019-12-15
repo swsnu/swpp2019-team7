@@ -52,10 +52,6 @@ class SimpleTable extends React.Component {
     this.state = { expanded: true, expandedItem: -1 };
   }
 
-  componentDidMount() {
-    console.log('expanded changed: ', this.state.expanded);
-  }
-
   handleDelete(id) {
     const tmp = { id };
     this.props.deleteInterval(tmp);
