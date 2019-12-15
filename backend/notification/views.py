@@ -176,7 +176,7 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             NotificationInterval.objects.create(
-                user_id=request.user.id, send_time=start_time, start_time=start_time, end_time=end_time).save()
+                user_id=request.user.id, send_time=send_time, start_time=start_time, end_time=end_time).save()
             new_interval = NotificationInterval.objects.filter(user_id=request.user.id).order_by('-id')[0]
             tmp = {
                 "id": new_interval.id,
@@ -216,7 +216,7 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             if NotificationInterval.objects.filter(id=interval_id).exists():
-                interval = NotificationInterval.objects.get(interval_id)
+                interval = NotificationInterval.objects.get(id=interval_id)
                 interval.send_time = send_time
                 interval.start_time = start_time
                 interval.end_time = end_time
@@ -296,7 +296,6 @@ def telegram(request):
             telegram_user = TelegramUser.objects.filter(user_id=request.user.id)
             if telegram_user.exists():
                 telegram_user = telegram_user[0]
-                #telegram_user = TelegramUser.objects.get(user_id=request.user.id)
                 return JsonResponse({
                     "telegram_username": telegram_user.telegram_username,
                     "telegram_first_name": telegram_user.telegram_first_name,
@@ -343,5 +342,4 @@ def register_telegram(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
 
     else:
-        print('delete')
         return HttpResponseNotAllowed(['POST'])
