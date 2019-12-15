@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
@@ -23,6 +22,8 @@ import TelegramSetting from './TelegramSetting/TelegramSetting';
 import AccountSetting from './AccountSetting/AccountSetting';
 import './Dashboard.css';
 import PillDetail from './MyPills/PillDetail/PillDetail';
+
+import AboutDevelopers from './AboutDevelopers/AboutDevelopers';
 
 import * as dashboardActionCreators from '../../store/actions/dashboardAction';
 
@@ -99,6 +100,8 @@ function dashboardDisplay(itemNo) {
       return <AccountSetting />;
     case 4:
       return <PillDetail />;
+    case 5:
+      return <AboutDevelopers />;
     default:
       return <MyPills />;
   }
@@ -150,14 +153,12 @@ class Dashboard extends Component {
         <List component="nav">{this.mainListItems()}</List>
         <Divider />
         <List>
-          {['App Info', 'About Developers'].map((name, index) => (
-            <ListItem button key={name}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItem>
-          ))}
+          <ListItem button key='About Developers' onClick={() => { this.props.onChangeDashboard(5); }}>
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary='About Developers' />
+          </ListItem>
         </List>
-      </div>
+      </div >
     );
     return (
       <div className={classes.root}>
