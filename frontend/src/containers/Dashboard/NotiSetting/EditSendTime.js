@@ -72,17 +72,12 @@ class EditSendTime extends React.Component {
         <form noValidate autoComplete="off">
           <div>
             <TextField
-              // labelId="demo-customized-select-label"
               id="demo-customized-select"
               select
               disabled={this.props.deactivate}
-              // label="From"
               value={this.state.sendHour}
-              // onChange={this.handleChangeStartHour}
               onChange={this.handleChangeSendHour}
-              // variant="outlined"
               style={{ width: 60, marginBottom: 5 }}
-              // input={<BootstrapInput />}
             >
               {hours.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -91,16 +86,12 @@ class EditSendTime extends React.Component {
               ))}
             </TextField>
             <TextField
-              // labelId="demo-customized-select-label"
               id="start-minute"
               select
               disabled={this.props.deactivate}
-              // label="To"
               value={this.state.sendMin}
               onChange={this.handleChangeSendMin}
-              // variant="outlined"
               style={{ width: 60, marginBottom: 5 }}
-              // input={<BootstrapInput />}
             >
               {minutes.map((option) => (
                 <MenuItem key={option.value} value={option.value}>

@@ -51,8 +51,51 @@ class EditIntervalTime extends React.Component {
     };
   }
 
-  componentDidMount() {
-  }
+  validateInterval = (interval) => {
+    const INTERVAL_ERROR = "End time should be earlier than start time.";
+    const RANGE_ERROR = "Intervals should be mutually disjoint.";
+
+    // Assure end hour/min is later than start hour/min
+    const startDate = new Date(2019, 12, 20, interval.startHour, interval.startMin);
+    const endDate = new Date(2019, 12, 20, interval.endHour, interval.endMin);
+
+    if (startDate > endDate) {
+      return INTERVAL_ERROR;
+    }
+
+    const currentDateList = this.props.intervalsList.map((e) => {
+      return {
+        id: e.id,
+        startDate: new Date(
+          2019, 12, 20,
+          parseInt(e.start_time.split(":")[0]),
+          parseInt(e.start_time.split(":")[1])
+        ),
+        endDate: new Date(
+          2019, 12, 20,
+          parseInt(e.end_time.split(":")[0]),
+          parseInt(e.end_time.split(":")[1])
+        )
+      };
+    });
+
+    for (const date of currentDateList) {
+      if (date.id !== interval.id) {
+        if (+date.startDate === +startDate || +date.startDate === +endDate) {
+          return RANGE_ERROR;
+        }
+        if (date.startDate < startDate) {
+          if (date.endDate > startDate) {
+            return RANGE_ERROR;
+          }
+        } else if (date.startDate < endDate) {
+          return RANGE_ERROR;
+        }
+      }
+    }
+
+    return "OK";
+  };
 
   ensureTwoDigitNumber = (num) => {
     if (num < 10) {
@@ -78,16 +121,26 @@ class EditIntervalTime extends React.Component {
   };
 
   onSaveInterval = () => {
-    const a = this.ensureTwoDigitNumber(this.state.startHour);
-    const b = this.ensureTwoDigitNumber(this.state.startMin);
-    const c = this.ensureTwoDigitNumber(this.state.endHour);
-    const d = this.ensureTwoDigitNumber(this.state.endMin);
-    this.props.editInterval({
+    const interval = {
       id: this.props.intervalId,
-      start_time: `${a}:${b}`,
-      end_time: `${c}:${d}`,
-      send_time: `${this.props.newSendHour}:${this.props.newSendMin}`,
-    });
+      startHour: this.ensureTwoDigitNumber(this.state.startHour),
+      startMin: this.ensureTwoDigitNumber(this.state.startMin),
+      endHour: this.ensureTwoDigitNumber(this.state.endHour),
+      endMin: this.ensureTwoDigitNumber(this.state.endMin),
+    };
+
+    let result;
+    if ((result = this.validateInterval(interval)) !== "OK") {
+      alert(result);
+    } else {
+      this.props.editInterval({
+        id:this.props.intervalId,
+        start_time: `${interval.startHour}:${interval.startMin}`,
+        end_time: `${interval.endHour}:${interval.endMin}`,
+        send_time: `${this.ensureTwoDigitNumber(this.props.newSendHour)}:${this.ensureTwoDigitNumber(this.props.newSendMin)}`,
+      });
+      this.props.loseFocus();
+    }
   };
 
   render() {
@@ -96,17 +149,12 @@ class EditIntervalTime extends React.Component {
         <form noValidate autoComplete="off">
           <div>
             <TextField
-              // labelId="demo-customized-select-label"
               id="demo-customized-select"
               select
               disabled={this.props.deactivate}
-              // label="From"
               value={this.state.startHour}
-              // onChange={this.handleChangeStartHour}
               onChange={this.handleChangeStartHour}
-              // variant="outlined"
               style={{ width: 60, marginBottom: 5 }}
-              // input={<BootstrapInput />}
             >
               {hours.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -115,16 +163,12 @@ class EditIntervalTime extends React.Component {
               ))}
             </TextField>
             <TextField
-              // labelId="demo-customized-select-label"
               id="start-minute"
               select
               disabled={this.props.deactivate}
-              // label="To"
               value={this.state.startMin}
               onChange={this.handleChangeStartMin}
-              // variant="outlined"
               style={{ width: 60, marginBottom: 5 }}
-              // input={<BootstrapInput />}
             >
               {minutes.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -135,17 +179,12 @@ class EditIntervalTime extends React.Component {
           </div>
           <div>
             <TextField
-              // labelId="demo-customized-select-label"
               id="end-hour"
               select
               disabled={this.props.deactivate}
-              // label="From"
               value={this.state.endHour}
-              // onChange={this.handleChangeStartHour}
               onChange={this.handleChangeEndHour}
-              // variant="outlined"
               style={{ width: 60 }}
-              // input={<BootstrapInput />}
             >
               {hours.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -154,16 +193,12 @@ class EditIntervalTime extends React.Component {
               ))}
             </TextField>
             <TextField
-              // labelId="demo-customized-select-label"
               id="end-minute"
               select
               disabled={this.props.deactivate}
-              // label="To"
               value={this.state.endMin}
               onChange={this.handleChangeEndMin}
-              // variant="outlined"
               style={{ width: 60 }}
-              // input={<BootstrapInput />}
             >
               {minutes.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -178,8 +213,6 @@ class EditIntervalTime extends React.Component {
           variant="contained"
           color="primary"
           size="small"
-          // className={classes.button}
-          // startIcon={<SaveIcon />}
           onClick={() => this.onSaveInterval()}
           style={{ marginTop: 20 }}
         >
@@ -191,10 +224,13 @@ class EditIntervalTime extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  newSendHour: state.interval.editSendHour,
-  newSendMin: state.interval.editSendMin,
-});
+const mapStateToProps = (state) => {
+  return {
+    newSendHour: state.interval.editSendHour,
+    newSendMin: state.interval.editSendMin,
+    intervalsList: state.interval.intervalsList,
+  };
+};
 
 export default connect(mapStateToProps, {
   editInterval,

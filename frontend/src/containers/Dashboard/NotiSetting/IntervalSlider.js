@@ -52,10 +52,6 @@ class SimpleTable extends React.Component {
     this.state = { expanded: true, expandedItem: -1 };
   }
 
-  componentDidMount() {
-    console.log('expanded changed: ', this.state.expanded);
-  }
-
   handleDelete(id) {
     const tmp = { id };
     this.props.deleteInterval(tmp);
@@ -68,8 +64,11 @@ class SimpleTable extends React.Component {
     }));
   }
 
-  submitEdit(intervalItem) {
-    this.props.editInterval(intervalItem);
+  unfocusRow() {
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
+      expandedItem: -1,
+    }));
   }
 
   formatTime(str) {
@@ -92,6 +91,7 @@ class SimpleTable extends React.Component {
         <TableCell align="right" style={{ minWidth: 200, marginRight: 10 }}>
           <EditIntervalTime
             deactivate={this.state.expandedItem !== row.id}
+            loseFocus={this.unfocusRow.bind(this)}
             intervalId={row.id}
             startHour={this.formatTime(row.start_time.split(':')[0])}
             startMin={this.formatTime(row.start_time.split(':')[1])}
