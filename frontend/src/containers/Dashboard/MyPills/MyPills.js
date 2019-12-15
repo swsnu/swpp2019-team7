@@ -17,7 +17,6 @@ import LoggedInWidget from './LoggedInWidget/LoggedInWidget';
 import { getUserPills, addUserPill } from '../../../store/actions/pillAction';
 import { handleDialogReset } from '../../../store/actions/dialogAction';
 
-// theme for Material UI Typography
 const theme = createMuiTheme({
   typography: {
     fontFamily: "'DM Sans', sans-serif",
