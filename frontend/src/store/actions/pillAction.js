@@ -117,5 +117,9 @@ export const getPill = (id) => (dispatch) => {
   ax.get(`/api/pill/${id}/`)
     .then((res) => {
       dispatch(getPill_(res.data));
+    })
+    .catch(() => {
+      alert('You did not register this pill!');
+      dispatch(push('/dashboard/0'))
     });
 };

@@ -144,6 +144,9 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
+    if(this.props.match.params.itemNo !== '4' && this.props.match.params.pillId) {
+      this.props.history.push(`/dashboard/0`)
+    }
     const text = dashboardDisplay(this.props.match.params.itemNo);
     const drawer = (
       <div>

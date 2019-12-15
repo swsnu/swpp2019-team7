@@ -160,8 +160,7 @@ class Pill extends Component {
             component="a"
             href="#"
             onClick={() => {
-              this.props.getPill(this.props.id);
-              this.props.history.push('/dashboard/4')
+              this.props.history.push("/dashboard/4/"+this.props.id)
             }}
           >
             <Card className={classes.card} align="center">

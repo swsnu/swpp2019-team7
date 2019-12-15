@@ -55,6 +55,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   onUploadPhoto: (image, id) => dispatch(pillActionCreators.addUserPillImage(image, id)),
+  onGetPill: (id) => dispatch(pillActionCreators.getPill(id)),
 });
 
 const styles = () => ({
@@ -75,6 +76,9 @@ class PillDetail extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.onGetPill(this.props.match.params.pillId);
+  } 
   goBackHandler = () => {
     this.props.history.push('/dashboard/0')
   }
@@ -129,6 +133,7 @@ class PillDetail extends Component {
   }
 
   render() {
+    console.log('pillno is '+this.props.match.params.pillId)
     const { classes } = this.props;
     let takeMethod = '';
     let productName = '';
