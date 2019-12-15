@@ -7,7 +7,6 @@ import {
 } from '@material-ui/core/styles';
 import { Typography, Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LocalDrinkOutlinedIcon from '@material-ui/icons/LocalDrinkOutlined';
 import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
@@ -19,7 +18,6 @@ import RestoreOutlinedIcon from '@material-ui/icons/RestoreOutlined';
 
 import './PillDetail.css';
 import * as pillActionCreators from '../../../../store/actions/pillAction';
-import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
 
 const koreanTheme = createMuiTheme({
   typography: {
@@ -53,8 +51,8 @@ const mapStateToProps = (state) => ({
   selected_pill: state.pill.selected_pill,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
   onUploadPhoto: (image, id) => dispatch(pillActionCreators.addUserPillImage(image, id)),
+  onGetPill: (id) => dispatch(pillActionCreators.getPill(id)),
 });
 
 const styles = () => ({
@@ -86,8 +84,8 @@ class PillDetail extends Component {
     };
   }
 
-  goBackHandler = () => {
-    this.props.onChangeDashboard(0);
+  componentDidMount() {
+    this.props.onGetPill(this.props.match.params.pillId);
   }
 
   onChange = (e) => {
@@ -106,7 +104,6 @@ class PillDetail extends Component {
         alert('Invalid image. Please upload a valid image');
       };
       image.onload = () => {
-        console.log('Valid image');
         this.setState({ selectedImage: File }, () => {
           const formData = new FormData();
           formData.append(
@@ -174,7 +171,7 @@ class PillDetail extends Component {
         <ThemeProvider theme={koreanTheme}>
           <Grid container direction="column" spacing={1}>
             <Grid item align="center" style={{ marginBottom: 25 }}>
-              {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
+              {file !== '' ? <Avatar backgroundcolor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
             </Grid>
             <Grid
               item

@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
@@ -24,7 +23,7 @@ import AccountSetting from './AccountSetting/AccountSetting';
 import './Dashboard.css';
 import PillDetail from './MyPills/PillDetail/PillDetail';
 
-import * as dashboardActionCreators from '../../store/actions/dashboardAction';
+import AboutDevelopers from './AboutDevelopers/AboutDevelopers';
 
 const drawerWidth = 240;
 
@@ -89,16 +88,18 @@ const styles = (mytheme) => ({
 
 function dashboardDisplay(itemNo) {
   switch (itemNo) {
-    case 0:
+    case '0':
       return <MyPills />;
-    case 1:
+    case '1':
       return <NotiSetting />;
-    case 2:
+    case '2':
       return <TelegramSetting />;
-    case 3:
+    case '3':
       return <AccountSetting />;
-    case 4:
+    case '4':
       return <PillDetail />;
+    case '5':
+      return <AboutDevelopers />;
     default:
       return <MyPills />;
   }
@@ -120,7 +121,7 @@ class Dashboard extends Component {
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
-        <ListItem button id={itemName} onClick={() => { this.props.onChangeDashboard(itemNo); }}>
+        <ListItem button id={itemName} onClick={() => { this.props.history.push(`/dashboard/${itemNo}`); }}>
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
@@ -143,21 +144,22 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-    const text = dashboardDisplay(this.props.dash.itemNo);
+    if(this.props.match.params.itemNo !== '4' && this.props.match.params.pillId) {
+      this.props.history.push(`/dashboard/0`)
+    }
+    const text = dashboardDisplay(this.props.match.params.itemNo);
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <List component="nav">{this.mainListItems()}</List>
         <Divider />
         <List>
-          {['App Info', 'About Developers'].map((name, index) => (
-            <ListItem button key={name}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItem>
-          ))}
+          <ListItem button key='About Developers' onClick={() => { this.props.history.push('/dashboard/5'); }}>
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary='About Developers' />
+          </ListItem>
         </List>
-      </div>
+      </div >
     );
     return (
       <div className={classes.root}>
@@ -208,7 +210,4 @@ const mapStateToProps = (state) => ({
   dash: state.dash,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme((withStyles(styles)(Dashboard))));
+export default connect(mapStateToProps, null)(withTheme((withStyles(styles)(Dashboard))));

@@ -18,8 +18,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       Copyright ©
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.pillbox.me/">
+        PillBox
       </Link>
       {' '}
       {new Date().getFullYear()}
@@ -149,7 +149,7 @@ class TelegramSetting extends Component {
                     required
                     fullWidth
                     name="telegram_first_name"
-                    label="telegram_first_name"
+                    label="Enter your first name registered in telegram"
                     id="telegram_first_name"
                     onChange={(event) => this.setState({ telegram_first_name_input: event.target.value })}
                   />
@@ -162,7 +162,7 @@ class TelegramSetting extends Component {
                     required
                     fullWidth
                     name="telegram_last_name"
-                    label="telegram_last_name"
+                    label="Enter your last name registered in telegram"
                     id="telegram_last_name"
                     onChange={(event) => this.setState({ telegram_last_name_input: event.target.value })}
                   />
@@ -175,7 +175,7 @@ class TelegramSetting extends Component {
                     required
                     fullWidth
                     name="telegram_username"
-                    label="telegram_username"
+                    label="Enter your user name registered in telegram"
                     id="telegram_username"
                     onChange={(event) => this.setState({ telegram_username_input: event.target.value })}
                   />

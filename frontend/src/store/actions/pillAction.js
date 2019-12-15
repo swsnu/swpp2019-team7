@@ -17,7 +17,7 @@ export const addUserPill = (pillId) => (dispatch) => {
       dispatch(addUserPill_(res.data));
       dispatch(clearLazyPill_());
       console.log(res.data);
-      dispatch(push('/dashboard'));
+      dispatch(push('/dashboard/0'));
       dispatch(handleDialogClose());
     })
     .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
@@ -67,7 +67,7 @@ export const addCustomPill = (newPillObj, imageId) => (dispatch) => {
   })
     .then((res) => {
       dispatch(addCustomPill_(res.data));
-      dispatch(push('/dashboard'));
+      dispatch(push('/dashboard/0'));
     })
     .catch(() => { alert('Error in adding custom pill'); });
 };
@@ -82,7 +82,7 @@ export const addUserPillByNameAndCompany = (pillName, pillCompany) => (dispatch)
   ax.post('/api/pill/name/', { pill_name: pillName, pill_company: pillCompany })
     .then((res) => {
       dispatch(addUserPill_(res.data));
-      dispatch(push('/dashboard'));
+      dispatch(push('/dashboard/0'));
     })
     .catch((err) => { alert('Either this pill is already registered or the pill with this name doesn\'t exist in our database.\nPlease check again.'); console.log(err); });
 };
@@ -117,5 +117,9 @@ export const getPill = (id) => (dispatch) => {
   ax.get(`/api/pill/${id}/`)
     .then((res) => {
       dispatch(getPill_(res.data));
+    })
+    .catch(() => {
+      alert('You did not register this pill!');
+      dispatch(push('/dashboard/0'))
     });
 };

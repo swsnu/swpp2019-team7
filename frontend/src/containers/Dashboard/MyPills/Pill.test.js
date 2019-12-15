@@ -29,7 +29,7 @@ describe('<Pill />', () => {
   it('should delete correctly', () => {
     const component = mount(mockPill);
     const spyPush = jest.spyOn(pillActionCreator, 'deleteUserPill')
-      .mockImplementation(() => ({type: 'DELETE_USERPILL', payload: 1}));
+      .mockImplementation(() => ({ type: 'DELETE_USERPILL', payload: 1 }));
 
     const buttonWrapper = component.find({ id: 'delete-button' }).at(1);
     buttonWrapper.simulate('click');

@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import Header from '../../Header/Header';
 
 import * as userActionCreators from '../../../store/actions/userAction';
 
@@ -19,8 +18,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       Copyright ©
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.pillbox.me/">
+        PillBox
       </Link>
       {' '}
       {new Date().getFullYear()}

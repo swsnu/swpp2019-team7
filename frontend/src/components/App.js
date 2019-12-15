@@ -25,7 +25,8 @@ function App(props) {
           <PublicRoute path="/login" exact component={Login} />
           <PublicRoute path="/signup" exact component={Signup} />
           <PublicRoute path="/demowidget" exact component={DemoWidget} />
-          <PrivateRoute path="/dashboard" exact component={Dashboard} />
+          <PrivateRoute path="/dashboard/:itemNo/:pillId" exact component={Dashboard} />
+          <PrivateRoute path="/dashboard/:itemNo" exact component={Dashboard} />
           <PrivateRoute path="/loggedinwidget" exact component={LoggedInWidget} />
           <PrivateRoute path="/pillDetail" exact component={PillDetail} />
           <PrivateRoute path="/manuallyadd" exact component={PillLookup} />

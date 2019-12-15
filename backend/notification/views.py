@@ -77,7 +77,7 @@ def webnoti(request):
     """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
         if request.user.is_authenticated:
-            webnoti_list = Notification.objects.filter(user=request.user)
+            webnoti_list = Notification.objects.filter(user_id=request.user.id)
             webnoti_formatted_list = list(
                 map(format_webnoti_list_object, webnoti_list))
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
@@ -91,9 +91,8 @@ def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""
     if request.method == 'PUT':
         if request.user.is_authenticated:
-            pill = Pill.objects.get(pk=req_id)
             webnoti_item = Notification.objects.get(
-                user=request.user, pill=pill)
+                user_id=request.user.id, pill_id=req_id)
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']
@@ -104,7 +103,7 @@ def webnoti_pill(request, req_id):
 
             # for time in time, get webnoti, edit, and then return
             notification_time_list = NotificationTime.objects.filter(
-                notification=webnoti_item)
+                notification_id=webnoti_item.id)
             index = 0
 
             if len(notification_time_list) > len(datetime_list):
@@ -127,7 +126,7 @@ def webnoti_pill(request, req_id):
                     index += 1
                 for datetime_item in datetime_list[index:]:
                     modified_datetime = datetime_item[:-2] + ":" + datetime_item[-2:]
-                    NotificationTime.objects.create(notification=webnoti_item, time=modified_datetime).save()
+                    NotificationTime.objects.create(notification_id=webnoti_item.id, time=modified_datetime).save()
             else:
                 for datetime_item in datetime_list:
                     modified_datetime = datetime.time(int(datetime_item[:-2]), int(datetime_item[-2:]))
@@ -136,7 +135,7 @@ def webnoti_pill(request, req_id):
                     notification_time.save()
                     index += 1
             webnoti_item.save()
-            webnoti_list = Notification.objects.filter(user=request.user)
+            webnoti_list = Notification.objects.filter(user_id=request.user.id)
             webnoti_formatted_list = list(map(format_webnoti_list_object, webnoti_list))
             return JsonResponse(webnoti_formatted_list, status=status.HTTP_200_OK, safe=False)
         else:
@@ -150,7 +149,7 @@ def notification_interval(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             try:
-                existing_intervals = NotificationInterval.objects.filter(user=request.user)
+                existing_intervals = NotificationInterval.objects.filter(user_id=request.user.id)
                 intervals_list = []
                 for existing_interval in existing_intervals:
                     tmp = {
@@ -177,8 +176,8 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             NotificationInterval.objects.create(
-                user=request.user, send_time=send_time, start_time=start_time, end_time=end_time).save()
-            new_interval = NotificationInterval.objects.filter(user=request.user).order_by('-id')[0]
+                user_id=request.user.id, send_time=start_time, start_time=start_time, end_time=end_time).save()
+            new_interval = NotificationInterval.objects.filter(user_id=request.user.id).order_by('-id')[0]
             tmp = {
                 "id": new_interval.id,
                 "send_time": new_interval.send_time,
@@ -231,6 +230,22 @@ def notification_interval(request):
         return HttpResponseNotAllowed(['GET', 'POST', 'DELETE', 'PUT'])
 
 
+def notification_in_interval(request, id):
+    """ GET operation for retrieving only notification in the given interval"""
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if NotificationInterval.objects.filter(user=request.user, id=id).exists():
+                interval = NotificationInterval.objects.filter(user=request.user, id=id)
+                notification_list = list(map(format_webnoti_list_object, interval.get_notification_in_interval()))
+                return JsonResponse(notification_list, status=status.HTTP_200_OK, safe=False)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+    return HttpResponseNotAllowed(['GET'])
+
+
 @csrf_exempt
 def telegram(request):
     """
@@ -278,8 +293,10 @@ def telegram(request):
 
     elif request.method == 'GET':
         if request.user.is_authenticated:
-            if TelegramUser.objects.filter(user=request.user).exists():
-                telegram_user = TelegramUser.objects.get(user=request.user)
+            telegram_user = TelegramUser.objects.filter(user_id=request.user.id)
+            if telegram_user.exists():
+                telegram_user = telegram_user[0]
+                #telegram_user = TelegramUser.objects.get(user_id=request.user.id)
                 return JsonResponse({
                     "telegram_username": telegram_user.telegram_username,
                     "telegram_first_name": telegram_user.telegram_first_name,
@@ -310,10 +327,10 @@ def register_telegram(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
-            TelegramUser.objects.filter(user=request.user).delete()
+            TelegramUser.objects.filter(user_id=request.user.id).delete()
             auth_key = "필박스 조아 " + _get_telegram_auth_key()
             new_telegram_user = TelegramUser.objects.create(
-                user=request.user,
+                user_id=request.user.id,
                 telegram_username=telegram_name,
                 telegram_first_name=telegram_first_name,
                 telegram_last_name=telegram_last_name,

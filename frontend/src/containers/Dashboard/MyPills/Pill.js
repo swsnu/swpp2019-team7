@@ -13,7 +13,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
 import { deleteUserPill, getPill } from '../../../store/actions/pillAction';
-import { changeDashboard } from '../../../store/actions/dashboardAction';
 
 
 const theme = createMuiTheme({
@@ -111,7 +110,7 @@ const styles = () => ({
 
 class Pill extends Component {
   deletePill(id) {
-    console.log('asdf')
+    console.log('asdf');
     this.props.deleteUserPill(id);
   }
 
@@ -161,8 +160,7 @@ class Pill extends Component {
             component="a"
             href="#"
             onClick={() => {
-              this.props.getPill(this.props.id);
-              this.props.changeDashboard(4);
+              this.props.history.push("/dashboard/4/"+this.props.id)
             }}
           >
             <Card className={classes.card} align="center">
@@ -228,6 +226,5 @@ class Pill extends Component {
 
 export default connect(null, {
   deleteUserPill,
-  changeDashboard,
   getPill,
 })(withRouter((withStyles(styles)(Pill))));
