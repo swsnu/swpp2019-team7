@@ -109,7 +109,7 @@ const styles = () => ({
 
 class Pill extends Component {
   deletePill(id) {
-    console.log('asdf')
+    console.log('asdf');
     this.props.deleteUserPill(id);
   }
 
