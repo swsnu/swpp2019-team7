@@ -1,3 +1,4 @@
+# pylint: skip-file
 from locust import HttpLocust, TaskSet, task 
 
 

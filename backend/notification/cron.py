@@ -1,5 +1,6 @@
 """Define the cron job for sending notification"""
 import datetime
+import os
 
 from django.utils import timezone
 
@@ -9,7 +10,6 @@ from notification.models import Notification, NotificationTime, NotificationInte
 from vision.models import Image
 from backend.settings import BASE_DIR
 
-import os
 
 
 def send_notification():

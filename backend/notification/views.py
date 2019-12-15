@@ -94,9 +94,8 @@ def webnoti_pill(request, req_id):
     """Function for editing specific pill of webnoti"""
     if request.method == 'PUT':
         if request.user.is_authenticated:
-            pill = Pill.objects.get(pk=req_id)
             webnoti_item = Notification.objects.get(
-                user_id=request.user.id, pill_id=pill.id)
+                user_id=request.user.id, pill_id=req_id)
             try:
                 req_data = json.loads(request.body.decode())
                 activated = req_data['activated']

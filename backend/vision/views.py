@@ -57,7 +57,7 @@ def image(request):
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
-            image_instance = Image.objects.get(id=req_id)
+            image_instance = Image.objects.select_related('user').get(id=req_id)
             image_instance.user = request.user
             image_instance.filename = image_instance.filename = f'{request.user.name}_{image_instance.filename[len("[Anonymous]_")+1:]}'
             image_instance.save()

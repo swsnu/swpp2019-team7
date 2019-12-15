@@ -253,7 +253,7 @@ def custompill_post(request):
         )
 
         # Assign pill to image
-        image_instance = Image.objects.get(id=image_id)
+        image_instance = Image.objects.select_related('pill', 'user').get(id=image_id)
         image_instance.pill = new_pill
         image_instance.user = request.user
         image_instance.save()
