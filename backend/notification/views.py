@@ -190,8 +190,25 @@ def notification_interval(request):
             return JsonResponse(tmp, status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_id = req_data['id']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            if NotificationInterval.objects.filter(id=interval_id).exists():
+                NotificationInterval.objects.get(id=interval_id).delete()
+                return HttpResponse(status=status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
     else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+        return HttpResponseNotAllowed(['GET', 'POST', 'DELETE'])
 
 
 @csrf_exempt
