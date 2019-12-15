@@ -24,7 +24,6 @@ import AccountSetting from './AccountSetting/AccountSetting';
 import './Dashboard.css';
 import PillDetail from './MyPills/PillDetail/PillDetail';
 
-import * as dashboardActionCreators from '../../store/actions/dashboardAction';
 
 const drawerWidth = 240;
 
@@ -89,15 +88,15 @@ const styles = (mytheme) => ({
 
 function dashboardDisplay(itemNo) {
   switch (itemNo) {
-    case 0:
+    case '0':
       return <MyPills />;
-    case 1:
+    case '1':
       return <NotiSetting />;
-    case 2:
+    case '2':
       return <TelegramSetting />;
-    case 3:
+    case '3':
       return <AccountSetting />;
-    case 4:
+    case '4':
       return <PillDetail />;
     default:
       return <MyPills />;
@@ -208,7 +207,4 @@ const mapStateToProps = (state) => ({
   dash: state.dash,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme((withStyles(styles)(Dashboard))));
+export default connect(mapStateToProps, null)(withTheme((withStyles(styles)(Dashboard))));
