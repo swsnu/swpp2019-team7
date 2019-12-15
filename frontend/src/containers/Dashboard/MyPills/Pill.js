@@ -66,9 +66,11 @@ const styles = () => ({
   },
   cardMedia: {
     width: 160,
+    height: 160,
   },
   cover: {
     width: 151,
+    height: 151,
   },
   controls: {
     display: 'flex',

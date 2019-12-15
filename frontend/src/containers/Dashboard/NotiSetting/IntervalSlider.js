@@ -7,8 +7,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+
+import { deleteInterval } from '../../../store/actions/intervalSettingAction';
 
 const styles = () => ({
   root: {
@@ -42,6 +45,13 @@ const columns = [
 ];
 
 class SimpleTable extends React.Component {
+  handleDelete(id) {
+    console.log('interval slider: ', id);
+    const tmp = {'id': id}
+    console.log(tmp)
+    this.props.deleteInterval(tmp)
+  }
+
   render() {
     const { classes } = this.props;
     const intervalList = this.props.intervalsList.map((row) => (
@@ -63,7 +73,11 @@ class SimpleTable extends React.Component {
         <TableCell align="right" style={{ minWidth: 150 }}>{row.send_time}</TableCell>
         <TableCell align="right" style={{ minWidth: 100 }}>pills</TableCell>
         <TableCell align="right" style={{ minWidth: 100 }}><EditIcon /></TableCell>
-        <TableCell align="center" style={{ minWidth: 100 }}><DeleteIcon /></TableCell>
+        <TableCell align="center" style={{ minWidth: 100 }}>
+          <IconButton aria-label="delete" onClick={() => this.handleDelete(row.id)}>
+            <DeleteIcon />
+          </IconButton>
+        </TableCell>
       </TableRow>
     ));
     return (
@@ -95,5 +109,5 @@ const mapStateToProps = (state) => ({
   intervalsList: state.interval.intervalsList,
 });
 export default connect(mapStateToProps, {
-  // postInterval,
+  deleteInterval,
 })(withStyles(styles)(SimpleTable));
