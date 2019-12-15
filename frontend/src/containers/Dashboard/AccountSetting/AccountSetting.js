@@ -135,7 +135,6 @@ class AccountSetting extends Component {
     const { classes } = this.props;
     return (
       <div className="Signup">
-        <Header />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
