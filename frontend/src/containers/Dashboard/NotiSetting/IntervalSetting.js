@@ -33,7 +33,13 @@ class IntervalSetting extends React.Component {
         {/* <Fab color="primary" aria-label="add"> */}
         {/*  <AddIcon onClick={() => this.onClickAddInterval()} /> */}
         {/* </Fab> */}
-        <IntervalTimeSelect id="interval-time-select" />
+        <IntervalTimeSelect
+          id="interval-time-select"
+          startHour="10"
+          startMin="0"
+          endHour="0"
+          endMin="0"
+        />
       </div>
     );
   }

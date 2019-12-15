@@ -16,6 +16,10 @@ export const deleteInterval = (intervalId) => (dispatch) => ax.delete('/api/noti
   });
 
 export const editInterval = (intervalItem) => (dispatch) => ax.put('/api/notification-interval/', intervalItem)
-  .then((res) => {
-    dispatch({ type: 'EDIT_INTERVAL', intervalItem: res.data });
+  .then(() => {
+    dispatch({ type: 'EDIT_INTERVAL', intervalItem });
   });
+
+export const editSendTime = (sendItem) => (dispatch) => {
+  dispatch({ type: 'EDIT_SEND_TIME', sendItem });
+};
