@@ -65,7 +65,7 @@ class Header extends Component {
   };
 
   clickRedirectToDashboard = () => {
-    this.props.history.push('/dashboard');
+    this.props.history.push('/dashboard/0');
   };
 
   onSignOutButtonClick = () => {

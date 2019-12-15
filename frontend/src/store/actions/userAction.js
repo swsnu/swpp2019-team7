@@ -10,7 +10,7 @@ export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', u
     dispatch({
       type: 'SIGNIN_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
     });
-    dispatch(push('/dashboard'));
+    dispatch(push('/dashboard/0'));
   })
   .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
 
@@ -36,7 +36,7 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
     dispatch({
       type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
     });
-    dispatch(push('/dashboard'));
+    dispatch(push('/dashboard/0'));
   })
   .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });
 

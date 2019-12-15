@@ -6,7 +6,7 @@ function PublicRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={(props) => (rest.logged_in ? <Redirect to="/dashboard" /> : <Component {...props} />)}
+      render={(props) => (rest.logged_in ? <Redirect to="/dashboard/0" /> : <Component {...props} />)}
     />
   );
 }

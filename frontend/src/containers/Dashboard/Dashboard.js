@@ -25,8 +25,6 @@ import PillDetail from './MyPills/PillDetail/PillDetail';
 
 import AboutDevelopers from './AboutDevelopers/AboutDevelopers';
 
-import * as dashboardActionCreators from '../../store/actions/dashboardAction';
-
 const drawerWidth = 240;
 
 const theme = createMuiTheme({
@@ -90,17 +88,17 @@ const styles = (mytheme) => ({
 
 function dashboardDisplay(itemNo) {
   switch (itemNo) {
-    case 0:
+    case '0':
       return <MyPills />;
-    case 1:
+    case '1':
       return <NotiSetting />;
-    case 2:
+    case '2':
       return <TelegramSetting />;
-    case 3:
+    case '3':
       return <AccountSetting />;
-    case 4:
+    case '4':
       return <PillDetail />;
-    case 5:
+    case '5':
       return <AboutDevelopers />;
     default:
       return <MyPills />;
@@ -123,7 +121,7 @@ class Dashboard extends Component {
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
-        <ListItem button id={itemName} onClick={() => { this.props.onChangeDashboard(itemNo); }}>
+        <ListItem button id={itemName} onClick={() => { this.props.history.push(`/dashboard/${itemNo}`); }}>
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
@@ -146,7 +144,7 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-    const text = dashboardDisplay(this.props.dash.itemNo);
+    const text = dashboardDisplay(this.props.match.params.itemNo);
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -209,7 +207,4 @@ const mapStateToProps = (state) => ({
   dash: state.dash,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeDashboard: (number) => dispatch(dashboardActionCreators.changeDashboard(number)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme((withStyles(styles)(Dashboard))));
+export default connect(mapStateToProps, null)(withTheme((withStyles(styles)(Dashboard))));

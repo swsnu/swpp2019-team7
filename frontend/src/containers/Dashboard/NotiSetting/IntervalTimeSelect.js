@@ -9,7 +9,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 
 import { postInterval } from '../../../store/actions/intervalSettingAction';
-import { changeDashboard } from '../../../store/actions/dashboardAction';
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -256,5 +255,4 @@ class IntervalTimeSelect extends React.Component {
 
 export default connect(null, {
   postInterval,
-  changeDashboard,
 })(IntervalTimeSelect);
