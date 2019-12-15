@@ -216,7 +216,7 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             if NotificationInterval.objects.filter(id=interval_id).exists():
-                interval = NotificationInterval.objects.get(interval_id)
+                interval = NotificationInterval.objects.get(id=interval_id)
                 interval.send_time = send_time
                 interval.start_time = start_time
                 interval.end_time = end_time

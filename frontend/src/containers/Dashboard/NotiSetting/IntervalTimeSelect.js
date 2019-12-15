@@ -1,63 +1,104 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import { postInterval } from '../../../store/actions/intervalSettingAction';
 
-const BootstrapInput = withStyles((theme) => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing(3),
-    },
-  },
-  input: {
-    borderRadius: 4,
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
 
-// const useStyles = makeStyles(theme => ({
-//   margin: {
-//     margin: theme.spacing(1),
-//   },
-// }));
+const hours = [
+  { value: '0', label: '00' },
+  { value: '1', label: '01' },
+  { value: '2', label: '02' },
+  { value: '3', label: '03' },
+  { value: '4', label: '04' },
+  { value: '5', label: '05' },
+  { value: '6', label: '06' },
+  { value: '7', label: '07' },
+  { value: '8', label: '08' },
+  { value: '9', label: '09' },
+  { value: '10', label: '10' },
+  { value: '11', label: '11' },
+  { value: '12', label: '12' },
+  { value: '13', label: '13' },
+  { value: '14', label: '14' },
+  { value: '15', label: '15' },
+  { value: '16', label: '16' },
+  { value: '17', label: '17' },
+  { value: '18', label: '18' },
+  { value: '19', label: '19' },
+  { value: '20', label: '20' },
+  { value: '21', label: '21' },
+  { value: '22', label: '22' },
+  { value: '23', label: '23' },
+];
+
+const minutes = [
+  { value: '0', label: '00' },
+  { value: '15', label: '15' },
+  { value: '30', label: '30' },
+  { value: '45', label: '45' },
+];
 
 class IntervalTimeSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startHour: '', startMin: '', endHour: '', endMin: '',
+      startHour: '',
+      startMin: '',
+      endHour: '',
+      endMin: '',
+      sendHour: '',
+      sendMin: '',
     };
   }
+
+  validateInterval = (interval) => {
+    const INTERVAL_ERROR = "End time should be earlier than start time.";
+    const RANGE_ERROR = "Intervals should be mutually disjoint.";
+
+    // Assure end hour/min is later than start hour/min
+    const startDate = new Date(2019, 12, 20, interval.startHour, interval.startMin);
+    const endDate = new Date(2019, 12, 20, interval.endHour, interval.endMin);
+
+    if (startDate > endDate) {
+      return INTERVAL_ERROR;
+    }
+
+    const currentDateList = this.props.intervalsList.map((e) => {
+      return {
+        id: e.id,
+        startDate: new Date(
+          2019, 12, 20,
+          parseInt(e.start_time.split(":")[0]),
+          parseInt(e.start_time.split(":")[1])
+        ),
+        endDate: new Date(
+          2019, 12, 20,
+          parseInt(e.end_time.split(":")[0]),
+          parseInt(e.end_time.split(":")[1])
+        )
+      };
+    });
+
+    for (const date of currentDateList) {
+      if (date.id !== interval.id) {
+        if (+date.startDate === +startDate || +date.startDate === +endDate) {
+          return RANGE_ERROR;
+        }
+        if (date.startDate < startDate) {
+          if (date.endDate > startDate) {
+            return RANGE_ERROR;
+          }
+        } else if (date.startDate < endDate) {
+          return RANGE_ERROR;
+        }
+      }
+    }
+
+    return "OK";
+  };
 
   ensureTwoDigitNumber = (num) => {
     if (num < 10) {
@@ -82,177 +123,183 @@ class IntervalTimeSelect extends React.Component {
     this.setState({ endMin: event.target.value });
   };
 
+  handleChangeSendHour = (event) => {
+    this.setState({ sendHour: event.target.value });
+  };
+
+  handleChangeSendMin = (event) => {
+    this.setState({ sendMin: event.target.value });
+  };
+
   onSaveInterval = () => {
-    const a = this.ensureTwoDigitNumber(this.state.startHour);
-    const b = this.ensureTwoDigitNumber(this.state.startMin);
-    const c = this.ensureTwoDigitNumber(this.state.endHour);
-    const d = this.ensureTwoDigitNumber(this.state.endMin);
-    this.props.postInterval({
-      start_time: `${a}:${b}`,
-      end_time: `${c}:${d}`,
+    const interval = {
+      startHour: this.ensureTwoDigitNumber(this.state.startHour),
+      startMin: this.ensureTwoDigitNumber(this.state.startMin),
+      endHour: this.ensureTwoDigitNumber(this.state.endHour),
+      endMin: this.ensureTwoDigitNumber(this.state.endMin),
+      sendHour: this.ensureTwoDigitNumber(this.state.sendHour),
+      sendMin: this.ensureTwoDigitNumber(this.state.sendMin),
+    };
+
+    let result;
+    if ((result = this.validateInterval(interval)) !== "OK") {
+      alert(result);
+    } else {
+      this.props.postInterval({
+        start_time: `${interval.startHour}:${interval.startMin}`,
+        end_time: `${interval.endHour}:${interval.endMin}`,
+        send_time: `${interval.sendHour}:${interval.sendMin}`
+      })
+    }
+
+    this.setState({
+      startHour: '',
+      startMin: '',
+      endHour: '',
+      endMin: '',
+      sendHour: '',
+      sendMin: '',
     });
   };
 
   render() {
     return (
-      <div align="right">
-        {/* className={classes.margin} */}
-        {/*        Start Time: */}
-        {/*        {' '} */}
-        {/*        { this.state.startHour } */}
-        {/*        {' '} */}
-        {/*: */}
-        {/*        {' '} */}
-        {/*        { this.state.startMin } */}
-        {/*        <br /> */}
-        {/*        End Time: */}
-        {/*        {' '} */}
-        {/*        { this.state.endHour } */}
-        {/*        {' '} */}
-        {/*        : */}
-        {/*        {' '} */}
-        {/*        { this.state.endMin } */}
-        {/*        <br /> */}
-        {/* start time */}
-        {/* <Grid container alignItems="center"> */}
-        {/*  <Grid item > */}
-        {/* <Typography variant="h6">Set interval notification from: {'  '}</Typography> */}
-        {/*  </Grid> */}
-        {/*  <Grid item> */}
-        <FormControl style={{ width: 100 }}>
-          <InputLabel id="demo-customized-select-label">Hr</InputLabel>
-          <Select
-            labelId="demo-customized-select-label"
+      <div>
+        <form noValidate autoComplete="off">
+          <TextField
+            // labelId="demo-customized-select-label"
             id="demo-customized-select"
+            select
+            disabled={false}
+            label="Start-H"
             value={this.state.startHour}
+            // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeStartHour}
-            input={<BootstrapInput />}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
           >
-            <MenuItem value="10:00">
-              {/* <em>10:00AM</em> */}
-            </MenuItem>
-            <MenuItem value={0}>00</MenuItem>
-            <MenuItem value={1}>01</MenuItem>
-            <MenuItem value={2}>02</MenuItem>
-            <MenuItem value={3}>03</MenuItem>
-            <MenuItem value={4}>04</MenuItem>
-            <MenuItem value={5}>05</MenuItem>
-            <MenuItem value={6}>06</MenuItem>
-            <MenuItem value={7}>07</MenuItem>
-            <MenuItem value={8}>08</MenuItem>
-            <MenuItem value={9}>09</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={11}>11</MenuItem>
-            <MenuItem value={12}>12</MenuItem>
-            <MenuItem value={13}>13</MenuItem>
-            <MenuItem value={14}>14</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={16}>16</MenuItem>
-            <MenuItem value={17}>17</MenuItem>
-            <MenuItem value={18}>18</MenuItem>
-            <MenuItem value={19}>19</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={21}>21</MenuItem>
-            <MenuItem value={22}>22</MenuItem>
-            <MenuItem value={23}>23</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl style={{ width: 100 }}>
-          <InputLabel id="demo-customized-select-label">Minute</InputLabel>
-          <Select
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
+            {hours.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            // labelId="demo-customized-select-label"
+            id="start-minute"
+            select
+            disabled={false}
+            label="Start-M"
             value={this.state.startMin}
             onChange={this.handleChangeStartMin}
-            input={<BootstrapInput />}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
           >
-            <MenuItem value="10:00AM">
-              {/* <em>10:00AM</em> */}
-            </MenuItem>
-            <MenuItem value={0}>00</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-            <MenuItem value={45}>45</MenuItem>
-          </Select>
-        </FormControl>
-        <br />
-        {/*  </Grid> */}
-        {/* </Grid> */}
-        {/* end time */}
-        <FormControl style={{ width: 100 }}>
-          <InputLabel id="demo-customized-select-label">Hr</InputLabel>
-          <Select
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
+            {minutes.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            // labelId="demo-customized-select-label"
+            id="end-hour"
+            select
+            disabled={false}
+            label="Start-H"
             value={this.state.endHour}
+            // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeEndHour}
-            input={<BootstrapInput />}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
           >
-            <MenuItem value="10:00">
-              {/* <em>10:00AM</em> */}
-            </MenuItem>
-            <MenuItem value={0}>00</MenuItem>
-            <MenuItem value={1}>01</MenuItem>
-            <MenuItem value={2}>02</MenuItem>
-            <MenuItem value={3}>03</MenuItem>
-            <MenuItem value={4}>04</MenuItem>
-            <MenuItem value={5}>05</MenuItem>
-            <MenuItem value={6}>06</MenuItem>
-            <MenuItem value={7}>07</MenuItem>
-            <MenuItem value={8}>08</MenuItem>
-            <MenuItem value={9}>09</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={11}>11</MenuItem>
-            <MenuItem value={12}>12</MenuItem>
-            <MenuItem value={13}>13</MenuItem>
-            <MenuItem value={14}>14</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={16}>16</MenuItem>
-            <MenuItem value={17}>17</MenuItem>
-            <MenuItem value={18}>18</MenuItem>
-            <MenuItem value={19}>19</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={21}>21</MenuItem>
-            <MenuItem value={22}>22</MenuItem>
-            <MenuItem value={23}>23</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl style={{ width: 100 }}>
-          <InputLabel id="demo-customized-select-label">Minute</InputLabel>
-          <Select
-            labelId="demo-customized-select-label"
-            id="demo-customized-select"
+            {hours.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            // labelId="demo-customized-select-label"
+            id="end-minute"
+            select
+            disabled={false}
+            label="Start-M"
             value={this.state.endMin}
             onChange={this.handleChangeEndMin}
-            input={<BootstrapInput />}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
           >
-            <MenuItem value="10:00AM">
-              {/* <em>10:00AM</em> */}
-            </MenuItem>
-            <MenuItem value={0}>00</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-            <MenuItem value={45}>45</MenuItem>
-          </Select>
-        </FormControl>
+            {minutes.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            // labelId="demo-customized-select-label"
+            id="send-hour"
+            select
+            disabled={false}
+            label="Send-H"
+            value={this.state.sendHour}
+            // onChange={this.handleChangeStartHour}
+            onChange={this.handleChangeSendHour}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
+          >
+            {hours.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            // labelId="demo-customized-select-label"
+            id="send-minute"
+            select
+            disabled={false}
+            label="Send-M"
+            value={this.state.sendMin}
+            onChange={this.handleChangeSendMin}
+            // variant="outlined"
+            style={{ width: 60, marginTop: 30 }}
+            // input={<BootstrapInput />}
+          >
+            {minutes.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </form>
         <br />
         <Button
           variant="contained"
           color="primary"
           size="small"
           // className={classes.button}
-          // startIcon={<SaveIcon />}
           onClick={() => this.onSaveInterval()}
           style={{ marginTop: 20 }}
         >
-          Save New Interval
+          Save New Interval Notification
         </Button>
-
       </div>
     );
   }
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => {
+  return {
+    intervalsList: state.interval.intervalsList,
+  }
+};
+
+export default connect(mapStateToProps, {
   postInterval,
 })(IntervalTimeSelect);

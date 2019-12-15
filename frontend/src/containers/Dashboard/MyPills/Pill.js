@@ -3,34 +3,35 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
-import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import Paper from '@material-ui/core/Paper';
+import { Avatar, Typography } from '@material-ui/core';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import IconButton from '@material-ui/core/IconButton';
 
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
+import './Pill.css';
 import { deleteUserPill, getPill } from '../../../store/actions/pillAction';
 
-
+const breakpoints = createBreakpoints({});
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "'DM Sans', sans-serif",
-    h2: {
-      fontWeight: 500,
-      fontSize: 55,
-      // fontStyle: "italic"
-    },
-    h3: {
-      fontWeight: 500,
-    },
+    fontFamily: "'Nanum Gothic', sans-serif",
     h5: {
-      fontSize: 28,
+      fontSize: 21,
+      fontWeight: 700,
+      [breakpoints.down('sm')]: {
+        fontSize: 18,
+      },
     },
     h6: {
       fontWeight: 500,
+      fontSize: 15,
+      [breakpoints.down('sm')]: {
+        fontSize: 16,
+      },
     },
   },
 });
@@ -40,77 +41,48 @@ const styles = () => ({
     fontWeight: 900,
   },
   avatar: {
-    width: 60,
-    height: 60,
-  },
-  icon: {
-    height: 32,
-    width: 32,
+    width: 151,
+    height: 151,
+    borderRadius: 10,
+    [breakpoints.down('sm')]: {
+      width: 140,
+      height: 140,
+      borderRadius: 10,
+    },
   },
   deleteText: {
     color: 'red',
   },
   card: {
-    display: 'flex',
+    boxShadow: 3,
     borderRadius: 20,
   },
-  cardDetails: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 40,
-    paddingBottom: 40,
-    paddingRight: 20,
-    paddingLeft: 20,
+  deleteIcon: {
+    fontSize: 36,
+    [breakpoints.down('sm')]: {
+      fontSize: 32,
+    },
   },
-  cardMedia: {
-    width: 160,
-    height: 160,
+  cardDescription: {
+    paddingLeft: 32,
+    paddingRight: 15,
+    paddingTop: 26,
+    [breakpoints.down('sm')]: {
+      paddingLeft: 40,
+      paddingRight: 15,
+    },
   },
-  cover: {
-    width: 151,
-    height: 151,
+  hideOverflow: {
+    maxHeight: 54,
+    overflow: 'hidden',
+    [breakpoints.down('sm')]: {
+      maxHeight: 46,
+    },
   },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  content: {
-    // padding: 0
-    paddingTop: 30,
-    paddingBottom: 30,
-    paddingRight: 10,
-    paddingLeft: 10,
-    // flex: '1 0 auto',
-  },
-
-
-  //
-  // root: {
-  //   flexGrow: 1,
-  // },
-  // paper: {
-  //   // padding: theme.spacing(2),
-  //   margin: 16,
-  //   maxWidth: 500,
-  // },
-  // image: {
-  //   // width: 150,
-  //   height: "",
-  // },
-  // img: {
-  //   // margin: 'auto',
-  //   display: 'block',
-  //   maxWidth: '100%',
-  //   maxHeight: '100%',
-  // },
 });
 
 class Pill extends Component {
   deletePill(id) {
-    console.log('asdf');
     this.props.deleteUserPill(id);
   }
 
@@ -118,107 +90,52 @@ class Pill extends Component {
     const { classes } = this.props;
     return (
       <div className="Pill">
-        <ThemeProvider theme={theme}>
-          {/* <Paper className={classes.paper}> */}
-          {/*  <Grid container spacing={2}> */}
-          {/*    <Grid item style={{padding: 0}}> */}
-          {/*      <ButtonBase className={classes.image}> */}
-          {/*        <img className={classes.img} alt="complex" src={this.props.file} /> */}
-          {/*      </ButtonBase> */}
-          {/*    </Grid> */}
-          {/*    <Grid item xs sm container alignItems="center"> */}
-          {/*      <Grid item xs container direction="column" spacing={2}> */}
-          {/*        <Grid item xs> */}
-          {/*          <Typography variant="h5"> */}
-          {/*            {this.props.name} */}
-          {/*          </Typography> */}
-          {/*          <Typography variant="body2" gutterBottom> */}
-          {/*            {this.props.takemethod} */}
-          {/*          </Typography> */}
-          {/*        </Grid> */}
-          {/*      </Grid> */}
-          {/*      <Grid item> */}
-          {/*        <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}> */}
-          {/*          <DeleteForeverOutlinedIcon */}
-          {/*            fontSize="large" */}
-          {/*            component={(svgProps) => ( */}
-          {/*              <svg {...svgProps}> */}
-          {/*                {React.cloneElement(svgProps.children[0], { */}
-          {/*                  fill: '#ff7043', */}
-          {/*                })} */}
-          {/*              </svg> */}
-          {/*            )} */}
-          {/*          /> */}
-          {/*        </IconButton> */}
-          {/*      </Grid> */}
-          {/*    </Grid> */}
-          {/*  </Grid> */}
-          {/* </Paper> */}
-
-
-          <CardActionArea
-            component="a"
-            href="#"
-            onClick={() => {
-              this.props.history.push("/dashboard/4/"+this.props.id)
-            }}
-          >
-            <Card className={classes.card} align="center">
-              <CardMedia
-                component="img"
-                className={classes.cover}
-                image={this.props.file}
-                title={this.props.file}
-              />
-              <div className={classes.cardDetails} align="center">
-                {/* <CardContent className={classes.content}> */}
-                <Grid container justify="center" alignItems="center">
-                  <Grid item xs={9}>
-                    <Typography variant="h5" align="left">
+        <Paper elevation={2} style={{ borderRadius: 10 }}>
+          <ThemeProvider theme={theme}>
+            <CardActionArea
+              // component={this.props.name}
+              href="#"
+              onClick={() => {
+                this.props.history.push(`/dashboard/4/${this.props.id}`);
+              }}
+            >
+              <Grid container direction="row">
+                <Grid item xs={4}>
+                  <Avatar backgroundcolor="rgba(0,0,0,0)" src={this.props.file} className={classes.avatar} variant="square" />
+                </Grid>
+                <Grid item xs={8} container padding={1} justify="flex-end" alignItems="center" className={classes.cardDescription}>
+                  <Grid item xs={12} align="right">
+                    <Typography variant="h5" className={classes.hideOverflow}>
                       {this.props.name}
                     </Typography>
-                    <Typography variant="h6" align="left">
+                    <Typography variant="h6">
                       {this.props.takemethod}
                     </Typography>
                   </Grid>
-                  <Grid item xs={3}>
-                    {/* <div className={classes.controls}> */}
-                    {/*  <Typography */}
-                    {/*    variant="h6" */}
-                    {/*    style={{ color: '#53a5e0' }} */}
-                    {/*    onClick={() => { */}
-                    {/*      this.props.getPill(this.props.id); */}
-                    {/*      this.props.changeDashboard(4); */}
-                    {/*    }} */}
-                    {/*  > */}
-                    {/*    Detail */}
-                    {/*  </Typography> */}
+                  <Grid item xs={12} align="right">
                     <IconButton
                       id="delete-button"
                       className={classes.margin}
                       style={{ padding: 0 }}
                       onClick={(event) => { event.stopPropagation(); this.deletePill(this.props.id); }}
                     >
-                      <DeleteForeverOutlinedIcon
-                        fontSize="large"
+                      <DeleteOutlineOutlinedIcon
+                        className={classes.deleteIcon}
                         component={(svgProps) => (
                           <svg {...svgProps}>
                             {React.cloneElement(svgProps.children[0], {
-                              fill: '#ff7043',
+                              fill: '#fd163f',
                             })}
                           </svg>
                         )}
                       />
                     </IconButton>
-                    {/* </div> */}
                   </Grid>
                 </Grid>
-                {/* </CardContent> */}
-
-              </div>
-            </Card>
-          </CardActionArea>
-        </ThemeProvider>
+              </Grid>
+            </CardActionArea>
+          </ThemeProvider>
+        </Paper>
       </div>
     );
   }
