@@ -54,6 +54,52 @@ class IntervalTimeSelect extends React.Component {
     };
   }
 
+  validateInterval = (interval) => {
+    const INTERVAL_ERROR = "End time should be earlier than start time.";
+    const RANGE_ERROR = "Intervals should be mutually disjoint.";
+
+    // Assure end hour/min is later than start hour/min
+    const startDate = new Date(2019, 12, 20, interval.startHour, interval.startMin);
+    const endDate = new Date(2019, 12, 20, interval.endHour, interval.endMin);
+
+    if (startDate > endDate) {
+      return INTERVAL_ERROR;
+    }
+
+    const currentDateList = this.props.intervalsList.map((e) => {
+      return {
+        id: e.id,
+        startDate: new Date(
+          2019, 12, 20,
+          parseInt(e.start_time.split(":")[0]),
+          parseInt(e.start_time.split(":")[1])
+        ),
+        endDate: new Date(
+          2019, 12, 20,
+          parseInt(e.end_time.split(":")[0]),
+          parseInt(e.end_time.split(":")[1])
+        )
+      };
+    });
+
+    for (let date of currentDateList) {
+      if (date.id !== interval.id) {
+        if (+date.startDate === +startDate || +date.startDate === +endDate) {
+          return RANGE_ERROR;
+        }
+        if (date.startDate < startDate) {
+          if (date.endDate > startDate) {
+            return RANGE_ERROR;
+          }
+        } else if (date.startDate < endDate) {
+          return RANGE_ERROR;
+        }
+      }
+    }
+
+    return "OK";
+  };
+
   ensureTwoDigitNumber = (num) => {
     if (num < 10) {
       return `0${num}`;
@@ -85,20 +131,27 @@ class IntervalTimeSelect extends React.Component {
     this.setState({ sendMin: event.target.value });
   };
 
-
-
   onSaveInterval = () => {
-    const a = this.ensureTwoDigitNumber(this.state.startHour);
-    const b = this.ensureTwoDigitNumber(this.state.startMin);
-    const c = this.ensureTwoDigitNumber(this.state.endHour);
-    const d = this.ensureTwoDigitNumber(this.state.endMin);
-    const e = this.ensureTwoDigitNumber(this.state.sendHour);
-    const f = this.ensureTwoDigitNumber(this.state.sendMin);
-    this.props.postInterval({
-      start_time: `${a}:${b}`,
-      end_time: `${c}:${d}`,
-      send_time: `${e}:${f}`,
-    });
+    const interval = {
+      startHour: this.ensureTwoDigitNumber(this.state.startHour),
+      startMin: this.ensureTwoDigitNumber(this.state.startMin),
+      endHour: this.ensureTwoDigitNumber(this.state.endHour),
+      endMin: this.ensureTwoDigitNumber(this.state.endMin),
+      sendHour: this.ensureTwoDigitNumber(this.state.sendHour),
+      sendMin: this.ensureTwoDigitNumber(this.state.sendMin),
+    };
+
+    let result;
+    if ((result = this.validateInterval(interval)) !== "OK") {
+      alert(result);
+    } else {
+      this.props.postInterval({
+        start_time: `${interval.startHour}:${interval.startMin}`,
+        end_time: `${interval.endHour}:${interval.endMin}`,
+        send_time: `${interval.sendHour}:${interval.sendMin}`
+      })
+    }
+
     this.setState({
       startHour: '',
       startMin: '',
@@ -118,7 +171,7 @@ class IntervalTimeSelect extends React.Component {
             id="demo-customized-select"
             select
             disabled={false}
-            label="From"
+            label="Start-H"
             value={this.state.startHour}
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeStartHour}
@@ -137,7 +190,7 @@ class IntervalTimeSelect extends React.Component {
             id="start-minute"
             select
             disabled={false}
-            label="To"
+            label="Start-M"
             value={this.state.startMin}
             onChange={this.handleChangeStartMin}
             // variant="outlined"
@@ -155,7 +208,7 @@ class IntervalTimeSelect extends React.Component {
             id="end-hour"
             select
             disabled={false}
-            label="From"
+            label="Start-H"
             value={this.state.endHour}
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeEndHour}
@@ -174,7 +227,7 @@ class IntervalTimeSelect extends React.Component {
             id="end-minute"
             select
             disabled={false}
-            label="To"
+            label="Start-M"
             value={this.state.endMin}
             onChange={this.handleChangeEndMin}
             // variant="outlined"
@@ -192,7 +245,7 @@ class IntervalTimeSelect extends React.Component {
             id="send-hour"
             select
             disabled={false}
-            label="From"
+            label="Send-H"
             value={this.state.sendHour}
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeSendHour}
@@ -211,7 +264,7 @@ class IntervalTimeSelect extends React.Component {
             id="send-minute"
             select
             disabled={false}
-            label="To"
+            label="Send-M"
             value={this.state.sendMin}
             onChange={this.handleChangeSendMin}
             // variant="outlined"
@@ -241,6 +294,12 @@ class IntervalTimeSelect extends React.Component {
   }
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => {
+  return {
+    intervalsList: state.interval.intervalsList,
+  }
+};
+
+export default connect(mapStateToProps, {
   postInterval,
 })(IntervalTimeSelect);

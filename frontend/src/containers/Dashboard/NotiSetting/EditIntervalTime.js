@@ -63,7 +63,6 @@ class EditIntervalTime extends React.Component {
       return INTERVAL_ERROR;
     }
 
-    // TODO validate if intervals are disjoint
     const currentDateList = this.props.intervalsList.map((e) => {
       return {
         id: e.id,
@@ -141,7 +140,6 @@ class EditIntervalTime extends React.Component {
         send_time: `${this.ensureTwoDigitNumber(this.props.newSendHour)}:${this.ensureTwoDigitNumber(this.props.newSendMin)}`,
       })
     }
-    console.log(result);
   };
 
   render() {
@@ -226,11 +224,10 @@ class EditIntervalTime extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.interval.intervalsList);
   return {
-  newSendHour: state.interval.editSendHour,
-  newSendMin: state.interval.editSendMin,
-  intervalsList: state.interval.intervalsList,
+    newSendHour: state.interval.editSendHour,
+    newSendMin: state.interval.editSendMin,
+    intervalsList: state.interval.intervalsList,
 };};
 
 export default connect(mapStateToProps, {
