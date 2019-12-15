@@ -120,7 +120,7 @@ class Dashboard extends Component {
   listItemCreator(itemName, itemNo, listIcon) {
     return (
       <div>
-        <ListItem button id={itemName} onClick={() => { this.props.onChangeDashboard(itemNo); }}>
+        <ListItem button id={itemName} onClick={() => { this.props.history.push(`/dashboard/${itemNo}`); }}>
           <ListItemIcon>
             {listIcon}
           </ListItemIcon>
@@ -143,7 +143,7 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
-    const text = dashboardDisplay(this.props.dash.itemNo);
+    const text = dashboardDisplay(this.props.match.params.itemNo);
     const drawer = (
       <div>
         <div className={classes.toolbar} />

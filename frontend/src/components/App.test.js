@@ -71,7 +71,7 @@ describe('App', () => {
     testPushBehavior('/signup', '.spySignup', app);
   });
   xit('should goto dashboard', () => {
-    testPushBehavior('/dashboard', '.spyDashboard', app);
+    testPushBehavior('/dashboard/0', '.spyDashboard', app);
   });
   it('should goto demowidget', () => {
     testPushBehavior('/demowidget', '.spyDemowidget', app);
