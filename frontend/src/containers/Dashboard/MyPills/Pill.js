@@ -53,6 +53,7 @@ const styles = () => ({
   },
   card: {
     display: 'flex',
+    borderRadius: 20,
   },
   cardDetails: {
     flex: 1,

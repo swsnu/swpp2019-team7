@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import {
   Card, CardContent, Grid, Typography, Avatar, withStyles,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { connect } from 'react-redux';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 
 import * as userActionCreators from '../../../store/actions/userAction';
 
+const breakpoints = createBreakpoints({});
 const styles = (theme) => ({
   root: {
     height: '100%',
     marginTop: 50,
   },
-  content: {
-    alignItems: 'center',
-    display: 'flex',
+  card: {
+    borderRadius: 10,
+  },
+  cardContent: {
+    // alignItems: 'center',
+    // display: 'flex',
+    padding: 16,
+    '&:last-child': {
+      paddingBottom: 16,
+    },
   },
   title: {
     fontWeight: 700,
@@ -25,8 +35,13 @@ const styles = (theme) => ({
     width: 48,
   },
   icon: {
-    height: 32,
-    width: 32,
+    height: 36,
+    width: 36,
+    color: '#fd163f',
+    marginLeft: 20,
+    [breakpoints.down('xs')]: {
+      marginLeft: 10,
+    },
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -73,22 +88,23 @@ class SettingItem extends Component {
     const { classes } = this.props;
     return (
       <div className="SettingItem">
-        <Card>
-          <CardContent>
+        <Card elevation={2} className={classes.card}>
+          <CardContent className={classes.cardContent}>
             <Grid
               container
               justify="space-between"
-              alignItems="flex-end"
+              alignItems="center"
             >
-              <Grid item>
-                <Avatar className={classes.avatar}>
-                  <NotificationsIcon className={classes.icon} />
-                </Avatar>
+              <Grid item xs={2}>
+                {/*<Avatar className={classes.avatar}>*/}
+                  <NotificationsNoneIcon className={classes.icon} />
+                {/*</Avatar>*/}
               </Grid>
-              <Grid item>
+              <Grid item xs={1} />
+              <Grid item xs={7}>
                 <Typography variant="h5">{this.props.name}</Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={2}>
                 <Switch
                   id="onoff-switch"
                   checked={checked}
