@@ -118,7 +118,7 @@ class DemoWidget extends Component {
                 <CardMedia
                   component="img"
                   className={classes.media}
-                  image={`https://www.pillbox.me:8000${this.state.productInfo.imageUrl}`}
+                  image={`https://www.pillbox.me${this.state.productInfo.imageUrl}`}
                   title="Pill"
                 />
                 {this.state.productInfo.productName
