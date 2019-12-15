@@ -16,8 +16,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     register_date = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login_date = models.DateTimeField(
         _('last logged-in'), auto_now_add=True)
-    # many-to-many between User and Pill
-    #pills = models.ManyToManyField(Pill, related_name='users')
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

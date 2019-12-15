@@ -10,6 +10,10 @@ const IntervalSettingReducer = (state = initState, action = null) => {
       return { ...state, intervalsList: action.intervalsList };
     case 'POST_INTERVALS':
       return { ...state, intervalsList: state.intervalsList.concat(action.intervalItem) };
+    case 'DELETE_INTERVAL':
+      return { ...state, intervalsList: state.intervalsList.filter(({ id }) => id !== action.deleteId.id) };
+    // case 'EDIT_INTERVAL':
+    //   return { ...state, intervalsList: }
     default:
       break;
   }

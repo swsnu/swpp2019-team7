@@ -30,8 +30,8 @@ class Firebase {
     }
   }
 
-  requestPermission = () => {
-    Notification.requestPermission().then((permission) => {
+  requestPermission = async () => {
+    await Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
         console.log('Notification request permitted.');
       } else {
@@ -41,8 +41,7 @@ class Firebase {
   };
 
   async getToken() {
-    console.log('ask for token');
-    this.requestPermission();
+    await this.requestPermission();
     let token = null;
     await this.messaging.getToken()
       .then((currentToken) => {

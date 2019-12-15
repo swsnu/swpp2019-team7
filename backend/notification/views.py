@@ -37,9 +37,7 @@ def format_webnoti_list_object(item):
 def crud_device(request):
     """ CRUD Operation for FCM devices """
     if request.method == 'POST':
-        print('call crud')
         if request.user.is_authenticated:
-            print('authen')
             try:
                 req_data = json.loads(request.body.decode())
                 fcm_token = req_data['fcmtoken']
@@ -78,7 +76,6 @@ def crud_device(request):
 def webnoti(request):
     """Function for getting/returning web notification list of user"""
     if request.method == 'GET':
-        print('webnoti get')
         if request.user.is_authenticated:
             webnoti_list = Notification.objects.filter(user=request.user)
             webnoti_formatted_list = list(
@@ -147,6 +144,7 @@ def webnoti_pill(request, req_id):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+
 def notification_interval(request):
     """ CRUD operation for notification interval per each user """
     if request.method == 'GET':
@@ -172,13 +170,14 @@ def notification_interval(request):
         if request.user.is_authenticated:
             try:
                 req_data = json.loads(request.body.decode())
+                send_time = req_data['send_time']
                 start_time = req_data['start_time']
                 end_time = req_data['end_time']
             except (KeyError, ValueError):
                 return HttpResponseBadRequest()
 
             NotificationInterval.objects.create(
-                user=request.user, send_time=start_time, start_time=start_time, end_time=end_time).save()
+                user=request.user, send_time=send_time, start_time=start_time, end_time=end_time).save()
             new_interval = NotificationInterval.objects.filter(user=request.user).order_by('-id')[0]
             tmp = {
                 "id": new_interval.id,
@@ -189,8 +188,48 @@ def notification_interval(request):
             return JsonResponse(tmp, status=status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_id = req_data['id']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            if NotificationInterval.objects.filter(id=interval_id).exists():
+                NotificationInterval.objects.get(id=interval_id).delete()
+                return HttpResponse(status=status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+    elif request.method == 'PUT':
+        if request.user.is_authenticated:
+            try:
+                req_data = json.loads(request.body.decode())
+                interval_id = req_data['id']
+                send_time = req_data['send_time']
+                start_time = req_data['start_time']
+                end_time = req_data['end_time']
+            except (KeyError, ValueError):
+                return HttpResponseBadRequest()
+
+            if NotificationInterval.objects.filter(id=interval_id).exists():
+                interval = NotificationInterval.objects.get(interval_id)
+                interval.send_time = send_time
+                interval.start_time = start_time
+                interval.end_time = end_time
+                interval.save()
+                return HttpResponse(status=status.HTTP_200_OK)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+        return HttpResponseNotAllowed(['GET', 'POST', 'DELETE', 'PUT'])
+
 
 @csrf_exempt
 def telegram(request):
@@ -253,6 +292,7 @@ def telegram(request):
             return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
+
 
 def register_telegram(request):
     """

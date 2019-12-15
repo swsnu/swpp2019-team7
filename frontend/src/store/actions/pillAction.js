@@ -105,7 +105,6 @@ export const addUserPillImage = (pillImage, id) => (dispatch) => {
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
 
 export const deleteUserPill = (id) => (dispatch) => {
-  console.log('hw');
   ax.delete(`/api/pill/${id}/`)
     .then(() => {
       dispatch(deleteUserPill_(id));

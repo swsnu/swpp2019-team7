@@ -53,6 +53,7 @@ const styles = () => ({
   },
   card: {
     display: 'flex',
+    borderRadius: 20,
   },
   cardDetails: {
     flex: 1,
@@ -108,8 +109,8 @@ const styles = () => ({
 
 class Pill extends Component {
   deletePill(id) {
+    console.log('asdf')
     this.props.deleteUserPill(id);
-    this.props.history.push('/dashboard');
   }
 
   render() {
@@ -192,7 +193,12 @@ class Pill extends Component {
                     {/*  > */}
                     {/*    Detail */}
                     {/*  </Typography> */}
-                    <IconButton id="delete-button" className={classes.margin} onClick={() => this.deletePill(this.props.id)} style={{ padding: 0 }}>
+                    <IconButton
+                      id="delete-button"
+                      className={classes.margin}
+                      style={{ padding: 0 }}
+                      onClick={(event) => { event.stopPropagation(); this.deletePill(this.props.id); }}
+                    >
                       <DeleteForeverOutlinedIcon
                         fontSize="large"
                         component={(svgProps) => (

@@ -74,7 +74,7 @@ class Login extends Component {
 
   handlerSignup = () => {
     this.props.history.push('/signup');
-  }
+  };
 
   onLoginButtonClick = async () => {
     const user = { email: this.state.email_input, password: this.state.pw_input };
@@ -82,15 +82,28 @@ class Login extends Component {
       email_input: '',
       pw_input: '',
     });
+        this.props.onRegisterToken(token);
+      
+    
+      this.props.onLoginUser(user)
+      if (this.props.newPillId > 0) {
+        this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
+      }
     if (!isIOS()) {
+    this.props.onLoginUser(user).then(() => {
+      if (this.props.newPillId > 0) {
+        this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
+      }
       this.props.firebase.getToken().then((token) => {
-        this.props.onLoginUser(user).then(() => {
-        if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
-          this.props.onRegisterToken(token);
-        });
-      });
+        this.props.onRegisterToken(token);
+      })
+
+    });
     } else {
       this.props.onLoginUser(user)
+      if (this.props.newPillId > 0) {
+        this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
+      }
     }
   };
 

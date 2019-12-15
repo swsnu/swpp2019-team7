@@ -10,7 +10,12 @@ export const postInterval = (intervalItem) => (dispatch) => ax.post('/api/notifi
     dispatch({ type: 'POST_INTERVALS', intervalItem: res.data });
   });
 
-export const editInterval = (webnotiItem) => (dispatch) => ax.put(`/api/webnoti/${webnotiItem.id}/`, webnotiItem)
+export const deleteInterval = (intervalId) => (dispatch) => ax.delete('/api/notification-interval/', { data: intervalId })
+  .then(() => {
+    dispatch({ type: 'DELETE_INTERVAL', deleteId: intervalId });
+  });
+
+export const editInterval = (intervalItem) => (dispatch) => ax.put('/api/notification-interval/', intervalItem)
   .then((res) => {
-    dispatch({ type: 'EDIT_WEBNOTI', webnoti_list: res.data });
+    dispatch({ type: 'EDIT_INTERVAL', intervalItem: res.data });
   });
