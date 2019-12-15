@@ -36,7 +36,7 @@ def image(request):
             # fetched product successfully
             pill = Pill.objects.get(id=product["pk"])
             if request.user.is_authenticated:
-                Image.objects.filter(user=request.user, pill=pill).delete()
+                Image.objects.filter(user_id=request.user.id, pill_id=pill.id).delete()
                 image_instance.filename = f'{request.user.name}_{pill.product_name}'
             else:
                 image_instance.filename = f'[Anonymous]_{pill.product_name}'
