@@ -10,8 +10,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import ax from '../../../api/index';
 
-import Header from '../../Header/Header';
-
 import * as pillActionCreators from '../../../store/actions/pillAction';
 
 
@@ -100,7 +98,6 @@ class PillLookup extends Component {
     };
     return (
       <div className="PillLookup">
-        <Header />
         <Wrapper>
           <Grid container justify="center" alignItems="center">
             <Grid item>

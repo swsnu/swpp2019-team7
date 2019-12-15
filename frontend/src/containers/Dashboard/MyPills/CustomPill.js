@@ -11,8 +11,6 @@ import Button from '@material-ui/core/Button';
 import { Grid, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 
-import Header from '../../Header/Header';
-
 import * as pillActionCreators from '../../../store/actions/pillAction';
 
 const Wrapper = styled.section`
@@ -94,7 +92,6 @@ class CustomPill extends Component {
     if (this.props.render_custompill) {
       return (
         <div className="CustomPill">
-          <Header />
           <Wrapper>
             <ThemeProvider theme={theme}>
               <Grid container justify="center" alignItems="center" spacing={2} direction='column'>

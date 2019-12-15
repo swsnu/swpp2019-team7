@@ -55,8 +55,8 @@ const styles = (theme) => ({
     width: 56,
   },
   icon: {
-    height: 32,
-    width: 32,
+    height: 37,
+    width: 37,
   },
   difference: {
     marginTop: theme.spacing(2),
@@ -83,10 +83,10 @@ const mytheme = createMuiTheme({
   typography: {
     fontFamily: "'DM Sans', sans-serif",
     h5: {
-      [breakpoints.down('xs')]: {
+      [breakpoints.down('xs={12} sm')]: {
         fontSize: '0.9rem',
       },
-      [breakpoints.down('sm')]: {
+      [breakpoints.down('xs={12} sm')]: {
         fontSize: '1.1rem',
       },
     },
@@ -104,12 +104,17 @@ class PillNoti extends Component {
     this.state = {
       edit_mode: 0,
       pillNotiSetting: { ...this.props.pillNotiSetting },
+      valid_date: true,
     };
   }
 
   onConfirm() {
     if (this.isRedundant()) {
       alert('Redundant notification times are not allowed. Please set unique times only.');
+      return;
+    }
+    if (this.hasInvalidDate()) {
+      alert('Please type a valid date.')
       return;
     }
     const timeList = [...this.state.pillNotiSetting.time];
@@ -132,6 +137,18 @@ class PillNoti extends Component {
   }
 
   onDateChange = (id) => (date) => {
+    //console.log(String(date));
+    /*
+    //console.log('date: '+ JSON.stringify(date));
+    if(JSON.stringify(date) === 'null'){
+      console.log('Called');
+      this.setState({valid_date: false})
+    }
+    else{
+      console.log('Called2');
+      this.setState({valid_date: true})
+    }
+    */
     this.setState((currentState) => {
       currentState.pillNotiSetting.time[id] = String(date).substring(16, 18) + String(date).substring(19, 21);
       return { pillNotiSetting: currentState.pillNotiSetting };
@@ -171,6 +188,17 @@ class PillNoti extends Component {
         if (this.state.pillNotiSetting.time[iterator1] === this.state.pillNotiSetting.time[iterator2]) {
           return true;
         }
+      }
+    }
+    return false;
+  }
+
+  hasInvalidDate() {
+    console.log(this.state.pillNotiSetting.time);
+    let iterator;
+    for (iterator = 0; iterator < (this.state.pillNotiSetting.time.length); iterator += 1) {
+      if (this.state.pillNotiSetting.time[iterator].length === 0) {
+        return true;
       }
     }
     return false;
@@ -216,7 +244,7 @@ class PillNoti extends Component {
             'aria-label': 'change time',
           }}
           disabled
-          style={{ marginTop: 0, marginBottom: 12 }}
+          style={{ left: '20%' }}
         />
       </div>
     ));
@@ -226,22 +254,25 @@ class PillNoti extends Component {
           <PillItemWrapper>
             <Grid
               container
-              justify="flex-start"
-              alignItems="flex-start"
+              justify="center"
+              alignItems="center"
+              spacing={2}
             >
-              <Grid item xs={2}>
-                <Avatar className={classes.avatar} src={this.props.pill.file}>
+              <Grid item xs={12} sm={2}>
+                <Avatar className={classes.avatar} src={this.props.pill.file} style={{
+                  left: '40%',
+                }}>
                   <LocalHospitalIcon className={classes.icon} />
                 </Avatar>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={3}>
                 <ThemeProvider theme={mytheme}>
-                  <Typography variant="h5">
+                  <Typography variant="h5" align="center">
                     {this.state.pillNotiSetting['pill-name']}
                   </Typography>
                 </ThemeProvider>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Typography
                   // className={classes.caption}
                   variant="h5"
@@ -251,8 +282,10 @@ class PillNoti extends Component {
                   </MuiPickersUtilsProvider>
                 </Typography>
               </Grid>
-              <Grid item xs={1}>
-                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }}>
+              <Grid item xs={12} sm={1}>
+                <IconButton id="edit-button" aria-label="edit" className={classes.margin} onClick={() => { this.setState({ edit_mode: 1 }); }} style={{
+                  left: '40%',
+                }}>
                   <EditIcon fontSize="large" />
                 </IconButton>
               </Grid>
@@ -267,19 +300,22 @@ class PillNoti extends Component {
       <PillItemWrapper className="PillNoti">
         <Grid
           container
-          justify="space-between"
+          justify="space-evenly"
           alignItems="center"
           className={classes.selected}
+          spacing={1}
         >
-          <Grid item xs={1}>
-            <Avatar className={classes.avatar} src={this.props.pill.file}>
+          <Grid item xs={12} sm={1}>
+            <Avatar className={classes.avatar} src={this.props.pill.file} style={{
+              left: '40%',
+            }}>
               <LocalHospitalIcon className={classes.icon} />
             </Avatar>
           </Grid>
-          <Grid item xs={1}>
-            <ThemeProvider theme={mytheme}><Typography variant="h5">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
+          <Grid item xs={12} sm={1}>
+            <ThemeProvider theme={mytheme}><Typography variant="h5" align="center">{this.state.pillNotiSetting['pill-name']}</Typography></ThemeProvider>
           </Grid>
-          <Grid item container justify="center" xs={4}>
+          <Grid item container justify="center" xs={12} sm={4}>
             <Typography
               // className={classes.caption}
               variant="h5"
@@ -294,13 +330,17 @@ class PillNoti extends Component {
               </IconButton>
             </Grid>
           </Grid>
-          <Grid item xs={1}>
-            <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }}>
+          <Grid item xs={6} sm={1}>
+            <IconButton id="done-button" aria-label="check" className={classes.margin} onClick={() => { this.onConfirm(); }} style={{
+              left: '40%',
+            }}>
               <DoneOutlineIcon fontSize="large" />
             </IconButton>
           </Grid>
-          <Grid item xs={1}>
-            <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }}>
+          <Grid item xs={6} sm={1}>
+            <IconButton id="cancel-edit-button" aria-label="close" className={classes.margin} onClick={() => { this.onCancel(); }} style={{
+              left: '40%',
+            }}>
               <CancelIcon fontSize="large" />
             </IconButton>
           </Grid>
