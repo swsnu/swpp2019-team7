@@ -231,6 +231,22 @@ def notification_interval(request):
         return HttpResponseNotAllowed(['GET', 'POST', 'DELETE', 'PUT'])
 
 
+def notification_in_interval(request, id):
+    """ GET operation for retrieving only notification in the given interval"""
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if NotificationInterval.objects.filter(user=request.user, id=id).exists():
+                interval = NotificationInterval.objects.filter(user=request.user, id=id)
+                notification_list = list(map(format_webnoti_list_object, interval.get_notification_in_interval()))
+                return JsonResponse(notification_list, status=status.HTTP_200_OK, safe=False)
+            else:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+    return HttpResponseNotAllowed(['GET'])
+
+
 @csrf_exempt
 def telegram(request):
     """
