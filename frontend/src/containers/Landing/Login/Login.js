@@ -82,13 +82,8 @@ class Login extends Component {
       email_input: '',
       pw_input: '',
     });
-        this.props.onRegisterToken(token);
       
     
-      this.props.onLoginUser(user)
-      if (this.props.newPillId > 0) {
-        this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
-      }
     if (!isIOS()) {
     this.props.onLoginUser(user).then(() => {
       if (this.props.newPillId > 0) {

@@ -11,6 +11,7 @@ const firebaseConfig = {
   messagingSenderId: '907542495339',
   appId: '1:907542495339:web:d7c280ebb697d50f8fb12e',
   measurementId: 'G-PCGWM5N0RX',
+  mode: 'cors',
 };
 export function isIOS() {
   var iOS = !(firebase.messaging.isSupported())
