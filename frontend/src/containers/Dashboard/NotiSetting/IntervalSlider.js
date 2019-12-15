@@ -68,6 +68,13 @@ class SimpleTable extends React.Component {
     }));
   }
 
+  unfocusRow() {
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
+      expandedItem: -1,
+    }));
+  }
+
   formatTime(str) {
     if (str < 10) {
       return str.split('')[1];
@@ -87,6 +94,7 @@ class SimpleTable extends React.Component {
         <TableCell align="right" style={{ minWidth: 200, marginRight: 10 }}>
           <EditIntervalTime
             deactivate={this.state.expandedItem !== row.id}
+            loseFocus={this.unfocusRow.bind(this)}
             intervalId={row.id}
             startHour={this.formatTime(row.start_time.split(':')[0])}
             startMin={this.formatTime(row.start_time.split(':')[1])}

@@ -138,7 +138,8 @@ class EditIntervalTime extends React.Component {
         start_time: `${interval.startHour}:${interval.startMin}`,
         end_time: `${interval.endHour}:${interval.endMin}`,
         send_time: `${this.ensureTwoDigitNumber(this.props.newSendHour)}:${this.ensureTwoDigitNumber(this.props.newSendMin)}`,
-      })
+      });
+      this.props.loseFocus();
     }
   };
 
