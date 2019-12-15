@@ -10,7 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {
-  createMuiTheme, ThemeProvider, Typography, withStyles, Fab,
+  createMuiTheme, ThemeProvider, Typography, withStyles,
 } from '@material-ui/core';
 
 import { withRouter } from 'react-router-dom';
@@ -43,7 +43,7 @@ const koreanTheme = createMuiTheme({
     },
     body1: {
       color: 'rgba(0, 0, 0, 100)',
-    }
+    },
   },
 });
 
@@ -70,19 +70,11 @@ const styles = (theme) => ({
     marginBottom: 40,
     padding: theme.spacing(3, 2),
   },
-  circularButton: {
-    margin: theme.spacing(2),
-    background: '#1480c1',
+  prettifyButtons: {
+    margin: 16,
+    background: '#1F1F1F',
+    borderRadius: 8,
     color: 'white',
-    border: '#1480c1',
-    '&:hover': {
-      backgroundColor: '#0069d9',
-      borderColor: '#0062cc',
-    },
-    padding: 10,
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    },
   },
 });
 
@@ -162,7 +154,7 @@ class DemoWidget extends Component {
         {this.state.resultModalOpen
           ? (
             // shows parsed results
-            <Box id="resultmodal" align="center" style={{marginBottom: '32%' }}>
+            <Box id="resultmodal" align="center" style={{ marginBottom: '32%' }}>
               <Card className={classes.card}>
                 {/* <Box maxWidth="335"> */}
                 <CardHeader
@@ -180,49 +172,49 @@ class DemoWidget extends Component {
                     <CardContent style={{ maxWidth: 335, padding: 0 }}>
                       {/* <Box align="left" maxLength="335"> */}
                       <ThemeProvider theme={koreanTheme}>
-                      <Paper elevation={2} className={classes.pillInfo}>
-                        <Grid container alignItems="left">
-                          <Grid item xs={12}>
-                            <Typography align="left" variant="h4" component="h2" style={{ marginLeft: 10, marginBottom: 5 }}>
-                              {this.state.productInfo.productName}
-                            </Typography>
-                          </Grid>
-                          {' '}
-                          <br />
-                          <Grid item xs={12}>
-                            <Typography align="left" variant="caption" display="block" style={{ marginLeft: 10, marginBottom: 20 }}>
-                              {this.state.productInfo.companyName}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={12} container style={{ marginBottom: 5 }}>
-                            <Grid item xs={2} />
-                            <Grid item xs={3}>
-                              <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
+                        <Paper elevation={2} className={classes.pillInfo}>
+                          <Grid container alignItems="left">
+                            <Grid item xs={12}>
+                              <Typography align="left" variant="h4" component="h2" style={{ marginLeft: 10, marginBottom: 5 }}>
+                                {this.state.productInfo.productName}
+                              </Typography>
+                            </Grid>
+                            {' '}
+                            <br />
+                            <Grid item xs={12}>
+                              <Typography align="left" variant="caption" display="block" style={{ marginLeft: 10, marginBottom: 20 }}>
+                                {this.state.productInfo.companyName}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} container style={{ marginBottom: 5 }}>
+                              <Grid item xs={2} />
+                              <Grid item xs={3}>
+                                <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
                               복용방법:
-                              </Typography>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={7}>
+                                <Typography align="left" variant="body1" gutterBottom>
+                                  {this.state.productInfo.takeMethod}
+                                </Typography>
+                              </Grid>
                             </Grid>
-                            <Grid item xs={7}>
-                              <Typography align="left" variant="body1" gutterBottom>
-                                {this.state.productInfo.takeMethod}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                          <Grid item xs={12} container>
-                            <Grid item xs={2} />
-                            <Grid item xs={3}>
-                              <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
+                            <Grid item xs={12} container>
+                              <Grid item xs={2} />
+                              <Grid item xs={3}>
+                                <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
                               유통기한:
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={7}>
-                              <Typography align="left" variant="body1" gutterBottom>
-                                {this.state.productInfo.expirationDate}
-                              </Typography>
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={7}>
+                                <Typography align="left" variant="body1" gutterBottom>
+                                  {this.state.productInfo.expirationDate}
+                                </Typography>
+                              </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
-                      </Paper>
-                    </ThemeProvider>
+                        </Paper>
+                      </ThemeProvider>
                       {/* </Box> */}
                     </CardContent>
                   )
@@ -239,35 +231,57 @@ class DemoWidget extends Component {
                     <CardActions className={classes.cardButtons}>
                       {this.props.loggedIn
                         ? (
-                          <Fab aria-label="add" className={classes.circularButton} onClick={() => { this.addNewPill(); }}>
+                          <Button
+                            id="add-new-pill"
+                            className={classes.prettifyButtons}
+                            variant="contained"
+                            size="large"
+                            onClick={() => { this.addNewPill(); }}
+                          >
+                            {/* <Icon name="checkmark" /> */}
                             Save
-                          </Fab>
-                          // <Button id="add-new-pill" variant="contained" color="primary" style={{ margin: 16 }} onClick={() => { this.addNewPill(); }}>
-                          //   {/* <Icon name="checkmark" /> */}
-                          //   Save
-                          // </Button>
+                          </Button>
                         )
                         : (
-                          <Button id="login-to-save" variant="contained" color="primary" onClick={() => { this.toggleAcceptPill(); }}>
+                          <Button
+                            id="login-to-save"
+                            className={classes.prettifyButtons}
+                            variant="contained"
+                            size="large"
+                            onClick={() => { this.toggleAcceptPill(); }}
+                          >
                             {/* <Icon name="checkmark" /> */}
                             Log in to Save
                           </Button>
                         )}
-                      {/*<Button id="retry" variant="contained" color="primary" style={{ margin: 16 }} onClick={() => { this.toggleResultModal(false); }}>*/}
-                      {/*  Retry*/}
-                      {/*</Button>*/}
-                      <Fab id="retry" className={classes.circularButton} onClick={() => { this.toggleResultModal(false); }}>
+                      <Button
+                        id="retry"
+                        className={classes.prettifyButtons}
+                        variant="contained"
+                        size="large"
+                        onClick={() => { this.toggleResultModal(false); }}
+                      >
                         Retry
-                      </Fab>
+                      </Button>
                     </CardActions>
                   )
                   : (
                     <CardActions className={classes.cardButtons}>
-                      <Button id="go-back" variant="contained" color="primary" onClick={() => { this.toggleResultModal(false); }}>
+                      <Button
+                        id="go-back"
+                        className={classes.prettifyButtons}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => { this.toggleResultModal(false); }}
+                      >
                         Go Back
                       </Button>
-                      <Button id="newCustom" onClick={() => { this.toggleCustomPill(false); }}>
-                  Custom Pill
+                      <Button
+                        id="newCustom"
+                        className={classes.prettifyButtons}
+                        onClick={() => { this.toggleCustomPill(false); }}
+                      >
+                        Custom Pill
                       </Button>
                     </CardActions>
                   )}
