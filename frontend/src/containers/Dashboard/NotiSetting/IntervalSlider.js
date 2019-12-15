@@ -20,18 +20,38 @@ const styles = () => ({
   },
 });
 
+const columns = [
+  {
+    id: 'interval', label: 'Intervals', align: 'right', minWidth: 100,
+  },
+  {
+    id: 'fromto', label: 'From - To', align: 'right', minWidth: 200,
+  },
+  {
+    id: 'receive', label: 'Notification At', align: 'right', minWidth: 150,
+  },
+  {
+    id: 'pills', label: 'Pills', align: 'right', minWidth: 150,
+  },
+  {
+    id: 'edit', label: 'Edit', align: 'right', minWidth: 80,
+  },
+  {
+    id: 'delete', label: 'Delete', align: 'center', minWidth: 80,
+  },
+];
+
 class SimpleTable extends React.Component {
   render() {
     const { classes } = this.props;
     const intervalList = this.props.intervalsList.map((row) => (
       <TableRow key={row.id}>
-        <TableCell component="th" scope="row" style={{}}>
+        <TableCell component="th" scope="row" align="right" style={{ minWidth: 100, fontWeight: 600 }}>
           interval
           {' '}
           { row.id }
         </TableCell>
-        <TableCell style={{ padding: 1 }} />
-        <TableCell align="right" style={{ marginRight: 10 }}>
+        <TableCell align="right" style={{ minWidth: 200, marginRight: 10 }}>
           {/* <Paper style={{background: 'pink', padding: 10}}> */}
           { row.start_time }
           {' '}
@@ -40,26 +60,26 @@ class SimpleTable extends React.Component {
           { row.end_time }
           {/* </Paper> */}
         </TableCell>
-        <TableCell align="right">{row.send_time}</TableCell>
-        <TableCell align="right">pills</TableCell>
-        <TableCell align="right"><EditIcon /></TableCell>
-        <TableCell align="right"><DeleteIcon /></TableCell>
+        <TableCell align="right" style={{ minWidth: 150 }}>{row.send_time}</TableCell>
+        <TableCell align="right" style={{ minWidth: 100 }}>pills</TableCell>
+        <TableCell align="right" style={{ minWidth: 100 }}><EditIcon /></TableCell>
+        <TableCell align="center" style={{ minWidth: 100 }}><DeleteIcon /></TableCell>
       </TableRow>
     ));
-    console.log('interval slider');
-    console.log(classes.root);
     return (
       <Paper className={classes.root} id="interval-slider">
         <Table className={classes.table} aria-label="simple table">
-          <TableHead>
+          <TableHead style={{ background: '#f0faf1' }}>
             <TableRow>
-              <TableCell>Intervals</TableCell>
-              <TableCell align="right" />
-              <TableCell align="right">From - To</TableCell>
-              <TableCell align="right">Receive Alarm At</TableCell>
-              <TableCell align="right">Pills</TableCell>
-              <TableCell align="right">Edit</TableCell>
-              <TableCell align="right">Delete</TableCell>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ fontSize: 15, minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
