@@ -82,7 +82,7 @@ class IntervalTimeSelect extends React.Component {
       };
     });
 
-    for (let date of currentDateList) {
+    for (const date of currentDateList) {
       if (date.id !== interval.id) {
         if (+date.startDate === +startDate || +date.startDate === +endDate) {
           return RANGE_ERROR;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Card, CardContent, Grid, Typography, Avatar, withStyles,
+  Card, CardContent, Grid, Typography, withStyles,
 } from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
@@ -20,8 +20,6 @@ const styles = (theme) => ({
     borderRadius: 10,
   },
   cardContent: {
-    // alignItems: 'center',
-    // display: 'flex',
     padding: 16,
     '&:last-child': {
       paddingBottom: 16,
@@ -96,9 +94,7 @@ class SettingItem extends Component {
               alignItems="center"
             >
               <Grid item xs={2}>
-                {/*<Avatar className={classes.avatar}>*/}
                   <NotificationsNoneIcon className={classes.icon} />
-                {/*</Avatar>*/}
               </Grid>
               <Grid item xs={1} />
               <Grid item xs={7}>
@@ -111,14 +107,6 @@ class SettingItem extends Component {
                   onChange={() => this.toggleChecked()}
                   disabled={disabled}
                 />
-                {/* <FormGroup>
-                <FormControlLabel
-                  control={<input type="checkbox" checked={checked} onChange={toggleChecked} />}
-                  labelPlacement="end"
-                  label="On"
-                  size="large"
-                />
-              </FormGroup> */}
               </Grid>
             </Grid>
           </CardContent>
