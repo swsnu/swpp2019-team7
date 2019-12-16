@@ -176,7 +176,7 @@ def notification_interval(request):
                 return HttpResponseBadRequest()
 
             NotificationInterval.objects.create(
-                user_id=request.user.id, send_time=start_time, start_time=start_time, end_time=end_time).save()
+                user_id=request.user.id, send_time=send_time, start_time=start_time, end_time=end_time).save()
             new_interval = NotificationInterval.objects.filter(user_id=request.user.id).order_by('-id')[0]
             tmp = {
                 "id": new_interval.id,
