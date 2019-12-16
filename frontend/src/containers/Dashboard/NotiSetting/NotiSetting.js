@@ -8,6 +8,7 @@ import PillNoti from './PillNoti';
 import IntervalSetting from './IntervalSetting';
 import * as notiActionCreators from '../../../store/actions/notiAction';
 import * as pillActionCreators from '../../../store/actions/pillAction';
+import * as userActionCreators from '../../../store/actions/userAction';
 import SettingItem from './SettingItem';
 import * as intervalSettingCreators from '../../../store/actions/intervalSettingAction';
 
@@ -32,6 +33,7 @@ const tempSetting = [
 
 class NotiSetting extends Component {
   componentDidMount() {
+    this.props.onGetNotiSetting();
     this.props.onGetWebNoti();
     this.props.onGetUserPills();
     this.props.onGetIntervals();
@@ -108,6 +110,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  onGetNotiSetting: () => { dispatch(userActionCreators.getNotiSetting()); },
   onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
   onGetUserPills: () => { dispatch(pillActionCreators.getUserPills()); },
   onGetIntervals: () => { dispatch(intervalSettingCreators.getIntervals()); },

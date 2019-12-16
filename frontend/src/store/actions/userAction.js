@@ -52,6 +52,11 @@ export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/'
     dispatch({ type: 'EDIT_NOTI', logged_in: true, noti_setting: res.data });
   });
 
+export const getNotiSetting = () => (dispatch) => ax.get('/api/user/noti-setting/')
+  .then((res) => {
+    dispatch({ type: 'GET_NOTI', noti_setting: res.data});
+  })
+
 export const registerUserDevice = (token) => () => {
   console.log('token is {token}');
   console.log(token);
