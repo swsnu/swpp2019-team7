@@ -20,25 +20,23 @@ class IntervalSetting extends React.Component {
     this.state = { intervalStart: '', intervalEnd: '' };
   }
 
-  onClickAddInterval=() => {
-    // this.props.postInterval();
-  };
-
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.margin} />
         <SimpleTable />
-        {/* <Fab color="primary" aria-label="add"> */}
-        {/*  <AddIcon onClick={() => this.onClickAddInterval()} /> */}
-        {/* </Fab> */}
-        <IntervalTimeSelect id="interval-time-select" />
+        <IntervalTimeSelect
+          id="interval-time-select"
+          startHour="10"
+          startMin="0"
+          endHour="0"
+          endMin="0"
+        />
       </div>
     );
   }
 }
 
 export default connect(null, {
-  // postInterval,
 })(withStyles(styles)(IntervalSetting));
