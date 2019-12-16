@@ -97,15 +97,6 @@ class NotificationInterval(models.Model):
     start_time = models.TimeField(blank="09:00")  # start time of the interval
     end_time = models.TimeField(blank="12:00")  # ending time of the interval
 
-    """
-        @classmethod
-        def create(cls, user, start_time, end_time):
-            notiinterval = cls(user=user, send_time=start_time, start_time=start_time, end_time=end_time)
-            notiinterval.save()
-            print(notiinterval)
-            return notiinterval
-    """
-
     @classmethod
     def initialize_user_interval(cls, user):
         """

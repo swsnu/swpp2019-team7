@@ -11,7 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { deleteInterval } from '../../../store/actions/intervalSettingAction';
+import EditIntervalTime from './EditIntervalTime';
+import EditSendTime from './EditSendTime';
+import { deleteInterval, editInterval } from '../../../store/actions/intervalSettingAction';
 
 const styles = () => ({
   root: {
@@ -45,14 +47,39 @@ const columns = [
 ];
 
 class SimpleTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { expanded: true, expandedItem: -1 };
+  }
+
   handleDelete(id) {
-    console.log('interval slider: ', id);
-    const tmp = {'id': id}
-    console.log(tmp)
-    this.props.deleteInterval(tmp)
+    const tmp = { id };
+    this.props.deleteInterval(tmp);
+  }
+
+  handleEdit(id) {
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
+      expandedItem: id,
+    }));
+  }
+
+  unfocusRow() {
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
+      expandedItem: -1,
+    }));
+  }
+
+  formatTime(str) {
+    if (str < 10) {
+      return str.split('')[1];
+    }
+    return str;
   }
 
   render() {
+    console.log(this.props.intervalsList)
     const { classes } = this.props;
     const intervalList = this.props.intervalsList.map((row) => (
       <TableRow key={row.id}>
@@ -62,17 +89,33 @@ class SimpleTable extends React.Component {
           { row.id }
         </TableCell>
         <TableCell align="right" style={{ minWidth: 200, marginRight: 10 }}>
-          {/* <Paper style={{background: 'pink', padding: 10}}> */}
-          { row.start_time }
-          {' '}
-          -
-          {' '}
-          { row.end_time }
-          {/* </Paper> */}
+          <EditIntervalTime
+            deactivate={this.state.expandedItem !== row.id}
+            loseFocus={this.unfocusRow.bind(this)}
+            intervalId={row.id}
+            startHour={this.formatTime(row.start_time.split(':')[0])}
+            startMin={this.formatTime(row.start_time.split(':')[1])}
+            endHour={this.formatTime(row.end_time.split(':')[0])}
+            endMin={this.formatTime(row.end_time.split(':')[1])}
+          />
         </TableCell>
-        <TableCell align="right" style={{ minWidth: 150 }}>{row.send_time}</TableCell>
+        <TableCell align="right" style={{ minWidth: 150 }}>
+          <EditSendTime
+            deactivate={this.state.expandedItem !== row.id}
+            sendHour={this.formatTime(row.send_time.split(':')[0])}
+            sendMin={this.formatTime(row.send_time.split(':')[1])}
+          />
+        </TableCell>
         <TableCell align="right" style={{ minWidth: 100 }}>pills</TableCell>
-        <TableCell align="right" style={{ minWidth: 100 }}><EditIcon /></TableCell>
+        <TableCell align="right" style={{ minWidth: 100 }}>
+          <IconButton
+            aria-label="edit"
+            onClick={() => this.handleEdit(row.id)}
+            aria-expanded={this.state.expanded}
+          >
+            <EditIcon />
+          </IconButton>
+        </TableCell>
         <TableCell align="center" style={{ minWidth: 100 }}>
           <IconButton aria-label="delete" onClick={() => this.handleDelete(row.id)}>
             <DeleteIcon />
@@ -110,4 +153,5 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   deleteInterval,
+  editInterval,
 })(withStyles(styles)(SimpleTable));
