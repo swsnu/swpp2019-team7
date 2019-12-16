@@ -6,6 +6,7 @@ export const getUserPills_ = (pillList) => ({ type: 'GET_USER_PILLS', pill_list:
 
 export const getUserPills = () => (dispatch) => ax.get('/api/pill/')
   .then((res) => {
+      console.log(res.data)
     dispatch(getUserPills_(res.data));
   });
 export const addUserPill_ = (newPillObj) => ({ type: 'ADD_USER_PILL', payload: newPillObj });
@@ -117,5 +118,9 @@ export const getPill = (id) => (dispatch) => {
   ax.get(`/api/pill/${id}/`)
     .then((res) => {
       dispatch(getPill_(res.data));
+    })
+    .catch(() => {
+      alert('You did not register this pill!');
+      dispatch(push('/dashboard/0'))
     });
 };

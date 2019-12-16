@@ -1,9 +1,9 @@
 # pylint: skip-file
 import xml.etree.ElementTree as ElementTree
 import os
-import json
 from copy import deepcopy
 from tqdm import tqdm
+
 
 """
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
@@ -111,7 +111,10 @@ class PillDataset:
             product["fields"]["precautions"] = root[2 + i][14].text
 
             self.product_list.append(product)
-            self.product_name_dict[product["fields"]["product_name"]] = product
+            if product["fields"]["product_name"] in self.product_name_dict.keys():
+                self.product_name_dict[product["fields"]["product_name"]].append(product)
+            else:
+                self.product_name_dict[product["fields"]["product_name"]] = [product]
             self.company_name_set.add(root[2 + i][10].text)
 
     def find_product_with_name(self, product_name):
@@ -126,17 +129,26 @@ class PillDataset:
         :param text_list: list of strings fetched from Vision API
         :return: dictionary of the matched commodity / None if not found
         """
-        for text in text_list:
-            if text in self.product_name_dict.keys():
-                return self.find_product_with_name(text)
+        new_text_list = deepcopy(text_list)
+        for i in range(len(text_list)):
+            for j in range(i + 1, len(text_list)):
+                new_text_list.append(text_list[i] + text_list[j])
+        new_text_list = sorted(new_text_list, key=lambda x: -len(x))
 
-        return None
+        for text in new_text_list:
+            if text in self.product_name_dict.keys():
+                product_list = self.product_name_dict[text]
+                for product in product_list:
+                    if product["fields"]["company_name"] in text_list:
+                        return product
+                return product_list[0]
 
 
 if __name__ == '__main__':
     data_path = "./data"
     preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
+    print(pillDataset.match_product(['만사혈통', '혈류건강100세골드']))
 
-    with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
-        json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)
+    # with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
+    #     json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)

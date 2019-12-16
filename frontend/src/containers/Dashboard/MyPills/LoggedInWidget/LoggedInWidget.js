@@ -4,7 +4,6 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/core';
 
 import DemoWidget from '../../../Landing/DemoWidget/DemoWidget';
-import Header from '../../../Header/Header';
 
 
 const styles = (theme) => ({
@@ -38,7 +37,6 @@ class LoggedInWidget extends Component {
     const { classes } = this.props;
     return (
       <div className="LoggedInWidget">
-        <Header />
         <Container component="main" maxWidth="sm">
           <div className={classes.paper}>
             <DemoWidget backgroundColor="rgb(32,32,32)" />

@@ -73,7 +73,7 @@ def get_pill_list(request):
             # print(pill['product_name'])
             # print(pill['custom'])
             fetched_pills_list = [(pill['product_name'], pill['company_name'])
-                                  for pill in Pill.values_list('product_name', 'company_name')
+                                  for pill in Pill.objects.values('product_name', 'company_name', 'custom')
                                   if pill['custom'] is False]
             return JsonResponse(fetched_pills_list, status=200, safe=False)
         else:

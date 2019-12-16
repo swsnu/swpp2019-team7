@@ -144,6 +144,9 @@ class Dashboard extends Component {
 
   render() {
     const { classes } = this.props;
+    if(this.props.match.params.itemNo !== '4' && this.props.match.params.pillId) {
+      this.props.history.push(`/dashboard/0`)
+    }
     const text = dashboardDisplay(this.props.match.params.itemNo);
     const drawer = (
       <div>
@@ -151,7 +154,7 @@ class Dashboard extends Component {
         <List component="nav">{this.mainListItems()}</List>
         <Divider />
         <List>
-          <ListItem button key='About Developers' onClick={() => { this.props.onChangeDashboard(5); }}>
+          <ListItem button key='About Developers' onClick={() => { this.props.history.push('/dashboard/5'); }}>
             <ListItemIcon><MailIcon /></ListItemIcon>
             <ListItemText primary='About Developers' />
           </ListItem>
