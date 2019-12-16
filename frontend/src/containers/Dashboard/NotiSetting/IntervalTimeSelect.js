@@ -176,7 +176,7 @@ class IntervalTimeSelect extends React.Component {
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeStartHour}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {hours.map((option) => (
@@ -194,7 +194,7 @@ class IntervalTimeSelect extends React.Component {
             value={this.state.startMin}
             onChange={this.handleChangeStartMin}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {minutes.map((option) => (
@@ -213,7 +213,7 @@ class IntervalTimeSelect extends React.Component {
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeEndHour}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {hours.map((option) => (
@@ -231,7 +231,7 @@ class IntervalTimeSelect extends React.Component {
             value={this.state.endMin}
             onChange={this.handleChangeEndMin}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {minutes.map((option) => (
@@ -250,7 +250,7 @@ class IntervalTimeSelect extends React.Component {
             // onChange={this.handleChangeStartHour}
             onChange={this.handleChangeSendHour}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {hours.map((option) => (
@@ -268,7 +268,7 @@ class IntervalTimeSelect extends React.Component {
             value={this.state.sendMin}
             onChange={this.handleChangeSendMin}
             // variant="outlined"
-            style={{ width: 60, marginTop: 30 }}
+            style={{ width: 80, marginTop: 30 }}
             // input={<BootstrapInput />}
           >
             {minutes.map((option) => (
