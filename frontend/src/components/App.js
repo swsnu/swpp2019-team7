@@ -14,6 +14,7 @@ import LoggedInWidget from '../containers/Dashboard/MyPills/LoggedInWidget/Logge
 import PillDetail from '../containers/Dashboard/MyPills/PillDetail/PillDetail';
 import PillLookup from '../containers/Dashboard/MyPills/PillLookup';
 import CustomPill from '../containers/Dashboard/MyPills/CustomPill';
+import WrongUrl from './WrongUrl.js';
 import './App.css';
 
 function App(props) {
@@ -32,7 +33,7 @@ function App(props) {
           <PrivateRoute path="/manuallyadd" exact component={PillLookup} />
           <PrivateRoute path="/custompilladd" exact component={CustomPill} />
           <Redirect exact from="/" to="/landing" />
-          <Route render={() => <TestLanding />} />
+          <Route render={() => <WrongUrl history={props.history}/>} />
         </Switch>
       </div>
     </ConnectedRouter>
