@@ -35,9 +35,9 @@ const columns = [
   {
     id: 'receive', label: 'Notification At', align: 'right', minWidth: 150,
   },
-  {
-    id: 'pills', label: 'Pills', align: 'right', minWidth: 150,
-  },
+  // {
+  //   id: 'pills', label: 'Pills', align: 'right', minWidth: 150,
+  // },
   {
     id: 'edit', label: 'Edit', align: 'right', minWidth: 80,
   },
@@ -106,7 +106,7 @@ class SimpleTable extends React.Component {
             sendMin={this.formatTime(row.send_time.split(':')[1])}
           />
         </TableCell>
-        <TableCell align="right" style={{ minWidth: 100 }}>pills</TableCell>
+        {/*<TableCell align="right" style={{ minWidth: 100 }}>pills</TableCell>*/}
         <TableCell align="right" style={{ minWidth: 100 }}>
           <IconButton
             aria-label="edit"
