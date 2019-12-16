@@ -26,7 +26,7 @@ const styles = (theme) => ({
 
 const tempSetting = [
   { id: 1, name: 'Enable notification', index: 'enable_noti' },
-  { id: 2, name: 'Enable hourly notification', index: 'enable_segregate' },
+  { id: 2, name: 'Enable interval notification', index: 'enable_segregate' },
   { id: 3, name: 'Enable Telegram notification', index: 'enable_kakao' },
 ];
 
