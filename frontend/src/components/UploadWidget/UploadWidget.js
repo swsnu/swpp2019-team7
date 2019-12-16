@@ -6,104 +6,88 @@ import FilePondPluginValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginValidateType from 'filepond-plugin-file-validate-type';
 import FilePondImagePreview from 'filepond-plugin-image-preview';
 import FilePondImageCrop from 'filepond-plugin-image-crop';
+import FilePondPluginImageResize from 'filepond-plugin-image-resize';
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
 
 import './UploadWidget.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import 'filepond/dist/filepond.min.css';
+import { addUserPill } from '../../store/actions/pillAction';
 
 registerPlugin(
   FilePondPluginValidateSize,
   FilePondPluginValidateType,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform,
   FilePondImageCrop,
   FilePondImagePreview,
 );
+
 
 class UploadWidget extends Component {
   render() {
     return (
       <div className="UploadWidget">
-        <Grid container spacing={7}>
-          <Grid item xs={1} />
-          <Grid item xs={4}>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                  Get your pills
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                managed
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h2" gutterBottom className="title" style={{ color: 'white', textAlign: 'right' }}>
-                right away
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid item xs={5}>
-            <Container fixed align="center" style={{ backgroundColor: '#cfe8fc', padding: 30, borderRadius: 20 }}>
-              <FilePond
-                ref={(ref) => { this.pond = ref; }}
-                instantUpload={false}
-                server={
-                  {
-                    url: 'http://localhost:8000/api',
-                    process: {
-                      url: '/vision/',
-                      method: 'POST',
-                      withCredentials: false,
-                      headers: {
-                      },
-                      timeout: 9000,
-                      onload: (response) => {
-                        const parsedResponse = JSON.parse(response);
-                        console.log(JSON.stringify(parsedResponse));
-                        this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
-                        this.props.toggleResultModal(true);
-                      },
-                    },
-                    delete: {
-                      url: '/vision/',
-                      method: 'POST',
-                    },
-                  }
-                }
-                // onupdatefiles={(fileItem) => {
-                //   this.setState({
-                //     file: fileItem.file,
-                //   });
-                // }}
-                maxFileSize="50MB"
-                labelMaxFileSize="Maximum file size is 50MB"
-                acceptedFileTypes={['image/*']}
-                labelFileTypeNotAllowed="Can only upload image files"
-                imagePreviewMinHeight="100"
-                allow-multiple="false"
-              />
-              <Button
-                className="confirm-button"
-                variant="outlined"
-                color="secondary"
-                id="confirm-button"
-                onClick={() => {
-                  this.pond.processFiles();
-                }}
-              >
-                  Confirm
-              </Button>
-            </Container>
-          </Grid>
-          <Grid item xs={2} />
-        </Grid>
+        <Box align="center" style={{ backgroundColor: this.props.backgroundColor, padding: '10%', borderRadius: '6%' }}>
+          <FilePond
+            ref={(ref) => { this.pond = ref; }}
+            instantUpload={false}
+            server={
+              {
+                url: 'http://localhost:8000/api',
+                process: {
+                  url: '/vision/',
+                  method: 'POST',
+                  withCredentials: true,
+                  headers: {
+                  },
+                  timeout: 9000,
+                  onload: (response) => {
+                    const parsedResponse = JSON.parse(response);
+                    console.log(parsedResponse.file);
+                    if (parsedResponse.product != null) { this.props.getNewPillId(parsedResponse.product.id); }
+                    this.props.updateProductInfo({ file: parsedResponse.file, ...parsedResponse.product });
+                    this.props.toggleResultModal(true);
+                    this.props.getImageId(parsedResponse.image_id);
+                  },
+                },
+                delete: {
+                  url: '/vision/',
+                  method: 'POST',
+                },
+              }
+            }
+            maxFileSize="50MB"
+            labelMaxFileSize="Maximum file size is 50MB"
+            acceptedFileTypes={['image/png', 'image/jpeg', 'image/bmp', 'image/gif']}
+            labelFileTypeNotAllowed="Can only upload image files"
+            imagePreviewMinHeight="100"
+            allow-multiple="false"
+            imageResizeTargetWidth="800"
+            imageResizeTargetHeight="600"
+            imageResizeMode="cover"
+            allowImageTransform="true"
+          />
+          <Button
+            className="confirm-button"
+            variant="outlined"
+            color="secondary"
+            id="confirm-button"
+            onClick={() => {
+              this.pond.processFiles();
+            }}
+          >
+              Confirm
+          </Button>
+        </Box>
       </div>
     );
   }
 }
 
-export default connect()(UploadWidget);
+export default connect(null, {
+  addUserPill,
+})(UploadWidget);

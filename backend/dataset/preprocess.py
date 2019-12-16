@@ -1,7 +1,6 @@
 # pylint: skip-file
 import xml.etree.ElementTree as ElementTree
 import os
-import json
 from copy import deepcopy
 from tqdm import tqdm
 
@@ -10,13 +9,14 @@ from tqdm import tqdm
 Parses the xml file, and saves into json fixture format (for Django Model), excluding unnecessary tags
 """
 
-data_path = "dataset/data"  # Directory where original xml files are saved
-preprocessed_path = "dataset"  # Directory where take_method.preprocessed is saved
+data_path = os.path.dirname(os.path.realpath(__file__))+"/data"  # Directory where original xml files are saved
+preprocessed_path = dir_path = os.path.dirname(os.path.realpath(__file__))
+# Directory where take_method.preprocessed is saved
 product_template = {  # Django Model enforces this json format!
-    "pk": 0,
+    "pk": 1,
     "model": "pill.pill",
     "fields": {
-        "id": 0,
+        "id": 1,
         "take_method": "",
         "product_name": "",
         "expiration_date": "",
@@ -62,7 +62,8 @@ class PillDataset:
                 self.parse_file(tree)
 
         # Date Parsing (e.g. 1일 1회)
-        with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r') as f:
+        # I added encoding = "utf-8"... BUT this may cause problems.
+        with open(os.path.join(preprocessed_path, 'take_method.preprocessed'), 'r', encoding="utf-8") as f:
             method_pos_list = list(map(eval, f.read().split('\n')))
 
         for idx in range(len(self.product_list)):
@@ -86,7 +87,7 @@ class PillDataset:
         pill_count = len(root.findall('row'))
 
         for i in tqdm(range(pill_count)):
-            idx = len(self.product_list)
+            idx = len(self.product_list) + 1
 
             product = deepcopy(product_template)
             product["pk"] = idx
@@ -101,7 +102,10 @@ class PillDataset:
             product["fields"]["precautions"] = root[2 + i][14].text
 
             self.product_list.append(product)
-            self.product_name_dict[product["fields"]["product_name"]] = product
+            if product["fields"]["product_name"] in self.product_name_dict.keys():
+                self.product_name_dict[product["fields"]["product_name"]].append(product)
+            else:
+                self.product_name_dict[product["fields"]["product_name"]] = [product]
             self.company_name_set.add(root[2 + i][10].text)
 
     def find_product_with_name(self, product_name):
@@ -116,17 +120,26 @@ class PillDataset:
         :param text_list: list of strings fetched from Vision API
         :return: dictionary of the matched commodity / None if not found
         """
-        for text in text_list:
-            if text in self.product_name_dict.keys():
-                return self.find_product_with_name(text)
+        new_text_list = deepcopy(text_list)
+        for i in range(len(text_list)):
+            for j in range(i + 1, len(text_list)):
+                new_text_list.append(text_list[i] + text_list[j])
+        new_text_list = sorted(new_text_list, key=lambda x: -len(x))
 
-        return None
+        for text in new_text_list:
+            if text in self.product_name_dict.keys():
+                product_list = self.product_name_dict[text]
+                for product in product_list:
+                    if product["fields"]["company_name"] in text_list:
+                        return product
+                return product_list[0]
 
 
 if __name__ == '__main__':
     data_path = "./data"
     preprocessed_path = "."
     pillDataset = PillDataset.get_instance()
+    print(pillDataset.match_product(['만사혈통', '혈류건강100세골드']))
 
-    with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
-        json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)
+    # with open('./fixtures/pill_data.json', 'w', encoding='utf-8') as f:
+    #     json.dump(pillDataset.product_list, f, ensure_ascii=False, indent=4)

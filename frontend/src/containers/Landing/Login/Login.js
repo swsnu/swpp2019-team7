@@ -16,6 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Header from '../../Header/Header';
 import * as userActionCreators from '../../../store/actions/userAction';
+import * as pillActionCreators from '../../../store/actions/pillAction';
+import { withFirebase } from '../../../components/Firebase';
 
 function Copyright() {
   return (
@@ -65,99 +67,115 @@ class Login extends Component {
     };
   }
 
-    credentialChecker = (e) => {
-      e.preventDefault();
-      console.log('email: ', this.state.email_input);
-      console.log('pw: ', this.state.pw_input);
-    };
+  credentialChecker = (e) => {
+    e.preventDefault();
+  };
 
-    onLoginButtonClick = () => {
-      const user = { email: this.state.email_input, password: this.state.pw_input };
-      this.props.onLoginUser(user);
-      this.setState({
-        email_input: '',
-        pw_input: '',
-      });
-    };
+  handlerSignup = () => {
+    this.props.history.push('/signup');
+  };
 
-    render() {
-      const { classes } = this.props;
+  onLoginButtonClick = async () => {
+    const user = { email: this.state.email_input, password: this.state.pw_input };
+    this.setState({
+      email_input: '',
+      pw_input: '',
+    });
+    this.props.onLoginUser(user).then(() => {
+      if (this.props.newPillId > 0) {
+        this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
+      }
+      this.props.firebase.getToken().then((token) => {
+        this.props.onRegisterToken(token);
+      })
 
-      return (
-        <div className="Login">
-          <Header />
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  value={this.state.email_input}
-                  onChange={(event) => { this.setState({ email_input: event.target.value }); }}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  value={this.state.pw_input}
-                  onChange={(event) => this.setState({ pw_input: event.target.value })}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  id="login-button"
-                  onClick={(event) => { console.log('Is this called?'); this.credentialChecker(event); this.onLoginButtonClick(); }}
-                >
-                  Log In
-                </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="/signup" variant="body2">
-                      Don&apos;t have an account? Sign Up
-                    </Link>
-                  </Grid>
+    });
+  };
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div className="Login">
+        <Header />
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={this.state.email_input}
+                onChange={(event) => { this.setState({ email_input: event.target.value }); }}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={this.state.pw_input}
+                onChange={(event) => this.setState({ pw_input: event.target.value })}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                id="login-button"
+                onClick={(event) => { this.credentialChecker(event); this.onLoginButtonClick(); }}
+              >
+                Log In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
                 </Grid>
-              </form>
-            </div>
-            <Box mt={8}>
-              <Copyright />
-            </Box>
-          </Container>
-        </div>
-      );
-    }
+                <Grid item>
+                  <Link variant="body2" onClick={() => this.handlerSignup()}>
+                    Don&apos;t have an account? Sign Up
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </Container>
+      </div>
+    );
+  }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoginUser: (user) => { dispatch(userActionCreators.signinUser(user)); },
+export const mapDispatchToProps = (dispatch) => ({
+  onLoginUser: async (user) => { await dispatch(userActionCreators.signinUser(user)); },
+  onRegisterToken: (FCMToken) => { dispatch(userActionCreators.registerUserDevice({ fcmtoken: FCMToken })); },
+  onAddLazyPill: (newPillId, imageId) => { dispatch(pillActionCreators.addLazyPill(newPillId, imageId)); },
 });
 
-export default connect(null, mapDispatchToProps)((withStyles(styles)(Login)));
+const mapStateToProps = (state) => ({
+  newPillId: state.pill.new_pill_id,
+  imageId: state.pill.image_id,
+});
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(withFirebase(Login))));

@@ -6,23 +6,51 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
+
+import { withFirebase } from '../../components/Firebase';
 import * as userActionCreators from '../../store/actions/userAction';
 
+const drawerWidth = 240;
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  toolbar: theme.mixins.toolbar,
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
   },
 });
 
 
 class Header extends Component {
+  componentDidMount() {
+    if (this.props.logged_in) {
+      this.props.onGetUser();
+    }
+  }
+
   clickLoginHandler = () => {
     this.props.history.push('/login');
   };
@@ -36,19 +64,24 @@ class Header extends Component {
   };
 
   clickRedirectToDashboard = () => {
-    this.props.history.push('/dashboard');
+    this.props.history.push('/dashboard/0');
+  };
+
+  onSignOutButtonClick = () => {
+    this.props.onDeleteToken(this.props.firebase.token);
+    this.props.onSignout();
   };
 
   render() {
     const { classes } = this.props;
-    if (this.props.logged_in === false) {
+    if (!this.props.logged_in) {
       return (
         <div className={classes.root}>
-          <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+          <AppBar position="static" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
             <Toolbar>
               <IconButton
                 edge="start"
-                className={classes.menuButton}
+                id="redirect-landing"
                 onClick={() => this.clickRedirectToLanding()}
                 aria-label="menu"
               >
@@ -66,21 +99,40 @@ class Header extends Component {
     }
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'black' }}>
+      <div className="header_login">
+        <AppBar position="fixed" className={classes.appBar} style={{ background: 'white', boxShadow: 'black' }}>
           <Toolbar>
             <IconButton
+              aria-label="open drawer"
               edge="start"
+              onClick={this.props.handleDrawerToggle}
               className={classes.menuButton}
+            >
+              <MenuIcon style={{ color: 'black' }} />
+            </IconButton>
+            <IconButton
+              edge="start"
               onClick={() => this.clickRedirectToDashboard()}
               aria-label="menu"
             >
               <Typography variant="h6" className={classes.title} style={{ color: 'black' }}>
-                  PillBox
+                PillBox
               </Typography>
             </IconButton>
-            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} />
-            <Button id="signout-button" color="inherit" style={{ color: 'black' }} onClick={() => this.props.onSignout()}>Sign Out</Button>
+            <Typography variant="h6" className={classes.title} style={{ color: 'black' }} align="center">
+              Stay Healthy
+              {' '}
+              {this.props.current_user.name}
+!
+            </Typography>
+            <Button
+              id="signout-button"
+              color="inherit"
+              style={{ color: 'black' }}
+              onClick={() => this.onSignOutButtonClick()}
+            >
+              Sign Out
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -90,10 +142,13 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   logged_in: state.user.logged_in,
+  current_user: state.user.current_user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSignout: () => { dispatch(userActionCreators.signoutUser()); },
+  onDeleteToken: (FCMToken) => { dispatch(userActionCreators.deleteUserDevice({ data: { fcmtoken: FCMToken } })); },
+  onGetUser: () => { dispatch(userActionCreators.getUserInfo()); },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(Header))));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter((withStyles(styles)(withFirebase(Header)))));

@@ -1,4 +1,4 @@
-django==2.2.5
+django==2.2.8
 djangorestframework==3.10.3
 tqdm==4.36.1
 google-cloud-vision
@@ -7,3 +7,7 @@ Pillow
 shortuuid
 pylint-django
 coveralls
+fcm-django
+mysqlclient
+django-crontab
+python-telegram-bot

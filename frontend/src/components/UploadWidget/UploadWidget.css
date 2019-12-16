@@ -10,21 +10,12 @@
   padding-top: 15px;
 }
 
-
-.filepond--root .filepond--drop-label{
-    /*background-color: #440044;*/
-}
-
-/*.filepond--root { font-size: 100px; }*/
 .filepond--drop-label {
-  /*background-color: #ffffff;*/
-  /*border: 1px solid red;*/
   border-radius: 25px;
   height: 50%;
   font-size: 3em;
-  padding-bottom: 7em;
-  padding-top: 7em;
-  /*padding: 7em;*/
+  padding-bottom: 30%;
+  padding-top: 30%;
 }
 
 .confirm-button{
@@ -32,13 +23,3 @@
     width: 25%;
     margin: auto;
 }
-
-/*.filepond--drop-label {*/
-/*  font-size: 20px;*/
-/*}*/
-
-/* the border radius of the drop area */
-/*.filepond--panel-root {*/
-/*  background-color: #006666;*/
-/*  border-radius: 0.5em;*/
-/*}*/

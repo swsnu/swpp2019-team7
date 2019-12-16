@@ -1,2 +1,2 @@
-bash eslint.sh
 bash unittest.sh
+bash eslint.sh

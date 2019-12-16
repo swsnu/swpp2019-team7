@@ -1,12 +1,82 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import {
-  Modal, Header, Image, Button, Icon,
-} from 'semantic-ui-react';
+  createMuiTheme, ThemeProvider, Typography, withStyles,
+} from '@material-ui/core';
 
 import { withRouter } from 'react-router-dom';
 import UploadWidget from '../../../components/UploadWidget/UploadWidget';
 import './DemoWidget.css';
+import {
+  addUserPill, setImageId, setRenderCustomPill, setNewPill,
+} from '../../../store/actions/pillAction';
+
+const koreanTheme = createMuiTheme({
+  typography: {
+    fontFamily: "'Nanum Gothic', sans-serif",
+    h2: {
+      fontWeight: 500,
+      fontSize: 55,
+      // fontStyle: "italic"
+    },
+    h3: {
+      fontWeight: 500,
+    },
+    h4: {
+      fontSize: 22,
+      fontWeight: 700,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    caption: {
+      fontSize: 12,
+    },
+    body1: {
+      color: 'rgba(0, 0, 0, 100)',
+    },
+  },
+});
+
+
+const styles = (theme) => ({
+  card: {
+    borderRadius: 30,
+    // maxWidth: 335,
+    // maxWidth: 345,
+  },
+  media: {
+    maxWidth: 335,
+    borderRadius: 20,
+    marginBottom: 10,
+    // height: 0,
+    // paddingTop: '56.25%', // 16:9
+  },
+  cardButtons: {
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
+  pillInfo: {
+    borderRadius: 20,
+    marginBottom: 40,
+    padding: theme.spacing(3, 2),
+  },
+  prettifyButtons: {
+    margin: 16,
+    background: '#1F1F1F',
+    borderRadius: 8,
+    color: 'white',
+  },
+});
 
 class DemoWidget extends Component {
   constructor(props) {
@@ -24,7 +94,20 @@ class DemoWidget extends Component {
         precautions: '',
       },
       resultModalOpen: false,
+      newPillId: -1,
     };
+  }
+
+  getNewPillId(id) {
+    this.props.setNewPill(id);
+  }
+
+  getImageId(id) {
+    this.props.setImageId(id);
+  }
+
+  addNewPill() {
+    this.props.addUserPill(this.props.newPillId);
   }
 
   toggleAcceptPill() {
@@ -33,6 +116,13 @@ class DemoWidget extends Component {
 
   toggleResultModal(open) {
     this.setState({ resultModalOpen: open });
+  }
+
+  toggleCustomPill() {
+    console.log('set render');
+    this.props.setRenderCustomPill(true);
+    console.log('finish set render');
+    this.props.history.push('/custompilladd');
   }
 
   updateProductInfo(data) {
@@ -58,68 +148,166 @@ class DemoWidget extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="replaced">
-        <UploadWidget
-          updateProductInfo={this.updateProductInfo.bind(this)}
-          toggleResultModal={this.toggleResultModal.bind(this)}
-        />
-        <Modal
-          open={this.state.resultModalOpen}
-        >
-          <Modal.Header>
-            { this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
-          </Modal.Header>
-          <Modal.Content image>
-            <Image wrapped size="medium" src={`http://localhost:8000${this.state.productInfo.imageUrl}`} />
-            {this.state.productInfo.productName
-              ? (
-                <Modal.Description>
-                  <Header>{this.state.productInfo.productName}</Header>
-                  <p>
-                    제조사:
-                    {this.state.productInfo.companyName}
-                  </p>
-                  <p>
-                    복용방법:
-                    {this.state.productInfo.takeMethod}
-                  </p>
-                  <p>
-                    유통기한:
-                    {this.state.productInfo.expirationDate}
-                  </p>
-                </Modal.Description>
-              )
-              : (
-                <Modal.Description>
-                  We couldn&apos;t find your product...
-                </Modal.Description>
-              )}
-          </Modal.Content>
-          {this.state.productInfo.productName
-            ? (
-              <Modal.Actions>
-                <Button color="green" onClick={() => { this.toggleAcceptPill(); }}>
-                  <Icon name="checkmark" />
-                  Log in to Save
-                </Button>
-                <Button color="red" onClick={() => { this.toggleResultModal(false); }} inverted>
-                  Retry
-                </Button>
-              </Modal.Actions>
-            )
-            : (
-              <Modal.Actions>
-                <Button onClick={() => { this.toggleResultModal(false); }}>
-                  Go Back
-                </Button>
-              </Modal.Actions>
-            )}
-
-        </Modal>
+      <div className="DemoWidget">
+        {this.state.resultModalOpen
+          ? (
+            // shows parsed results
+            <Box id="resultmodal" align="center" style={{ marginBottom: '32%' }}>
+              <Card className={classes.card}>
+                {/* <Box maxWidth="335"> */}
+                <CardHeader
+                  title={this.state.productInfo.productName ? 'We found your product!' : 'Failed to Match Product'}
+                  style={{ marginTop: 24, marginBottom: 24, fontSize: 28 }}
+                />
+                <CardMedia
+                  component="img"
+                  className={classes.media}
+                  image={`http://localhost:8000${this.state.productInfo.imageUrl}`}
+                  title="Pill"
+                />
+                {this.state.productInfo.productName
+                  ? (
+                    <CardContent style={{ maxWidth: 335, padding: 0 }}>
+                      {/* <Box align="left" maxLength="335"> */}
+                      <ThemeProvider theme={koreanTheme}>
+                        <Paper elevation={2} className={classes.pillInfo}>
+                          <Grid container alignItems="left">
+                            <Grid item xs={12}>
+                              <Typography align="left" variant="h4" component="h2" style={{ marginLeft: 10, marginBottom: 5 }}>
+                                {this.state.productInfo.productName}
+                              </Typography>
+                            </Grid>
+                            {' '}
+                            <br />
+                            <Grid item xs={12}>
+                              <Typography align="left" variant="caption" display="block" style={{ marginLeft: 10, marginBottom: 20 }}>
+                                {this.state.productInfo.companyName}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} container style={{ marginBottom: 5 }}>
+                              <Grid item xs={2} />
+                              <Grid item xs={3}>
+                                <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
+                              복용방법:
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={7}>
+                                <Typography align="left" variant="body1" gutterBottom>
+                                  {this.state.productInfo.takeMethod}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid item xs={12} container>
+                              <Grid item xs={2} />
+                              <Grid item xs={3}>
+                                <Typography align="left" variant="body1" style={{ fontWeight: 700 }}>
+                              유통기한:
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={7}>
+                                <Typography align="left" variant="body1" gutterBottom>
+                                  {this.state.productInfo.expirationDate}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </ThemeProvider>
+                      {/* </Box> */}
+                    </CardContent>
+                  )
+                  : (
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        We couldn&apos;t find your product...
+                      </Typography>
+                    </CardContent>
+                  )}
+                {/* card actions */}
+                {this.state.productInfo.productName
+                  ? (
+                    <CardActions className={classes.cardButtons}>
+                      {this.props.loggedIn
+                        ? (
+                          <Button
+                            id="add-new-pill"
+                            className={classes.prettifyButtons}
+                            variant="contained"
+                            size="large"
+                            onClick={() => { this.addNewPill(); }}
+                          >
+                            {/* <Icon name="checkmark" /> */}
+                            Save
+                          </Button>
+                        )
+                        : (
+                          <Button
+                            id="login-to-save"
+                            className={classes.prettifyButtons}
+                            variant="contained"
+                            size="large"
+                            onClick={() => { this.toggleAcceptPill(); }}
+                          >
+                            {/* <Icon name="checkmark" /> */}
+                            Log in to Save
+                          </Button>
+                        )}
+                      <Button
+                        id="retry"
+                        className={classes.prettifyButtons}
+                        variant="contained"
+                        size="large"
+                        onClick={() => { this.toggleResultModal(false); }}
+                      >
+                        Retry
+                      </Button>
+                    </CardActions>
+                  )
+                  : (
+                    <CardActions className={classes.cardButtons}>
+                      <Button
+                        id="go-back"
+                        className={classes.prettifyButtons}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => { this.toggleResultModal(false); }}
+                      >
+                        Go Back
+                      </Button>
+                      <Button
+                        id="newCustom"
+                        className={classes.prettifyButtons}
+                        onClick={() => { this.toggleCustomPill(false); }}
+                      >
+                        Custom Pill
+                      </Button>
+                    </CardActions>
+                  )}
+                {/* </Box> */}
+              </Card>
+            </Box>
+          )
+          : (
+            // shows uploading widget
+            <UploadWidget
+              updateProductInfo={this.updateProductInfo.bind(this)}
+              toggleResultModal={this.toggleResultModal.bind(this)}
+              getNewPillId={this.getNewPillId.bind(this)}
+              backgroundColor={this.props.backgroundColor}
+              getImageId={this.getImageId.bind(this)}
+            />
+          )}
       </div>
     );
   }
 }
 
-export default connect()(withRouter(DemoWidget));
+const mapStateToProps = (state) => ({
+  loggedIn: state.user.logged_in,
+  newPillId: state.pill.new_pill_id,
+});
+export default connect(mapStateToProps, {
+  addUserPill, setImageId, setRenderCustomPill, setNewPill,
+})(withRouter(withStyles(styles)(DemoWidget)));

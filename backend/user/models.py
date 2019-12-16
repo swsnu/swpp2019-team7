@@ -3,9 +3,10 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
-from pill.models import Pill
+#from pill.models import Pill
 
 from .managers import UserManager
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Model description for USER model"""
@@ -15,10 +16,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     register_date = models.DateTimeField(_('date joined'), auto_now_add=True)
     last_login_date = models.DateTimeField(
         _('last logged-in'), auto_now_add=True)
-    # pills = models.ManyToManyField(
-    #     Pill,
-    #     related_name='pills'
-    # )
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

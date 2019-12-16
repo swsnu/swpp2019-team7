@@ -1,3 +1,6 @@
+# Ngrok
+ngrok
+
 # JetBrains IDE configuration folder
 .idea
 .idea/
@@ -41,6 +44,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+backend/envSecondTeam7/*
+frontend/package-lock.json
 build/
 develop-eggs/
 dist/
@@ -132,3 +137,7 @@ yarn-error.log
 /modules/rollup-test/dist/
 
 media/
+
+#backend migrations
+backend/*/migrations
+backend/authenticationKey.json
