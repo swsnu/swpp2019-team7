@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TestLanding() {
-  console.log('Deploy v.1.2');
+  console.log('Deploy v.1.4');
   const classes = useStyles();
   return (
     <div>
