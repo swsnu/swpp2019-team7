@@ -33,7 +33,7 @@ function App(props) {
           <PrivateRoute path="/manuallyadd" exact component={PillLookup} />
           <PrivateRoute path="/custompilladd" exact component={CustomPill} />
           <Redirect exact from="/" to="/landing" />
-          <Route render={() => <WrongUrl />} />
+          <Route render={() => <WrongUrl history={props.history}/>} />
         </Switch>
       </div>
     </ConnectedRouter>
