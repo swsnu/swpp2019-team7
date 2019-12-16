@@ -94,7 +94,7 @@ class SettingItem extends Component {
               alignItems="center"
             >
               <Grid item xs={2}>
-                  <NotificationsNoneIcon className={classes.icon} />
+                <NotificationsNoneIcon className={classes.icon} />
               </Grid>
               <Grid item xs={1} />
               <Grid item xs={7}>
