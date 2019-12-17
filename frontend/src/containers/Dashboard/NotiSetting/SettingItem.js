@@ -58,7 +58,6 @@ class SettingItem extends Component {
 
   toggleChecked() {
     const { noti } = this.props;
-    console.log(noti);
     noti[this.props.index] = !noti[this.props.index];
     this.props.onEditNoti(noti);
   }

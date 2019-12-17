@@ -71,7 +71,6 @@ class TelegramSetting extends Component {
 
   registerTelegramAccount = (telegramUser) => {
     ax.post('api/register-telegram/', telegramUser).then((res) => {
-      console.log(res.data.auth_key);
       this.setState({ auth_key: res.data.auth_key });
       // TODO show the auth_key such that user can type this in telegram
     });
@@ -79,8 +78,6 @@ class TelegramSetting extends Component {
 
   credentialCheckHelper = (name) => {
     const telegramReg = /^([A-za-z0-9])+$/;
-    console.log('NAME:', name);
-    console.log(telegramReg.test(name));
     return name.length !== 0 && telegramReg.test(name);
   };
 
@@ -111,7 +108,6 @@ class TelegramSetting extends Component {
         telegram_last_name: this.state.telegram_last_name_input,
         telegram_username: this.state.telegram_username_input,
       };
-      console.log('Change user to ! %O', telegramUser);
       this.registerTelegramAccount(telegramUser);
     }
   };

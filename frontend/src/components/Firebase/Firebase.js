@@ -34,7 +34,6 @@ class Firebase {
   };
 
   async getToken() {
-    console.log('ask for token');
     this.requestPermission();
     let token = null;
     await this.messaging.getToken()

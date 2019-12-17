@@ -81,7 +81,7 @@ class PillDetail extends Component {
     this.props.onChangeDashboard(0);
   }
 
-  onChange = (e) => {
+  onChange = () => {
     // if (e.target.files.length !== 0) {
     //   if (e.target.files[0].size > 50000000) {
     //     alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
@@ -89,7 +89,6 @@ class PillDetail extends Component {
     //   }
     //   // Test if image is valid
     //   const File = e.target.files[0];
-    //   console.log(File);
     //
     //   const url = window.URL || window.webkitURL;
     //   const image = new Image();
@@ -97,7 +96,6 @@ class PillDetail extends Component {
     //     alert('Invalid image. Please upload a valid image');
     //   };
     //   image.onload = () => {
-    //     console.log('Valid image');
     //     this.setState({ selectedImage: File }, () => {
     //       const formData = new FormData();
     //       formData.append(
