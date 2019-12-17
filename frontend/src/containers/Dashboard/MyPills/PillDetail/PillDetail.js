@@ -82,33 +82,33 @@ class PillDetail extends Component {
   }
 
   onChange = (e) => {
-    if (e.target.files.length !== 0) {
-      if (e.target.files[0].size > 50000000) {
-        alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
-        return;
-      }
-      // Test if image is valid
-      const File = e.target.files[0];
-      console.log(File);
-
-      const url = window.URL || window.webkitURL;
-      const image = new Image();
-      image.onerror = () => {
-        alert('Invalid image. Please upload a valid image');
-      };
-      image.onload = () => {
-        console.log('Valid image');
-        this.setState({ selectedImage: File }, () => {
-          const formData = new FormData();
-          formData.append(
-            'pillImage',
-            File,
-          );
-          this.props.onUploadPhoto(formData, this.props.selected_pill.id);
-        });
-      };
-      image.src = url.createObjectURL(File);
-    }
+    // if (e.target.files.length !== 0) {
+    //   if (e.target.files[0].size > 50000000) {
+    //     alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
+    //     return;
+    //   }
+    //   // Test if image is valid
+    //   const File = e.target.files[0];
+    //   console.log(File);
+    //
+    //   const url = window.URL || window.webkitURL;
+    //   const image = new Image();
+    //   image.onerror = () => {
+    //     alert('Invalid image. Please upload a valid image');
+    //   };
+    //   image.onload = () => {
+    //     console.log('Valid image');
+    //     this.setState({ selectedImage: File }, () => {
+    //       const formData = new FormData();
+    //       formData.append(
+    //         'pillImage',
+    //         File,
+    //       );
+    //       this.props.onUploadPhoto(formData, this.props.selected_pill.id);
+    //     });
+    //   };
+    //   image.src = url.createObjectURL(File);
+    // }
   }
 
   /*
