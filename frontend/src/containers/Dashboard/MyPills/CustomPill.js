@@ -36,6 +36,8 @@ class CustomPill extends Component {
   }
 
   onConfirm = () => {
+    console.log('props.image_id is');
+    console.log(this.props.image_id);
     this.props.addCustomPill(this.state, this.props.image_id);
   }
 
@@ -106,7 +108,7 @@ const mapStateToProps = (state) => ({
   render_custompill: state.pill.render_custompill,
 });
 const mapDispatchToProps = (dispatch) => ({
-  addCustomPill: (pillInfo, imageId) => { dispatch(pillActionCreators.addCustomPill(pillInfo, imageId)); },
+  addCustomPill: (pillInfo, imageId) => { console.log(pillInfo); dispatch(pillActionCreators.addCustomPill(pillInfo, imageId)); },
   setRenderCustomPill: (key) => dispatch(pillActionCreators.setRenderCustomPill(key)),
 });
 

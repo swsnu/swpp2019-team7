@@ -73,7 +73,9 @@ class DemoWidget extends Component {
   }
 
   toggleCustomPill() {
+    console.log('set render');
     this.props.setRenderCustomPill(true);
+    console.log('finish set render');
     this.props.history.push('/custompilladd');
   }
 

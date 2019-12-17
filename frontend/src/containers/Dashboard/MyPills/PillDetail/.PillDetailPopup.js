@@ -72,7 +72,7 @@ class PillDetail extends Component {
     this.props.history.push('/dashboard');
   }
 
-  handleClickOpen = () => { this.setState({ open: true }); };
+  handleClickOpen = () => { this.setState({ open: true }); console.log(this.state.open); };
 
   handleClose = () => this.setState({ open: false });
 

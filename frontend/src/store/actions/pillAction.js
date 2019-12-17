@@ -16,9 +16,11 @@ export const addUserPill = (pillId) => (dispatch) => {
     .then((res) => {
       dispatch(addUserPill_(res.data));
       dispatch(clearLazyPill_());
+      console.log(res.data);
       dispatch(push('/dashboard'));
       dispatch(handleDialogClose());
-    });
+    })
+    .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
 };
 
 export const addLazyPill = (pillId, imageId) => (dispatch) => {
@@ -30,7 +32,8 @@ export const addLazyPill = (pillId, imageId) => (dispatch) => {
         .then((res) => {
           dispatch(addUserPill_(res.data));
           dispatch(clearLazyPill_());
-        });
+        })
+        .catch((err) => { alert('This pill is already in your list. If not, contact the developers!'); console.log(err); });
     });
 };
 
@@ -48,6 +51,8 @@ export const setRenderCustomPill = (key) => (dispatch) => {
 export const addCustomPill_ = (newPillObj) => ({ type: 'ADD_CUSTOM_PILL', payload: newPillObj });
 
 export const addCustomPill = (newPillObj, imageId) => (dispatch) => {
+  console.log('at ac');
+  console.log(imageId);
   ax.post('/api/custompill/', {
     take_method: newPillObj.take_method,
     product_name: newPillObj.product_name,
@@ -63,7 +68,8 @@ export const addCustomPill = (newPillObj, imageId) => (dispatch) => {
     .then((res) => {
       dispatch(addCustomPill_(res.data));
       dispatch(push('/dashboard'));
-    });
+    })
+    .catch(() => { alert('Error in adding custom pill'); });
 };
 
 export const setImageId_ = (imageId) => ({ type: 'SET_IMAGE_ID', image_id: imageId });
@@ -77,7 +83,8 @@ export const addUserPillByNameAndCompany = (pillName, pillCompany) => (dispatch)
     .then((res) => {
       dispatch(addUserPill_(res.data));
       dispatch(push('/dashboard'));
-    });
+    })
+    .catch((err) => { alert('Either this pill is already registered or the pill with this name doesn\'t exist in our database.\nPlease check again.'); console.log(err); });
 };
 
 export const addUserPillImage_ = (newPillObj) => ({ type: 'ADD_USER_PILLIMAGE', selected_pill: newPillObj });
@@ -89,13 +96,16 @@ export const addUserPillImage = (pillImage, id) => (dispatch) => {
     },
   })
     .then((res) => {
+      console.log(res.data);
       dispatch(addUserPillImage_(res.data));
-    });
+    })
+    .catch((err) => { console.log(err); alert('Your image file is not valid. Please check again.'); });
 };
 
 export const deleteUserPill_ = (id) => ({ type: 'DELETE_USERPILL', payload: id });
 
 export const deleteUserPill = (id) => (dispatch) => {
+  console.log('hw');
   ax.delete(`/api/pill/${id}/`)
     .then(() => {
       dispatch(deleteUserPill_(id));

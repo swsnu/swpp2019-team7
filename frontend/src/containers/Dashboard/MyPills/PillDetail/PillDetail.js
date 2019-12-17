@@ -14,9 +14,40 @@ import * as pillActionCreators from '../../../../store/actions/pillAction';
 import * as dashboardActionCreators from '../../../../store/actions/dashboardAction';
 
 
+// let theme = createMuiTheme();
+// theme = responsiveFontSizes(theme);
+
 const theme = createMuiTheme({
   typography: {
     fontFamily: "'DM Sans', sans-serif",
+    // h2: {
+    //   fontWeight: 500,
+    //   fontSize: '4rem',
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '3.4rem',
+    //   },
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '3rem',
+    //   },
+    // },
+    // h3: {
+    //   fontWeight: 500,
+    //   fontSize: '4rem',
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '3rem',
+    //   },
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '2.8rem',
+    //   },
+    // },
+    // h4: {
+    //   [breakpoints.down('xs')]: {
+    //     fontSize: '1.45rem',
+    //   },
+    //   [breakpoints.down('sm')]: {
+    //     fontSize: '1.65rem',
+    //   },
+    // },
   },
 });
 const mapStateToProps = (state) => ({
