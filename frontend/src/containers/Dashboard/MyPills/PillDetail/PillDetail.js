@@ -81,34 +81,32 @@ class PillDetail extends Component {
     this.props.onChangeDashboard(0);
   }
 
-  onChange = (e) => {
-    if (e.target.files.length !== 0) {
-      if (e.target.files[0].size > 50000000) {
-        alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
-        return;
-      }
-      // Test if image is valid
-      const File = e.target.files[0];
-      console.log(File);
-
-      const url = window.URL || window.webkitURL;
-      const image = new Image();
-      image.onerror = () => {
-        alert('Invalid image. Please upload a valid image');
-      };
-      image.onload = () => {
-        console.log('Valid image');
-        this.setState({ selectedImage: File }, () => {
-          const formData = new FormData();
-          formData.append(
-            'pillImage',
-            File,
-          );
-          this.props.onUploadPhoto(formData, this.props.selected_pill.id);
-        });
-      };
-      image.src = url.createObjectURL(File);
-    }
+  onChange = () => {
+    // if (e.target.files.length !== 0) {
+    //   if (e.target.files[0].size > 50000000) {
+    //     alert(`'${e.target.files[0].name}' is too large, please pick a smaller file`);
+    //     return;
+    //   }
+    //   // Test if image is valid
+    //   const File = e.target.files[0];
+    //
+    //   const url = window.URL || window.webkitURL;
+    //   const image = new Image();
+    //   image.onerror = () => {
+    //     alert('Invalid image. Please upload a valid image');
+    //   };
+    //   image.onload = () => {
+    //     this.setState({ selectedImage: File }, () => {
+    //       const formData = new FormData();
+    //       formData.append(
+    //         'pillImage',
+    //         File,
+    //       );
+    //       this.props.onUploadPhoto(formData, this.props.selected_pill.id);
+    //     });
+    //   };
+    //   image.src = url.createObjectURL(File);
+    // }
   }
 
   /*
@@ -192,7 +190,7 @@ class PillDetail extends Component {
           <br />
           <br />
           <div align="center">
-            {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
+            {file !== '' ? <Avatar src={file} className={classes.avatar} variant="square" /> : askUpload}
           </div>
           <br />
           <br />

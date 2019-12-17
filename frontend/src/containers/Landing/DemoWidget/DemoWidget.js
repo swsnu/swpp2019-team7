@@ -125,7 +125,7 @@ class DemoWidget extends Component {
                   ? (
                     <CardContent style={{ maxWidth: 335 }}>
                       {/* <Box align="left" maxLength="335"> */}
-                      <Grid container alignItems="left">
+                      <Grid container>
                         <Grid item xs={12}>
                           <Typography align="left" gutterBottom variant="h4" component="h2">
                             {this.state.productInfo.productName}

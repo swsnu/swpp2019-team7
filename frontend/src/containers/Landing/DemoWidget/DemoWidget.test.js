@@ -44,7 +44,7 @@ hello
     <button
       className="retrieveProduct"
       type="button"
-      onClick={() => { console.log('retrieve'); props.updateProductInfo(mockData); }}
+      onClick={() => { props.updateProductInfo(mockData); }}
     >
 world
     </button>
