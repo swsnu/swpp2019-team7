@@ -1,9 +1,13 @@
+# Ngrok
+ngrok
+
 # JetBrains IDE configuration folder
 .idea
 .idea/
 
 # Dataset Folder for health supplement DB
-dataset/
+dataset/data/
+dataset/fixtures/
 
 ### OSX ###
 .DS_Store
@@ -40,6 +44,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+backend/envSecondTeam7/*
+frontend/package-lock.json
 build/
 develop-eggs/
 dist/
@@ -131,3 +137,7 @@ yarn-error.log
 /modules/rollup-test/dist/
 
 media/
+
+#backend migrations
+backend/*/migrations
+backend/authenticationKey.json
