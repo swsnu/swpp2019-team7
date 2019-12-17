@@ -24,13 +24,7 @@ class Firebase {
   }
 
   requestPermission = () => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification request permitted.');
-      } else {
-        console.log('Unable to get permission to notify.');
-      }
-    });
+    Notification.requestPermission();
   };
 
   async getToken() {
@@ -40,9 +34,6 @@ class Firebase {
       .then((currentToken) => {
         if (currentToken) {
           token = currentToken;
-        } else {
-          // Show permission request.
-          console.log('getToken: No Instance ID token available. Request permission to generate one.');
         }
       })
       .catch((err) => {

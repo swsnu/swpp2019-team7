@@ -190,7 +190,7 @@ class PillDetail extends Component {
           <br />
           <br />
           <div align="center">
-            {file !== '' ? <Avatar backgroundColor="rgba(0,0,0,0)" src={file} className={classes.avatar} variant="square" /> : askUpload}
+            {file !== '' ? <Avatar src={file} className={classes.avatar} variant="square" /> : askUpload}
           </div>
           <br />
           <br />
