@@ -6,11 +6,9 @@ import {
   Grid, Typography,
 } from '@material-ui/core';
 import PillNoti from './PillNoti';
-import IntervalSetting from './IntervalSetting';
 import * as notiActionCreators from '../../../store/actions/notiAction';
 import * as pillActionCreators from '../../../store/actions/pillAction';
 import SettingItem from './SettingItem';
-import * as intervalSettingCreators from '../../../store/actions/intervalSettingAction';
 
 const styles = (theme) => ({
   settingList: {
@@ -35,7 +33,6 @@ class NotiSetting extends Component {
   componentDidMount() {
     this.props.onGetWebNoti();
     this.props.onGetUserPills();
-    this.props.onGetIntervals();
   }
 
   usersSetting(settingList) {
@@ -90,9 +87,7 @@ class NotiSetting extends Component {
           <Grid item xs={12}>
             <Typography variant="h3" align="left" style={{ marginTop: 64 }}> Interval Notification </Typography>
           </Grid>
-          <Grid item xs={12} align="center">
-            <IntervalSetting />
-          </Grid>
+          <Grid item xs={12} align="center" />
           <Grid item xs={12} className={classes.content}>
             {this.content()}
           </Grid>
@@ -111,7 +106,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onGetWebNoti: () => { dispatch(notiActionCreators.getWebnoti()); },
   onGetUserPills: () => { dispatch(pillActionCreators.getUserPills()); },
-  onGetIntervals: () => { dispatch(intervalSettingCreators.getIntervals()); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotiSetting));

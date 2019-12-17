@@ -169,7 +169,7 @@ class AccountSetting extends Component {
                     name="new password"
                     label="New Password"
                     type="password"
-                    id="new password"
+                    id="new-password"
                     autoComplete="new password"
                     onChange={(event) => this.setState({ pw_input: event.target.value })}
                   />

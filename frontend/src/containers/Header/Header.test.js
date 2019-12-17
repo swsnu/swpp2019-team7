@@ -1,34 +1,44 @@
-// import {getMockStoreArticleCreate} from '../../mocks'
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-// import { ConnectedRouter } from 'connected-react-router';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-//
-// import ArticleCreate from "./ArticleCreate";
-// import {history} from '../../mockStore';
-// import * as actionCreators from '../../actions'
-// import WriteTab from "./WriteTab";
-// import {ax} from '../../actions'
-// import axios from 'axios';
+
 import Header from './Header';
 import { getMockStore } from '../../test-utils/mocks';
+// import * as userActionCreator from '../../store/actions/userAction';
 
 const mockStore = getMockStore();
+// const mockStoreLoggedIn = getMockStoreLoggedIn();
 
 describe('<Header />', () => {
   let mockHeader;
   let history;
+  // let spyOnSignOut;
+  // let spyOnGetUser;
+  // let mockHeaderWithProps;
+  // let onDeleteToken;
+
   beforeEach(() => {
     history = createBrowserHistory();
+    // spyOnSignOut = jest.spyOn(userActionCreator, 'signoutUser')
+    //   .mockImplementation(() => ({ type: 'SIGNOUT_USER' }));
+    // spyOnGetUser = jest.spyOn(userActionCreator, 'getUserInfo')
+    //   .mockImplementation(() => ({ type: 'GET_USERINFO' }));
     mockHeader = (
       <Provider store={mockStore}>
         <Router history={history}>
-          <Header title="TODOLIST_TEST_TITLE" localStorage="loggedInnStatus:true" />
+          <Header />
         </Router>
       </Provider>
     );
+    // mockHeaderWithProps = (
+    //   <Provider store={mockStoreLoggedIn}>
+    //     <Router history={history}>
+    //       <Header />
+    //     </Router>
+    //   </Provider>
+    // );
   });
   it('should render logged out Header', () => {
     const component = mount(mockHeader);
@@ -58,6 +68,13 @@ describe('<Header />', () => {
     buttonWrapper.simulate('click');
     expect(spyLanding).toHaveBeenCalledTimes(1);
   });
+  // it('should call getUserInfo actioncreator', () => {
+  //   const mockProps = {
+  //     logged_in: true,
+  //   };
+  //   const component = mount(mockHeaderWithProps);
+  //   expect(spyOnGetUser).toHaveBeenCalledTimes(1);
+  // });
 });
 /*
 
