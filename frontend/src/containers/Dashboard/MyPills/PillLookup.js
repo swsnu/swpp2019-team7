@@ -36,7 +36,7 @@ class PillLookup extends Component {
 
     ax.get('/api/pill/allpills/').then((res) => {
       pills = res.data;
-    }).catch((error) => { console.log(error); });
+    });
   }
 
   getSuggestions(value) {

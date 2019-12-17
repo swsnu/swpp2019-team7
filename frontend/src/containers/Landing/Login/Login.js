@@ -82,8 +82,6 @@ class Login extends Component {
       pw_input: '',
     });
     this.props.firebase.getToken().then((token) => {
-      console.log('token from firebase is');
-      console.log(token);
       this.props.onLoginUser(user).then(() => {
         if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
         this.props.onRegisterToken(token);

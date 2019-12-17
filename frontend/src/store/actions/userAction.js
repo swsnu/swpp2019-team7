@@ -11,8 +11,7 @@ export const signinUser = (user) => (dispatch) => ax.post('/api/user/signin/', u
       type: 'SIGNIN_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
     });
     dispatch(push('/dashboard'));
-  })
-  .catch((err) => { alert('Either your email or password is wrong. Please try again.'); console.log(err); });
+  });
 
 export const getUserInfo = () => (dispatch) => ax.get('/api/user/')
   .then((res) => {
@@ -26,8 +25,7 @@ export const signoutUser = () => (dispatch) => ax.get('/api/user/signout/')
     localStorage.setItem('localCsrf', JSON.stringify(''));
     dispatch({ type: 'SIGNOUT_USER', logged_in: false, current_user: null });
     dispatch(push('/landing'));
-  })
-  .catch((err) => console.log(err));
+  });
 
 export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', user)
   .then((res) => {
@@ -37,15 +35,12 @@ export const signupUser = (user) => (dispatch) => ax.post('/api/user/signup/', u
       type: 'SIGNUP_USER', logged_in: true, noti_setting: res.data.noti, current_user: res.data.user,
     });
     dispatch(push('/dashboard'));
-  })
-  .catch((err) => { alert('The email already exists. Please log in if you are a returning user.\n If not, please double check your email'); console.log(err); });
+  });
 
 export const editUserInfo = (user) => (dispatch) => ax.put('/api/user/', user)
   .then((res) => {
     dispatch({ type: 'EDIT_USERINFO', logged_in: true, current_user: res.data });
-    alert('Successfully changed!');
-  })
-  .catch((err) => { alert('Internal Error'); console.log(err); });
+  });
 
 export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/', noti)
   .then((res) => {
@@ -53,13 +48,9 @@ export const editNoti = (noti) => (dispatch) => ax.put('/api/user/noti-setting/'
   });
 
 export const registerUserDevice = (token) => () => {
-  console.log('token is {token}');
-  console.log(token);
-  ax.post('/api/registerdevice/', token)
-    .catch((err) => console.log(err));
+  ax.post('/api/registerdevice/', token);
 };
 
 export const deleteUserDevice = (token) => () => {
-  ax.delete('/api/registerdevice/', token)
-    .catch((err) => console.log(err));
+  ax.delete('/api/registerdevice/', token);
 };

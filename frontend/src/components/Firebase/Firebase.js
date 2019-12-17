@@ -35,23 +35,15 @@ class Firebase {
         if (currentToken) {
           token = currentToken;
         }
-      })
-      .catch((err) => {
-        console.log('getToken: An error occurred while retrieving token. ', err);
       });
 
     // Callback fired if Instance ID token is updated.
-    this.messaging.onTokenRefresh(function () {
+    this.messaging.onTokenRefresh(() => {
       this.messaging.getToken()
         .then((refreshedToken) => {
           token = refreshedToken;
-        })
-        .catch((err) => {
-          console.log('onTokenRefresh getToken Unable to retrieve refreshed token ', err);
         });
     });
-    console.log('token return is ');
-    console.log(token);
     this.token = token;
     return token;
   }

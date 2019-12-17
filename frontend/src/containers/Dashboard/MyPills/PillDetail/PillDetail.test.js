@@ -18,7 +18,6 @@ const history = createBrowserHistory();
 describe('<MyPills />', () => {
   let mockPillDetail;
   beforeEach(() => {
-    console.log(mockStore);
     mockPillDetail = (
       <Provider store={mockStore}>
         <Router history={history}>

@@ -145,8 +145,6 @@ class Signup extends Component {
         name: this.state.username_input,
       };
       this.props.firebase.getToken().then((token) => {
-        console.log('token from firebase is');
-        console.log(token);
         this.props.onSignupUser(user).then(() => {
           if (this.props.newPillId > 0) this.props.onAddLazyPill(this.props.newPillId, this.props.imageId);
           this.props.onRegisterToken(token);

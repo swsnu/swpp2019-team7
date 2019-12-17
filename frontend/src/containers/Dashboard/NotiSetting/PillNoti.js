@@ -109,7 +109,6 @@ class PillNoti extends Component {
 
   onConfirm() {
     if (this.isRedundant()) {
-      alert('Redundant notification times are not allowed. Please set unique times only.');
       return;
     }
     const timeList = [...this.state.pillNotiSetting.time];
@@ -121,7 +120,6 @@ class PillNoti extends Component {
 
   onCancel() {
     if (this.isRedundant()) {
-      alert('You can\'t cancel editing unless you remove the redundancy of notification times.');
       return;
     }
     this.setState((currentState) => {
